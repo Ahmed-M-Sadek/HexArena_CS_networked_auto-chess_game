@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ASU2019_NetworkedGameWorkshop.model.grid;
+using System;
 using System.Windows.Forms;
 
 namespace ASU2019_NetworkedGameWorkshop.controller {
     class GameManager {
         private Timer timer;
+        private Grid grid;
 
         public GameManager() {
+            grid = new Grid(10, 8, 10, 10);
         }
         public void startTimer() {
             timer = new Timer();
@@ -18,8 +17,12 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
             timer.Start();
         }
 
+        public void updatePaint(PaintEventArgs e) {
+            grid.draw(e.Graphics);
+        }
+
         private void gameLoop(object sender, EventArgs e) {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
     }
 }
