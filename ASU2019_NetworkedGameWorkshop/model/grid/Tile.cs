@@ -16,6 +16,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
         public bool Walkable { get; set; }
         public int Gcost { get; set; }
         public int Hcost { get; set; }
+        public Tile Parent { get; set; }
         public int Fcost
         {
             get

@@ -10,6 +10,9 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
 
         public Tile[,] Tiles { get; set; }
 
+        //todo temporary
+        public List<Tile> path;
+
         public Grid(int gridWidth, int gridHeight, int startingX, int startingY) {
             if(gridWidth < 0 ||
                 gridHeight < 0 ||

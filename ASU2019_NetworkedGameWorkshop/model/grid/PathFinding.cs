@@ -45,7 +45,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid
                 if (currentTile == endTile)
                 {
 
-                    //todo: RetracePath(startNode, targetNode);
+                    retracePath(startTile, endTile);
                     return;
 
                 }
@@ -55,21 +55,46 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid
                     if (closedSet.Contains(neighbour) || !neighbour.Walkable)
                         continue;
 
+                    int newNeighbourCost = currentTile.Gcost + getDistance(currentTile, neighbour);
+                    if (newNeighbourCost < neighbour.Gcost || !openSet.Contains(neighbour))
+                    {
 
+                        neighbour.Gcost = newNeighbourCost;
+                        neighbour.Hcost = getDistance(neighbour, endTile);
+                        neighbour.Parent = currentTile;
+
+                        if (!openSet.Contains(neighbour))
+                            openSet.Add(neighbour);
+
+                    }
                 }
 
             }
         }
 
-
-        public static int  getDistance(Tile start, Tile dest)
+        private void retracePath(Tile startTile, Tile endTile)
         {
-            int distance = Math.Max(Math.Max(
+
+            List<Tile> path = new List<Tile>();
+            Tile currentNode = endTile;
+
+            while (currentNode != startTile)
+            {
+                path.Add(currentNode);
+                currentNode = currentNode.Parent;
+            }
+
+            path.Reverse();
+            grid.path = path;
+        }
+
+        public static int getDistance(Tile start, Tile dest)
+        {
+            return Math.Max(Math.Max(
                         Math.Abs(dest.Y - start.Y),
-                        Math.Abs(Convert.ToInt32(Math.Ceiling(Convert.ToDouble(dest.Y / -2))) + dest.X - Convert.ToInt32(Math.Ceiling(Convert.ToDouble(start.Y / -2))) - start.X)),
-                        Math.Abs(-dest.Y - Convert.ToInt32(Math.Ceiling(Convert.ToDouble(dest.Y / -2))) - dest.X + start.X + Convert.ToInt32(Math.Ceiling(Convert.ToDouble(start.X / -2)) + start.X)));
-            return distance;
-                        }
+                        Math.Abs((int)Math.Ceiling(dest.Y / -2.0) + dest.X - (int)(Math.Ceiling(start.Y / -2.0)) - start.X)),
+                        Math.Abs(-dest.Y - (int)Math.Ceiling((dest.Y / -2.0)) - dest.X + start.X + (int)(Math.Ceiling((start.X / -2.0)) + start.X)));
+        }
 
     }
 }
