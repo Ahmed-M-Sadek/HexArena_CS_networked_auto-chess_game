@@ -6,6 +6,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
     class GameManager {
         private Timer timer;
         private Grid grid;
+        private Tile selectedTile;
 
         public GameManager() {
             grid = new Grid(10, 8, 10, 10);
@@ -22,7 +23,9 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
         }
 
         internal void mouseClick(MouseEventArgs e) {
-            Console.WriteLine(grid.mouseClick(e.X, e.Y));//button ?? 
+            Tile tile = grid.getSelectedHexagon(e.X, e.Y);
+            if(tile != null)
+                Console.WriteLine(tile.X + " " + tile.Y);
         }
 
         private void gameLoop(object sender, EventArgs e) {

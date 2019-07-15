@@ -26,28 +26,26 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
             }
         }
 
-        internal Tuple<int, int> mouseClick(int x, int y) {
-            //foreach(Tile tile in tiles) {
-            //    if(tile.contains(x, y)) {
-            //        return Tuple.Create(tile.X, tile.Y);
-            //    }
-            //}
-            //return null;
+        internal Tile getSelectedHexagon(int x, int y) {
+            x -= startingX;
+            y -= startingY;
 
-            return getSelectedHexagon(x, y);
-        }
+            const float halfwidth = (Tile.WIDTH / 2); //move to the class
+            const float c = (float) (halfwidth * 0.57735026919);
+            float tileHeight = (Tile.HEIGHT - c);
 
-        private Tuple<int, int> getSelectedHexagon(int x, int y) {
-            const float halfwidth = (Tile.WIDTH / 2);
-            float c = (float) (halfwidth * Math.Tan(0.523599));
-            int row = (int) (y / (Tile.HEIGHT - c));
+            int row = (int) (y / tileHeight);
 
             bool rowIsOdd = row % 2 == 1;
 
-            int column = rowIsOdd ? (int) ((x - halfwidth) / Tile.WIDTH) : column = (int) (x / Tile.WIDTH);
+            int column = rowIsOdd ?
+                (int) ((x - halfwidth) / Tile.WIDTH) :
+                column = (int) (x / Tile.WIDTH);
 
-            double relY = y - (row * (Tile.HEIGHT - c));
-            double relX = rowIsOdd ? (x - (column * Tile.WIDTH)) - halfwidth : x - (column * Tile.WIDTH);
+            double relY = y - (row * tileHeight);
+            double relX = rowIsOdd ?
+                (x - (column * Tile.WIDTH)) - halfwidth :
+                x - (column * Tile.WIDTH);
 
             float m = (c / halfwidth);
 
@@ -60,8 +58,12 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
                 if(rowIsOdd)
                     column++;
             }
-
-            return Tuple.Create(column, row);
+            if(column < gridWidth
+                && row < gridHeight
+                && column > -1
+                && row > -1)
+                return tiles[column, row];
+            return null;
         }
 
         public override void draw(Graphics graphics) {
