@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 
 namespace ASU2019_NetworkedGameWorkshop.model.grid {
@@ -6,6 +7,9 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
         private readonly int gridWidth, gridHeight;
         private readonly int startingX, startingY;
         private Tile[,] tiles;
+
+        public Tile[,] Tiles { get; set; }
+
         public Grid(int gridWidth, int gridHeight, int startingX, int startingY) {
             if(gridWidth < 0 ||
                 gridHeight < 0 ||
@@ -24,6 +28,10 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
                     tiles[x, y] = new Tile(x, y, startingX, startingY);
                 }
             }
+
+            Console.WriteLine(PathFinding.getDistance(tiles[0, 0], tiles[0, 1]));
+            Console.WriteLine(PathFinding.getDistance(tiles[0, 0], tiles[1, 2]));
+            Console.WriteLine(PathFinding.getDistance(tiles[0, 0], tiles[2, 1]));
         }
 
         internal Tuple<int, int> mouseClick(int x, int y) {
@@ -39,6 +47,29 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
             foreach(Tile tile in tiles) {
                 tile.draw(graphics);
             }
+        }
+
+        public List<Tile> getNeighbours(Tile tile)
+        {
+            List<Tile> neighbours = new List<Tile>();
+            for (int x = -1; x <= 1; x++)
+            {
+                for (int y = -1; y <= 1; y++)
+                {
+                    if (x == y)
+                        continue;
+
+                    int gridX = tile.X + x; 
+                    int gridY = tile.Y + y; 
+
+                    if ((gridX >= 0 && gridX < gridHeight) || 
+                        (gridY >= 0 && gridY < gridWidth))
+                    {
+                        neighbours.Add(Tiles[gridX, gridY]);
+                    }
+                }
+            }
+            return neighbours;
         }
     }
 }
