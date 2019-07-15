@@ -21,6 +21,10 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
             grid.draw(e.Graphics);
         }
 
+        internal void mouseClick(MouseEventArgs e) {
+            Console.WriteLine(grid.mouseClick(e.X, e.Y));//button ?? 
+        }
+
         private void gameLoop(object sender, EventArgs e) {
             //throw new NotImplementedException();
         }

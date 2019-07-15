@@ -33,6 +33,7 @@
             this.Name = "GameForm";
             this.Text = "Form1";
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.GameForm_Paint);
+            this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.GameForm_MouseClick);
             this.ResumeLayout(false);
 
         }

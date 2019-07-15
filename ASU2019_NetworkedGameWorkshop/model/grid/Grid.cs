@@ -5,7 +5,6 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
     class Grid : GraphicsObject {
         private readonly int gridWidth, gridHeight;
         private readonly int startingX, startingY;
-
         private Tile[,] tiles;
         public Grid(int gridWidth, int gridHeight, int startingX, int startingY) {
             if(gridWidth < 0 ||
@@ -22,11 +21,18 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
             tiles = new Tile[gridWidth, gridHeight];
             for(int y = 0; y < gridHeight; y++) {
                 for(int x = 0; x < gridWidth; x++) {
-                    tiles[x, y] = new Tile(
-                        startingX + (y % 2 == 0 ? (x * 43 * 2) : (x * 43 * 2) + 43),
-                        startingY + (y * 50 * 2 * 3 / 4));
+                    tiles[x, y] = new Tile(x, y, startingX, startingY);
                 }
             }
+        }
+
+        internal Tuple<int, int> mouseClick(int x, int y) {
+            foreach(Tile tile in tiles) {
+                if(tile.contains(x, y)) {
+                    return Tuple.Create(tile.X, tile.Y);
+                }
+            }
+            return null;
         }
 
         public override void draw(Graphics graphics) {

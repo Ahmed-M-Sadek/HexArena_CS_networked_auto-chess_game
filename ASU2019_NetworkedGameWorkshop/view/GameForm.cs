@@ -8,12 +8,18 @@ namespace ASU2019_NetworkedGameWorkshop {
         public GameForm() {
             InitializeComponent();
 
+            this.DoubleBuffered = true;
+
             this.gameManager = new GameManager();
             gameManager.startTimer();
         }
 
         private void GameForm_Paint(object sender, PaintEventArgs e) {
             gameManager.updatePaint(e);
+        }
+
+        private void GameForm_MouseClick(object sender, MouseEventArgs e) {
+            gameManager.mouseClick(e);
         }
     }
 }
