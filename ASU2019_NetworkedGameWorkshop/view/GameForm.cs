@@ -10,7 +10,7 @@ namespace ASU2019_NetworkedGameWorkshop {
 
             this.DoubleBuffered = true;
 
-            this.gameManager = new GameManager();
+            this.gameManager = new GameManager(this);
             gameManager.startTimer();
         }
 

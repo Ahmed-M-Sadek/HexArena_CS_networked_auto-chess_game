@@ -6,8 +6,10 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
         public const float HEIGHT = 100f, WIDTH = 86.6f; //todo
 
         private static readonly Image image = Image.FromFile("../../assets/sprites/tiles/Tile.png");//todo path
+        private static readonly Image imageSelected = Image.FromFile("../../assets/sprites/tiles/Tile_Selected.png");//todo path
         public int X { get; private set; }
         public int Y { get; private set; }
+        public bool Selected { get; set; }
 
         private float posX, posY;
         private Character currebtCharacter = null;
@@ -21,7 +23,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
         }
 
         public override void draw(Graphics graphics) {
-            graphics.DrawImage(image, posX, posY, WIDTH, HEIGHT);
+            graphics.DrawImage(Selected ? imageSelected : image, posX, posY, WIDTH, HEIGHT);
 
             //debug
             graphics.DrawString(X + ", " + Y, new Font("Roboto", 14f), Brushes.Purple, new PointF(posX + 30, posY + 40));

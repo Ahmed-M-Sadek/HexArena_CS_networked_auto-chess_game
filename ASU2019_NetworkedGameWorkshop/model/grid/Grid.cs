@@ -3,9 +3,13 @@ using System.Drawing;
 
 namespace ASU2019_NetworkedGameWorkshop.model.grid {
     class Grid : GraphicsObject {
+        private const float halfWidth = (Tile.WIDTH / 2);//in tile ?
+        private const float hexC = halfWidth * 0.57735026919f;
+
         private readonly int gridWidth, gridHeight;
         private readonly int startingX, startingY;
         private Tile[,] tiles;
+
         public Grid(int gridWidth, int gridHeight, int startingX, int startingY) {
             if(gridWidth < 0 ||
                 gridHeight < 0 ||
@@ -30,30 +34,28 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
             x -= startingX;
             y -= startingY;
 
-            const float halfwidth = (Tile.WIDTH / 2); //move to the class
-            const float c = (float) (halfwidth * 0.57735026919);
-            float tileHeight = (Tile.HEIGHT - c);
+            float tileHeight = (Tile.HEIGHT - hexC);
 
             int row = (int) (y / tileHeight);
 
             bool rowIsOdd = row % 2 == 1;
 
             int column = rowIsOdd ?
-                (int) ((x - halfwidth) / Tile.WIDTH) :
+                (int) ((x - halfWidth) / Tile.WIDTH) :
                 column = (int) (x / Tile.WIDTH);
 
             double relY = y - (row * tileHeight);
             double relX = rowIsOdd ?
-                (x - (column * Tile.WIDTH)) - halfwidth :
+                (x - (column * Tile.WIDTH)) - halfWidth :
                 x - (column * Tile.WIDTH);
 
-            float m = (c / halfwidth);
+            float m = (hexC / halfWidth);
 
-            if(relY < (-m * relX) + c) {
+            if(relY < (-m * relX) + hexC) {
                 row--;
                 if(!rowIsOdd)
                     column--;
-            } else if(relY < m * relX - c) {
+            } else if(relY < m * relX - hexC) {
                 row--;
                 if(rowIsOdd)
                     column++;
