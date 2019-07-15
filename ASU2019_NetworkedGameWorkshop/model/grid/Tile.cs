@@ -3,7 +3,7 @@ using System.Drawing;
 
 namespace ASU2019_NetworkedGameWorkshop.model.grid {
     class Tile : GraphicsObject {
-        private const float height = 100f, width = 86.6f; //todo
+        public const float HEIGHT = 100f, WIDTH = 86.6f; //todo
 
         private static readonly Image image = Image.FromFile("../../assets/sprites/tiles/Tile.png");//todo path
         public int X { get; private set; }
@@ -21,7 +21,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
         }
 
         public override void draw(Graphics graphics) {
-            graphics.DrawImage(image, posX, posY, width, height);
+            graphics.DrawImage(image, posX, posY, WIDTH, HEIGHT);
 
             //debug
             graphics.DrawString(X + ", " + Y, new Font("Roboto", 14f), Brushes.Purple, new PointF(posX + 30, posY + 40));
@@ -29,6 +29,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
 
         internal bool contains(int x, int y) {
             throw new NotImplementedException();
+
         }
     }
 }

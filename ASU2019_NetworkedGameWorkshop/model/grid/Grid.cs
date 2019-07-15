@@ -27,12 +27,41 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
         }
 
         internal Tuple<int, int> mouseClick(int x, int y) {
-            foreach(Tile tile in tiles) {
-                if(tile.contains(x, y)) {
-                    return Tuple.Create(tile.X, tile.Y);
-                }
+            //foreach(Tile tile in tiles) {
+            //    if(tile.contains(x, y)) {
+            //        return Tuple.Create(tile.X, tile.Y);
+            //    }
+            //}
+            //return null;
+
+            return getSelectedHexagon(x, y);
+        }
+
+        private Tuple<int, int> getSelectedHexagon(int x, int y) {
+            const float halfwidth = (Tile.WIDTH / 2);
+            float c = (float) (halfwidth * Math.Tan(0.523599));
+            int row = (int) (y / (Tile.HEIGHT - c));
+
+            bool rowIsOdd = row % 2 == 1;
+
+            int column = rowIsOdd ? (int) ((x - halfwidth) / Tile.WIDTH) : column = (int) (x / Tile.WIDTH);
+
+            double relY = y - (row * (Tile.HEIGHT - c));
+            double relX = rowIsOdd ? (x - (column * Tile.WIDTH)) - halfwidth : x - (column * Tile.WIDTH);
+
+            float m = (c / halfwidth);
+
+            if(relY < (-m * relX) + c) {
+                row--;
+                if(!rowIsOdd)
+                    column--;
+            } else if(relY < m * relX - c) {
+                row--;
+                if(rowIsOdd)
+                    column++;
             }
-            return null;
+
+            return Tuple.Create(column, row);
         }
 
         public override void draw(Graphics graphics) {
