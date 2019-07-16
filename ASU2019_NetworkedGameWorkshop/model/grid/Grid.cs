@@ -8,10 +8,10 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
         private readonly int startingX, startingY;
         public Tile[,] Tiles { get;}//temp public
 
-        //todo temporary
-        public List<Tile> path;
-
         public int MaxSize => gridHeight * gridWidth;
+
+        public List<Character> TeamBlue { get; internal set; }
+        public List<Character> TeamRed { get; internal set; }
 
         public Grid(int gridWidth, int gridHeight, int startingX, int startingY) {
             this.gridWidth = gridWidth;
@@ -19,13 +19,15 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
             this.startingX = startingX;
             this.startingY = startingY;
 
+            TeamBlue = new List<Character>();
+            TeamRed = new List<Character>();
+
             Tiles = new Tile[gridWidth, gridHeight];
             for(int y = 0; y < gridHeight; y++) {
                 for(int x = 0; x < gridWidth; x++) {
                     Tiles[x, y] = new Tile(x, y, startingX, startingY);
                 }
             }
-            findPath();
         }
 
         //Credits: https://stackoverflow.com/questions/7705228/hexagonal-grids-how-do-you-find-which-hexagon-a-point-is-in
@@ -64,12 +66,6 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
         {
             foreach (Tile tile in Tiles)
             {
-                if (path != null && path.Contains(tile))
-                {
-                    tile.draw2(graphics);
-
-                }
-                else 
                     tile.draw(graphics);
             }
         }
@@ -104,15 +100,12 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
                     if ((gridX >= 0 && gridX < gridWidth) &&
                         (gridY >= 0 && gridY < gridHeight))
                     {
-                        neighbours.Add(Tiles[gridX, gridY]);
+                        neighbours.Add((Tile)Tiles[gridX, gridY].Clone());
                     }
                 }
             }
             return neighbours;
         }
-        public void findPath()
-        {
-            path = new PathFinding(this).findPath(0, 6, 7, 0);
-        }
+
     }
 }

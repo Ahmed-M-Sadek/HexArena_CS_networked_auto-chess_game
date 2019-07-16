@@ -18,15 +18,53 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid
             this.grid = grid;
         }
 
-        public List<Tile> findPath(int startX, int startY, int endX, int endY)
+        /// <summary>
+        /// raises exception if no path found
+        /// </summary>
+        /// <param name="currentTile"></param>
+        /// <returns></returns>
+        internal List<Tile> findPathToClosestEnemy(Tile currentTile, Character.Teams team)
+        {
+            List<Character> enemyList = (team == Character.Teams.Red) ? grid.TeamBlue : grid.TeamRed;
+            List<Tile> shortestPath = null;
+
+            foreach (Character enemy in enemyList)
+            {
+                List<Tile> path;
+
+                try
+                {
+                    path = findPath(currentTile, enemy.Tile);
+                }
+                catch (PathNotFoundException)
+                {
+                    continue;
+                }
+
+                if (shortestPath == null)
+                {
+                    shortestPath = path;
+                }
+                else
+                {
+                    shortestPath = shortestPath.Count <= path.Count ? shortestPath : path;
+                }
+            }
+
+            if (shortestPath == null)
+            {
+                throw new PathNotFoundException();
+            }
+            return shortestPath;
+        }
+
+        public List<Tile> findPath(Tile startTile, Tile endTile)
         {
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
-            Tile startTile = grid.Tiles[startX, startY];
-            Tile endTile = grid.Tiles[endX, endY];
-            Heap<Tile> openSet = new Heap<Tile>(grid.MaxSize); 
+            Heap<Tile> openSet = new Heap<Tile>(grid.MaxSize);
             HashSet<Tile> closedSet = new HashSet<Tile>();
-            openSet.Add(startTile);
+            openSet.Add((Tile)startTile.Clone());
 
             while (openSet.Count > 0)
             {
@@ -72,9 +110,10 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid
 
             List<Tile> path = new List<Tile>();
             Tile currentTile = endTile;
-            
+
             while (currentTile != startTile)
             {
+                currentTile.InPath = true;
                 path.Add(currentTile);
                 currentTile = currentTile.Parent;
             }

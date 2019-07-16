@@ -1,4 +1,5 @@
-﻿using ASU2019_NetworkedGameWorkshop.model.grid;
+﻿using ASU2019_NetworkedGameWorkshop.model;
+using ASU2019_NetworkedGameWorkshop.model.grid;
 using System;
 using System.Windows.Forms;
 
@@ -13,10 +14,14 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
             grid = new Grid(10, 8, 10, 10);
             this.gameForm = gameForm;
 
+            Character blue1 = new Character(grid, grid.Tiles[0, 5], Character.Teams.Blue);
+            Character red1 = new Character(grid, grid.Tiles[2, 6], Character.Teams.Red);
+
             //Debugging 
-            grid.Tiles[0, 5].CurrentCharacter = new model.Character();
-            grid.Tiles[2, 6].CurrentCharacter = new model.Character();
-            grid.Tiles[4, 1].CurrentCharacter = new model.Character();
+            //todo remove current char from tile
+            grid.Tiles[0, 5].CurrentCharacter = blue1;
+            grid.Tiles[2, 6].CurrentCharacter = red1;
+            //grid.Tiles[4, 1].CurrentCharacter = new Character(grid, grid.Tiles[4, 1]);
         }
         public void startTimer() {
             timer = new Timer();
@@ -48,10 +53,10 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
                 }
                 
                 tile.Walkable = false;
-                if (grid.path != null && grid.path.Contains(tile))
-                {
-                    grid.findPath();
-                }
+                //if (grid.path != null && grid.path.Contains(tile))
+                //{
+                //    grid.findPath();
+                //}
                 
                 gameForm.Invalidate();
             }

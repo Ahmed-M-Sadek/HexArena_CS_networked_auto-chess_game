@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 
 namespace ASU2019_NetworkedGameWorkshop.model.grid {
-    internal class Tile : GraphicsObject , IHeapItem<Tile>{
+    internal class Tile : GraphicsObject , IHeapItem<Tile>, ICloneable{
         public const float HEIGHT = 100f, WIDTH = 86.6f; //todo
         public const float HALF_WIDTH = WIDTH / 2;
         public const float HEX_C = HALF_WIDTH * 0.57735026919f;
@@ -17,6 +17,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
         public bool Selected { get; set; }
 
         private float posX, posY;
+        //todo remove character from here
         public Character CurrentCharacter { get; set; }
 
         public bool Walkable { get; set; }
@@ -30,6 +31,9 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
                 return Gcost + Hcost;
             }
         }
+
+        //temp
+        public bool InPath = false;
 
         public int HeapIndex { get ; set ; }
 
@@ -54,15 +58,8 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
 
             //debug
             graphics.DrawString(X + ", " + Y, new Font("Roboto", 14f),
-                (Walkable) ? Brushes.Purple : Brushes.Red, 
+                (InPath) ? Brushes.Blue : (Walkable) ? Brushes.Purple : Brushes.Red, 
                 new PointF(posX + 30, posY + 40));
-        }
-
-        internal void draw2(Graphics graphics)
-        {
-            graphics.DrawImage(image, posX, posY, WIDTH, HEIGHT);
-            //debug
-            graphics.DrawString(X + ", " + Y, new Font("Roboto", 14f), Brushes.Blue, new PointF(posX + 30, posY + 40));
         }
 
         public int CompareTo(Tile other)
@@ -73,6 +70,10 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
                 compare = Hcost.CompareTo(other.Hcost);
             }
             return -compare;
+        }
+        public object Clone()
+        {
+            return this.MemberwiseClone();
         }
     }
 }
