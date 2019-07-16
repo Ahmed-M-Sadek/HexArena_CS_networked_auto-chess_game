@@ -1,7 +1,5 @@
 ﻿using ASU2019_NetworkedGameWorkshop.model.grid;
 using System;
-using System.Collections.Generic;
-using System.Drawing;
 using System.Windows.Forms;
 
 namespace ASU2019_NetworkedGameWorkshop.controller {
@@ -14,6 +12,11 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
         public GameManager(GameForm gameForm) {
             grid = new Grid(10, 8, 10, 10);
             this.gameForm = gameForm;
+
+            //Debugging 
+            grid.Tiles[0, 5].CurrentCharacter = new model.Character();
+            grid.Tiles[2, 6].CurrentCharacter = new model.Character();
+            grid.Tiles[4, 1].CurrentCharacter = new model.Character();
         }
         public void startTimer() {
             timer = new Timer();
@@ -29,19 +32,27 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
         internal void mouseClick(MouseEventArgs e) {
             Tile tile = grid.getSelectedHexagon(e.X, e.Y);
             if(tile != null) {
-                Console.WriteLine(tile.X + " " + tile.Y);//Debugging
+                Console.WriteLine("Clicked Tile: ({0}, {1})", tile.X, tile.Y);//Debugging
 
-                if(selectedTile != null) {
+                if(selectedTile == null) {
+                    tile.Selected = true;
+                    selectedTile = tile;
+                } else {
+                    if(tile.CurrentCharacter == null) {
+                        tile.CurrentCharacter =  selectedTile.CurrentCharacter;
+                        selectedTile.CurrentCharacter = null;
+                    }
+
                     selectedTile.Selected = false;
+                    selectedTile = null;
                 }
-                tile.Selected = true;
+                
                 tile.Walkable = false;
                 if (grid.path != null && grid.path.Contains(tile))
                 {
                     grid.findPath();
                 }
-                selectedTile = tile;
-
+                
                 gameForm.Invalidate();
             }
         }

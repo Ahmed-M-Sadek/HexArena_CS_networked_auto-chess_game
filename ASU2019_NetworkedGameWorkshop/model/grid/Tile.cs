@@ -1,10 +1,14 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 
 namespace ASU2019_NetworkedGameWorkshop.model.grid {
     internal class Tile : GraphicsObject , IHeapItem<Tile>{
         public const float HEIGHT = 100f, WIDTH = 86.6f; //todo
+        public const float HALF_WIDTH = WIDTH / 2;
+        public const float HEX_C = HALF_WIDTH * 0.57735026919f;
+        public const float HEX_HEIGHT = HEIGHT - HEX_C;
+        public const float HEX_M = HEX_C / HALF_WIDTH;
 
         private static readonly Image image = Image.FromFile("../../assets/sprites/tiles/Tile.png");//todo path
         private static readonly Image imageSelected = Image.FromFile("../../assets/sprites/tiles/Tile_Selected.png");//todo path
@@ -13,7 +17,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
         public bool Selected { get; set; }
 
         private float posX, posY;
-        private Character currentCharacter = null;
+        public Character CurrentCharacter { get; set; }
 
         public bool Walkable { get; set; }
         public int Gcost { get; set; }
@@ -30,11 +34,11 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
         public int HeapIndex { get ; set ; }
 
         public Tile(int x, int y, float startingX, float startingY) {
-            this.X = x;
-            this.Y = y;
+            X = x;
+            Y = y;
 
-            this.posX = startingX + (y % 2 == 0 ? (x * 43 * 2) : (x * 43 * 2) + 43);
-            this.posY = startingY + (y * 50 * 2 * 3 / 4);
+            posX = startingX + x * WIDTH + (y % 2 == 0 ? 0 : 43);
+            posY = startingY + y * (HEIGHT - HEX_C);
 
             Walkable = true;
         }
@@ -42,18 +46,16 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
         public override void draw(Graphics graphics) {
             graphics.DrawImage(Selected ? imageSelected : image, posX, posY, WIDTH, HEIGHT);
 
+            if(CurrentCharacter != null) {
+                CurrentCharacter.X = posX + HALF_WIDTH / 2;
+                CurrentCharacter.Y = posY + HEX_C * 3 / 2;
+                CurrentCharacter.draw(graphics);
+            }
 
             //debug
             graphics.DrawString(X + ", " + Y, new Font("Roboto", 14f),
                 (Walkable) ? Brushes.Purple : Brushes.Red, 
                 new PointF(posX + 30, posY + 40));
-        }
-
-
-
-        internal bool contains(int x, int y) {
-            throw new NotImplementedException();
-
         }
 
         internal void draw2(Graphics graphics)

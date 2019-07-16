@@ -1,76 +1,57 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 
 namespace ASU2019_NetworkedGameWorkshop.model.grid {
     class Grid : GraphicsObject {
-        private const float halfWidth = (Tile.WIDTH / 2);//in tile ?
-        private const float hexC = halfWidth * 0.57735026919f;
-
         private readonly int gridWidth, gridHeight;
         private readonly int startingX, startingY;
-
-        public Tile[,] Tiles { get; set; }
+        public Tile[,] Tiles { get;}//temp public
 
         //todo temporary
         public List<Tile> path;
 
         public int MaxSize => gridHeight * gridWidth;
 
-        public Grid(int gridWidth, int gridHeight, int startingX, int startingY)
-        {
-            if (gridWidth < 0 ||
-                gridHeight < 0 ||
-                startingX < 0 ||
-                startingY < 0)
-                throw new ArgumentOutOfRangeException("Negative Input");//not descriptive 
-
+        public Grid(int gridWidth, int gridHeight, int startingX, int startingY) {
             this.gridWidth = gridWidth;
             this.gridHeight = gridHeight;
             this.startingX = startingX;
             this.startingY = startingY;
 
             Tiles = new Tile[gridWidth, gridHeight];
-            for (int y = 0; y < gridHeight; y++)
-            {
-                for (int x = 0; x < gridWidth; x++)
-                {
+            for(int y = 0; y < gridHeight; y++) {
+                for(int x = 0; x < gridWidth; x++) {
                     Tiles[x, y] = new Tile(x, y, startingX, startingY);
                 }
             }
             findPath();
         }
 
-        internal Tile getSelectedHexagon(int x, int y) {
+        //Credits: https://stackoverflow.com/questions/7705228/hexagonal-grids-how-do-you-find-which-hexagon-a-point-is-in
+        public Tile getSelectedHexagon(int x, int y) {
             x -= startingX;
             y -= startingY;
 
-            float tileHeight = (Tile.HEIGHT - hexC);
-
-            int row = (int) (y / tileHeight);
+            int row = (int) (y / Tile.HEX_HEIGHT);
 
             bool rowIsOdd = row % 2 == 1;
 
-            int column = rowIsOdd ?
-                (int) ((x - halfWidth) / Tile.WIDTH) :
-                column = (int) (x / Tile.WIDTH);
+            int column = (int) ((x - (rowIsOdd ? Tile.HALF_WIDTH : 0)) / Tile.WIDTH);
 
-            double relY = y - (row * tileHeight);
-            double relX = rowIsOdd ?
-                (x - (column * Tile.WIDTH)) - halfWidth :
-                x - (column * Tile.WIDTH);
+            double relY = y - (row * Tile.HEX_HEIGHT);
+            double relX = x - (column * Tile.WIDTH) - (rowIsOdd ? Tile.HALF_WIDTH : 0);
 
-            float m = (hexC / halfWidth);
-
-            if(relY < (-m * relX) + hexC) {
+            if(relY < (-Tile.HEX_M * relX) + Tile.HEX_C) {
                 row--;
                 if(!rowIsOdd)
                     column--;
-            } else if(relY < m * relX - hexC) {
+            } else if(relY < (Tile.HEX_M * relX) - Tile.HEX_C) {
                 row--;
                 if(rowIsOdd)
                     column++;
             }
+
             if(column < gridWidth
                 && row < gridHeight
                 && column > -1

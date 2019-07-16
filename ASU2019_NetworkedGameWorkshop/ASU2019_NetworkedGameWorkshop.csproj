@@ -92,6 +92,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\sprites\tiles\Tile.png" />
+    <Content Include="assets\sprites\tiles\Tile_Selected.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
