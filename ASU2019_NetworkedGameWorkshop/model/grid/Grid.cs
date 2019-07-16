@@ -15,6 +15,8 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
         //todo temporary
         public List<Tile> path;
 
+        public int MaxSize => gridHeight * gridWidth;
+
         public Grid(int gridWidth, int gridHeight, int startingX, int startingY)
         {
             if (gridWidth < 0 ||
@@ -86,10 +88,8 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
                     tile.draw2(graphics);
 
                 }
-                else if (tile.Walkable)
+                else 
                     tile.draw(graphics);
-                else
-                    tile.draw3(graphics);
             }
         }
 
@@ -124,7 +124,6 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
                         (gridY >= 0 && gridY < gridHeight))
                     {
                         neighbours.Add(Tiles[gridX, gridY]);
-                        Console.WriteLine("added with x = {0} and y = {1}",x,y);
                     }
                 }
             }

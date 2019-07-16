@@ -1,5 +1,7 @@
-﻿using System;
+﻿using ASU2019_NetworkedGameWorkshop.model.collection;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,33 +19,23 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid
 
         public void findPath(int startX, int startY, int endX, int endY)
         {
+            Stopwatch stopWatch = new Stopwatch();
+            stopWatch.Start();
             Tile startTile = grid.Tiles[startX, startY];
             Tile endTile = grid.Tiles[endX, endY];
-            List<Tile> openSet = new List<Tile>(); //use a heap for a way better optimaization
+            Heap<Tile> openSet = new Heap<Tile>(grid.MaxSize); 
             HashSet<Tile> closedSet = new HashSet<Tile>();
             openSet.Add(startTile);
 
             while (openSet.Count > 0)
             {
-                Tile currentTile = openSet[0];
-
-                //v.bad optimization
-                for (int i = 1; i < openSet.Count; i++)
-                {
-                    if (openSet[i].Fcost < currentTile.Fcost ||
-                        openSet[i].Fcost == currentTile.Fcost)
-                    {
-                        if (openSet[i].Hcost < currentTile.Hcost)
-                            currentTile = openSet[i];
-                    }
-
-                }
-                openSet.Remove(currentTile);
+                Tile currentTile = openSet.RemoveFirst();
 
                 closedSet.Add(currentTile);
                 if (currentTile == endTile)
                 {
-
+                    stopWatch.Stop();
+                    Console.WriteLine("path found in: {0}", stopWatch.ElapsedMilliseconds);
                     retracePath(startTile, endTile);
                     return;
 
