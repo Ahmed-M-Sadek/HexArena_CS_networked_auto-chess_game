@@ -18,8 +18,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid
         public void findPath(int startX, int startY, int endX, int endY)
         {
             Tile startTile = grid.Tiles[startX, startY];
-            Tile endTile = grid.Tiles[startX, startY];
-
+            Tile endTile = grid.Tiles[endX, endY];
             List<Tile> openSet = new List<Tile>(); //use a heap for a way better optimaization
             HashSet<Tile> closedSet = new HashSet<Tile>();
             openSet.Add(startTile);
@@ -49,7 +48,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid
                     return;
 
                 }
-
+                Console.WriteLine("neighbours of  {0}, {1}", currentTile.X, currentTile.Y);
                 foreach (Tile neighbour in grid.getNeighbours(currentTile))
                 {
                     if (closedSet.Contains(neighbour) || !neighbour.Walkable)
@@ -67,8 +66,10 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid
                             openSet.Add(neighbour);
 
                     }
-                }
+                    Console.WriteLine("neighbour: {0}, {1}, hcost: {2}, gcost: {3}, fcost: {4}", neighbour.X, neighbour.Y, neighbour.Hcost, neighbour.Gcost, neighbour.Fcost);
 
+                }
+                Console.WriteLine("finished neighbours");
             }
         }
 
@@ -76,25 +77,55 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid
         {
 
             List<Tile> path = new List<Tile>();
-            Tile currentNode = endTile;
-
-            while (currentNode != startTile)
+            Tile currentTile = endTile;
+            
+            while (currentTile != startTile)
             {
-                path.Add(currentNode);
-                currentNode = currentNode.Parent;
+                path.Add(currentTile);
+                currentTile = currentTile.Parent;
             }
 
             path.Reverse();
             grid.path = path;
+            foreach (var tile in path)
+            {
+                Console.WriteLine("cord: {0}, {1}, hcost: {2}, gcost: {3}, fcost: {4}", tile.X, tile.Y, tile.Hcost, tile.Gcost, tile.Fcost);
+            }
         }
 
         public static int getDistance(Tile start, Tile dest)
         {
-            return Math.Max(Math.Max(
-                        Math.Abs(dest.Y - start.Y),
-                        Math.Abs((int)Math.Ceiling(dest.Y / -2.0) + dest.X - (int)(Math.Ceiling(start.Y / -2.0)) - start.X)),
-                        Math.Abs(-dest.Y - (int)Math.Ceiling((dest.Y / -2.0)) - dest.X + start.X + (int)(Math.Ceiling((start.X / -2.0)) + start.X)));
+            Cube startCube = oddrToCube(start);
+            Cube destCube = oddrToCube(dest);
+            return Math.Max(
+                        Math.Abs(startCube.X - destCube.X),
+                        Math.Max(
+                            Math.Abs(startCube.Y - destCube.Y),
+                            Math.Abs(startCube.Z - destCube.Z)));
         }
 
+        private static Cube oddrToCube(Tile tile)
+        {
+            var x = tile.X - (tile.Y - (tile.Y & 1)) / 2;
+            var z = tile.Y;
+            var y = -x - z;
+            return new Cube(x, y, z);
+        }
+        private class Cube
+        {
+            public int X;
+            public int Y;
+            public int Z;
+
+            public Cube(int x, int y, int z)
+            {
+                this.X = x;
+                this.Y = y;
+                this.Z = z;
+            }
+        }
     }
+
+
+
 }

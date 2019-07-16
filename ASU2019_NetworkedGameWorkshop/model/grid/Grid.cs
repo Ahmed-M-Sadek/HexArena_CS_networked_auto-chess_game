@@ -2,19 +2,21 @@
 using System.Collections.Generic;
 using System.Drawing;
 
-namespace ASU2019_NetworkedGameWorkshop.model.grid {
-    class Grid : GraphicsObject {
+namespace ASU2019_NetworkedGameWorkshop.model.grid
+{
+    class Grid : GraphicsObject
+    {
         private readonly int gridWidth, gridHeight;
         private readonly int startingX, startingY;
-        private Tile[,] tiles;
 
         public Tile[,] Tiles { get; set; }
 
         //todo temporary
         public List<Tile> path;
 
-        public Grid(int gridWidth, int gridHeight, int startingX, int startingY) {
-            if(gridWidth < 0 ||
+        public Grid(int gridWidth, int gridHeight, int startingX, int startingY)
+        {
+            if (gridWidth < 0 ||
                 gridHeight < 0 ||
                 startingX < 0 ||
                 startingY < 0)
@@ -25,50 +27,78 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
             this.startingX = startingX;
             this.startingY = startingY;
 
-            tiles = new Tile[gridWidth, gridHeight];
-            for(int y = 0; y < gridHeight; y++) {
-                for(int x = 0; x < gridWidth; x++) {
-                    tiles[x, y] = new Tile(x, y, startingX, startingY);
+            Tiles = new Tile[gridWidth, gridHeight];
+            for (int y = 0; y < gridHeight; y++)
+            {
+                for (int x = 0; x < gridWidth; x++)
+                {
+                    Tiles[x, y] = new Tile(x, y, startingX, startingY);
                 }
             }
-
-            Console.WriteLine(PathFinding.getDistance(tiles[0, 0], tiles[0, 1]));
-            Console.WriteLine(PathFinding.getDistance(tiles[0, 0], tiles[1, 2]));
-            Console.WriteLine(PathFinding.getDistance(tiles[0, 0], tiles[2, 1]));
+            PathFinding p = new PathFinding(this);
+            p.findPath(6, 7, 3, 4);
         }
 
-        internal Tuple<int, int> mouseClick(int x, int y) {
-            foreach(Tile tile in tiles) {
-                if(tile.contains(x, y)) {
+        internal Tuple<int, int> mouseClick(int x, int y)
+        {
+            foreach (Tile tile in Tiles)
+            {
+                if (tile.contains(x, y))
+                {
                     return Tuple.Create(tile.X, tile.Y);
                 }
             }
             return null;
         }
 
-        public override void draw(Graphics graphics) {
-            foreach(Tile tile in tiles) {
-                tile.draw(graphics);
+        public override void draw(Graphics graphics)
+        {
+            foreach (Tile tile in Tiles)
+            {
+                if (path != null && path.Contains(tile))
+                {
+                    tile.draw2(graphics);
+
+                }
+                else if (tile.Walkable)
+                    tile.draw(graphics);
+                //else
+                    //tile.draw3(graphics);
             }
         }
 
+        //valid for  odd_r hexagons
         public List<Tile> getNeighbours(Tile tile)
         {
+
             List<Tile> neighbours = new List<Tile>();
             for (int x = -1; x <= 1; x++)
             {
                 for (int y = -1; y <= 1; y++)
                 {
-                    if (x == y)
+                    if ((x == -1 && y == -1) ||
+                        (x == -1 && y == 1) ||
+                        (x == 0 && y == 0))
                         continue;
 
-                    int gridX = tile.X + x; 
-                    int gridY = tile.Y + y; 
+                    int gridX, gridY;
+                    //checks if even
+                    if ((tile.Y & 1) != 0)
+                    {
+                        gridX = tile.X + x;
+                        gridY = tile.Y + y;
+                    }
+                    else
+                    {
+                        gridX = tile.X - x;
+                        gridY = tile.Y - y;
+                    }
 
-                    if ((gridX >= 0 && gridX < gridHeight) || 
-                        (gridY >= 0 && gridY < gridWidth))
+                    if ((gridX >= 0 && gridX < gridWidth) &&
+                        (gridY >= 0 && gridY < gridHeight))
                     {
                         neighbours.Add(Tiles[gridX, gridY]);
+                        Console.WriteLine("added with x = {0} and y = {1}",x,y);
                     }
                 }
             }

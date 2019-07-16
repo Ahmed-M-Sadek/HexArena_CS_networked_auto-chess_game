@@ -16,12 +16,12 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
         public bool Walkable { get; set; }
         public int Gcost { get; set; }
         public int Hcost { get; set; }
-        public Tile Parent { get; set; }
+        public Tile Parent{ get; set; }
         public int Fcost
         {
             get
             {
-                return Gcost + Fcost;
+                return Gcost + Hcost;
             }
         }
 
@@ -37,9 +37,8 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
 
         public override void draw(Graphics graphics) {
             graphics.DrawImage(image, posX, posY, width, height);
-
             //debug
-            graphics.DrawString(X + ", " + Y, new Font("Roboto", 14f), Brushes.Purple, new PointF(posX + 30, posY + 40));
+            graphics.DrawString(X + ", " + Y, new Font("Roboto", 14f),Brushes.Purple , new PointF(posX + 30, posY + 40));
         }
 
 
@@ -47,5 +46,13 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
         internal bool contains(int x, int y) {
             throw new NotImplementedException();
         }
+
+        internal void draw2(Graphics graphics)
+        {
+            graphics.DrawImage(image, posX, posY, width, height);
+            //debug
+            graphics.DrawString(X + ", " + Y, new Font("Roboto", 14f), Brushes.Blue, new PointF(posX + 30, posY + 40));
+        }
+
     }
 }
