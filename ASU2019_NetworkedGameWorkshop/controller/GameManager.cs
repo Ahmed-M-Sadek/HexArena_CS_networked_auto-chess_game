@@ -1,7 +1,5 @@
 ﻿using ASU2019_NetworkedGameWorkshop.model.grid;
 using System;
-using System.Collections.Generic;
-using System.Drawing;
 using System.Windows.Forms;
 
 namespace ASU2019_NetworkedGameWorkshop.controller {
@@ -29,7 +27,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
         internal void mouseClick(MouseEventArgs e) {
             Tile tile = grid.getSelectedHexagon(e.X, e.Y);
             if(tile != null) {
-                Console.WriteLine(tile.X + " " + tile.Y);//Debugging
+                Console.WriteLine("Tile selected: ({0}, {1})", tile.X, tile.Y);//Debugging
 
                 if(selectedTile != null) {
                     selectedTile.Selected = false;
