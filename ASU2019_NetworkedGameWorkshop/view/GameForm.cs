@@ -1,12 +1,4 @@
 ﻿using ASU2019_NetworkedGameWorkshop.controller;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ASU2019_NetworkedGameWorkshop {
@@ -16,8 +8,18 @@ namespace ASU2019_NetworkedGameWorkshop {
         public GameForm() {
             InitializeComponent();
 
-            this.gameManager = new GameManager();
+            this.DoubleBuffered = true;
+
+            this.gameManager = new GameManager(this);
             gameManager.startTimer();
+        }
+
+        private void GameForm_Paint(object sender, PaintEventArgs e) {
+            gameManager.updatePaint(e);
+        }
+
+        private void GameForm_MouseClick(object sender, MouseEventArgs e) {
+            gameManager.mouseClick(e);
         }
     }
 }

@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{50D7236F-86B2-4E81-8DFF-1135BE91B285}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <RootNamespace>ASU2019_NetworkedGameWorkshop</RootNamespace>
     <AssemblyName>ASU2019_NetworkedGameWorkshop</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
@@ -32,6 +32,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -47,6 +50,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="controller\GameManager.cs" />
+    <Compile Include="model\Character.cs" />
+    <Compile Include="model\GraphicsObject.cs" />
+    <Compile Include="model\grid\Grid.cs" />
+    <Compile Include="model\grid\Tile.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="view\GameForm.cs">
@@ -63,6 +70,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="view\GameForm.resx">
       <DependentUpon>GameForm.cs</DependentUpon>
@@ -81,7 +89,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="model\" />
+    <Content Include="assets\sprites\tiles\Tile.png" />
+    <Content Include="assets\sprites\tiles\Tile_Selected.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
