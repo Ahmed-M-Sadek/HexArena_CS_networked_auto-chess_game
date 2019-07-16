@@ -4,7 +4,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
     class Grid : GraphicsObject {
         private readonly int gridWidth, gridHeight;
         private readonly int startingX, startingY;
-        private readonly Tile[,] tiles;
+        public Tile[,] Tiles { get;}//temp public
 
         public Grid(int gridWidth, int gridHeight, int startingX, int startingY) {
             this.gridWidth = gridWidth;
@@ -12,10 +12,10 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
             this.startingX = startingX;
             this.startingY = startingY;
 
-            tiles = new Tile[gridWidth, gridHeight];
+            Tiles = new Tile[gridWidth, gridHeight];
             for(int y = 0; y < gridHeight; y++) {
                 for(int x = 0; x < gridWidth; x++) {
-                    tiles[x, y] = new Tile(x, y, startingX, startingY);
+                    Tiles[x, y] = new Tile(x, y, startingX, startingY);
                 }
             }
         }
@@ -48,12 +48,12 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
                 && row < gridHeight
                 && column > -1
                 && row > -1)
-                return tiles[column, row];
+                return Tiles[column, row];
             return null;
         }
 
         public override void draw(Graphics graphics) {
-            foreach(Tile tile in tiles) {
+            foreach(Tile tile in Tiles) {
                 tile.draw(graphics);
             }
         }

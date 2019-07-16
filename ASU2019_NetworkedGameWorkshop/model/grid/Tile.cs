@@ -16,7 +16,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
 
         private readonly float posX, posY;
 
-        private Character currebtCharacter;
+        public Character CurrentCharacter { get; set; }
 
         public Tile(int x, int y, float startingX, float startingY) {
             X = x;
@@ -28,6 +28,12 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
 
         public override void draw(Graphics graphics) {
             graphics.DrawImage(Selected ? imageSelected : image, posX, posY, WIDTH, HEIGHT);
+
+            if(CurrentCharacter != null) {
+                CurrentCharacter.X = posX + HALF_WIDTH / 2;
+                CurrentCharacter.Y = posY + HEX_C * 3 / 2;
+                CurrentCharacter.draw(graphics);
+            }
 
             //debug
             graphics.DrawString(X + ", " + Y,
