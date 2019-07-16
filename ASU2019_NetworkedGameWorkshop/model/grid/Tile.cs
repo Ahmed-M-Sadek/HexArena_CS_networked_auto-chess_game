@@ -16,9 +16,19 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
         public int Y { get; private set; }
         public bool Selected { get; set; }
 
-        private float posX, posY;
+        private readonly float posX, posY;
         //todo remove character from here
-        public Character CurrentCharacter { get; set; }
+        public Character currentCharacter;
+        public Character CurrentCharacter {
+            get {
+                return currentCharacter;
+            }
+            set {
+                currentCharacter = value;
+                if(value != null)
+                    value.CurrentTile = this;
+            }
+        }
 
         public bool Walkable { get; set; }
         public int Gcost { get; set; }

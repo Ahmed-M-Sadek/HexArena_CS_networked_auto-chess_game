@@ -1,18 +1,29 @@
 ﻿using ASU2019_NetworkedGameWorkshop.model;
 using ASU2019_NetworkedGameWorkshop.model.grid;
 using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace ASU2019_NetworkedGameWorkshop.controller {
     class GameManager {
-        private Timer timer;
+        private const int GAMELOOP_INTERVAL = 50;
+        private const int TICK_INTERVAL = 500;
         private readonly Grid grid;
-        private Tile selectedTile;
         private readonly GameForm gameForm;
+        private readonly List<Character> CharacterList;
+        private readonly Timer timer;
+        private Tile selectedTile;
+        private long nextTickTime;
+
+        public long ElapsedTime { get; private set; }
 
         public GameManager(GameForm gameForm) {
-            grid = new Grid(10, 8, 10, 10);
+            grid = new Grid(10, 8, 10, 10);//temp values
             this.gameForm = gameForm;
+
+            timer = new Timer();
+            timer.Interval = GAMELOOP_INTERVAL; //Arbitrary: 20 ticks per sec
+            timer.Tick += new EventHandler(gameLoop);
 
             Character blue1 = new Character(grid, grid.Tiles[0, 5], Character.Teams.Blue);
             Character red1 = new Character(grid, grid.Tiles[2, 6], Character.Teams.Red);
@@ -24,9 +35,6 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
             //grid.Tiles[4, 1].CurrentCharacter = new Character(grid, grid.Tiles[4, 1]);
         }
         public void startTimer() {
-            timer = new Timer();
-            timer.Interval = 50; //Arbitrary: 20 ticks per sec
-            timer.Tick += new EventHandler(gameLoop);
             timer.Start();
         }
 
@@ -43,9 +51,9 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
                     tile.Selected = true;
                     selectedTile = tile;
                 } else {
-                    if(tile.CurrentCharacter == null) {
-                        tile.CurrentCharacter =  selectedTile.CurrentCharacter;
-                        selectedTile.CurrentCharacter = null;
+                    if(tile.CurrentCharacter == null
+                        && selectedTile.CurrentCharacter != null) {
+                        selectedTile.CurrentCharacter.ToMoveTo = tile;
                     }
 
                     selectedTile.Selected = false;
@@ -63,7 +71,18 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
         }
 
         private void gameLoop(object sender, EventArgs e) {
+            ElapsedTime += GAMELOOP_INTERVAL;
 
+            if(nextTickTime < ElapsedTime) {
+                nextTickTime += TICK_INTERVAL;
+                Console.WriteLine("Tick " + ElapsedTime);
+                bool updateCanvas = false;
+                foreach(Character character in CharacterList) {
+                    updateCanvas = character.tick();
+                }
+                if(updateCanvas)
+                    gameForm.Invalidate();
+            }
         }
     }
 }

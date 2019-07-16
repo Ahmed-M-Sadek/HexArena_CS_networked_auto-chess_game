@@ -1,4 +1,4 @@
-﻿using ASU2019_NetworkedGameWorkshop.model.grid;
+using ASU2019_NetworkedGameWorkshop.model.grid;
 using System.Collections.Generic;
 using System.Drawing;
 
@@ -14,6 +14,8 @@ namespace ASU2019_NetworkedGameWorkshop.model {
         public float X { get; set; }
         public float Y { get; set; }
 
+        public Tile ToMoveTo { get; set; }
+        
         public Character(Grid grid, Tile currentTile, Teams team)
         {
             this.grid = grid;
@@ -38,6 +40,20 @@ namespace ASU2019_NetworkedGameWorkshop.model {
         public void findPath()
         {
             path = new PathFinding(grid).findPathToClosestEnemy(Tile, team);
+        }
+
+        public bool tick() {
+            if(ToMoveTo != null) {
+                X = ToMoveTo.X;
+                Y = ToMoveTo.Y;
+
+                Tile.CurrentCharacter = null;
+                ToMoveTo.CurrentCharacter = this;
+                ToMoveTo = null;
+
+                return true;
+            }
+            return false;
         }
     }
 }
