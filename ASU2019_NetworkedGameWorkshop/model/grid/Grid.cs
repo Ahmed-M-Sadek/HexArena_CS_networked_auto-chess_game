@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Drawing;
 
-namespace ASU2019_NetworkedGameWorkshop.model.grid
-{
-    class Grid : GraphicsObject
-    {
+namespace ASU2019_NetworkedGameWorkshop.model.grid {
+    class Grid : GraphicsObject {
+        private const float halfWidth = (Tile.WIDTH / 2);//in tile ?
+        private const float hexC = halfWidth * 0.57735026919f;
+
         private readonly int gridWidth, gridHeight;
         private readonly int startingX, startingY;
 
@@ -39,15 +40,41 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid
             p.findPath(6, 7, 3, 4);
         }
 
-        internal Tuple<int, int> mouseClick(int x, int y)
-        {
-            foreach (Tile tile in Tiles)
-            {
-                if (tile.contains(x, y))
-                {
-                    return Tuple.Create(tile.X, tile.Y);
-                }
+        internal Tile getSelectedHexagon(int x, int y) {
+            x -= startingX;
+            y -= startingY;
+
+            float tileHeight = (Tile.HEIGHT - hexC);
+
+            int row = (int) (y / tileHeight);
+
+            bool rowIsOdd = row % 2 == 1;
+
+            int column = rowIsOdd ?
+                (int) ((x - halfWidth) / Tile.WIDTH) :
+                column = (int) (x / Tile.WIDTH);
+
+            double relY = y - (row * tileHeight);
+            double relX = rowIsOdd ?
+                (x - (column * Tile.WIDTH)) - halfWidth :
+                x - (column * Tile.WIDTH);
+
+            float m = (hexC / halfWidth);
+
+            if(relY < (-m * relX) + hexC) {
+                row--;
+                if(!rowIsOdd)
+                    column--;
+            } else if(relY < m * relX - hexC) {
+                row--;
+                if(rowIsOdd)
+                    column++;
             }
+            if(column < gridWidth
+                && row < gridHeight
+                && column > -1
+                && row > -1)
+                return tiles[column, row];
             return null;
         }
 
