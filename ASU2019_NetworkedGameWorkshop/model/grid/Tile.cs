@@ -53,9 +53,15 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
 
         internal void draw2(Graphics graphics)
         {
-            graphics.DrawImage(image, posX, posY, width, height);
+            graphics.DrawImage(image, posX, posY, WIDTH, HEIGHT);
             //debug
             graphics.DrawString(X + ", " + Y, new Font("Roboto", 14f), Brushes.Blue, new PointF(posX + 30, posY + 40));
+        }
+        internal void draw3(Graphics graphics)
+        {
+            graphics.DrawImage(image, posX, posY, WIDTH, HEIGHT);
+            //debug
+            graphics.DrawString(X + ", " + Y, new Font("Roboto", 14f), Brushes.Red, new PointF(posX + 30, posY + 40));
         }
 
     }

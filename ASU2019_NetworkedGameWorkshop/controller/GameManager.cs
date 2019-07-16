@@ -35,6 +35,11 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
                     selectedTile.Selected = false;
                 }
                 tile.Selected = true;
+                tile.Walkable = false;
+                if (grid.path != null && grid.path.Contains(tile))
+                {
+                    grid.findPath();
+                }
                 selectedTile = tile;
 
                 gameForm.Invalidate();

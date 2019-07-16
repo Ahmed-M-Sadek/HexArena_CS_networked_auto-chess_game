@@ -36,8 +36,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
                     Tiles[x, y] = new Tile(x, y, startingX, startingY);
                 }
             }
-            PathFinding p = new PathFinding(this);
-            p.findPath(6, 7, 3, 4);
+            findPath();
         }
 
         internal Tile getSelectedHexagon(int x, int y) {
@@ -74,7 +73,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
                 && row < gridHeight
                 && column > -1
                 && row > -1)
-                return tiles[column, row];
+                return Tiles[column, row];
             return null;
         }
 
@@ -89,8 +88,8 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
                 }
                 else if (tile.Walkable)
                     tile.draw(graphics);
-                //else
-                    //tile.draw3(graphics);
+                else
+                    tile.draw3(graphics);
             }
         }
 
@@ -130,6 +129,11 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
                 }
             }
             return neighbours;
+        }
+        public void findPath()
+        {
+            PathFinding p = new PathFinding(this);
+            p.findPath(0, 6, 7, 0);
         }
     }
 }
