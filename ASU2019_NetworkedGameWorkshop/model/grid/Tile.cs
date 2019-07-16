@@ -16,7 +16,17 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
 
         private readonly float posX, posY;
 
-        public Character CurrentCharacter { get; set; }
+        public Character currentCharacter;
+        public Character CurrentCharacter {
+            get {
+                return currentCharacter;
+            }
+            set {
+                currentCharacter = value;
+                if(value != null)
+                    value.CurrentTile = this;
+            }
+        }
 
         public Tile(int x, int y, float startingX, float startingY) {
             X = x;
@@ -37,7 +47,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
 
             //debug
             graphics.DrawString(X + ", " + Y,
-                new Font("Roboto", 18f), Brushes.Purple, new PointF(posX + HALF_WIDTH / 2, posY + HEX_C*3/2));
+                new Font("Roboto", 18f), Brushes.Purple, new PointF(posX + HALF_WIDTH / 2, posY + HEX_C * 3 / 2));
         }
     }
 }
