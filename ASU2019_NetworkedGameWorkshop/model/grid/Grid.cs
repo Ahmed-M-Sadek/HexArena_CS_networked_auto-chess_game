@@ -131,8 +131,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
         }
         public void findPath()
         {
-            PathFinding p = new PathFinding(this);
-            p.findPath(0, 6, 7, 0);
+            path = new PathFinding(this).findPath(0, 6, 7, 0);
         }
     }
 }

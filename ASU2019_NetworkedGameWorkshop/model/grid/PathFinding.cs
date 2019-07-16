@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,7 +18,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid
             this.grid = grid;
         }
 
-        public void findPath(int startX, int startY, int endX, int endY)
+        public List<Tile> findPath(int startX, int startY, int endX, int endY)
         {
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
@@ -36,9 +37,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid
                 {
                     stopWatch.Stop();
                     Console.WriteLine("path found in: {0}", stopWatch.ElapsedMilliseconds);
-                    retracePath(startTile, endTile);
-                    return;
-
+                    return retracePath(startTile, endTile);
                 }
                 Console.WriteLine("neighbours of  {0}, {1}", currentTile.X, currentTile.Y);
                 foreach (Tile neighbour in grid.getNeighbours(currentTile))
@@ -63,9 +62,12 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid
                 }
                 Console.WriteLine("finished neighbours");
             }
+
+            //no path was returned in the while loop
+            throw new PathNotFoundException();
         }
 
-        private void retracePath(Tile startTile, Tile endTile)
+        private List<Tile> retracePath(Tile startTile, Tile endTile)
         {
 
             List<Tile> path = new List<Tile>();
@@ -78,11 +80,12 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid
             }
 
             path.Reverse();
-            grid.path = path;
             foreach (var tile in path)
             {
                 Console.WriteLine("cord: {0}, {1}, hcost: {2}, gcost: {3}, fcost: {4}", tile.X, tile.Y, tile.Hcost, tile.Gcost, tile.Fcost);
             }
+
+            return path;
         }
 
         public static int getDistance(Tile start, Tile dest)
@@ -114,6 +117,26 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid
                 this.X = x;
                 this.Y = y;
                 this.Z = z;
+            }
+        }
+
+        [Serializable]
+        private class PathNotFoundException : Exception
+        {
+            public PathNotFoundException()
+            {
+            }
+
+            public PathNotFoundException(string message) : base(message)
+            {
+            }
+
+            public PathNotFoundException(string message, Exception innerException) : base(message, innerException)
+            {
+            }
+
+            protected PathNotFoundException(SerializationInfo info, StreamingContext context) : base(info, context)
+            {
             }
         }
     }
