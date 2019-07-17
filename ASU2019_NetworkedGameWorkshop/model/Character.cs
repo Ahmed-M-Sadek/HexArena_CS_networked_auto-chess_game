@@ -15,7 +15,11 @@ namespace ASU2019_NetworkedGameWorkshop.model {
         public float Y { get; set; }
 
         public Tile ToMoveTo { get; set; }
-        
+
+        private int pathPosition;
+        //temp//temp//temp//temp//temp//temp//temp//temp//temp//temp//temp//temp//temp//temp//temp//temp//temp//temp//temp//temp//temp//temp//temp//temp//temp//temp//temp//temp
+        private bool sfdf = true;
+
         public Character(Grid grid, Tile currentTile, Teams team)
         {
             this.grid = grid;
@@ -31,25 +35,46 @@ namespace ASU2019_NetworkedGameWorkshop.model {
                     grid.TeamBlue.Add(this);
                     break;
             }
+            
         }
 
         public override void draw(Graphics graphics) {
-            graphics.FillRectangle(Brushes.HotPink, X, Y, 25, 25);
+
+            graphics.FillRectangle(team == Teams.Blue ? Brushes.BlueViolet : Brushes.Red, X, Y, 25, 25);
         }
 
         public void findPath()
         {
+            //todo add try catcj PathNotFoundException
             path = new PathFinding(grid).findPathToClosestEnemy(Tile, team);
+            ToMoveTo = path[0];
+            pathPosition = 0;
         }
 
         public bool tick() {
-            if(ToMoveTo != null) {
+            //add unit behaviour logic
+            //temp//temp//temp//temp//temp//temp//temp//temp//temp//temp//temp//temp//temp//temp//temp
+            if (sfdf)
+            findPath();
+
+            //implement ranged units (put range - 1 in place of 0)
+            if (path[0].Hcost == 0)
+            {
+                //temp//temp//temp//temp//temp//temp//temp//temp//temp//temp//temp//temp//temp//temp//temp//temp//temp//temp
+                sfdf = false;
+                return true;
+            }
+            if (ToMoveTo != null) {
                 X = ToMoveTo.X;
                 Y = ToMoveTo.Y;
 
+                System.Console.WriteLine("tile.x : {0}, tile.y : {1}, next.x : {2}, next.y : {3}", Tile.X, Tile.Y, ToMoveTo.X, ToMoveTo.Y);
+                //System.Console.WriteLine("current tile: {}",ToMoveTo);
                 Tile.CurrentCharacter = null;
+                Tile.Walkable = true;
                 ToMoveTo.CurrentCharacter = this;
-                ToMoveTo = null;
+                ToMoveTo = path[++pathPosition];
+
 
                 return true;
             }

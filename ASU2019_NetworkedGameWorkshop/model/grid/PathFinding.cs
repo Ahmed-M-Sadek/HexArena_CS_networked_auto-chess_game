@@ -13,6 +13,8 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid
     {
         Grid grid;
 
+        public Tile[,] TilesClone { get; private set; }
+
         public PathFinding(Grid grid)
         {
             this.grid = grid;
@@ -30,6 +32,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid
 
             foreach (Character enemy in enemyList)
             {
+                TilesClone = (Tile[,])grid.Tiles.Clone();
                 List<Tile> path;
 
                 try
@@ -64,23 +67,23 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid
             stopWatch.Start();
             Heap<Tile> openSet = new Heap<Tile>(grid.MaxSize);
             HashSet<Tile> closedSet = new HashSet<Tile>();
-            openSet.Add((Tile)startTile.Clone());
+            openSet.Add(TilesClone[startTile.X,startTile.Y]);
 
             while (openSet.Count > 0)
             {
                 Tile currentTile = openSet.RemoveFirst();
 
                 closedSet.Add(currentTile);
-                if (currentTile == endTile)
+                if (currentTile.Equals(endTile))
                 {
                     stopWatch.Stop();
                     Console.WriteLine("path found in: {0}", stopWatch.ElapsedMilliseconds);
-                    return retracePath(startTile, endTile);
+                    return retracePath(startTile, currentTile);
                 }
                 Console.WriteLine("neighbours of  {0}, {1}", currentTile.X, currentTile.Y);
-                foreach (Tile neighbour in grid.getNeighbours(currentTile))
+                foreach (Tile neighbour in grid.getNeighbours(currentTile,TilesClone))
                 {
-                    if (closedSet.Contains(neighbour) || !neighbour.Walkable)
+                    if (closedSet.Contains(neighbour) || !(neighbour.Walkable || neighbour.Equals(endTile)))
                         continue;
 
                     int newNeighbourCost = currentTile.Gcost + getDistance(currentTile, neighbour);
@@ -111,10 +114,11 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid
             List<Tile> path = new List<Tile>();
             Tile currentTile = endTile;
 
-            while (currentTile != startTile)
+            while (!currentTile.Equals(startTile))
             {
-                currentTile.InPath = true;
-                path.Add(currentTile);
+                Tile currentGridTile = grid.Tiles[currentTile.X, currentTile.Y];
+                currentGridTile.InPath = true;
+                path.Add(currentGridTile);
                 currentTile = currentTile.Parent;
             }
 

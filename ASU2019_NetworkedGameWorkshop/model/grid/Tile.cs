@@ -26,7 +26,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
             set {
                 currentCharacter = value;
                 if(value != null)
-                    value.CurrentTile = this;
+                    value.Tile = this;
             }
         }
 
@@ -64,11 +64,12 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
                 CurrentCharacter.X = posX + HALF_WIDTH / 2;
                 CurrentCharacter.Y = posY + HEX_C * 3 / 2;
                 CurrentCharacter.draw(graphics);
+                Walkable = false;
             }
 
             //debug
             graphics.DrawString(X + ", " + Y, new Font("Roboto", 14f),
-                (InPath) ? Brushes.Blue : (Walkable) ? Brushes.Purple : Brushes.Red, 
+                (!Walkable) ? Brushes.Red : Brushes.Purple, 
                 new PointF(posX + 30, posY + 40));
         }
 
@@ -84,6 +85,22 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
         public object Clone()
         {
             return this.MemberwiseClone();
+        }
+        public override bool Equals(object obj)
+        {
+            var item = obj as Tile;
+
+            if (item == null)
+            {
+                return false;
+            }
+
+            if (item.X == this.X && item.Y == this.Y)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

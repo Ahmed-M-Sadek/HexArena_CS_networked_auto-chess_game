@@ -7,10 +7,9 @@ using System.Windows.Forms;
 namespace ASU2019_NetworkedGameWorkshop.controller {
     class GameManager {
         private const int GAMELOOP_INTERVAL = 50;
-        private const int TICK_INTERVAL = 500;
+        private const int TICK_INTERVAL = 1500;
         private readonly Grid grid;
         private readonly GameForm gameForm;
-        private readonly List<Character> CharacterList;
         private readonly Timer timer;
         private Tile selectedTile;
         private long nextTickTime;
@@ -25,13 +24,15 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
             timer.Interval = GAMELOOP_INTERVAL; //Arbitrary: 20 ticks per sec
             timer.Tick += new EventHandler(gameLoop);
 
-            Character blue1 = new Character(grid, grid.Tiles[0, 5], Character.Teams.Blue);
-            Character red1 = new Character(grid, grid.Tiles[2, 6], Character.Teams.Red);
+            Character blue1 = new Character(grid, grid.Tiles[1, 5], Character.Teams.Blue);
+            Character blue2 = new Character(grid, grid.Tiles[4, 0], Character.Teams.Blue);
+            Character red1 = new Character(grid, grid.Tiles[4, 0], Character.Teams.Red);
 
             //Debugging 
             //todo remove current char from tile
-            grid.Tiles[0, 5].CurrentCharacter = blue1;
-            grid.Tiles[2, 6].CurrentCharacter = red1;
+            grid.Tiles[0, 3].CurrentCharacter = blue1;
+            grid.Tiles[7, 7].CurrentCharacter = red1;
+            grid.Tiles[4, 0].CurrentCharacter = blue2;
             //grid.Tiles[4, 1].CurrentCharacter = new Character(grid, grid.Tiles[4, 1]);
         }
         public void startTimer() {
@@ -61,10 +62,6 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
                 }
                 
                 tile.Walkable = false;
-                //if (grid.path != null && grid.path.Contains(tile))
-                //{
-                //    grid.findPath();
-                //}
                 
                 gameForm.Invalidate();
             }
@@ -77,7 +74,10 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
                 nextTickTime += TICK_INTERVAL;
                 Console.WriteLine("Tick " + ElapsedTime);
                 bool updateCanvas = false;
-                foreach(Character character in CharacterList) {
+                foreach(Character character in grid.TeamBlue) {
+                    updateCanvas = character.tick();
+                }
+                foreach(Character character in grid.TeamRed) {
                     updateCanvas = character.tick();
                 }
                 if(updateCanvas)
