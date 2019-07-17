@@ -1,7 +1,9 @@
-﻿using System.Drawing;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
 
 namespace ASU2019_NetworkedGameWorkshop.model.grid {
-    class Tile : GraphicsObject {
+    internal class Tile : GraphicsObject , IHeapItem<Tile>, ICloneable{
         public const float HEIGHT = 100f, WIDTH = 86.6f; //todo
         public const float HALF_WIDTH = WIDTH / 2;
         public const float HEX_C = HALF_WIDTH * 0.57735026919f;
@@ -15,8 +17,35 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
         public bool Selected { get; set; }
 
         private readonly float posX, posY;
+        //todo remove character from here
+        public Character currentCharacter;
+        public Character CurrentCharacter {
+            get {
+                return currentCharacter;
+            }
+            set {
+                currentCharacter = value;
+                if(value != null)
+                    value.Tile = this;
+            }
+        }
 
-        public Character CurrentCharacter { get; set; }
+        public bool Walkable { get; set; }
+        public int Gcost { get; set; }
+        public int Hcost { get; set; }
+        public Tile Parent{ get; set; }
+        public int Fcost
+        {
+            get
+            {
+                return Gcost + Hcost;
+            }
+        }
+
+        //temp
+        public bool InPath = false;
+
+        public int HeapIndex { get ; set ; }
 
         public Tile(int x, int y, float startingX, float startingY) {
             X = x;
@@ -24,6 +53,8 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
 
             posX = startingX + x * WIDTH + (y % 2 == 0 ? 0 : 43);
             posY = startingY + y * (HEIGHT - HEX_C);
+
+            Walkable = true;
         }
 
         public override void draw(Graphics graphics) {
@@ -33,11 +64,43 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
                 CurrentCharacter.X = posX + HALF_WIDTH / 2;
                 CurrentCharacter.Y = posY + HEX_C * 3 / 2;
                 CurrentCharacter.draw(graphics);
+                Walkable = false;
             }
 
             //debug
-            graphics.DrawString(X + ", " + Y,
-                new Font("Roboto", 18f), Brushes.Purple, new PointF(posX + HALF_WIDTH / 2, posY + HEX_C*3/2));
+            graphics.DrawString(X + ", " + Y, new Font("Roboto", 14f),
+                (!Walkable) ? Brushes.Red : Brushes.Purple, 
+                new PointF(posX + 30, posY + 40));
+        }
+
+        public int CompareTo(Tile other)
+        {
+            int compare = Fcost.CompareTo(other.Fcost);
+            if (compare == 0)
+            {
+                compare = Hcost.CompareTo(other.Hcost);
+            }
+            return -compare;
+        }
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
+        public override bool Equals(object obj)
+        {
+            var item = obj as Tile;
+
+            if (item == null)
+            {
+                return false;
+            }
+
+            if (item.X == this.X && item.Y == this.Y)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }
