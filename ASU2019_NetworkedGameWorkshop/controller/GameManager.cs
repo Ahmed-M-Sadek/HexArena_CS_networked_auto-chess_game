@@ -1,12 +1,13 @@
 ﻿using ASU2019_NetworkedGameWorkshop.model.character;
-using ASU2019_NetworkedGameWorkshop.model.character.types.ranged;
+using ASU2019_NetworkedGameWorkshop.model.character.types;
 using ASU2019_NetworkedGameWorkshop.model.grid;
 using System;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace ASU2019_NetworkedGameWorkshop.controller {
-    class GameManager {
-        private const int GAMELOOP_INTERVAL = 50, TICK_INTERVAL = 1500;
+    public class GameManager {
+        private const int GAMELOOP_INTERVAL = 50, TICK_INTERVAL = 1000;
         private const int GRID_HEIGHT = 6, GRID_WIDTH = 7;
 
         private readonly Grid grid;
@@ -29,9 +30,9 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
             timer.Tick += new EventHandler(gameLoop);
 
             //Debugging 
-            new Character(grid, grid.Tiles[6, 5], Character.Teams.Red, Archer.archer);
-            new Character(grid, grid.Tiles[0, 3], Character.Teams.Blue, Archer.archer);
-            new Character(grid, grid.Tiles[4, 0], Character.Teams.Blue, Archer.archer);
+            new Character(grid, grid.Tiles[6, 5], Character.Teams.Red, CharacterTypeRanged.Archer, this);
+            new Character(grid, grid.Tiles[0, 3], Character.Teams.Blue, CharacterTypeRanged.Archer, this);
+            new Character(grid, grid.Tiles[4, 0], Character.Teams.Blue, CharacterTypeRanged.Archer, this);
         }
 
         public void startTimer() {
@@ -76,11 +77,17 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
             bool updateCanvas = false;
 
             foreach(Character character in grid.TeamBlue) {
-                updateCanvas = updateCanvas || character.update();
+                bool temp = character.update();
+                updateCanvas = updateCanvas || temp;
             }
+            grid.TeamBlue = grid.TeamBlue.Where(character => !character.IsDead).ToList();
             foreach(Character character in grid.TeamRed) {
-                updateCanvas = updateCanvas || character.update();
+                bool temp = character.update();
+                updateCanvas = updateCanvas || temp;
             }
+            grid.TeamRed = grid.TeamRed.Where(character => !character.IsDead).ToList();
+
+
 
             if(nextTickTime < ElapsedTime) {
                 nextTickTime += TICK_INTERVAL;

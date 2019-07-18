@@ -10,8 +10,8 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
 
         public int MaxSize => gridHeight * gridWidth;
 
-        public List<Character> TeamBlue { get; private set; }
-        public List<Character> TeamRed { get; private set; }
+        public List<Character> TeamBlue { get; set; }//temp puplic setter
+        public List<Character> TeamRed { get; set; }//temp puplic setter
 
         public Grid(int gridWidth, int gridHeight, int startingX, int startingY) {
             this.gridWidth = gridWidth;

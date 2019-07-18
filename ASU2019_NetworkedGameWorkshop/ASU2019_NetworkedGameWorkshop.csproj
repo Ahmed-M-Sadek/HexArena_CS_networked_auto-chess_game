@@ -51,14 +51,14 @@
   <ItemGroup>
     <Compile Include="controller\GameManager.cs" />
     <Compile Include="model\character\Character.cs" />
-    <Compile Include="model\character\types\ranged\Archer.cs" />
-    <Compile Include="model\character\types\ranged\CharacterRanged.cs" />
+    <Compile Include="model\character\types\CharacterTypeRanged.cs" />
     <Compile Include="model\character\types\CharacterType.cs" />
     <Compile Include="model\collection\Heap.cs" />
     <Compile Include="model\GraphicsObject.cs" />
     <Compile Include="controller\PathFinding.cs" />
     <Compile Include="model\grid\Grid.cs" />
     <Compile Include="model\grid\Tile.cs" />
+    <Compile Include="model\StatBar.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="view\GameForm.cs">
