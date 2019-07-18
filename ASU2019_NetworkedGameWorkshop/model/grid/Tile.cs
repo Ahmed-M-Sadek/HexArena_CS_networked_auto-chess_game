@@ -5,7 +5,7 @@ using System.Drawing;
 namespace ASU2019_NetworkedGameWorkshop.model.grid {
     public class Tile : GraphicsObject, IHeapItem<Tile>, ICloneable {
         public const float HEIGHT = 100f * 1.3f, WIDTH = 86.6f * 1.3f; //todo
-        public const float HALF_WIDTH = WIDTH / 2f;
+        public const float HALF_HEIGHT = HEIGHT / 2f, HALF_WIDTH = WIDTH / 2f;
         public const float HEX_C = HALF_WIDTH * 0.57735026919f,
             HEX_HEIGHT = HEIGHT - HEX_C,
             HEX_M = HEX_C / HALF_WIDTH;

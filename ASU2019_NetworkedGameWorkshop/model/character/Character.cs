@@ -10,7 +10,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
         public enum Teams { Red, Blue };
 
         private readonly Grid grid;
-        private readonly Teams team;
+        public readonly Teams team;
 
         private Character currentTarget;
         private Tile toMoveTo;
@@ -18,7 +18,21 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
         public Tile CurrentTile { get; set; }//public set ?
         public CharacterType CharacterType { get; private set; }
 
-        public Character(Grid grid, Tile currentTile, Teams team, CharacterType characterType) {
+        public bool IsDead { get; private set; }
+
+        private int healthPoints;
+        private int healthPointsMax;
+
+        private int chargePoints;
+        private int chargePointsMax;
+
+        private GameManager gameManager;
+        private long nextAtttackTime;
+        private readonly StatBar hpBar;
+        private readonly StatBar charageBar;
+
+        public Character(Grid grid, Tile currentTile, Teams team,
+            CharacterType characterType, GameManager gameManager) {
             this.grid = grid;
             currentTile.CurrentCharacter = this;
             this.team = team;
@@ -33,6 +47,43 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
             }
 
             CharacterType = characterType;
+
+            IsDead = false;
+            healthPoints = characterType.BaseHP;
+            healthPointsMax = characterType.BaseHP;
+            chargePoints = 50;
+            chargePointsMax = characterType.MaxChargePoints;
+
+            hpBar = new StatBar(this,
+                team == Teams.Blue ? Brushes.GreenYellow : Brushes.OrangeRed, 0);
+            charageBar = new StatBar(this, Brushes.Blue, 1);
+
+            this.gameManager = gameManager;
+        }
+
+        public void healHealthPoints(int healValue) {
+            if(healValue < 0) {
+                throw new ArgumentException();
+            }
+            healthPoints = Math.Min(healthPoints + healValue, healthPointsMax);
+        }
+
+        public void takeDamage(int dmgValue) {
+            if(dmgValue < 0) {
+                throw new ArgumentException();
+            }
+            healthPoints -= dmgValue;
+            if(healthPoints < 0) {
+                healthPoints = 0;
+                IsDead = true;
+                if(CurrentTile != null) {
+                    //CurrentTile.CurrentCharacter = null;
+                    //CurrentTile = null;
+                    //causes an excepetion in path finding 
+                }
+            } else {
+                chargePoints = Math.Min(chargePoints + 10, chargePointsMax);
+            }
         }
 
         public override void draw(Graphics graphics) {
@@ -40,6 +91,9 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
                 CurrentTile.centerX - CharacterType.WidthHalf,
                 CurrentTile.centerY - CharacterType.HeightHalf,
                 CharacterType.Width, CharacterType.Height);
+
+            hpBar.setTrackedAndDraw(graphics, healthPoints, healthPointsMax);
+            charageBar.setTrackedAndDraw(graphics, chargePoints, chargePointsMax);
         }
 
         public bool tick() {
@@ -57,7 +111,8 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
         public bool update() {
             if(toMoveTo == null) {
                 List<Tile> path = null;
-                if(currentTarget == null) { // or dead
+                if(currentTarget == null
+                    || currentTarget.IsDead) {
                     try {
                         (path, currentTarget) = PathFinding.findPathToClosestEnemy(CurrentTile, team, grid);//temp
                     } catch(PathFinding.PathNotFoundException) {
@@ -65,12 +120,15 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
                     }
                 }
                 if(PathFinding.getDistance(CurrentTile, currentTarget.CurrentTile) <= CharacterType.Range) {
-                    //Console.Write(CurrentTile + ": ");
-                    //CharacterType.attack(currentTarget.CurrentTile);
+                    if(gameManager.ElapsedTime > nextAtttackTime) {
+                        nextAtttackTime = gameManager.ElapsedTime + 500;
+                        currentTarget.takeDamage(10);
+                        return true;
+                    }
                 } else {
                     if(path == null) {
                         try {
-                            path = PathFinding.findPath(CurrentTile, currentTarget.CurrentTile, grid, (Tile[,])grid.Tiles.Clone());
+                            path = PathFinding.findPath(CurrentTile, currentTarget.CurrentTile, grid, (Tile[,]) grid.Tiles.Clone());
                         } catch(PathFinding.PathNotFoundException) {
                             return false;
                         }
