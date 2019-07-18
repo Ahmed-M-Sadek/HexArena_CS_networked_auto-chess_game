@@ -1,24 +1,28 @@
+using ASU2019_NetworkedGameWorkshop.model.character;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 
 namespace ASU2019_NetworkedGameWorkshop.model.grid {
-    internal class Tile : GraphicsObject , IHeapItem<Tile>, ICloneable{
-        public const float HEIGHT = 100f, WIDTH = 86.6f; //todo
-        public const float HALF_WIDTH = WIDTH / 2;
-        public const float HEX_C = HALF_WIDTH * 0.57735026919f;
-        public const float HEX_HEIGHT = HEIGHT - HEX_C;
-        public const float HEX_M = HEX_C / HALF_WIDTH;
+    public class Tile : GraphicsObject, IHeapItem<Tile>, ICloneable {
+        public const float HEIGHT = 100f * 1.3f, WIDTH = 86.6f * 1.3f; //todo
+        public const float HALF_WIDTH = WIDTH / 2f;
+        public const float HEX_C = HALF_WIDTH * 0.57735026919f,
+            HEX_HEIGHT = HEIGHT - HEX_C,
+            HEX_M = HEX_C / HALF_WIDTH;
 
-        private static readonly Image image = Image.FromFile("../../assets/sprites/tiles/Tile.png");//todo path
-        private static readonly Image imageSelected = Image.FromFile("../../assets/sprites/tiles/Tile_Selected.png");//todo path
+        private static readonly Image image = Image.FromFile("../../assets/sprites/tiles/Tile.png"),
+            imageSelected = Image.FromFile("../../assets/sprites/tiles/Tile_Selected.png");//todo path
+
+        public readonly float centerX, centerY;
+
+        private readonly float posX, posY;
+
         public int X { get; private set; }
         public int Y { get; private set; }
         public bool Selected { get; set; }
 
-        private readonly float posX, posY;
         //todo remove character from here
-        public Character currentCharacter;
+        private Character currentCharacter;
         public Character CurrentCharacter {
             get {
                 return currentCharacter;
@@ -26,18 +30,16 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
             set {
                 currentCharacter = value;
                 if(value != null)
-                    value.Tile = this;
+                    value.CurrentTile = this;
             }
         }
 
         public bool Walkable { get; set; }
         public int Gcost { get; set; }
         public int Hcost { get; set; }
-        public Tile Parent{ get; set; }
-        public int Fcost
-        {
-            get
-            {
+        public Tile Parent { get; set; }
+        public int Fcost {
+            get {
                 return Gcost + Hcost;
             }
         }
@@ -45,14 +47,17 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
         //temp
         public bool InPath = false;
 
-        public int HeapIndex { get ; set ; }
+        public int HeapIndex { get; set; }
 
         public Tile(int x, int y, float startingX, float startingY) {
             X = x;
             Y = y;
 
-            posX = startingX + x * WIDTH + (y % 2 == 0 ? 0 : 43);
+            posX = startingX + x * WIDTH + (y % 2 == 0 ? 0 : HALF_WIDTH);
             posY = startingY + y * (HEIGHT - HEX_C);
+
+            centerX = posX + HALF_WIDTH;
+            centerY = posY + HEIGHT / 2;
 
             Walkable = true;
         }
@@ -61,46 +66,33 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
             graphics.DrawImage(Selected ? imageSelected : image, posX, posY, WIDTH, HEIGHT);
 
             if(CurrentCharacter != null) {
-                CurrentCharacter.X = posX + HALF_WIDTH / 2;
-                CurrentCharacter.Y = posY + HEX_C * 3 / 2;
-                CurrentCharacter.draw(graphics);
                 Walkable = false;
             }
 
             //debug
-            graphics.DrawString(X + ", " + Y, new Font("Roboto", 14f),
-                (!Walkable) ? Brushes.Red : Brushes.Purple, 
-                new PointF(posX + 30, posY + 40));
+            graphics.DrawString(this.ToString(), new Font("Roboto", 14f),
+                (!Walkable) ? Brushes.Red : Brushes.Purple,
+                centerX, centerY);
         }
 
-        public int CompareTo(Tile other)
-        {
+        public int CompareTo(Tile other) {
             int compare = Fcost.CompareTo(other.Fcost);
-            if (compare == 0)
-            {
+            if(compare == 0) {
                 compare = Hcost.CompareTo(other.Hcost);
             }
             return -compare;
         }
-        public object Clone()
-        {
-            return this.MemberwiseClone();
+
+        public object Clone() {
+            return MemberwiseClone();
         }
-        public override bool Equals(object obj)
-        {
-            var item = obj as Tile;
 
-            if (item == null)
-            {
-                return false;
-            }
+        public override bool Equals(object obj) {
+            return (obj is Tile item) && item.X == X && item.Y == Y;
+        }
 
-            if (item.X == this.X && item.Y == this.Y)
-            {
-                return true;
-            }
-
-            return false;
+        public override string ToString() {
+            return string.Format("({0}, {1})", X, Y);
         }
     }
 }

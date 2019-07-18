@@ -1,17 +1,17 @@
-using System;
+using ASU2019_NetworkedGameWorkshop.model.character;
 using System.Collections.Generic;
 using System.Drawing;
 
 namespace ASU2019_NetworkedGameWorkshop.model.grid {
-    class Grid : GraphicsObject {
+    public class Grid : GraphicsObject {
         private readonly int gridWidth, gridHeight;
         private readonly int startingX, startingY;
-        public Tile[,] Tiles { get;}//temp public
+        public Tile[,] Tiles { get; }//temp public
 
         public int MaxSize => gridHeight * gridWidth;
 
-        public List<Character> TeamBlue { get; internal set; }
-        public List<Character> TeamRed { get; internal set; }
+        public List<Character> TeamBlue { get; private set; }
+        public List<Character> TeamRed { get; private set; }
 
         public Grid(int gridWidth, int gridHeight, int startingX, int startingY) {
             this.gridWidth = gridWidth;
@@ -62,50 +62,39 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
             return null;
         }
 
-        public override void draw(Graphics graphics)
-        {
-            foreach (Tile tile in Tiles)
-            {
-                    tile.draw(graphics);
+        public override void draw(Graphics graphics) {
+            foreach(Tile tile in Tiles) {
+                tile.draw(graphics);
             }
         }
 
         //valid for  odd_r hexagons
-        public List<Tile> getNeighbours(Tile tile, Tile[,] TilesClone)
-        {
-
+        public List<Tile> getNeighbours(Tile tile, Tile[,] TilesClone) {
             List<Tile> neighbours = new List<Tile>();
-            for (int x = -1; x <= 1; x++)
-            {
-                for (int y = -1; y <= 1; y++)
-                {
-                    if ((x == -1 && y == -1) ||
+            for(int x = -1; x <= 1; x++) {
+                for(int y = -1; y <= 1; y++) {
+                    if((x == -1 && y == -1) ||
                         (x == -1 && y == 1) ||
                         (x == 0 && y == 0))
                         continue;
 
                     int gridX, gridY;
                     //checks if even
-                    if ((tile.Y & 1) != 0)
-                    {
+                    if((tile.Y & 1) != 0) {
                         gridX = tile.X + x;
                         gridY = tile.Y + y;
-                    }
-                    else
-                    {
+                    } else {
                         gridX = tile.X - x;
                         gridY = tile.Y - y;
                     }
 
-                    if ((gridX >= 0 && gridX < gridWidth) &&
-                        (gridY >= 0 && gridY < gridHeight))
-                    {
+                    if(gridX >= 0 && gridX < gridWidth &&
+                        gridY >= 0 && gridY < gridHeight) {
                         neighbours.Add(TilesClone[gridX, gridY]);
                     }
                 }
             }
             return neighbours;
         }
-
     }
 }
