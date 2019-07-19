@@ -9,33 +9,35 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
     public class Character : GraphicsObject {
         public enum Teams { Red, Blue };
 
-        private readonly Grid grid;
+        public Tile CurrentTile { get; set; }//public set ?
+        public CharacterType CharacterType {
+            get {
+                return characterType[CurrentLevel];
+            }
+        }
+        public bool IsDead { get; private set; }
+        public int CurrentLevel { get; private set; }
+
         public readonly Teams team;
 
+        private readonly Grid grid;
+        private readonly StatBar hpBar, charageBar;
+        private readonly GameManager gameManager;
+        private readonly CharacterType[] characterType;
+
+        private int healthPoints, healthPointsMax;
+        private int chargePoints, chargePointsMax;
         private Character currentTarget;
         private Tile toMoveTo;
-
-        public Tile CurrentTile { get; set; }//public set ?
-        public CharacterType CharacterType { get; private set; }
-
-        public bool IsDead { get; private set; }
-
-        private int healthPoints;
-        private int healthPointsMax;
-
-        private int chargePoints;
-        private int chargePointsMax;
-
-        private GameManager gameManager;
         private long nextAtttackTime;
-        private readonly StatBar hpBar;
-        private readonly StatBar charageBar;
 
         public Character(Grid grid, Tile currentTile, Teams team,
-            CharacterType characterType, GameManager gameManager) {
+            CharacterType[] characterType, GameManager gameManager) {
             this.grid = grid;
             currentTile.CurrentCharacter = this;
             this.team = team;
+            this.characterType = characterType;
+            this.gameManager = gameManager;
 
             switch(team) {
                 case Teams.Red:
@@ -46,19 +48,20 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
                     break;
             }
 
-            CharacterType = characterType;
-
             IsDead = false;
-            healthPoints = characterType.BaseHP;
-            healthPointsMax = characterType.BaseHP;
-            chargePoints = 50;
-            chargePointsMax = characterType.MaxChargePoints;
 
             hpBar = new StatBar(this,
                 team == Teams.Blue ? Brushes.GreenYellow : Brushes.OrangeRed, 0);
             charageBar = new StatBar(this, Brushes.Blue, 1);
 
-            this.gameManager = gameManager;
+            initializeStats();
+        }
+
+        private void initializeStats() {
+            healthPoints = CharacterType.BaseHP;
+            healthPointsMax = CharacterType.BaseHP;
+            chargePoints = CharacterType.ChargeStarting;
+            chargePointsMax = CharacterType.ChargeMax;
         }
 
         public void healHealthPoints(int healValue) {
@@ -72,7 +75,9 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
             if(dmgValue < 0) {
                 throw new ArgumentException();
             }
-            healthPoints -= dmgValue;
+
+
+            healthPoints -= (int) ((100 / 100 + CharacterType.Armor) * dmgValue);
             if(healthPoints < 0) {
                 healthPoints = 0;
                 IsDead = true;
@@ -86,11 +91,17 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
             }
         }
 
+        private void levelUp() {
+            if(CurrentLevel < CharacterType.MAX_CHAR_LVL) {
+                CurrentLevel++;
+            }
+        }
+
         public override void draw(Graphics graphics) {
             graphics.FillRectangle(team == Teams.Blue ? Brushes.BlueViolet : Brushes.Red,
-                CurrentTile.centerX - CharacterType.WidthHalf,
-                CurrentTile.centerY - CharacterType.HeightHalf,
-                CharacterType.Width, CharacterType.Height);
+                CurrentTile.centerX - CharacterType.WIDTH_HALF,
+                CurrentTile.centerY - CharacterType.HEIGHT_HALF,
+                CharacterType.WIDTH, CharacterType.HEIGHT);
 
             hpBar.setTrackedAndDraw(graphics, healthPoints, healthPointsMax);
             charageBar.setTrackedAndDraw(graphics, chargePoints, chargePointsMax);
@@ -121,8 +132,8 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
                 }
                 if(PathFinding.getDistance(CurrentTile, currentTarget.CurrentTile) <= CharacterType.Range) {
                     if(gameManager.ElapsedTime > nextAtttackTime) {
-                        nextAtttackTime = gameManager.ElapsedTime + 500;
-                        currentTarget.takeDamage(10);
+                        nextAtttackTime = gameManager.ElapsedTime + CharacterType.AttackSpeed;
+                        currentTarget.takeDamage(CharacterType.AttackDamage);
                         return true;
                     }
                 } else {
