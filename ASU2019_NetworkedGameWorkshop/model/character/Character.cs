@@ -71,13 +71,12 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
             healthPoints = Math.Min(healthPoints + healValue, healthPointsMax);
         }
 
-        public void takeDamage(int dmgValue) {
+        public void takeDamage(int dmgValue, DamageType damageType) {
             if(dmgValue < 0) {
                 throw new ArgumentException();
             }
-
-
-            healthPoints -= (int) ((100 / 100 + CharacterType.Armor) * dmgValue);
+            healthPoints -= (int) (dmgValue * 100 / 
+                (100 + (damageType == DamageType.MagicDamage ?  CharacterType.Armor: CharacterType.MagicResist)));
             if(healthPoints < 0) {
                 healthPoints = 0;
                 IsDead = true;
@@ -133,7 +132,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
                 if(PathFinding.getDistance(CurrentTile, currentTarget.CurrentTile) <= CharacterType.Range) {
                     if(gameManager.ElapsedTime > nextAtttackTime) {
                         nextAtttackTime = gameManager.ElapsedTime + CharacterType.AttackSpeed;
-                        currentTarget.takeDamage(CharacterType.AttackDamage);
+                        currentTarget.takeDamage(CharacterType.AttackDamage, DamageType.PhysicalDamage);//temp DamageType
                         return true;
                     }
                 } else {
