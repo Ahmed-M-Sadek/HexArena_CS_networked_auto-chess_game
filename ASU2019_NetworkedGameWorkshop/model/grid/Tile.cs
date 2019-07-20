@@ -29,7 +29,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
             }
             set {
                 currentCharacter = value;
-                if(value != null)
+                if (value != null)
                     value.CurrentTile = this;
             }
         }
@@ -65,7 +65,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
         public override void draw(Graphics graphics) {
             graphics.DrawImage(Selected ? imageSelected : image, posX, posY, WIDTH, HEIGHT);
 
-            if(CurrentCharacter != null) {
+            if (CurrentCharacter != null) {
                 Walkable = false;
             }
 
@@ -77,7 +77,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
 
         public int CompareTo(Tile other) {
             int compare = Fcost.CompareTo(other.Fcost);
-            if(compare == 0) {
+            if (compare == 0) {
                 compare = Hcost.CompareTo(other.Hcost);
             }
             return -compare;

@@ -20,17 +20,17 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
             Character closestEnemy = null;
             List<Tile> shortestPath = null;
 
-            Tile[,] tilesClone = (Tile[,]) grid.Tiles.Clone();
-            foreach(Character enemy in enemyList) {
+            Tile[,] tilesClone = (Tile[,])grid.Tiles.Clone();
+            foreach (Character enemy in enemyList) {
                 List<Tile> path;
 
                 try {
                     path = findPath(currentTile, enemy.CurrentTile, grid, tilesClone);
-                } catch(PathNotFoundException) {
+                } catch (PathNotFoundException) {
                     continue;
                 }
 
-                if(shortestPath == null) {
+                if (shortestPath == null) {
                     shortestPath = path;
                     closestEnemy = enemy;
                 } else {
@@ -39,7 +39,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
                 }
             }
 
-            if(shortestPath == null) {
+            if (shortestPath == null) {
                 throw new PathNotFoundException();
             }
             return Tuple.Create(shortestPath, closestEnemy);
@@ -52,28 +52,28 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
             HashSet<Tile> closedSet = new HashSet<Tile>();
             openSet.Add(tilesClone[startTile.X, startTile.Y]);
 
-            while(openSet.Count > 0) {
+            while (openSet.Count > 0) {
                 Tile currentTile = openSet.RemoveFirst();
 
                 closedSet.Add(currentTile);
-                if(currentTile.Equals(endTile)) {
+                if (currentTile.Equals(endTile)) {
                     //stopWatch.Stop();
                     //Console.WriteLine("path found in: {0}", stopWatch.ElapsedMilliseconds);
                     return retracePath(startTile, currentTile, grid);
                 }
                 //Console.WriteLine("neighbours of  {0}, {1}", currentTile.X, currentTile.Y);
-                foreach(Tile neighbour in grid.getNeighbours(currentTile, tilesClone)) {
-                    if(closedSet.Contains(neighbour) || !(neighbour.Walkable || neighbour.Equals(endTile)))
+                foreach (Tile neighbour in grid.getNeighbours(currentTile, tilesClone)) {
+                    if (closedSet.Contains(neighbour) || !(neighbour.Walkable || neighbour.Equals(endTile)))
                         continue;
 
                     int newNeighbourCost = currentTile.Gcost + getDistance(currentTile, neighbour);
-                    if(newNeighbourCost < neighbour.Gcost || !openSet.Contains(neighbour)) {
+                    if (newNeighbourCost < neighbour.Gcost || !openSet.Contains(neighbour)) {
 
                         neighbour.Gcost = newNeighbourCost;
                         neighbour.Hcost = getDistance(neighbour, endTile);
                         neighbour.Parent = currentTile;
 
-                        if(!openSet.Contains(neighbour))
+                        if (!openSet.Contains(neighbour))
                             openSet.Add(neighbour);
 
                     }
@@ -92,7 +92,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
             List<Tile> path = new List<Tile>();
             Tile currentTile = endTile;
 
-            while(!currentTile.Equals(startTile)) {
+            while (!currentTile.Equals(startTile)) {
                 Tile currentGridTile = grid.Tiles[currentTile.X, currentTile.Y];
                 currentGridTile.InPath = true;
                 path.Add(currentGridTile);
@@ -100,7 +100,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
             }
 
             path.Reverse();
-            foreach(var tile in path) {
+            foreach (var tile in path) {
                 //Console.WriteLine("cord: {0}, {1}, hcost: {2}, gcost: {3}, fcost: {4}", tile.X, tile.Y, tile.Hcost, tile.Gcost, tile.Fcost);
             }
 

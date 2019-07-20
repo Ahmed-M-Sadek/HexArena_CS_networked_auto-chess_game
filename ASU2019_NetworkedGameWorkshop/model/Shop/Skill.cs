@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ASU2019_NetworkedGameWorkshop.model.Shop {
@@ -12,11 +8,11 @@ namespace ASU2019_NetworkedGameWorkshop.model.Shop {
         int price;
         private Label lbl_skill;
         public bool isUnlocked { get; set; }
-        public Skill():this("Default Skill",500) {
+        public Skill() : this("Default Skill", 500) {
 
         }
 
-        public Skill(String skillName,int skillPrice) {
+        public Skill(String skillName, int skillPrice) {
             name = skillName;
             price = skillPrice;
             isUnlocked = false;

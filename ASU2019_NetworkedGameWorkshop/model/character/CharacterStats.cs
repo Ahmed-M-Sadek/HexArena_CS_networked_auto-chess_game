@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace ASU2019_NetworkedGameWorkshop.model.character {
     public class CharacterStats {
@@ -11,10 +7,10 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
         SingleStat dodgeChance { get; }
 
         public List<SingleStat> list { get; }
-        public CharacterStats():this(50, 50, 50) {
-            
+        public CharacterStats() : this(50, 50, 50) {
+
         }
-        public CharacterStats(int DMG,int DEF,int DDG) {
+        public CharacterStats(int DMG, int DEF, int DDG) {
             list = new List<SingleStat>();
 
             damage = new SingleStat("DMG", DMG);

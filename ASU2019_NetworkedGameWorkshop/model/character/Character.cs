@@ -34,7 +34,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
 
         public CharacterStats charStats { get; }
         public List<Skill> allSkills;
-        
+
 
         public Character(Grid grid, Tile currentTile, Teams team,
             CharacterType characterType, GameManager gameManager) {
@@ -42,7 +42,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
             currentTile.CurrentCharacter = this;
             this.team = team;
 
-            switch(team) {
+            switch (team) {
                 case Teams.Red:
                     grid.TeamRed.Add(this);
                     break;
@@ -70,27 +70,27 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
 
             //debugging
             allSkills = new List<Skill>();
-            for(int i = 0; i < 5; i++) {
+            for (int i = 0; i < 5; i++) {
                 allSkills.Add(new Skill());
             }
         }
 
         public void healHealthPoints(int healValue) {
-            if(healValue < 0) {
+            if (healValue < 0) {
                 throw new ArgumentException();
             }
             healthPoints = Math.Min(healthPoints + healValue, healthPointsMax);
         }
 
         public void takeDamage(int dmgValue) {
-            if(dmgValue < 0) {
+            if (dmgValue < 0) {
                 throw new ArgumentException();
             }
             healthPoints -= dmgValue;
-            if(healthPoints < 0) {
+            if (healthPoints < 0) {
                 healthPoints = 0;
                 IsDead = true;
-                if(CurrentTile != null) {
+                if (CurrentTile != null) {
                     //CurrentTile.CurrentCharacter = null;
                     //CurrentTile = null;
                     //causes an excepetion in path finding 
@@ -111,7 +111,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
         }
 
         public bool tick() {
-            if(toMoveTo != null) {
+            if (toMoveTo != null) {
                 CurrentTile.CurrentCharacter = null;
                 CurrentTile.Walkable = true;
                 toMoveTo.CurrentCharacter = this;
@@ -123,27 +123,27 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
         }
 
         public bool update() {
-            if(toMoveTo == null) {
+            if (toMoveTo == null) {
                 List<Tile> path = null;
-                if(currentTarget == null
+                if (currentTarget == null
                     || currentTarget.IsDead) {
                     try {
                         (path, currentTarget) = PathFinding.findPathToClosestEnemy(CurrentTile, team, grid);//temp
-                    } catch(PathFinding.PathNotFoundException) {
+                    } catch (PathFinding.PathNotFoundException) {
                         return false;
                     }
                 }
-                if(PathFinding.getDistance(CurrentTile, currentTarget.CurrentTile) <= CharacterType.Range) {
-                    if(gameManager.ElapsedTime > nextAtttackTime) {
+                if (PathFinding.getDistance(CurrentTile, currentTarget.CurrentTile) <= CharacterType.Range) {
+                    if (gameManager.ElapsedTime > nextAtttackTime) {
                         nextAtttackTime = gameManager.ElapsedTime + 500;
                         currentTarget.takeDamage(10);
                         return true;
                     }
                 } else {
-                    if(path == null) {
+                    if (path == null) {
                         try {
-                            path = PathFinding.findPath(CurrentTile, currentTarget.CurrentTile, grid, (Tile[,]) grid.Tiles.Clone());
-                        } catch(PathFinding.PathNotFoundException) {
+                            path = PathFinding.findPath(CurrentTile, currentTarget.CurrentTile, grid, (Tile[,])grid.Tiles.Clone());
+                        } catch (PathFinding.PathNotFoundException) {
                             return false;
                         }
                     }
@@ -152,6 +152,6 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
             }
             return false;
         }
-        
+
     }
 }

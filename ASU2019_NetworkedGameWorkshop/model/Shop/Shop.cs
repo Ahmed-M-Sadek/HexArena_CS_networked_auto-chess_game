@@ -1,23 +1,18 @@
 ﻿using ASU2019_NetworkedGameWorkshop.controller;
 using ASU2019_NetworkedGameWorkshop.model.character;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ASU2019_NetworkedGameWorkshop.model.Shop {
     class Shop {
         FlowLayoutPanel selectedCharacterView;
         private Character selectedCharacter;
-        private GameManager gameManager;
         private static FlowLayoutPanel skillShop;
         private static Button btn_hideSkillShop;
         private static Button btn_buySkill;
         public static Skill selectedSkill;
-        public Shop(GameForm gameForm, controller.GameManager manager) {
+        public Shop(GameForm gameForm) {
             selectedCharacterView = new FlowLayoutPanel();
             selectedCharacterView.Size = new Size(245, 215);
             selectedCharacterView.Location = new Point(12, 534);
@@ -25,7 +20,6 @@ namespace ASU2019_NetworkedGameWorkshop.model.Shop {
             selectedCharacterView.Visible = true;
             selectedCharacterView.FlowDirection = FlowDirection.TopDown;
             gameForm.Controls.Add(selectedCharacterView);
-            gameManager = manager;
 
             skillShop = new FlowLayoutPanel();
             skillShop.Visible = false;
@@ -56,14 +50,11 @@ namespace ASU2019_NetworkedGameWorkshop.model.Shop {
             selectedCharacterView.Invalidate();
         }
 
-        public void updateShop() {
-            try{
-                selectedCharacter = gameManager.SelectedTile.CurrentCharacter;
-                showSkills();
-            } catch (NullReferenceException) {
+        public void updateShop(Character character) {
 
-            }
-            
+            selectedCharacter = character;
+            showSkills();
+
         }
 
         public void showStats() {
@@ -78,10 +69,12 @@ namespace ASU2019_NetworkedGameWorkshop.model.Shop {
         }
         public void showSkills() {
             selectedCharacterView.Controls.Clear();
-            foreach(Skill skill in selectedCharacter.allSkills) {
+            if (selectedCharacter != null) {
+                foreach (Skill skill in selectedCharacter.allSkills) {
 
-                if (!skill.isUnlocked) {
-                    selectedCharacterView.Controls.Add(skill.getLabel());
+                    if (!skill.isUnlocked) {
+                        selectedCharacterView.Controls.Add(skill.getLabel());
+                    }
                 }
             }
         }

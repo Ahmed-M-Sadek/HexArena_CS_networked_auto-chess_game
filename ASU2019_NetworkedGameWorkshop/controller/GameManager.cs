@@ -16,7 +16,8 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
         private readonly Timer timer;
 
         private Tile selectedTile;
-        public Tile SelectedTile { get{
+        public Tile SelectedTile {
+            get {
                 return selectedTile;
             }
         }
@@ -28,8 +29,8 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
         public GameManager(GameForm gameForm) {
             this.gameForm = gameForm;
             grid = new Grid(GRID_WIDTH, GRID_HEIGHT,
-                (int) ((gameForm.Width - (Tile.WIDTH * GRID_WIDTH)) / 2),
-                (int) ((gameForm.Height - (Tile.HEIGHT * GRID_HEIGHT)) / 2));//temp values
+                (int)((gameForm.Width - (Tile.WIDTH * GRID_WIDTH)) / 2),
+                (int)((gameForm.Height - (Tile.HEIGHT * GRID_HEIGHT)) / 2));//temp values
 
             timer = new Timer();
             timer.Interval = GAMELOOP_INTERVAL; //Arbitrary: 20 ticks per sec
@@ -39,7 +40,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
             new Character(grid, grid.Tiles[6, 5], Character.Teams.Red, CharacterTypeRanged.Archer, this);
             new Character(grid, grid.Tiles[0, 3], Character.Teams.Blue, CharacterTypeRanged.Archer, this);
             new Character(grid, grid.Tiles[4, 0], Character.Teams.Blue, CharacterTypeRanged.Archer, this);
-            shop = new Shop(gameForm ,this);
+            shop = new Shop(gameForm);
         }
 
         public void startTimer() {
@@ -59,13 +60,13 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
 
         private void tileSelection(int x, int y) {
             Tile tile = grid.getSelectedHexagon(x, y);
-            if(tile != null) {
+            if (tile != null) {
                 Console.WriteLine("Clicked Tile: ({0}, {1})", tile.X, tile.Y);//Debugging
 
-                if(selectedTile != null) {
+                if (selectedTile != null) {
                     selectedTile.Selected = false;
                 }
-                if(selectedTile == tile) {
+                if (selectedTile == tile) {
                     selectedTile = null;
                 } else {
                     selectedTile = tile;
@@ -76,7 +77,10 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
 
                 gameForm.Invalidate();
             }
-            shop.updateShop();
+            if(selectedTile != null) {
+                shop.updateShop(selectedTile.CurrentCharacter);
+            }
+            
         }
 
         private void gameLoop(object sender, EventArgs e) {
@@ -84,12 +88,12 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
 
             bool updateCanvas = false;
 
-            foreach(Character character in grid.TeamBlue) {
+            foreach (Character character in grid.TeamBlue) {
                 bool temp = character.update();
                 updateCanvas = updateCanvas || temp;
             }
             grid.TeamBlue = grid.TeamBlue.Where(character => !character.IsDead).ToList();
-            foreach(Character character in grid.TeamRed) {
+            foreach (Character character in grid.TeamRed) {
                 bool temp = character.update();
                 updateCanvas = updateCanvas || temp;
             }
@@ -97,16 +101,16 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
 
 
 
-            if(nextTickTime < ElapsedTime) {
+            if (nextTickTime < ElapsedTime) {
                 nextTickTime += TICK_INTERVAL;
-                foreach(Character character in grid.TeamBlue) {
+                foreach (Character character in grid.TeamBlue) {
                     updateCanvas = character.tick() || updateCanvas;
                 }
-                foreach(Character character in grid.TeamRed) {
+                foreach (Character character in grid.TeamRed) {
                     updateCanvas = character.tick() || updateCanvas;
                 }
             }
-            if(updateCanvas)
+            if (updateCanvas)
                 gameForm.Invalidate();
         }
     }
