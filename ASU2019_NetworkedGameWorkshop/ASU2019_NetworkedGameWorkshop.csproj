@@ -65,7 +65,6 @@
     <Compile Include="model\spell\types\PriorityType.cs" />
     <Compile Include="model\spell\types\SpellType.cs" />
     <Compile Include="model\spell\types\Target.cs" />
-    <Compile Include="model\spell\types\AOEType.cs" />
     <Compile Include="model\StatBar.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

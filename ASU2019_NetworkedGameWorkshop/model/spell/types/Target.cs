@@ -13,32 +13,31 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell.types
 
         public Character caster { get; set; }
         public List<Character> recievers { get; set; }
-        public bool AOE { get; private set; }
+        public bool MultiTargeted { get; private set; }
+        public int numberOfTargets { get; private set; }
         public bool Ally { get; private set; }
-        public AOEType aOEType { get; private set; }
         public PriorityType PriorityType { get; private set; }
 
         public Target(bool Ally, PriorityType priorityType)
         {
             recievers = new List<Character>();
             this.Ally = Ally;
-            AOE = false;
-            aOEType = null;  
+            MultiTargeted = false;
             PriorityType = priorityType;
         }
-        public Target(bool Ally, bool aOE, AOEType aOEType, PriorityType priorityType)
+        public Target(bool Ally, bool aOE,int numberOfTargets, PriorityType priorityType)
         {
             recievers = new List<Character>();
             this.Ally = Ally;
-            AOE = aOE;
-            this.aOEType = aOEType;
+            MultiTargeted = aOE;
+            this.numberOfTargets = numberOfTargets;
             PriorityType = priorityType;
         }
         public List<Character> getTargets()
         {
             if (!Ally)
             {
-                if (AOE == false)
+                if (MultiTargeted == false)
                 {
                     if (PriorityType == PriorityType.Current)
                     {
@@ -68,17 +67,17 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell.types
                         recievers.Add(enemyList[index]);
                     }
                 }
-                if(AOE == true)
+                if(MultiTargeted == true)
                 {
                     if(PriorityType == PriorityType.Current)
                     {
                         recievers.Add(caster.CurrentTarget);
                         Character newTarget;
-                        (_, newTarget) = PathFinding.findClosestEnemy(caster.CurrentTarget.CurrentTile, caster.team, caster.getGrid());
-                        recievers.Add(newTarget);
-                        (_, newTarget) = PathFinding.findClosestEnemy(newTarget.CurrentTile, caster.team, caster.getGrid());
-                        recievers.Add(newTarget);
-
+                        for(int i = 0; i < numberOfTargets; i++)
+                        {
+                            (_, newTarget) = PathFinding.findClosestEnemy(caster.CurrentTarget.CurrentTile, caster.team, caster.getGrid(), caster.CharacterType.Range);
+                            recievers.Add(newTarget);
+                        }
                     }
                 }
             }

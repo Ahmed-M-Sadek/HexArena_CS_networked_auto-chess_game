@@ -46,7 +46,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
             }
             return Tuple.Create(shortestPath, closestEnemy);
         }
-        internal static Tuple<List<Tile>, Character> findClosestEnemy(Tile currentTile, Character.Teams team, Grid grid)
+        internal static Tuple<List<Tile>, Character> findClosestEnemy(Tile currentTile, Character.Teams team, Grid grid,int range)
         {
             List<Character> enemyList = (team == Character.Teams.Red) ? grid.TeamBlue : grid.TeamRed;
             Character closestEnemy = null;
@@ -59,6 +59,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
                 {
                     continue;
                 }
+                if (PathFinding.getDistance(currentTile, enemy.CurrentTile) <= range) continue ;
                 List<Tile> path;
                     
                 try

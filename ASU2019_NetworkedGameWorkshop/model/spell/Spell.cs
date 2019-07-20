@@ -10,7 +10,6 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell
 {
     public class Spell
     {
-        
         public int AbilityValue { get; private set; }
         public Target Target { get; private set; }
         public SpellType spellType { get; private set; }
