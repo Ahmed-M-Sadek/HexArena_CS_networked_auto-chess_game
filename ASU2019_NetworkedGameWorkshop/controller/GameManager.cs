@@ -1,10 +1,11 @@
 ﻿using ASU2019_NetworkedGameWorkshop.model.character;
 using ASU2019_NetworkedGameWorkshop.model.character.types;
 using ASU2019_NetworkedGameWorkshop.model.grid;
-using ASU2019_NetworkedGameWorkshop.model.Shop;
 using System;
 using System.Linq;
 using System.Windows.Forms;
+using ASU2019_NetworkedGameWorkshop.model.spell;
+using ASU2019_NetworkedGameWorkshop.model.spell.types;
 
 namespace ASU2019_NetworkedGameWorkshop.controller {
     public class GameManager {
@@ -16,31 +17,28 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
         private readonly Timer timer;
 
         private Tile selectedTile;
-        public Tile SelectedTile {
-            get {
-                return selectedTile;
-            }
-        }
         private long nextTickTime;
-        private Shop shop;
 
         public long ElapsedTime { get; private set; }
 
         public GameManager(GameForm gameForm) {
             this.gameForm = gameForm;
             grid = new Grid(GRID_WIDTH, GRID_HEIGHT,
-                (int)((gameForm.Width - (Tile.WIDTH * GRID_WIDTH)) / 2),
-                (int)((gameForm.Height - (Tile.HEIGHT * GRID_HEIGHT)) / 2));//temp values
+                (int) ((gameForm.Width - (Tile.WIDTH * GRID_WIDTH)) / 2),
+                (int) ((gameForm.Height - (Tile.HEIGHT * GRID_HEIGHT)) / 2));//temp values
 
             timer = new Timer();
             timer.Interval = GAMELOOP_INTERVAL; //Arbitrary: 20 ticks per sec
             timer.Tick += new EventHandler(gameLoop);
 
-            //Debugging 
-            new Character(grid, grid.Tiles[6, 5], Character.Teams.Red, CharacterTypeRanged.Archer, this);
-            new Character(grid, grid.Tiles[0, 3], Character.Teams.Blue, CharacterTypeRanged.Archer, this);
-            new Character(grid, grid.Tiles[4, 0], Character.Teams.Blue, CharacterTypeRanged.Archer, this);
-            shop = new Shop(gameForm);
+            //Debugging
+
+            Character red = new Character(grid, grid.Tiles[6, 5], Character.Teams.Red, CharacterTypeRanged.Archer, this);
+            Character blue1 = new Character(grid, grid.Tiles[0, 3], Character.Teams.Blue, CharacterTypeRanged.Archer, this);
+            blue1.takeDamage(200);
+            Character blue2 = new Character(grid, grid.Tiles[4, 0], Character.Teams.Blue, CharacterTypeRanged.Archer, this);
+            blue2.learnSpell(new FantasticHeal());
+
         }
 
         public void startTimer() {
@@ -60,13 +58,13 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
 
         private void tileSelection(int x, int y) {
             Tile tile = grid.getSelectedHexagon(x, y);
-            if (tile != null) {
+            if(tile != null) {
                 Console.WriteLine("Clicked Tile: ({0}, {1})", tile.X, tile.Y);//Debugging
 
-                if (selectedTile != null) {
+                if(selectedTile != null) {
                     selectedTile.Selected = false;
                 }
-                if (selectedTile == tile) {
+                if(selectedTile == tile) {
                     selectedTile = null;
                 } else {
                     selectedTile = tile;
@@ -77,10 +75,6 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
 
                 gameForm.Invalidate();
             }
-            if(selectedTile != null) {
-                shop.updateShop(selectedTile.CurrentCharacter);
-            }
-            
         }
 
         private void gameLoop(object sender, EventArgs e) {
@@ -88,12 +82,12 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
 
             bool updateCanvas = false;
 
-            foreach (Character character in grid.TeamBlue) {
+            foreach(Character character in grid.TeamBlue) {
                 bool temp = character.update();
                 updateCanvas = updateCanvas || temp;
             }
             grid.TeamBlue = grid.TeamBlue.Where(character => !character.IsDead).ToList();
-            foreach (Character character in grid.TeamRed) {
+            foreach(Character character in grid.TeamRed) {
                 bool temp = character.update();
                 updateCanvas = updateCanvas || temp;
             }
@@ -101,16 +95,16 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
 
 
 
-            if (nextTickTime < ElapsedTime) {
+            if(nextTickTime < ElapsedTime) {
                 nextTickTime += TICK_INTERVAL;
-                foreach (Character character in grid.TeamBlue) {
+                foreach(Character character in grid.TeamBlue) {
                     updateCanvas = character.tick() || updateCanvas;
                 }
-                foreach (Character character in grid.TeamRed) {
+                foreach(Character character in grid.TeamRed) {
                     updateCanvas = character.tick() || updateCanvas;
                 }
             }
-            if (updateCanvas)
+            if(updateCanvas)
                 gameForm.Invalidate();
         }
     }
