@@ -58,6 +58,14 @@
     <Compile Include="controller\PathFinding.cs" />
     <Compile Include="model\grid\Grid.cs" />
     <Compile Include="model\grid\Tile.cs" />
+    <Compile Include="model\spell\Spell.cs" />
+    <Compile Include="model\spell\types\AwesomeFireballRandom.cs" />
+    <Compile Include="model\spell\types\AwesomeFireballAOE.cs" />
+    <Compile Include="model\spell\types\AwesomeFireball.cs" />
+    <Compile Include="model\spell\types\PriorityType.cs" />
+    <Compile Include="model\spell\types\SpellType.cs" />
+    <Compile Include="model\spell\types\Target.cs" />
+    <Compile Include="model\spell\types\AOEType.cs" />
     <Compile Include="model\StatBar.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

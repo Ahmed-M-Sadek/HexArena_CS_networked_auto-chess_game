@@ -4,6 +4,8 @@ using ASU2019_NetworkedGameWorkshop.model.grid;
 using System;
 using System.Linq;
 using System.Windows.Forms;
+using ASU2019_NetworkedGameWorkshop.model.spell;
+using ASU2019_NetworkedGameWorkshop.model.spell.types;
 
 namespace ASU2019_NetworkedGameWorkshop.controller {
     public class GameManager {
@@ -29,10 +31,13 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
             timer.Interval = GAMELOOP_INTERVAL; //Arbitrary: 20 ticks per sec
             timer.Tick += new EventHandler(gameLoop);
 
-            //Debugging 
-            new Character(grid, grid.Tiles[6, 5], Character.Teams.Red, CharacterTypeRanged.Archer, this);
+            //Debugging
+
+            Character red = new Character(grid, grid.Tiles[6, 5], Character.Teams.Red, CharacterTypeRanged.Archer, this);
+            red.learnSpell(new AwesomeFireballRandom());
             new Character(grid, grid.Tiles[0, 3], Character.Teams.Blue, CharacterTypeRanged.Archer, this);
             new Character(grid, grid.Tiles[4, 0], Character.Teams.Blue, CharacterTypeRanged.Archer, this);
+
         }
 
         public void startTimer() {

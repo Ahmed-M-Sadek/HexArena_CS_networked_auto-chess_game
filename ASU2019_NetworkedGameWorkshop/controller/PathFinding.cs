@@ -15,6 +15,8 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
         /// </summary>
         /// <param name="currentTile"></param>
         /// <returns></returns>
+
+        
         internal static Tuple<List<Tile>, Character> findPathToClosestEnemy(Tile currentTile, Character.Teams team, Grid grid) {
             List<Character> enemyList = (team == Character.Teams.Red) ? grid.TeamBlue : grid.TeamRed;
             Character closestEnemy = null;
@@ -44,7 +46,48 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
             }
             return Tuple.Create(shortestPath, closestEnemy);
         }
+        internal static Tuple<List<Tile>, Character> findClosestEnemy(Tile currentTile, Character.Teams team, Grid grid)
+        {
+            List<Character> enemyList = (team == Character.Teams.Red) ? grid.TeamBlue : grid.TeamRed;
+            Character closestEnemy = null;
+            List<Tile> shortestPath = null;
 
+            Tile[,] tilesClone = (Tile[,])grid.Tiles.Clone();
+            foreach (Character enemy in enemyList)
+            {
+                if (enemy.CurrentTile == currentTile)
+                {
+                    continue;
+                }
+                List<Tile> path;
+                    
+                try
+                {
+                    path = findPath(currentTile, enemy.CurrentTile, grid, tilesClone);
+                }
+                catch (PathNotFoundException)
+                {
+                    continue;
+                }
+
+                if (shortestPath == null)
+                {
+                    shortestPath = path;
+                    closestEnemy = enemy;
+                }
+                else
+                {
+                    shortestPath = shortestPath.Count <= path.Count ? shortestPath : path;
+                    closestEnemy = enemy;
+                }
+            }
+
+            if (shortestPath == null)
+            {
+                throw new PathNotFoundException();
+            }
+            return Tuple.Create(shortestPath, closestEnemy);
+        }
         public static List<Tile> findPath(Tile startTile, Tile endTile, Grid grid, Tile[,] tilesClone) {
             //Stopwatch stopWatch = new Stopwatch();
             //stopWatch.Start();
