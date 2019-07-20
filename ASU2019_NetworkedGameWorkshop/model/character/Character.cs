@@ -1,6 +1,7 @@
 using ASU2019_NetworkedGameWorkshop.controller;
 using ASU2019_NetworkedGameWorkshop.model.character.types;
 using ASU2019_NetworkedGameWorkshop.model.grid;
+using ASU2019_NetworkedGameWorkshop.model.Shop;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -31,6 +32,10 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
         private readonly StatBar hpBar;
         private readonly StatBar charageBar;
 
+        public CharacterStats charStats { get; }
+        public List<Skill> allSkills;
+        
+
         public Character(Grid grid, Tile currentTile, Teams team,
             CharacterType characterType, GameManager gameManager) {
             this.grid = grid;
@@ -59,6 +64,15 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
             charageBar = new StatBar(this, Brushes.Blue, 1);
 
             this.gameManager = gameManager;
+
+            //update stats class constructor parameters , or remove idc at this point
+            charStats = new CharacterStats();
+
+            //debugging
+            allSkills = new List<Skill>();
+            for(int i = 0; i < 5; i++) {
+                allSkills.Add(new Skill());
+            }
         }
 
         public void healHealthPoints(int healValue) {
@@ -138,5 +152,6 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
             }
             return false;
         }
+        
     }
 }

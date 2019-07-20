@@ -38,6 +38,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -51,6 +52,8 @@
   <ItemGroup>
     <Compile Include="controller\GameManager.cs" />
     <Compile Include="model\character\Character.cs" />
+    <Compile Include="model\character\CharacterStats.cs" />
+    <Compile Include="model\character\SingleStat.cs" />
     <Compile Include="model\character\types\CharacterTypeRanged.cs" />
     <Compile Include="model\character\types\CharacterType.cs" />
     <Compile Include="model\collection\Heap.cs" />
@@ -58,6 +61,8 @@
     <Compile Include="controller\PathFinding.cs" />
     <Compile Include="model\grid\Grid.cs" />
     <Compile Include="model\grid\Tile.cs" />
+    <Compile Include="model\Shop\Shop.cs" />
+    <Compile Include="model\Shop\Skill.cs" />
     <Compile Include="model\StatBar.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -97,5 +102,6 @@
     <Content Include="assets\sprites\tiles\Tile.png" />
     <Content Include="assets\sprites\tiles\Tile_Selected.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

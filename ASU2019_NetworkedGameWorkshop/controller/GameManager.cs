@@ -1,6 +1,7 @@
 ﻿using ASU2019_NetworkedGameWorkshop.model.character;
 using ASU2019_NetworkedGameWorkshop.model.character.types;
 using ASU2019_NetworkedGameWorkshop.model.grid;
+using ASU2019_NetworkedGameWorkshop.model.Shop;
 using System;
 using System.Linq;
 using System.Windows.Forms;
@@ -15,7 +16,12 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
         private readonly Timer timer;
 
         private Tile selectedTile;
+        public Tile SelectedTile { get{
+                return selectedTile;
+            }
+        }
         private long nextTickTime;
+        private Shop shop;
 
         public long ElapsedTime { get; private set; }
 
@@ -33,6 +39,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
             new Character(grid, grid.Tiles[6, 5], Character.Teams.Red, CharacterTypeRanged.Archer, this);
             new Character(grid, grid.Tiles[0, 3], Character.Teams.Blue, CharacterTypeRanged.Archer, this);
             new Character(grid, grid.Tiles[4, 0], Character.Teams.Blue, CharacterTypeRanged.Archer, this);
+            shop = new Shop(gameForm ,this);
         }
 
         public void startTimer() {
@@ -69,6 +76,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
 
                 gameForm.Invalidate();
             }
+            shop.updateShop();
         }
 
         private void gameLoop(object sender, EventArgs e) {
