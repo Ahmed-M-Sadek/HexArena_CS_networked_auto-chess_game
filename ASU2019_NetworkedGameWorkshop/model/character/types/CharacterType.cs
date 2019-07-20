@@ -1,4 +1,5 @@
 ﻿using ASU2019_NetworkedGameWorkshop.model.grid;
+using System.Collections.Generic;
 
 namespace ASU2019_NetworkedGameWorkshop.model.character.types {
     public abstract class CharacterType {
@@ -8,25 +9,44 @@ namespace ASU2019_NetworkedGameWorkshop.model.character.types {
             WIDTH_HALF = HEIGHT_HALF;
         public const int MAX_CHAR_LVL = 3;
 
-        public readonly int BaseHP;
-        public readonly int ChargeStarting;
-        public readonly int ChargeMax;
-        public readonly int Range;
-        public readonly int AttackDamage;
-        public readonly int AttackSpeed;
-        public readonly float Armor;
-        public readonly float MagicResist;
+        private readonly Dictionary<StatusType, int> stats;
 
-        protected CharacterType(int baseHP, int chargeStarting, int chargeMax,
-            int range, int attackDamage, float attackSpeed, float armor, float magicResist) {
-            BaseHP = baseHP;
-            ChargeStarting = chargeStarting;
-            ChargeMax = chargeMax;
-            Range = range;
-            AttackDamage = attackDamage;
-            AttackSpeed = (int)(1000 / attackSpeed);
-            Armor = armor;
-            MagicResist = magicResist;
+        public CharacterType(int healthPointsMax,
+        int charge, int chargeMax,
+        int range,
+        int attackDamage, float attackSpeed,
+        int armor, int magicResist)
+            : this(healthPointsMax, healthPointsMax,
+                 charge, chargeMax,
+                 range,
+                 attackDamage, attackSpeed,
+                 armor, magicResist) { }
+
+        public CharacterType(int healthPoints, int healthPointsMax,
+            int charge, int chargeMax,
+            int range,
+            int attackDamage, float attackSpeed,
+            int armor, int magicResist) {
+            stats = new Dictionary<StatusType, int>();
+
+            stats[StatusType.Armor] = armor;
+            stats[StatusType.AttackDamage] = attackDamage;
+            stats[StatusType.AttackSpeed] = (int) (1000 / attackSpeed);
+            stats[StatusType.Charge] = charge;
+            stats[StatusType.ChargeMax] = chargeMax;
+            stats[StatusType.HealthPoints] = healthPoints;
+            stats[StatusType.HealthPointsMax] = healthPointsMax;
+            stats[StatusType.MagicResist] = magicResist;
+            stats[StatusType.Range] = range;
+        }
+
+        public int this[StatusType index] {
+            get { return stats[index]; }
+        }
+
+
+        public Dictionary<StatusType, int> statsCopy() {
+            return new Dictionary<StatusType, int>(stats);
         }
     }
 }
