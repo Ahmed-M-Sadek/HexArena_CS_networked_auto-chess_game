@@ -48,5 +48,12 @@ namespace ASU2019_NetworkedGameWorkshop.model.character.types {
         public Dictionary<StatusType, int> statsCopy() {
             return new Dictionary<StatusType, int>(stats);
         }
+
+        public static IEnumerable<IEnumerable<CharacterType[]>> Values {
+            get {
+                yield return CharacterTypePhysical.Values;
+                yield return CharacterTypeMagical.Values;
+            }
+        }
     }
 }

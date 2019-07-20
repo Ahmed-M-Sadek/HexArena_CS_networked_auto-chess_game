@@ -1,21 +1,21 @@
 ﻿using System.Collections.Generic;
 
 namespace ASU2019_NetworkedGameWorkshop.model.character.types {
-    public class CharacterTypeRanged : CharacterType {
-        public static readonly CharacterTypeRanged[] Archer = new CharacterTypeRanged[]{
-            new CharacterTypeRanged(
+    public class CharacterTypePhysical : CharacterType {
+        public static readonly CharacterTypePhysical[] Archer = new CharacterTypePhysical[]{
+            new CharacterTypePhysical(
                 500,
                 50, 100,
                 3,
                 60, 0.7f,
                 25, 20),
-            new CharacterTypeRanged(
+            new CharacterTypePhysical(
                 500,
                 50, 100,
                 3,
                 60, 0.7f,
                 25, 20),
-            new CharacterTypeRanged(
+            new CharacterTypePhysical(
                 500,
                 50, 100,
                 3,
@@ -23,7 +23,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character.types {
                 25, 20),
         };
 
-        public CharacterTypeRanged(
+        public CharacterTypePhysical(
             int healthPoints,
             int charge, int chargeMax,
             int range,
@@ -32,7 +32,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character.types {
             : base(healthPoints, charge, chargeMax, range, attackDamage, attackSpeed, armor, magicResist) {
         }
 
-        public static IEnumerable<CharacterTypeRanged[]> Values {
+        public static IEnumerable<CharacterTypePhysical[]> Values {
             get {
                 yield return Archer;
             }
