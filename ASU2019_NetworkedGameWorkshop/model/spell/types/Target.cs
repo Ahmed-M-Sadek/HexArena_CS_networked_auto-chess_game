@@ -81,6 +81,47 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell.types
                     }
                 }
             }
+            else
+            {
+                if (MultiTargeted == false)
+                {
+                    if (PriorityType == PriorityType.Random)
+                    {
+                        Random random = new Random();
+                        List<Character> teamMateList = (caster.team == Character.Teams.Red) ? caster.getGrid().TeamRed : caster.getGrid().TeamBlue;
+                        List<Character> removedList = new List<Character>();
+                        foreach (Character character in teamMateList)
+                        {
+                            if (PathFinding.getDistance(caster.CurrentTile, character.CurrentTile) > caster.CharacterType.Range)
+                            {
+                                removedList.Add(character);
+                            }
+                        }
+                        foreach (Character character in removedList)
+                        {
+                            if (PathFinding.getDistance(caster.CurrentTile, character.CurrentTile) <= caster.CharacterType.Range)
+                            {
+                                teamMateList.Remove(character);
+                            }
+                        }
+                        int index = random.Next(teamMateList.Count);
+                        recievers.Add(teamMateList[index]);
+                    }
+                }
+                if (MultiTargeted == true)
+                {
+                    if (PriorityType == PriorityType.Current)
+                    {
+                        recievers.Add(caster.CurrentTarget);
+                        Character newTarget;
+                        for (int i = 0; i < numberOfTargets; i++)
+                        {
+                            (_, newTarget) = PathFinding.findClosestEnemy(caster.CurrentTarget.CurrentTile, caster.CurrentTarget.team, caster.getGrid(), caster.CharacterType.Range);
+                            recievers.Add(newTarget);
+                        }
+                    }
+                }
+            }
             return recievers;
             
         }

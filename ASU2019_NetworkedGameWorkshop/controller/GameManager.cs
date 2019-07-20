@@ -34,9 +34,10 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
             //Debugging
 
             Character red = new Character(grid, grid.Tiles[6, 5], Character.Teams.Red, CharacterTypeRanged.Archer, this);
-            red.learnSpell(new AwesomeFireballRandom());
-            new Character(grid, grid.Tiles[0, 3], Character.Teams.Blue, CharacterTypeRanged.Archer, this);
-            new Character(grid, grid.Tiles[4, 0], Character.Teams.Blue, CharacterTypeRanged.Archer, this);
+            Character blue1 = new Character(grid, grid.Tiles[0, 3], Character.Teams.Blue, CharacterTypeRanged.Archer, this);
+            blue1.takeDamage(200);
+            Character blue2 = new Character(grid, grid.Tiles[4, 0], Character.Teams.Blue, CharacterTypeRanged.Archer, this);
+            blue2.learnSpell(new FantasticHeal());
 
         }
 

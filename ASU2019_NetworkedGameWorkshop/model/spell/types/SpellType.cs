@@ -51,7 +51,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell.types
                 castee.healHealthPoints(abilityValue);
             }
             if (this == SpellType.Debuff) {
-
+                
             }
         }
     }
