@@ -4,6 +4,7 @@ using ASU2019_NetworkedGameWorkshop.model.grid;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 
 namespace ASU2019_NetworkedGameWorkshop.model.character {
     public class Character : GraphicsObject {
@@ -24,8 +25,11 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
         private readonly StatBar hpBar, charageBar;
         private readonly GameManager gameManager;
         private readonly CharacterType[] characterType;
+        private readonly Dictionary<StatusType, int> statsAdder;
+        private readonly Dictionary<StatusType, float> statsMultiplier;
 
         private Dictionary<StatusType, int> stats;
+        private List<StatusEffect> statusEffects;
         private Character currentTarget;
         private Tile toMoveTo;
         private long nextAtttackTime;
@@ -37,7 +41,16 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
             this.team = team;
             this.characterType = characterType;
             this.gameManager = gameManager;
+
             stats = CharacterType.statsCopy();
+            statsMultiplier = new Dictionary<StatusType, float>();
+            statsAdder = new Dictionary<StatusType, int>();
+            foreach(StatusType statusType in Enum.GetValues(typeof(StatusType))) {
+                statsAdder.Add(statusType, 0);
+                statsMultiplier.Add(statusType, 1f);
+            }
+
+            statusEffects = new List<StatusEffect>();
 
             switch(team) {
                 case Teams.Red:
@@ -89,6 +102,19 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
             }
         }
 
+        public void addStatusEffect(StatusEffect statusEffect) {
+            applyStatusEffect(statusEffect);
+            statusEffects.Add(statusEffect);
+        }
+
+        private void applyStatusEffect(StatusEffect statusEffect) {
+            if(statusEffect.Type == StatusEffect.StatusEffectType.Adder) {
+                statsMultiplier[statusEffect.StatusType] += statusEffect.Value;
+            } else {
+                statsMultiplier[statusEffect.StatusType] *= statusEffect.Value;
+            }
+        }
+
         public override void draw(Graphics graphics) {
             graphics.FillRectangle(team == Teams.Blue ? Brushes.BlueViolet : Brushes.Red,
                 CurrentTile.centerX - CharacterType.WIDTH_HALF,
@@ -112,6 +138,15 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
         }
 
         public bool update() {
+            statusEffects = statusEffects.Where(effect => {
+                if(effect.removeEffectTimeStamp < gameManager.ElapsedTime) {
+                    effect.inverseValue();
+                    applyStatusEffect(effect);
+                    return false;
+                }
+                return true;
+            }).ToList();
+
             if(toMoveTo == null) {
                 List<Tile> path = null;
                 if(currentTarget == null

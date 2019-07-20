@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="controller\GameManager.cs" />
     <Compile Include="model\character\Character.cs" />
+    <Compile Include="model\character\StatusEffect.cs" />
     <Compile Include="model\DamageType.cs" />
     <Compile Include="model\character\StatusType.cs" />
     <Compile Include="model\character\types\CharacterTypeRanged.cs" />
