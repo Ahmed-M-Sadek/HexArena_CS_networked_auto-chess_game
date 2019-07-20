@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ASU2019_NetworkedGameWorkshop.model.character {
-    public class StatusEffect {
+﻿namespace ASU2019_NetworkedGameWorkshop.model.character {
+    public struct StatusEffect {
         public enum StatusEffectType { Adder, Multiplier }
 
         public StatusType StatusType { get; private set; }
@@ -24,7 +18,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
             if(Type == StatusEffectType.Adder) {
                 Value *= -1;
             } else {
-                Value = 1/Value;
+                Value = 1 / Value;
             }
         }
     }

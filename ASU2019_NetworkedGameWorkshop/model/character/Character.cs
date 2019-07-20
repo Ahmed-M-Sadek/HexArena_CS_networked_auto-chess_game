@@ -68,9 +68,10 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
             charageBar = new StatBar(this, Brushes.Blue, 1);
         }
 
+
         public void healHealthPoints(int healValue) {
             if(healValue < 0) {
-                throw new ArgumentException();
+                throw new ArgumentException("healValue should be positive: " + healValue);
             }
             stats[StatusType.HealthPoints] = Math.Min(stats[StatusType.HealthPoints] + healValue,
                                                         stats[StatusType.HealthPointsMax]);
@@ -78,7 +79,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
 
         public void takeDamage(int dmgValue, DamageType damageType) {
             if(dmgValue < 0) {
-                throw new ArgumentException();
+                throw new ArgumentException("dmgValue should be positive: " + dmgValue);
             }
             stats[StatusType.HealthPoints] -= (int) (dmgValue * 100 /
                 (100 + (damageType == DamageType.MagicDamage ? stats[StatusType.Armor] : stats[StatusType.MagicResist])));
@@ -86,6 +87,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
                 stats[StatusType.HealthPoints] = 0;
                 IsDead = true;
                 if(CurrentTile != null) {
+                    //CurrentTile.Walkable = true;
                     //CurrentTile.CurrentCharacter = null;
                     //CurrentTile = null;
                     //causes an excepetion in path finding 
@@ -95,24 +97,9 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
             }
         }
 
-        private void levelUp() {
-            if(CurrentLevel < CharacterType.MAX_CHAR_LVL) {
-                CurrentLevel++;
-                stats = CharacterType.statsCopy();
-            }
-        }
-
         public void addStatusEffect(StatusEffect statusEffect) {
             applyStatusEffect(statusEffect);
             statusEffects.Add(statusEffect);
-        }
-
-        private void applyStatusEffect(StatusEffect statusEffect) {
-            if(statusEffect.Type == StatusEffect.StatusEffectType.Adder) {
-                statsMultiplier[statusEffect.StatusType] += statusEffect.Value;
-            } else {
-                statsMultiplier[statusEffect.StatusType] *= statusEffect.Value;
-            }
         }
 
         public override void draw(Graphics graphics) {
@@ -160,7 +147,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
                 if(PathFinding.getDistance(CurrentTile, currentTarget.CurrentTile) <= stats[StatusType.Range]) {
                     if(gameManager.ElapsedTime > nextAtttackTime) {
                         nextAtttackTime = gameManager.ElapsedTime + stats[StatusType.AttackSpeed];
-                        currentTarget.takeDamage(stats[StatusType.AttackDamage], DamageType.PhysicalDamage);//temp DamageType
+                        currentTarget.takeDamage(stats[StatusType.AttackDamage], DamageType.PhysicalDamage);//temp DamageType?
                         return true;
                     }
                 } else {
@@ -174,7 +161,22 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
                     toMoveTo = path[0];
                 }
             }
+
             return false;
+        }
+
+        private void levelUp() {
+            if(CurrentLevel < CharacterType.MAX_CHAR_LVL) {
+                CurrentLevel++;
+                stats = CharacterType.statsCopy();
+            }
+        }
+        private void applyStatusEffect(StatusEffect statusEffect) {
+            if(statusEffect.Type == StatusEffect.StatusEffectType.Adder) {
+                statsMultiplier[statusEffect.StatusType] += statusEffect.Value;
+            } else {
+                statsMultiplier[statusEffect.StatusType] *= statusEffect.Value;
+            }
         }
     }
 }
