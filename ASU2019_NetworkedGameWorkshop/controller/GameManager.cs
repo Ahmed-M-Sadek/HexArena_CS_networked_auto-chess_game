@@ -30,9 +30,10 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
             timer.Tick += new EventHandler(gameLoop);
 
             //Debugging 
-            new Character(grid, grid.Tiles[6, 5], Character.Teams.Red, CharacterTypeRanged.Archer, this);
-            new Character(grid, grid.Tiles[0, 3], Character.Teams.Blue, CharacterTypeRanged.Archer, this);
-            new Character(grid, grid.Tiles[4, 0], Character.Teams.Blue, CharacterTypeRanged.Archer, this);
+            new Character(grid, grid.Tiles[6, 5], Character.Teams.Red, CharacterTypePhysical.Archer, this);
+            Character temp = new Character(grid, grid.Tiles[0, 3], Character.Teams.Blue, CharacterTypePhysical.Archer, this);
+            temp.addStatusEffect(new StatusEffect(StatusType.AttackDamage, 0.5f, 5000, StatusEffect.StatusEffectType.Multiplier));
+            new Character(grid, grid.Tiles[4, 0], Character.Teams.Blue, CharacterTypePhysical.Archer, this);
         }
 
         public void startTimer() {
