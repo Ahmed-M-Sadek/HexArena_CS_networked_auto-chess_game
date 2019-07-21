@@ -29,8 +29,11 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
             }
             set {
                 currentCharacter = value;
-                if(value != null)
+                if(value != null) {
                     value.CurrentTile = this;
+                } else {
+                    Walkable = true;
+                }
             }
         }
 

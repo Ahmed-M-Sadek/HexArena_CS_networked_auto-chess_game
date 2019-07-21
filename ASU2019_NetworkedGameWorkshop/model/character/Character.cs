@@ -9,7 +9,6 @@ using System.Linq;
 namespace ASU2019_NetworkedGameWorkshop.model.character {
     public class Character : GraphicsObject {
         public enum Teams { Red, Blue };
-
         public Tile CurrentTile { get; set; }//public set ?
         public CharacterType CharacterType {
             get {
@@ -95,6 +94,14 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
             } else {
                 stats[StatusType.Charge] = Math.Min(stats[StatusType.Charge] + 10, stats[StatusType.ChargeMax]);//temp value
             }
+        }
+
+        public void reset() {
+            stats = CharacterType.statsCopy();
+            statusEffects.Clear();
+            IsDead = false;
+            toMoveTo = null;
+            currentTarget = null;
         }
 
         public void addStatusEffect(StatusEffect statusEffect) {
