@@ -30,12 +30,17 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
                 return stopwatch.ElapsedMilliseconds;
             }
         }
+        public List<Character> TeamBlue { get; set; }//temp puplic setter
+        public List<Character> TeamRed { get; set; }//temp puplic setter
 
         public GameManager(GameForm gameForm) {
             this.gameForm = gameForm;
             grid = new Grid(GRID_WIDTH, GRID_HEIGHT,
                 (int) ((gameForm.Width - (Tile.WIDTH * GRID_WIDTH)) / 2),
                 (int) ((gameForm.Height - (Tile.HEIGHT * GRID_HEIGHT)) / 2) + 30);//temp values
+
+            TeamBlue = new List<Character>();
+            TeamRed = new List<Character>();
 
             stopwatch = new Stopwatch();
 
@@ -49,10 +54,9 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
             timer.Tick += new EventHandler(gameLoop);
 
             //Debugging 
-            new Character(grid, grid.Tiles[6, 5], Character.Teams.Red, CharacterTypePhysical.Archer, this);
-            new Character(grid, grid.Tiles[0, 3], Character.Teams.Blue, CharacterTypePhysical.Archer, this)
-                .addStatusEffect(new StatusEffect(StatusType.AttackDamage, 0.5f, 5000, StatusEffect.StatusEffectType.Multiplier));
-            new Character(grid, grid.Tiles[4, 0], Character.Teams.Blue, CharacterTypePhysical.Archer, this);
+            TeamRed.Add(new Character(grid, grid.Tiles[6, 5], Character.Teams.Red, CharacterTypePhysical.Archer, this));
+            TeamBlue.Add(new Character(grid, grid.Tiles[4, 0], Character.Teams.Blue, CharacterTypePhysical.Archer, this));
+            TeamBlue.Add(new Character(grid, grid.Tiles[0, 3], Character.Teams.Blue, CharacterTypePhysical.Archer, this));
         }
 
         private void switchStage() {
@@ -60,10 +64,10 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
                 gameStage = GameStage.Fight;
 
                 charactersPrevPos.Clear();
-                foreach(Character character in grid.TeamRed) {
+                foreach(Character character in TeamRed) {
                     charactersPrevPos.Add(character, character.CurrentTile);
                 }
-                foreach(Character character in grid.TeamBlue) {
+                foreach(Character character in TeamBlue) {
                     charactersPrevPos.Add(character, character.CurrentTile);
                 }
 
@@ -75,20 +79,20 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
             } else {
                 gameStage = GameStage.Buy;
 
-                foreach(Character character in grid.TeamRed) {
+                foreach(Character character in TeamRed) {
                     character.CurrentTile.CurrentCharacter = null;
                 }
-                grid.TeamRed.Clear();
-                foreach(Character character in grid.TeamBlue) {
+                TeamRed.Clear();
+                foreach(Character character in TeamBlue) {
                     character.CurrentTile.CurrentCharacter = null;
                 }
-                grid.TeamBlue.Clear();
+                TeamBlue.Clear();
 
                 foreach(KeyValuePair<Character, Tile> characterPrevPos in charactersPrevPos) {
                     if(characterPrevPos.Key.team == Character.Teams.Blue) {
-                        grid.TeamBlue.Add(characterPrevPos.Key);
+                        TeamBlue.Add(characterPrevPos.Key);
                     } else {
-                        grid.TeamRed.Add(characterPrevPos.Key);
+                        TeamRed.Add(characterPrevPos.Key);
                     }
                     characterPrevPos.Value.CurrentCharacter = characterPrevPos.Key;
                     characterPrevPos.Key.reset();
@@ -138,8 +142,8 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
         public void updatePaint(PaintEventArgs e) {
             grid.draw(e.Graphics);
 
-            grid.TeamBlue.ForEach(character => character.draw(e.Graphics));
-            grid.TeamRed.ForEach(character => character.draw(e.Graphics));
+            TeamBlue.ForEach(character => character.draw(e.Graphics));
+            TeamRed.ForEach(character => character.draw(e.Graphics));
 
             stageTimer.draw(e.Graphics);
         }
@@ -169,7 +173,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
         }
 
         private bool stageUpdateFight() {
-            if(grid.TeamBlue.Count == 0 || grid.TeamRed.Count == 0) {
+            if(TeamBlue.Count == 0 || TeamRed.Count == 0) {
                 stageTimer.endTimer();
                 return false;
             }
@@ -182,21 +186,21 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
                 }
                 return true;
             }
-            foreach(Character character in grid.TeamBlue) {
+            foreach(Character character in TeamBlue) {
                 updateCanvas = character.update() || updateCanvas;
             }
-            grid.TeamBlue = grid.TeamBlue.Where(predicate).ToList();
-            foreach(Character character in grid.TeamRed) {
+            TeamBlue = TeamBlue.Where(predicate).ToList();
+            foreach(Character character in TeamRed) {
                 updateCanvas = character.update() || updateCanvas;
             }
-            grid.TeamRed = grid.TeamRed.Where(predicate).ToList();
+            TeamRed = TeamRed.Where(predicate).ToList();
 
             if(nextTickTime < ElapsedTime) {
                 nextTickTime = ElapsedTime + TICK_INTERVAL;
-                foreach(Character character in grid.TeamBlue) {
+                foreach(Character character in TeamBlue) {
                     updateCanvas = character.tick() || updateCanvas;
                 }
-                foreach(Character character in grid.TeamRed) {
+                foreach(Character character in TeamRed) {
                     updateCanvas = character.tick() || updateCanvas;
                 }
             }

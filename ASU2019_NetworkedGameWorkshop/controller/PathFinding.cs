@@ -17,8 +17,8 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
         /// <param name="grid"></param>
         /// <returns></returns>
         /// <exception cref="PathNotFoundException">if a path to a target was not found.</exception>
-        internal static Tuple<List<Tile>, Character> findPathToClosestEnemy(Tile currentTile, Character.Teams team, Grid grid) {
-            List<Character> enemyList = (team == Character.Teams.Red) ? grid.TeamBlue : grid.TeamRed;
+        internal static Tuple<List<Tile>, Character> findPathToClosestEnemy(Tile currentTile, Character.Teams team, Grid grid, GameManager gameManager) {
+            List<Character> enemyList = (team == Character.Teams.Red) ? gameManager.TeamBlue : gameManager.TeamRed;
             Character closestEnemy = null;
             List<Tile> shortestPath = null;
 

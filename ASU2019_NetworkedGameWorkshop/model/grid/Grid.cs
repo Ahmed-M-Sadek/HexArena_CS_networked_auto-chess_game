@@ -1,4 +1,3 @@
-using ASU2019_NetworkedGameWorkshop.model.character;
 using System.Collections.Generic;
 using System.Drawing;
 
@@ -10,17 +9,11 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
 
         public int MaxSize => gridHeight * gridWidth;
 
-        public List<Character> TeamBlue { get; set; }//temp puplic setter
-        public List<Character> TeamRed { get; set; }//temp puplic setter
-
         public Grid(int gridWidth, int gridHeight, int startingX, int startingY) {
             this.gridWidth = gridWidth;
             this.gridHeight = gridHeight;
             this.startingX = startingX;
             this.startingY = startingY;
-
-            TeamBlue = new List<Character>();
-            TeamRed = new List<Character>();
 
             Tiles = new Tile[gridWidth, gridHeight];
             for(int y = 0; y < gridHeight; y++) {

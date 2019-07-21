@@ -51,15 +51,6 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
 
             statusEffects = new List<StatusEffect>();
 
-            switch(team) {
-                case Teams.Red:
-                    grid.TeamRed.Add(this);
-                    break;
-                case Teams.Blue:
-                    grid.TeamBlue.Add(this);
-                    break;
-            }
-
             IsDead = false;
 
             hpBar = new StatBar(this,
@@ -146,7 +137,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
                 if(currentTarget == null
                     || currentTarget.IsDead) {
                     try {
-                        (path, currentTarget) = PathFinding.findPathToClosestEnemy(CurrentTile, team, grid);//temp
+                        (path, currentTarget) = PathFinding.findPathToClosestEnemy(CurrentTile, team, grid, gameManager);//temp
                     } catch(PathFinding.PathNotFoundException) {
                         return false;
                     }
