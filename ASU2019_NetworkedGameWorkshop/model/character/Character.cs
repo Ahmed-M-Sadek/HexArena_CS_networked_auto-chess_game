@@ -159,7 +159,6 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
                     toMoveTo = path[0];
                 }
             }
-
             return false;
         }
 

@@ -11,6 +11,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
             HEX_M = HEX_C / HALF_WIDTH;
 
         private static readonly Image image = Image.FromFile("../../assets/sprites/tiles/Tile.png"),
+            imageTransparent = Image.FromFile("../../assets/sprites/tiles/Tile_Transparent.png"),
             imageSelected = Image.FromFile("../../assets/sprites/tiles/Tile_Selected.png");//todo path
 
         public readonly float centerX, centerY;
@@ -51,6 +52,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
         public bool InPath = false;
 
         public int HeapIndex { get; set; }
+        public bool Transparent { get; set; }
 
         public Tile(int x, int y, float startingX, float startingY) {
             X = x;
@@ -66,9 +68,14 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
         }
 
         public override void draw(Graphics graphics) {
-            graphics.DrawImage(Selected ? imageSelected : image, posX, posY, WIDTH, HEIGHT);
+            if(Transparent) {
+                graphics.DrawImage(imageTransparent, posX, posY, WIDTH, HEIGHT);
+            } else {
+                graphics.DrawImage(Selected ? imageSelected : image, posX, posY, WIDTH, HEIGHT);
+            }
 
-            if(CurrentCharacter != null) {
+
+            if(CurrentCharacter != null) {//wrong place
                 Walkable = false;
             }
 

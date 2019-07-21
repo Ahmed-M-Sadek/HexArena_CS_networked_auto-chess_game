@@ -71,6 +71,10 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
                     charactersPrevPos.Add(character, character.CurrentTile);
                 }
 
+                foreach(Tile tile in grid.Tiles) {
+                    tile.Transparent = true;
+                }
+
                 if(selectedTile != null) {
                     selectedTile.Selected = false;
                     selectedTile = null;
@@ -96,6 +100,9 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
                     }
                     characterPrevPos.Value.CurrentCharacter = characterPrevPos.Key;
                     characterPrevPos.Key.reset();
+                }
+                foreach(Tile tile in grid.Tiles) {
+                    tile.Transparent = false;
                 }
                 stageTimer.resetTimer(StageTimer.StageTime.BUY_TIME);
             }
