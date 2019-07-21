@@ -4,6 +4,7 @@ using ASU2019_NetworkedGameWorkshop.model.grid;
 using ASU2019_NetworkedGameWorkshop.model.ui;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -17,19 +18,26 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
         private readonly GameForm gameForm;
         private readonly Timer timer;
         private readonly StageTimer stageTimer;
+        private readonly Stopwatch stopwatch;
 
         private Tile selectedTile;
         private long nextTickTime;
         private GameStage gameStage;
         private Dictionary<Character, Tile> charactersPrevPos;
 
-        public long ElapsedTime { get; private set; }
+        public long ElapsedTime {
+            get {
+                return stopwatch.ElapsedMilliseconds;
+            }
+        }
 
         public GameManager(GameForm gameForm) {
             this.gameForm = gameForm;
             grid = new Grid(GRID_WIDTH, GRID_HEIGHT,
                 (int) ((gameForm.Width - (Tile.WIDTH * GRID_WIDTH)) / 2),
                 (int) ((gameForm.Height - (Tile.HEIGHT * GRID_HEIGHT)) / 2) + 30);//temp values
+
+            stopwatch = new Stopwatch();
 
             gameStage = GameStage.Buy;
             stageTimer = new StageTimer(this, switchStage);
@@ -137,13 +145,12 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
         }
 
         private void gameStart() {
+            stopwatch.Start();
             stageTimer.resetTimer(StageTimer.StageTime.DEBUGGIN_TIME);//Debugging
             //stageTimer.resetTimer(StageTimer.StageTime.BUY_TIME);
         }
 
         private void gameLoop(object sender, EventArgs e) {
-            ElapsedTime += GAMELOOP_INTERVAL;
-
             bool updateCanvas = stageTimer.update();
 
             if(gameStage == GameStage.Buy) {
