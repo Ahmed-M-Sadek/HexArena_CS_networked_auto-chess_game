@@ -12,6 +12,7 @@ using static ASU2019_NetworkedGameWorkshop.model.ui.StageTimer;
 namespace ASU2019_NetworkedGameWorkshop.controller {
     public class GameManager {
         private enum GameStage { Buy, Fight, FightToBuy, BuyToFight }
+
         private const int GAMELOOP_INTERVAL = 50, TICK_INTERVAL = 1000;
         private const int GRID_HEIGHT = 6, GRID_WIDTH = 7;
 

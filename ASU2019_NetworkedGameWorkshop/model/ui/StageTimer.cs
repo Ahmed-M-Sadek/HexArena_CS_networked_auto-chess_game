@@ -16,6 +16,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui {
         private readonly GameManager gameManager;
         private readonly SwitchStage switchStage;
 
+        private StageTime currentStageTime;
         private long timerEnd;
         private long currentTime;
 
@@ -25,6 +26,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui {
         }
 
         public void resetTimer(StageTime stageTime) {
+            currentStageTime = stageTime;
             timerEnd = (int) (stageTime) + gameManager.ElapsedTime;
         }
 
@@ -42,7 +44,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui {
         }
 
         public override void draw(Graphics graphics) {
-            graphics.DrawString("Time Left: " + currentTime, new Font("Roboto", 14f),
+            graphics.DrawString(currentStageTime + " - Time Left: " + currentTime, new Font("Roboto", 14f),
                 Brushes.Black, 500, 15);//temp
         }
 
