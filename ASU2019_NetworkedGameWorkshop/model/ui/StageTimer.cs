@@ -21,6 +21,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui {
             this.gameManager = gameManager;
             this.switchStage = switchStage;
         }
+
         public void resetTimer(StageTime stageTime) {
             timerEnd = (int) (stageTime) + gameManager.ElapsedTime;
         }

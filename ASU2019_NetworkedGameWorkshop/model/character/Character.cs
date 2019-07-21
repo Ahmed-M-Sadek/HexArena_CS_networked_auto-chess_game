@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using static ASU2019_NetworkedGameWorkshop.model.character.StatusEffect;
 
 namespace ASU2019_NetworkedGameWorkshop.model.character {
     public class Character : GraphicsObject {
@@ -23,6 +24,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
         private readonly Grid grid;
         private readonly StatBar hpBar, charageBar;
         private readonly GameManager gameManager;
+        private readonly Brush brush;
         private readonly CharacterType[] characterType;
         private readonly Dictionary<StatusType, int> statsAdder;
         private readonly Dictionary<StatusType, float> statsMultiplier;
@@ -40,6 +42,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
             this.team = team;
             this.characterType = characterType;
             this.gameManager = gameManager;
+            brush = team == Teams.Blue ? Brushes.BlueViolet : Brushes.Red;
 
             stats = CharacterType.statsCopy();
             statsMultiplier = new Dictionary<StatusType, float>();
@@ -101,7 +104,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
         }
 
         public override void draw(Graphics graphics) {
-            graphics.FillRectangle(team == Teams.Blue ? Brushes.BlueViolet : Brushes.Red,
+            graphics.FillRectangle(brush,
                 CurrentTile.centerX - CharacterType.WIDTH_HALF,
                 CurrentTile.centerY - CharacterType.HEIGHT_HALF,
                 CharacterType.WIDTH, CharacterType.HEIGHT);
@@ -169,7 +172,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
             }
         }
         private void applyStatusEffect(StatusEffect statusEffect) {
-            if(statusEffect.Type == StatusEffect.StatusEffectType.Adder) {
+            if(statusEffect.Type == StatusEffectType.Adder) {
                 statsMultiplier[statusEffect.StatusType] += statusEffect.Value;
             } else {
                 statsMultiplier[statusEffect.StatusType] *= statusEffect.Value;
