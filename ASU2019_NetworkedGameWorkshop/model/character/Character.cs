@@ -73,7 +73,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
             }
             stats[StatusType.HealthPoints] -= (int) (dmgValue * 100 /
                 (100 + (damageType == DamageType.MagicDamage ? stats[StatusType.Armor] : stats[StatusType.MagicResist])));
-            if(stats[StatusType.HealthPoints] < 0) {
+            if(stats[StatusType.HealthPoints] <= 0) {
                 stats[StatusType.HealthPoints] = 0;
                 IsDead = true;
                 if(CurrentTile != null) {
