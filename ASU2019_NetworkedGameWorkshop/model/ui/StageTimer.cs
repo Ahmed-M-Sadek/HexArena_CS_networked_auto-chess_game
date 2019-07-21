@@ -4,9 +4,11 @@ using System.Drawing;
 namespace ASU2019_NetworkedGameWorkshop.model.ui {
     public class StageTimer : GraphicsObject {
         public enum StageTime {
-            FIGHT_TIME = 41 * 1000,
-            BUY_TIME = 31 * 1000,
-            DEBUGGIN_TIME = 6 * 1000,
+            FIGHT = 41 * 1000,
+            BUY = 31 * 1000,
+            DEBUGGING = 6 * 1000,
+            FIGHT_TO_BUY = 6 * 1000,
+            BUY_TO_FIGHT = 6 * 1000,
         }
 
         public delegate void SwitchStage();
