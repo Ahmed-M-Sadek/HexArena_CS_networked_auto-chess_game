@@ -5,11 +5,11 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using static ASU2019_NetworkedGameWorkshop.model.character.StatusEffect;
 
 namespace ASU2019_NetworkedGameWorkshop.model.character {
     public class Character : GraphicsObject {
         public enum Teams { Red, Blue };
-
         public Tile CurrentTile { get; set; }//public set ?
         public CharacterType CharacterType {
             get {
@@ -24,6 +24,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
         private readonly Grid grid;
         private readonly StatBar hpBar, charageBar;
         private readonly GameManager gameManager;
+        private readonly Brush brush;
         private readonly CharacterType[] characterType;
         private readonly Dictionary<StatusType, int> statsAdder;
         private readonly Dictionary<StatusType, float> statsMultiplier;
@@ -41,6 +42,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
             this.team = team;
             this.characterType = characterType;
             this.gameManager = gameManager;
+            brush = team == Teams.Blue ? Brushes.BlueViolet : Brushes.Red;
 
             stats = CharacterType.statsCopy();
             statsMultiplier = new Dictionary<StatusType, float>();
@@ -51,15 +53,6 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
             }
 
             statusEffects = new List<StatusEffect>();
-
-            switch(team) {
-                case Teams.Red:
-                    grid.TeamRed.Add(this);
-                    break;
-                case Teams.Blue:
-                    grid.TeamBlue.Add(this);
-                    break;
-            }
 
             IsDead = false;
 
@@ -83,7 +76,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
             }
             stats[StatusType.HealthPoints] -= (int) (dmgValue * 100 /
                 (100 + (damageType == DamageType.MagicDamage ? stats[StatusType.Armor] : stats[StatusType.MagicResist])));
-            if(stats[StatusType.HealthPoints] < 0) {
+            if(stats[StatusType.HealthPoints] <= 0) {
                 stats[StatusType.HealthPoints] = 0;
                 IsDead = true;
                 if(CurrentTile != null) {
@@ -97,13 +90,21 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
             }
         }
 
+        public void reset() {
+            stats = CharacterType.statsCopy();
+            statusEffects.Clear();
+            IsDead = false;
+            toMoveTo = null;
+            currentTarget = null;
+        }
+
         public void addStatusEffect(StatusEffect statusEffect) {
             applyStatusEffect(statusEffect);
             statusEffects.Add(statusEffect);
         }
 
         public override void draw(Graphics graphics) {
-            graphics.FillRectangle(team == Teams.Blue ? Brushes.BlueViolet : Brushes.Red,
+            graphics.FillRectangle(brush,
                 CurrentTile.centerX - CharacterType.WIDTH_HALF,
                 CurrentTile.centerY - CharacterType.HEIGHT_HALF,
                 CharacterType.WIDTH, CharacterType.HEIGHT);
@@ -139,7 +140,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
                 if(currentTarget == null
                     || currentTarget.IsDead) {
                     try {
-                        (path, currentTarget) = PathFinding.findPathToClosestEnemy(CurrentTile, team, grid);//temp
+                        (path, currentTarget) = PathFinding.findPathToClosestEnemy(CurrentTile, team, grid, gameManager);//temp
                     } catch(PathFinding.PathNotFoundException) {
                         return false;
                     }
@@ -161,7 +162,6 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
                     toMoveTo = path[0];
                 }
             }
-
             return false;
         }
 
@@ -172,7 +172,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
             }
         }
         private void applyStatusEffect(StatusEffect statusEffect) {
-            if(statusEffect.Type == StatusEffect.StatusEffectType.Adder) {
+            if(statusEffect.Type == StatusEffectType.Adder) {
                 statsMultiplier[statusEffect.StatusType] += statusEffect.Value;
             } else {
                 statsMultiplier[statusEffect.StatusType] *= statusEffect.Value;

@@ -32,7 +32,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character.types {
             : base(healthPoints, charge, chargeMax, range, attackDamage, attackSpeed, armor, magicResist) {
         }
 
-        public static IEnumerable<CharacterTypeMagical[]> Values {
+        public new static IEnumerable<CharacterTypeMagical[]> Values {
             get {
                 yield return Healer;
             }
