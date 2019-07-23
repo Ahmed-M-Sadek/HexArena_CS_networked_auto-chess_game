@@ -51,7 +51,11 @@
   <ItemGroup>
     <Compile Include="controller\GameManager.cs" />
     <Compile Include="model\character\Character.cs" />
-    <Compile Include="model\character\types\CharacterTypeRanged.cs" />
+    <Compile Include="model\character\StatusEffect.cs" />
+    <Compile Include="model\character\types\CharacterTypeMagical.cs" />
+    <Compile Include="model\DamageType.cs" />
+    <Compile Include="model\character\StatusType.cs" />
+    <Compile Include="model\character\types\CharacterTypePhysical.cs" />
     <Compile Include="model\character\types\CharacterType.cs" />
     <Compile Include="model\collection\Heap.cs" />
     <Compile Include="model\GraphicsObject.cs" />
@@ -67,6 +71,7 @@
     <Compile Include="model\spell\types\SpellType.cs" />
     <Compile Include="model\spell\types\Target.cs" />
     <Compile Include="model\StatBar.cs" />
+    <Compile Include="model\ui\StageTimer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="view\GameForm.cs">

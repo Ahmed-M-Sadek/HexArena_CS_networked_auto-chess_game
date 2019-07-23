@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace ASU2019_NetworkedGameWorkshop.model.spell.types
 {
-    public class FantasticHeal : Spell
+    public class Heal : SpellType
     {
-        public FantasticHeal() :base(200,new Target(true,PriorityType.Random),SpellType.Buff) {
+        public Heal(string Name):base(Name) {
 
         }
     }
