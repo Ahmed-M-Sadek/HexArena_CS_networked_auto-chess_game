@@ -81,7 +81,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
                 IsDead = true;
                 
                 CurrentTile.CurrentCharacter = null;
-                CurrentTile = null;
+                CurrentTile = null; //why?
 
             } else {
                 stats[StatusType.Charge] = Math.Min(stats[StatusType.Charge] + 10, stats[StatusType.ChargeMax]);//temp value
@@ -154,7 +154,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
                 } else {
                     if(path == null) {
                         try {
-                            path = PathFinding.findPath(CurrentTile, currentTarget.CurrentTile, grid, (Tile[,]) grid.Tiles.Clone());
+                            (path, currentTarget) = PathFinding.findPathToClosestEnemy(CurrentTile, team, grid, gameManager);
                         } catch(PathFinding.PathNotFoundException) {
                             return false;
                         }

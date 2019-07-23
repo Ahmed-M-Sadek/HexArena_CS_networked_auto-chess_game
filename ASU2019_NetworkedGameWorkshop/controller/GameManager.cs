@@ -78,11 +78,11 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
         }
 
         private void switchStageBuy() {
-            foreach(Character character in TeamRed) {
+            foreach(Character character in TeamRed.Where(e => !e.IsDead)) {
                 character.CurrentTile.CurrentCharacter = null;
             }
             TeamRed.Clear();
-            foreach(Character character in TeamBlue) {
+            foreach(Character character in TeamBlue.Where(e => !e.IsDead)) {
                 character.CurrentTile.CurrentCharacter = null;
             }
             TeamBlue.Clear();
@@ -194,27 +194,21 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
         }
 
         private bool stageUpdateFight() {
-            if(TeamBlue.Count == 0 || TeamRed.Count == 0) {
+            if(TeamBlue.Count(e => !e.IsDead) == 0 || TeamRed.Count(e => !e.IsDead) == 0) {
                 stageTimer.endTimer();
                 return true;
             }
 
             bool updateCanvas = false;
-            bool predicate(Character character) {
-                if(character.IsDead) {
-                    updateCanvas = true;
-                    return false;
-                }
-                return true;
-            }
+
             foreach(Character character in TeamBlue.Where(e => !e.IsDead)) {
                 updateCanvas = character.update() || updateCanvas;
             }
-            TeamBlue = TeamBlue.Where(predicate).ToList();
+
             foreach(Character character in TeamRed.Where(e => !e.IsDead)) {
                 updateCanvas = character.update() || updateCanvas;
             }
-            TeamRed = TeamRed.Where(predicate).ToList();
+
 
             if(nextTickTime < ElapsedTime) {
                 nextTickTime = ElapsedTime + TICK_INTERVAL;
