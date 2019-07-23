@@ -7,6 +7,7 @@ using System.Drawing;
 using ASU2019_NetworkedGameWorkshop.model.spell;
 using System.Linq;
 using static ASU2019_NetworkedGameWorkshop.model.character.StatusEffect;
+using ASU2019_NetworkedGameWorkshop.model.ui; 
 
 namespace ASU2019_NetworkedGameWorkshop.model.character {
     public class Character : GraphicsObject {
@@ -36,7 +37,10 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
         public Character currentTarget { get; private set; }
         private Tile toMoveTo;
         private long nextAtttackTime;
-        private List<Spell> spells;
+        private List<Spells> spells;
+
+
+        private int test = 1;
 
 
         public Character(Grid grid, Tile currentTile, Teams team,
@@ -50,7 +54,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
             brush = team == Teams.Blue ? Brushes.BlueViolet : Brushes.Red;
 
             stats = CharacterType.statsCopy();
-            spells = new List<Spell>();
+            spells = new List<Spells>();
             statsMultiplier = new Dictionary<StatusType, float>();
             statsAdder = new Dictionary<StatusType, int>();
             foreach(StatusType statusType in Enum.GetValues(typeof(StatusType))) {
@@ -77,7 +81,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
         }
 
 
-        public void learnSpell(Spell spell)
+        public void learnSpell(Spells spell)
         {
             spells.Add(spell);
         }
@@ -103,6 +107,19 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
             }
         }
 
+        public void applyBuff(StatusEffect statusEffect)
+        {
+            if(statusEffect.Type == StatusEffectType.Adder)
+            {
+                stats[statusEffect.StatusType] += (int)statusEffect.Value;
+            }
+            else
+            {
+                stats[statusEffect.StatusType] *= (int)statusEffect.Value;
+            }
+            
+        }
+
         public void reset() {
             stats = CharacterType.statsCopy();
             statusEffects.Clear();
@@ -113,15 +130,29 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
 
         public void addStatusEffect(StatusEffect statusEffect) {
             applyStatusEffect(statusEffect);
+            applyBuff(statusEffect);
             statusEffects.Add(statusEffect);
         }
 
         public override void draw(Graphics graphics) {
+            
             graphics.FillRectangle(brush,
                 CurrentTile.centerX - CharacterType.WIDTH_HALF,
                 CurrentTile.centerY - CharacterType.HEIGHT_HALF,
                 CharacterType.WIDTH, CharacterType.HEIGHT);
+            if(test == 0)
+            {
+                chooseSpell();
+                test = 1;
+            }
+            if(stats[StatusType.Charge] == stats[StatusType.ChargeMax] && spells.Count != 0){
+            
+                ChooseSpell sp = new ChooseSpell(this,spells);
+                sp.draw(graphics);
+                test = 0;
 
+            }
+            
             hpBar.setTrackedAndDraw(graphics, stats[StatusType.HealthPoints], stats[StatusType.HealthPointsMax]);
             charageBar.setTrackedAndDraw(graphics, stats[StatusType.Charge], stats[StatusType.ChargeMax]);
         }
@@ -148,7 +179,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
         private void chooseSpell()
         {
             stats[StatusType.Charge] = 0;
-            Console.WriteLine("Choose spell");
+            
             int currentSpell = Convert.ToInt32(Console.ReadLine());
             spells[currentSpell].castSpell(this);
 
@@ -176,11 +207,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
                 }
 
                 if(PathFinding.getDistance(CurrentTile, currentTarget.CurrentTile) <= stats[StatusType.Range]) {
-                    if (stats[StatusType.Charge] == stats[StatusType.ChargeMax] && spells.Count != 0)
-                    {
-                        chooseSpell();
-                        return true;
-                    }
+                    
                     if (gameManager.ElapsedTime > nextAtttackTime) {
                         nextAtttackTime = gameManager.ElapsedTime + stats[StatusType.AttackSpeed];
                         currentTarget.takeDamage(stats[StatusType.AttackDamage], DamageType.PhysicalDamage);//temp DamageType?

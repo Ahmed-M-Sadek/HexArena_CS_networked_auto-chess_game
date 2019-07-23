@@ -10,9 +10,9 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell.types
 {
     public class SpellType
     {
-        public static readonly SpellType Buff = new SpellType("Buff");
-        public static readonly SpellType Debuff = new SpellType("Debuff");
+        public static readonly SpellType Heal = new SpellType("Heal");
         public static readonly SpellType Damage = new SpellType("Damage");
+
 
 
 
@@ -20,18 +20,22 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell.types
         {
             get
             {
-                yield return Buff;
-                yield return Debuff;
+                yield return Heal;
                 yield return Damage;
 
             }
         }
 
         public string Name { get; private set; }
+        public StatusEffect Status { get; set; }
         public int Duration { get; private set; }
         public SpellType(string name)
         {
             (Name) = (name);
+        }
+        public SpellType(StatusEffect status)
+        {
+            (Status) = (status);
         }
         public void cast(List<Character> recievers,int abilityValue)
         {
@@ -46,12 +50,12 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell.types
             {
                 castee.takeDamage(abilityValue,DamageType.MagicDamage);   
             }
-            if(this == SpellType.Buff)
+            if(this == SpellType.Heal)
             {
                 castee.healHealthPoints(abilityValue);
             }
-            if (this == SpellType.Debuff) {
-                
+            else  {
+                castee.addStatusEffect(Status);
             }
         }
     }

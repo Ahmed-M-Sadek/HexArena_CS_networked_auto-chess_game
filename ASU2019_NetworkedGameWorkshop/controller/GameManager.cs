@@ -59,7 +59,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
 
             //Debugging 
             Character red = new Character(grid, grid.Tiles[6, 5], Character.Teams.Red, CharacterTypePhysical.Archer, this);
-            Spell spell = new AwesomeFireball();
+            Spells spell = Spells.Veigar;
             red.learnSpell(spell);
             Character blue0 = new Character(grid, grid.Tiles[4, 0], Character.Teams.Blue, CharacterTypePhysical.Archer, this);
 

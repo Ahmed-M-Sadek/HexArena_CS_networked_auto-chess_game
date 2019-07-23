@@ -41,12 +41,18 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell.types
             {
                 if (MultiTargeted == false)
                 {
-                    if (PriorityType == PriorityType.Current)
+                    if(PriorityType == PriorityType.Self)
+                    {
+                        recievers.Add(caster);
+                        return recievers;
+                    }
+
+                    else if (PriorityType == PriorityType.Current)
                     {
                         recievers.Add(caster.currentTarget);
                         return recievers;
                     }
-                    if (PriorityType == PriorityType.Random)
+                    else if (PriorityType == PriorityType.Random)
                     {
                         Random random = new Random();
                         List<Character> enemyList = (caster.team == Character.Teams.Red) ? caster.getGameManager().TeamBlue : caster.getGameManager().TeamRed;
