@@ -12,10 +12,10 @@ namespace ASU2019_NetworkedGameWorkshop.model.character.types {
         private readonly Dictionary<StatusType, int> stats;
 
         public CharacterType(int healthPointsMax,
-        int charge, int chargeMax,
-        int range,
-        int attackDamage, float attackSpeed,
-        int armor, int magicResist)
+            int charge, int chargeMax,
+            int range,
+            int attackDamage, float attackSpeed,
+            int armor, int magicResist)
             : this(healthPointsMax, healthPointsMax,
                  charge, chargeMax,
                  range,
@@ -28,7 +28,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character.types {
             int attackDamage, float attackSpeed,
             int armor, int magicResist) {
             stats = new Dictionary<StatusType, int>();
-
+            
             stats[StatusType.Armor] = armor;
             stats[StatusType.AttackDamage] = attackDamage;
             stats[StatusType.AttackSpeed] = (int) (1000 / attackSpeed);

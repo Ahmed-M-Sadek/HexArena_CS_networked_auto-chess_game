@@ -79,12 +79,10 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
             if(stats[StatusType.HealthPoints] <= 0) {
                 stats[StatusType.HealthPoints] = 0;
                 IsDead = true;
-                if(CurrentTile != null) {
-                    //CurrentTile.Walkable = true;
-                    //CurrentTile.CurrentCharacter = null;
-                    //CurrentTile = null;
-                    //causes an excepetion in path finding 
-                }
+                
+                CurrentTile.CurrentCharacter = null;
+                CurrentTile = null;
+
             } else {
                 stats[StatusType.Charge] = Math.Min(stats[StatusType.Charge] + 10, stats[StatusType.ChargeMax]);//temp value
             }
@@ -104,13 +102,15 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
         }
 
         public override void draw(Graphics graphics) {
-            graphics.FillRectangle(brush,
-                CurrentTile.centerX - CharacterType.WIDTH_HALF,
-                CurrentTile.centerY - CharacterType.HEIGHT_HALF,
-                CharacterType.WIDTH, CharacterType.HEIGHT);
+            if (!IsDead){
+                graphics.FillRectangle(brush,
+                    CurrentTile.centerX - CharacterType.WIDTH_HALF,
+                    CurrentTile.centerY - CharacterType.HEIGHT_HALF,
+                    CharacterType.WIDTH, CharacterType.HEIGHT);
 
-            hpBar.setTrackedAndDraw(graphics, stats[StatusType.HealthPoints], stats[StatusType.HealthPointsMax]);
-            charageBar.setTrackedAndDraw(graphics, stats[StatusType.Charge], stats[StatusType.ChargeMax]);
+                hpBar.setTrackedAndDraw(graphics, stats[StatusType.HealthPoints], stats[StatusType.HealthPointsMax]);
+                charageBar.setTrackedAndDraw(graphics, stats[StatusType.Charge], stats[StatusType.ChargeMax]);
+            }
         }
 
         public bool tick() {
@@ -160,6 +160,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
                         }
                     }
                     toMoveTo = path[0];
+                    toMoveTo.Walkable = false;
                 }
             }
             return false;

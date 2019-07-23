@@ -23,6 +23,27 @@ namespace ASU2019_NetworkedGameWorkshop.model.character.types {
                 25, 20),
         };
 
+        public static readonly CharacterTypePhysical[] Melee = new CharacterTypePhysical[]{
+            new CharacterTypePhysical(
+                600,
+                50, 100,
+                1,
+                60, 0.7f,
+                25, 20),
+            new CharacterTypePhysical(
+                600,
+                50, 100,
+                1,
+                60, 0.7f,
+                25, 20),
+            new CharacterTypePhysical(
+                600,
+                50, 100,
+                1,
+                60, 0.7f,
+                25, 20),
+        };
+
         public CharacterTypePhysical(
             int healthPoints,
             int charge, int chargeMax,
@@ -35,6 +56,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character.types {
         public new static IEnumerable<CharacterTypePhysical[]> Values {
             get {
                 yield return Archer;
+                yield return Melee;
             }
         }
     }

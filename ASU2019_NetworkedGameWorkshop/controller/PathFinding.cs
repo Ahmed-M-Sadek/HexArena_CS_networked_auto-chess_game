@@ -3,6 +3,7 @@ using ASU2019_NetworkedGameWorkshop.model.collection;
 using ASU2019_NetworkedGameWorkshop.model.grid;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
 
 namespace ASU2019_NetworkedGameWorkshop.controller {
@@ -24,7 +25,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
 
             Tile[,] tilesClone = (Tile[,]) grid.Tiles.Clone();
 
-            foreach(Character enemy in enemyList) {
+            foreach(Character enemy in enemyList.Where(en => !en.IsDead)) {
                 List<Tile> path;
 
                 try {
@@ -37,8 +38,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
                     shortestPath = path;
                     closestEnemy = enemy;
                 } else {
-                    shortestPath = shortestPath.Count <= path.Count ? shortestPath : path;
-                    closestEnemy = enemy;
+                    (closestEnemy, shortestPath) = shortestPath.Count <= path.Count ? (closestEnemy, shortestPath) : (enemy, path);
                 }
             }
 
