@@ -32,6 +32,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
                 currentCharacter = value;
                 if(value != null) {
                     value.CurrentTile = this;
+                    Walkable = false;
                 } else {
                     Walkable = true;
                 }
@@ -72,11 +73,6 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
                 graphics.DrawImage(imageTransparent, posX, posY, WIDTH, HEIGHT);
             } else {
                 graphics.DrawImage(Selected ? imageSelected : image, posX, posY, WIDTH, HEIGHT);
-            }
-
-
-            if(CurrentCharacter != null) {//wrong place
-                Walkable = false;
             }
 
             //debug
