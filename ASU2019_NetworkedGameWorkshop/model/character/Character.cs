@@ -82,6 +82,8 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
                 
                 CurrentTile.CurrentCharacter = null;
                 CurrentTile = null; //why?
+                if (toMoveTo != null)
+                    toMoveTo.Walkable = true;
 
             } else {
                 stats[StatusType.Charge] = Math.Min(stats[StatusType.Charge] + 10, stats[StatusType.ChargeMax]);//temp value
