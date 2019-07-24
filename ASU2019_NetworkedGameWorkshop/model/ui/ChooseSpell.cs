@@ -41,18 +41,25 @@ namespace ASU2019_NetworkedGameWorkshop.model
                 pics[i].ImageLocation = spells[i].image;
                 pics[i].Size = new Size(18, 18);
                 pics[i].SizeMode = PictureBoxSizeMode.StretchImage;
-                pics[i].Location = new Point(i * 18 + 2 * (i + 1), i * 18 + 2 * (i + 1));
-                int k = i;
-                pics[i].MouseClick += new MouseEventHandler((sender, e) => picOneFaceUpA_Click(sender, e, spells[k]));
+                pics[i].Location = new Point(i * 18 + 2 * (i + 1),  2);
+                pics[i].MouseClick += new MouseEventHandler(NewMethod(spells, i));
 
                 this.Controls.Add(pics[i]);
             }
         }
+
+        private MouseEventHandler NewMethod(List<Spells> spells, int k)
+        {
+            return (sender, e) => picOneFaceUpA_Click(sender, e, spells[k]);
+        }
+
         public void picOneFaceUpA_Click(object sender,EventArgs e,Spells spell)
         {
+            character.gameManager.removeFromForm(this);
+            character.SpellReady = false;
             character.resetMana();
             spell.castSpell(character);
-            character.gameManager.removeFromForm(this);
+            
         }
 
             

@@ -31,6 +31,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
         private readonly CharacterType[] characterType;
         private readonly Dictionary<StatusType, int> statsAdder;
         private readonly Dictionary<StatusType, float> statsMultiplier;
+        public bool SpellReady { get; set; }
         
         private Dictionary<StatusType, int> stats;
         private List<StatusEffect> statusEffects;
@@ -38,9 +39,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
         private Tile toMoveTo;
         private long nextAtttackTime;
         private List<Spells> spells;
-
-
-        private int test = 1;
+        private ChooseSpell sp;
 
 
         public Character(Grid grid, Tile currentTile, Teams team,
@@ -48,7 +47,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
             this.grid = grid;
             currentTile.CurrentCharacter = this;
             this.team = team;
-
+            SpellReady = false;
             this.characterType = characterType;
             this.gameManager = gameManager;
             brush = team == Teams.Blue ? Brushes.BlueViolet : Brushes.Red;
@@ -96,6 +95,11 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
             if(stats[StatusType.HealthPoints] <= 0) {
                 stats[StatusType.HealthPoints] = 0;
                 IsDead = true;
+                if(SpellReady == true)
+                {
+                    gameManager.removeFromForm(sp);
+                    SpellReady = false;
+                }
                 if(CurrentTile != null) {
                     //CurrentTile.Walkable = true;
                     //CurrentTile.CurrentCharacter = null;
@@ -129,16 +133,10 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
                 CurrentTile.centerX - CharacterType.WIDTH_HALF,
                 CurrentTile.centerY - CharacterType.HEIGHT_HALF,
                 CharacterType.WIDTH, CharacterType.HEIGHT);
-            if(test == 0)
-            {
-                //chooseSpell();
-                test = 1;
-            }
-            if(stats[StatusType.Charge] == stats[StatusType.ChargeMax] && spells.Count != 0){
-            
-                ChooseSpell sp = new ChooseSpell(this,spells);
+            if(stats[StatusType.Charge] == stats[StatusType.ChargeMax] && spells.Count != 0 && SpellReady == false){
+                sp = new ChooseSpell(this,spells);
+                SpellReady = true;
                 gameManager.addToForm(sp);
-                test = 0;
 
             }
             

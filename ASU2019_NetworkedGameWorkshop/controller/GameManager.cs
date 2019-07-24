@@ -60,6 +60,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
             //Debugging 
             Character red = new Character(grid, grid.Tiles[6, 5], Character.Teams.Red, CharacterTypePhysical.Archer, this);
             red.learnSpell(Spells.AwesomeFireball);
+            red.learnSpell(Spells.Heal);
 
 
 
@@ -72,12 +73,10 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
         public void addToForm(Control control)
         {
             gameForm.Controls.Add(control);
-            gameForm.Invalidate();
         }
         public void removeFromForm(Control control)
         {
             gameForm.Controls.Remove(control);
-            gameForm.Invalidate();
         }
 
         private void switchStage() {
