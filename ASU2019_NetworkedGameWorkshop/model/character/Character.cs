@@ -167,22 +167,36 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
         }
         private void chooseSpell()
         {
-            stats[StatusType.Charge] = 0;
-
-            int currentSpell = Convert.ToInt32(Console.ReadLine());
-            spells[currentSpell].castSpell(this);
             //stats[StatusType.Charge] = 0;
 
             //int currentSpell = Convert.ToInt32(Console.ReadLine());
-            //spells[1].castSpell(this);
-            //spells[0].castSpell(this);
-            
+            //spells[currentSpell].castSpell(this);
+            stats[StatusType.Charge] = 0;
+
+            int currentSpell = Convert.ToInt32(Console.ReadLine());
+            spells[1].castSpell(this);
+            spells[0].castSpell(this);
+
 
 
         }
         public bool update() {
             statusEffects = statusEffects.Where(effect => {
                 if(effect.removeEffectTimeStamp < gameManager.ElapsedTime) {
+                    foreach (StatusEffect item in statusEffects)
+                    {
+                        if(statusEffects.IndexOf(effect) < statusEffects.IndexOf(item))
+                        {
+                            item.inverseValue();
+                            applyStatusEffect(item);
+                            effect.inverseValue();
+                            applyStatusEffect(effect);
+                            item.inverseValue();
+                            applyStatusEffect(item);
+                            return false;
+                        }
+
+                    }
                     effect.inverseValue();
                     applyStatusEffect(effect);
                     return false;
@@ -231,17 +245,17 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
             }
         }
         private void applyStatusEffect(StatusEffect statusEffect) {
-            //Console.WriteLine("Before : " + stats[StatusType.HealthPoints]);
+            Console.WriteLine("Before : " + stats[StatusType.HealthPoints]);
             if (statusEffect.Type == StatusEffectType.Adder) {
                 statsAdder[statusEffect.StatusType] += (int) statusEffect.Value;
                 stats[statusEffect.StatusType] += (int)statusEffect.Value;
-                
-                //Console.WriteLine("After : " + stats[StatusType.HealthPoints]);
+
+                Console.WriteLine("After : " + stats[StatusType.HealthPoints]);
             } else {
                 statsMultiplier[statusEffect.StatusType] *= statusEffect.Value;
                 
                 stats[statusEffect.StatusType] = (int)(stats[statusEffect.StatusType]*statusEffect.Value);
-                //Console.WriteLine("After : " + stats[StatusType.HealthPoints]);
+                Console.WriteLine("After : " + stats[StatusType.HealthPoints]);
             }
 
         }

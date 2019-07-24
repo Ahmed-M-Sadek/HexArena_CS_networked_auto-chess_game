@@ -59,18 +59,17 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
 
             //Debugging 
             Character red = new Character(grid, grid.Tiles[6, 5], Character.Teams.Red, CharacterTypePhysical.Archer, this);
-            //Spells spell = Spells.Veigar;
-            //red.learnSpell(Spells.VeigarDebug);
-            //red.learnSpell(spell);
-            
+            red.learnSpell(Spells.Veigar);
+            red.learnSpell(Spells.VeigarDebug);
 
-            Character blue0 = new Character(grid, grid.Tiles[4, 0], Character.Teams.Blue, CharacterTypePhysical.Archer, this);
-            blue0.learnSpell(Spells.Heal);
+
+            //Character blue0 = new Character(grid, grid.Tiles[4, 0], Character.Teams.Blue, CharacterTypePhysical.Archer, this);
+            //blue0.learnSpell(Spells.Heal);
             Character blue1 = new Character(grid, grid.Tiles[2, 0], Character.Teams.Blue, CharacterTypePhysical.Archer, this);
 
             TeamRed.Add(red);
             TeamBlue.Add(blue1);
-            TeamBlue.Add(blue0);
+            //TeamBlue.Add(blue0);
 
         }
 
