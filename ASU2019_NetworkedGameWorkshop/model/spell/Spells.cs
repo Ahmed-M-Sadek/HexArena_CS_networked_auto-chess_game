@@ -33,14 +33,14 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell
 
         public Target Target { get; private set; }
         public SpellType spellType { get; private set; }
-        public readonly Image image;
+        public String image { get; private set; }
         public Spells(float abilityValue,Target target,SpellType spellType,String image)
         {
 
             AbilityValue = abilityValue;
             this.Target = target;
             this.spellType = spellType;
-            this.image = Image.FromFile(image);
+            this.image = (image);
         }
 
         private List<Character> specifyTargets(Character caster)

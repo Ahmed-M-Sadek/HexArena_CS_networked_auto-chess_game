@@ -131,13 +131,13 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
                 CharacterType.WIDTH, CharacterType.HEIGHT);
             if(test == 0)
             {
-                chooseSpell();
+                //chooseSpell();
                 test = 1;
             }
-            if(stats[StatusType.Charge] > stats[StatusType.ChargeMax]/2 && spells.Count != 0){
+            if(stats[StatusType.Charge] == stats[StatusType.ChargeMax] && spells.Count != 0){
             
                 ChooseSpell sp = new ChooseSpell(this,spells);
-                sp.draw(graphics);
+                gameManager.addToForm(sp);
                 test = 0;
 
             }
@@ -145,7 +145,9 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
             hpBar.setTrackedAndDraw(graphics, stats[StatusType.HealthPoints], stats[StatusType.HealthPointsMax]);
             charageBar.setTrackedAndDraw(graphics, stats[StatusType.Charge], stats[StatusType.ChargeMax]);
         }
-
+        public void resetMana (){
+            stats[StatusType.Charge] = 0;
+        }
         public Grid getGrid()
         {
             return this.grid;
@@ -165,21 +167,14 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
             }
             return false;
         }
-        private void chooseSpell()
-        {
-            //stats[StatusType.Charge] = 0;
+        //private void chooseSpell()
+        //{
+        //    stats[StatusType.Charge] = 0;
 
-            //int currentSpell = Convert.ToInt32(Console.ReadLine());
-            //spells[currentSpell].castSpell(this);
-            stats[StatusType.Charge] = 0;
-
-            int currentSpell = Convert.ToInt32(Console.ReadLine());
-            spells[1].castSpell(this);
-            spells[0].castSpell(this);
-
-
-
-        }
+        //    int currentSpell = Convert.ToInt32(Console.ReadLine());
+        //    spells[currentSpell].castSpell(this);
+          
+        //}
         public bool update() {
             statusEffects = statusEffects.Where(effect => {
                 if(effect.removeEffectTimeStamp < gameManager.ElapsedTime) {
@@ -219,8 +214,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
                     
                     if (gameManager.ElapsedTime > nextAtttackTime) {
                         nextAtttackTime = gameManager.ElapsedTime + stats[StatusType.AttackSpeed];
-                        currentTarget.stats[StatusType.Charge] += 1;
-                        //currentTarget.takeDamage(stats[StatusType.AttackDamage], DamageType.PhysicalDamage);//temp DamageType?
+                        currentTarget.takeDamage(stats[StatusType.AttackDamage], DamageType.PhysicalDamage);//temp DamageType?
                         return true;
                     }
                 }

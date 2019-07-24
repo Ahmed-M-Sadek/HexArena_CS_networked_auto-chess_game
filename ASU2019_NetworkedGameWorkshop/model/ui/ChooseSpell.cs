@@ -8,19 +8,18 @@ using System.Drawing;
 
 namespace ASU2019_NetworkedGameWorkshop.model
 {
-    public class ChooseSpell : GraphicsObject 
+    public class ChooseSpell : Panel
     {
         private const float WIDTH = Tile.WIDTH - 30 * 2,
             WIDTH_HALF = WIDTH / 2f,
-            Height = 8;
+            height = 8;
         private const float HEX_OFFSET_Y = Tile.HEIGHT * 0.2f;
         private const int BACK_PADDING_H = 6;
         private const float BACK_OFFSET_X = WIDTH_HALF + BACK_PADDING_H / 2f,
             BACK_OFFSET_Y = 2f;
         private const float BACK_WIDTH = WIDTH + BACK_PADDING_H,
-            BACK_HEIGHT = Height + BACK_OFFSET_Y +12;
-
-        private static readonly Brush BACK_BRUSH = new SolidBrush(Color.White);
+            BACK_HEIGHT = height + BACK_OFFSET_Y +12;
+       
         private readonly Character character;
         private List<Spells> spells;
         private readonly float offsetY;
@@ -28,32 +27,32 @@ namespace ASU2019_NetworkedGameWorkshop.model
 
         public ChooseSpell(Character character, List<Spells> spells)
         {
+            this.BackColor = Color.White;
             this.spells = spells;
             this.character = character;
             offsetY = -Tile.HALF_HEIGHT -1 * BACK_HEIGHT + HEX_OFFSET_Y;
             backOffsetY = offsetY - (BACK_OFFSET_Y / 2f);
-        }
-
-        public override void draw(Graphics graphics)
-        {
-            graphics.FillRectangle(BACK_BRUSH,
-                character.CurrentTile.centerX - BACK_OFFSET_X,
-                character.CurrentTile.centerY + backOffsetY,
-                BACK_WIDTH,
-                BACK_HEIGHT);
-            for(int i=0; i < spells.Count; i++)
+            this.Size = new Size((int)BACK_WIDTH, (int)BACK_HEIGHT);
+            this.Location = new Point((int)(character.CurrentTile.centerX - BACK_OFFSET_X), (int)(character.CurrentTile.centerY + backOffsetY));
+            for (int i = 0; i < spells.Count; i++)
             {
-                graphics.DrawImage(spells[i].image,
-                   character.CurrentTile.centerX - WIDTH_HALF,
-                   character.CurrentTile.centerY + offsetY,
-                   18,
-                   18);
+                PictureBox[] pics = new PictureBox[spells.Count];
+                pics[i] = new PictureBox();
+                pics[i].ImageLocation = spells[i].image;
+                pics[i].Size = new Size(18, 18);
+                pics[i].SizeMode = PictureBoxSizeMode.StretchImage;
+                pics[i].Location = new Point(i * 18 + 2 * (i + 1), i * 18 + 2 * (i + 1));
+                int k = i;
+                pics[i].MouseClick += new MouseEventHandler((sender, e) => picOneFaceUpA_Click(sender, e, spells[k]));
+
+                this.Controls.Add(pics[i]);
             }
         }
-        public void picOneFaceUpA_Click(object sender,EventArgs e)
+        public void picOneFaceUpA_Click(object sender,EventArgs e,Spells spell)
         {
-            Spells spell = (Spells)sender;
+            character.resetMana();
             spell.castSpell(character);
+            character.gameManager.removeFromForm(this);
         }
 
             

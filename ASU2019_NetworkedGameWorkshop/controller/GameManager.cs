@@ -59,18 +59,25 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
 
             //Debugging 
             Character red = new Character(grid, grid.Tiles[6, 5], Character.Teams.Red, CharacterTypePhysical.Archer, this);
-            red.learnSpell(Spells.Veigar);
-            red.learnSpell(Spells.VeigarDebug);
+            red.learnSpell(Spells.AwesomeFireball);
 
 
-            //Character blue0 = new Character(grid, grid.Tiles[4, 0], Character.Teams.Blue, CharacterTypePhysical.Archer, this);
-            //blue0.learnSpell(Spells.Heal);
+
             Character blue1 = new Character(grid, grid.Tiles[2, 0], Character.Teams.Blue, CharacterTypePhysical.Archer, this);
 
             TeamRed.Add(red);
             TeamBlue.Add(blue1);
-            //TeamBlue.Add(blue0);
 
+        }
+        public void addToForm(Control control)
+        {
+            gameForm.Controls.Add(control);
+            gameForm.Invalidate();
+        }
+        public void removeFromForm(Control control)
+        {
+            gameForm.Controls.Remove(control);
+            gameForm.Invalidate();
         }
 
         private void switchStage() {
