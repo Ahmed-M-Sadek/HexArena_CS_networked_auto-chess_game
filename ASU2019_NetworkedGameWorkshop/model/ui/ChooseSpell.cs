@@ -2,12 +2,13 @@
 using ASU2019_NetworkedGameWorkshop.model.grid;
 using ASU2019_NetworkedGameWorkshop.model.spell;
 using System.Collections.Generic;
+using System.Windows.Forms;
 using System;
 using System.Drawing;
 
 namespace ASU2019_NetworkedGameWorkshop.model
 {
-    public class ChooseSpell : GraphicsObject
+    public class ChooseSpell : GraphicsObject 
     {
         private const float WIDTH = Tile.WIDTH - 30 * 2,
             WIDTH_HALF = WIDTH / 2f,
@@ -42,13 +43,19 @@ namespace ASU2019_NetworkedGameWorkshop.model
                 BACK_HEIGHT);
             for(int i=0; i < spells.Count; i++)
             {
-                graphics.DrawImage(spells[i].image, character.CurrentTile.centerX - WIDTH_HALF,
-                character.CurrentTile.centerY + offsetY,
-                18,
-                18);
-                
+                graphics.DrawImage(spells[i].image,
+                   character.CurrentTile.centerX - WIDTH_HALF,
+                   character.CurrentTile.centerY + offsetY,
+                   18,
+                   18);
             }
         }
-        
+        public void picOneFaceUpA_Click(object sender,EventArgs e)
+        {
+            Spells spell = (Spells)sender;
+            spell.castSpell(character);
+        }
+
+            
     }
 }

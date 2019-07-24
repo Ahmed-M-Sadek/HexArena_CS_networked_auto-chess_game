@@ -59,15 +59,19 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
 
             //Debugging 
             Character red = new Character(grid, grid.Tiles[6, 5], Character.Teams.Red, CharacterTypePhysical.Archer, this);
-            Spells spell = Spells.Veigar;
-            red.learnSpell(spell);
-            Character blue0 = new Character(grid, grid.Tiles[4, 0], Character.Teams.Blue, CharacterTypePhysical.Archer, this);
+            //Spells spell = Spells.Veigar;
+            //red.learnSpell(Spells.VeigarDebug);
+            //red.learnSpell(spell);
+            
 
-            Character blue1 = new Character(grid, grid.Tiles[0, 3], Character.Teams.Blue, CharacterTypePhysical.Archer, this);
+            Character blue0 = new Character(grid, grid.Tiles[4, 0], Character.Teams.Blue, CharacterTypePhysical.Archer, this);
+            blue0.learnSpell(Spells.Heal);
+            Character blue1 = new Character(grid, grid.Tiles[2, 0], Character.Teams.Blue, CharacterTypePhysical.Archer, this);
 
             TeamRed.Add(red);
-            TeamBlue.Add(blue0 );
             TeamBlue.Add(blue1);
+            TeamBlue.Add(blue0);
+
         }
 
         private void switchStage() {

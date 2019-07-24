@@ -63,7 +63,6 @@
     <Compile Include="model\grid\Grid.cs" />
     <Compile Include="model\grid\Tile.cs" />
     <Compile Include="model\spell\Spells.cs" />
-    <Compile Include="model\spell\types\FantasticHeal.cs" />
     <Compile Include="model\spell\types\PriorityType.cs" />
     <Compile Include="model\spell\types\SpellType.cs" />
     <Compile Include="model\spell\types\Target.cs" />

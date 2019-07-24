@@ -31,7 +31,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
         private readonly CharacterType[] characterType;
         private readonly Dictionary<StatusType, int> statsAdder;
         private readonly Dictionary<StatusType, float> statsMultiplier;
-
+        
         private Dictionary<StatusType, int> stats;
         private List<StatusEffect> statusEffects;
         public Character currentTarget { get; private set; }
@@ -86,7 +86,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
             spells.Add(spell);
         }
 
-        public void takeDamage(int dmgValue, DamageType damageType) {
+        public void takeDamage(float dmgValue, DamageType damageType) {
 
             if(dmgValue < 0) {
                 throw new ArgumentException("dmgValue should be positive: " + dmgValue);
@@ -107,18 +107,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
             }
         }
 
-        public void applyBuff(StatusEffect statusEffect)
-        {
-            if(statusEffect.Type == StatusEffectType.Adder)
-            {
-                stats[statusEffect.StatusType] += (int)statusEffect.Value;
-            }
-            else
-            {
-                stats[statusEffect.StatusType] *= (int)statusEffect.Value;
-            }
-            
-        }
+ 
 
         public void reset() {
             stats = CharacterType.statsCopy();
@@ -129,8 +118,8 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
         }
 
         public void addStatusEffect(StatusEffect statusEffect) {
+            statusEffect.removeEffectTimeStamp += gameManager.ElapsedTime;
             applyStatusEffect(statusEffect);
-            applyBuff(statusEffect);
             statusEffects.Add(statusEffect);
         }
 
@@ -145,7 +134,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
                 chooseSpell();
                 test = 1;
             }
-            if(stats[StatusType.Charge] == stats[StatusType.ChargeMax] && spells.Count != 0){
+            if(stats[StatusType.Charge] > stats[StatusType.ChargeMax]/2 && spells.Count != 0){
             
                 ChooseSpell sp = new ChooseSpell(this,spells);
                 sp.draw(graphics);
@@ -179,13 +168,19 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
         private void chooseSpell()
         {
             stats[StatusType.Charge] = 0;
-            
+
             int currentSpell = Convert.ToInt32(Console.ReadLine());
             spells[currentSpell].castSpell(this);
+            //stats[StatusType.Charge] = 0;
+
+            //int currentSpell = Convert.ToInt32(Console.ReadLine());
+            //spells[1].castSpell(this);
+            //spells[0].castSpell(this);
+            
+
 
         }
         public bool update() {
-
             statusEffects = statusEffects.Where(effect => {
                 if(effect.removeEffectTimeStamp < gameManager.ElapsedTime) {
                     effect.inverseValue();
@@ -210,7 +205,8 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
                     
                     if (gameManager.ElapsedTime > nextAtttackTime) {
                         nextAtttackTime = gameManager.ElapsedTime + stats[StatusType.AttackSpeed];
-                        currentTarget.takeDamage(stats[StatusType.AttackDamage], DamageType.PhysicalDamage);//temp DamageType?
+                        currentTarget.stats[StatusType.Charge] += 1;
+                        //currentTarget.takeDamage(stats[StatusType.AttackDamage], DamageType.PhysicalDamage);//temp DamageType?
                         return true;
                     }
                 }
@@ -235,11 +231,19 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
             }
         }
         private void applyStatusEffect(StatusEffect statusEffect) {
-            if(statusEffect.Type == StatusEffectType.Adder) {
-                statsMultiplier[statusEffect.StatusType] += statusEffect.Value;
+            //Console.WriteLine("Before : " + stats[StatusType.HealthPoints]);
+            if (statusEffect.Type == StatusEffectType.Adder) {
+                statsAdder[statusEffect.StatusType] += (int) statusEffect.Value;
+                stats[statusEffect.StatusType] += (int)statusEffect.Value;
+                
+                //Console.WriteLine("After : " + stats[StatusType.HealthPoints]);
             } else {
                 statsMultiplier[statusEffect.StatusType] *= statusEffect.Value;
+                
+                stats[statusEffect.StatusType] = (int)(stats[statusEffect.StatusType]*statusEffect.Value);
+                //Console.WriteLine("After : " + stats[StatusType.HealthPoints]);
             }
+
         }
     }
 }
