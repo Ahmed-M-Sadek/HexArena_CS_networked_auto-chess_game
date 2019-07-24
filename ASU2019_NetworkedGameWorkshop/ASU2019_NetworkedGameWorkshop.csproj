@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="controller\GameManager.cs" />
+    <Compile Include="controller\NetworkManager.cs" />
     <Compile Include="model\character\Character.cs" />
     <Compile Include="model\character\StatusEffect.cs" />
     <Compile Include="model\character\types\CharacterTypeMagical.cs" />
@@ -110,6 +111,7 @@
   <ItemGroup>
     <Content Include="assets\sprites\tiles\Tile.png" />
     <Content Include="assets\sprites\tiles\Tile_Selected.png" />
+    <Content Include="assets\sprites\tiles\Tile_Transparent.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

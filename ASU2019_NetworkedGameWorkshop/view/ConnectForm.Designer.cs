@@ -36,8 +36,10 @@
             this.lbl_hostPort = new System.Windows.Forms.Label();
             this.lbl_hostIP = new System.Windows.Forms.Label();
             this.tabPageConnect = new System.Windows.Forms.TabPage();
+            this.lbl_connectStatus = new System.Windows.Forms.Label();
             this.txt_connectPort = new System.Windows.Forms.TextBox();
             this.lbl_connectPort = new System.Windows.Forms.Label();
+            this.tabPageLobby = new System.Windows.Forms.TabPage();
             this.tabControl.SuspendLayout();
             this.tabPageHost.SuspendLayout();
             this.tabPageConnect.SuspendLayout();
@@ -49,27 +51,26 @@
             this.lbx_connectList.FormattingEnabled = true;
             this.lbx_connectList.ItemHeight = 20;
             this.lbx_connectList.Items.AddRange(new object[] {
-            "Device 1",
-            "Device 2",
-            "Device 3"});
+            "Refresh List..."});
             this.lbx_connectList.Location = new System.Drawing.Point(6, 6);
             this.lbx_connectList.Name = "lbx_connectList";
-            this.lbx_connectList.Size = new System.Drawing.Size(274, 124);
+            this.lbx_connectList.Size = new System.Drawing.Size(291, 124);
             this.lbx_connectList.TabIndex = 0;
             // 
             // btn_refresh
             // 
-            this.btn_refresh.Location = new System.Drawing.Point(286, 107);
+            this.btn_refresh.Location = new System.Drawing.Point(303, 107);
             this.btn_refresh.Name = "btn_refresh";
             this.btn_refresh.Size = new System.Drawing.Size(142, 23);
             this.btn_refresh.TabIndex = 1;
             this.btn_refresh.Text = "Refresh";
             this.btn_refresh.UseVisualStyleBackColor = true;
+            this.btn_refresh.Click += new System.EventHandler(this.Btn_refresh_Click);
             // 
             // btn_host
             // 
             this.btn_host.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_host.Location = new System.Drawing.Point(167, 120);
+            this.btn_host.Location = new System.Drawing.Point(165, 195);
             this.btn_host.Name = "btn_host";
             this.btn_host.Size = new System.Drawing.Size(280, 28);
             this.btn_host.TabIndex = 3;
@@ -78,7 +79,7 @@
             // 
             // btn_manualConnect
             // 
-            this.btn_manualConnect.Location = new System.Drawing.Point(286, 136);
+            this.btn_manualConnect.Location = new System.Drawing.Point(303, 136);
             this.btn_manualConnect.Name = "btn_manualConnect";
             this.btn_manualConnect.Size = new System.Drawing.Size(142, 26);
             this.btn_manualConnect.TabIndex = 4;
@@ -91,14 +92,14 @@
             this.txt_connectIP.Location = new System.Drawing.Point(6, 136);
             this.txt_connectIP.MaxLength = 15;
             this.txt_connectIP.Name = "txt_connectIP";
-            this.txt_connectIP.Size = new System.Drawing.Size(274, 26);
+            this.txt_connectIP.Size = new System.Drawing.Size(291, 26);
             this.txt_connectIP.TabIndex = 7;
-            this.txt_connectIP.Text = "temp text ?";
+            this.txt_connectIP.Text = "XXX.XXX.";
             this.txt_connectIP.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Txt_connectIP_KeyPress);
             // 
             // btn_connect
             // 
-            this.btn_connect.Location = new System.Drawing.Point(286, 38);
+            this.btn_connect.Location = new System.Drawing.Point(303, 38);
             this.btn_connect.Name = "btn_connect";
             this.btn_connect.Size = new System.Drawing.Size(142, 23);
             this.btn_connect.TabIndex = 8;
@@ -109,6 +110,7 @@
             // 
             this.tabControl.Controls.Add(this.tabPageHost);
             this.tabControl.Controls.Add(this.tabPageConnect);
+            this.tabControl.Controls.Add(this.tabPageLobby);
             this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl.Location = new System.Drawing.Point(0, 0);
             this.tabControl.Margin = new System.Windows.Forms.Padding(10);
@@ -138,9 +140,11 @@
             this.txt_hostIP.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txt_hostIP.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txt_hostIP.Location = new System.Drawing.Point(167, 12);
+            this.txt_hostIP.Multiline = true;
             this.txt_hostIP.Name = "txt_hostIP";
             this.txt_hostIP.ReadOnly = true;
-            this.txt_hostIP.Size = new System.Drawing.Size(274, 19);
+            this.txt_hostIP.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txt_hostIP.Size = new System.Drawing.Size(274, 145);
             this.txt_hostIP.TabIndex = 11;
             this.txt_hostIP.TabStop = false;
             this.txt_hostIP.Text = "192.168.XXX.XXX";
@@ -148,10 +152,10 @@
             // txt_hostPort
             // 
             this.txt_hostPort.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txt_hostPort.Location = new System.Drawing.Point(167, 48);
+            this.txt_hostPort.Location = new System.Drawing.Point(165, 163);
             this.txt_hostPort.MaxLength = 5;
             this.txt_hostPort.Name = "txt_hostPort";
-            this.txt_hostPort.Size = new System.Drawing.Size(274, 26);
+            this.txt_hostPort.Size = new System.Drawing.Size(280, 26);
             this.txt_hostPort.TabIndex = 10;
             this.txt_hostPort.Text = "47999";
             this.txt_hostPort.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Txt_port_KeyPress);
@@ -160,7 +164,7 @@
             // 
             this.lbl_hostPort.AutoSize = true;
             this.lbl_hostPort.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_hostPort.Location = new System.Drawing.Point(8, 48);
+            this.lbl_hostPort.Location = new System.Drawing.Point(8, 163);
             this.lbl_hostPort.Name = "lbl_hostPort";
             this.lbl_hostPort.Size = new System.Drawing.Size(53, 24);
             this.lbl_hostPort.TabIndex = 8;
@@ -172,12 +176,13 @@
             this.lbl_hostIP.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl_hostIP.Location = new System.Drawing.Point(8, 12);
             this.lbl_hostIP.Name = "lbl_hostIP";
-            this.lbl_hostIP.Size = new System.Drawing.Size(86, 24);
+            this.lbl_hostIP.Size = new System.Drawing.Size(95, 24);
             this.lbl_hostIP.TabIndex = 7;
-            this.lbl_hostIP.Text = "Local IP :";
+            this.lbl_hostIP.Text = "Local IPs :";
             // 
             // tabPageConnect
             // 
+            this.tabPageConnect.Controls.Add(this.lbl_connectStatus);
             this.tabPageConnect.Controls.Add(this.txt_connectPort);
             this.tabPageConnect.Controls.Add(this.lbl_connectPort);
             this.tabPageConnect.Controls.Add(this.lbx_connectList);
@@ -193,10 +198,21 @@
             this.tabPageConnect.Text = "Connect";
             this.tabPageConnect.UseVisualStyleBackColor = true;
             // 
+            // lbl_connectStatus
+            // 
+            this.lbl_connectStatus.AutoSize = true;
+            this.lbl_connectStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_connectStatus.Location = new System.Drawing.Point(194, 202);
+            this.lbl_connectStatus.Name = "lbl_connectStatus";
+            this.lbl_connectStatus.Size = new System.Drawing.Size(251, 24);
+            this.lbl_connectStatus.TabIndex = 13;
+            this.lbl_connectStatus.Text = "Status: Searching for Servers";
+            this.lbl_connectStatus.Visible = false;
+            // 
             // txt_connectPort
             // 
             this.txt_connectPort.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txt_connectPort.Location = new System.Drawing.Point(345, 6);
+            this.txt_connectPort.Location = new System.Drawing.Point(362, 6);
             this.txt_connectPort.MaxLength = 5;
             this.txt_connectPort.Name = "txt_connectPort";
             this.txt_connectPort.Size = new System.Drawing.Size(83, 26);
@@ -208,11 +224,21 @@
             // 
             this.lbl_connectPort.AutoSize = true;
             this.lbl_connectPort.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_connectPort.Location = new System.Drawing.Point(286, 6);
+            this.lbl_connectPort.Location = new System.Drawing.Point(303, 6);
             this.lbl_connectPort.Name = "lbl_connectPort";
             this.lbl_connectPort.Size = new System.Drawing.Size(53, 24);
             this.lbl_connectPort.TabIndex = 11;
             this.lbl_connectPort.Text = "Port :";
+            // 
+            // tabPageLobby
+            // 
+            this.tabPageLobby.Location = new System.Drawing.Point(4, 26);
+            this.tabPageLobby.Name = "tabPageLobby";
+            this.tabPageLobby.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageLobby.Size = new System.Drawing.Size(453, 231);
+            this.tabPageLobby.TabIndex = 2;
+            this.tabPageLobby.Text = "Lobby";
+            this.tabPageLobby.UseVisualStyleBackColor = true;
             // 
             // ConnectForm
             // 
@@ -249,5 +275,7 @@
         private System.Windows.Forms.TextBox txt_connectPort;
         private System.Windows.Forms.Label lbl_connectPort;
         private System.Windows.Forms.TextBox txt_hostIP;
+        private System.Windows.Forms.Label lbl_connectStatus;
+        private System.Windows.Forms.TabPage tabPageLobby;
     }
 }
