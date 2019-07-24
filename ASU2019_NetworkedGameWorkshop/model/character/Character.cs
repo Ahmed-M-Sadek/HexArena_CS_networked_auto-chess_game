@@ -248,13 +248,13 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
             Console.WriteLine("Before : " + stats[StatusType.HealthPoints]);
             if (statusEffect.Type == StatusEffectType.Adder) {
                 statsAdder[statusEffect.StatusType] += (int) statusEffect.Value;
-                stats[statusEffect.StatusType] += (int)statusEffect.Value;
+                stats[statusEffect.StatusType] = (int)Math.Round(stats[statusEffect.StatusType] + statusEffect.Value);
 
                 Console.WriteLine("After : " + stats[StatusType.HealthPoints]);
             } else {
                 statsMultiplier[statusEffect.StatusType] *= statusEffect.Value;
                 
-                stats[statusEffect.StatusType] = (int)(stats[statusEffect.StatusType]*statusEffect.Value);
+                stats[statusEffect.StatusType] = (int)Math.Round(stats[statusEffect.StatusType] * statusEffect.Value);
                 Console.WriteLine("After : " + stats[StatusType.HealthPoints]);
             }
 
