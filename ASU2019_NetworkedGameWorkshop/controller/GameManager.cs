@@ -1,4 +1,5 @@
-﻿using ASU2019_NetworkedGameWorkshop.model.character;
+﻿using ASU2019_NetworkedGameWorkshop.model;
+using ASU2019_NetworkedGameWorkshop.model.character;
 using ASU2019_NetworkedGameWorkshop.model.character.types;
 using ASU2019_NetworkedGameWorkshop.model.grid;
 using ASU2019_NetworkedGameWorkshop.model.ui;
@@ -9,12 +10,16 @@ using System.Linq;
 using System.Windows.Forms;
 using static ASU2019_NetworkedGameWorkshop.model.ui.StageTimer;
 
-namespace ASU2019_NetworkedGameWorkshop.controller {
-    public class GameManager {
+namespace ASU2019_NetworkedGameWorkshop.controller
+{
+    public class GameManager
+    {
         private enum GameStage { Buy, Fight, FightToBuy, BuyToFight }
 
         private const int GAMELOOP_INTERVAL = 50, TICK_INTERVAL = 1000;
         private const int GRID_HEIGHT = 6, GRID_WIDTH = 7;
+
+        private readonly static int[] DMG_PER_CHARACTER_LEVEL = new int[] {3, 5, 7 };
 
         private readonly Grid grid;
         private readonly GameForm gameForm;
@@ -22,34 +27,43 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
         private readonly StageTimer stageTimer;
         private readonly Stopwatch stopwatch;
         private readonly Dictionary<Character, Tile> charactersPrevPos;
+        private readonly Player player;
 
         private Tile selectedTile;
         private long nextTickTime;
         private GameStage gameStage;
+        private int roundCount;
 
-        public long ElapsedTime {
-            get {
+        public long ElapsedTime
+        {
+            get
+            {
                 return stopwatch.ElapsedMilliseconds;
             }
         }
         public List<Character> TeamBlue { get; private set; }
         public List<Character> TeamRed { get; private set; }
 
-        public GameManager(GameForm gameForm) {
+        public GameManager(GameForm gameForm)
+        {
             this.gameForm = gameForm;
             grid = new Grid(GRID_WIDTH, GRID_HEIGHT,
-                (int) ((gameForm.Width - (Tile.WIDTH * GRID_WIDTH)) / 2),
-                (int) ((gameForm.Height - (Tile.HEIGHT * GRID_HEIGHT)) / 2) + 30);//temp values 
+                (int)((gameForm.Width - (Tile.WIDTH * GRID_WIDTH)) / 2),
+                (int)((gameForm.Height - (Tile.HEIGHT * GRID_HEIGHT)) / 2) + 30);//temp values 
 
             TeamBlue = new List<Character>();
             TeamRed = new List<Character>();
+
+            player = new Player();
+            roundCount = 1;
 
             gameStage = GameStage.Buy;
             stageTimer = new StageTimer(this, switchStage);
             charactersPrevPos = new Dictionary<Character, Tile>();
 
             stopwatch = new Stopwatch();
-            timer = new Timer {
+            timer = new Timer
+            {
                 Interval = GAMELOOP_INTERVAL //Arbitrary: 20 ticks per sec
             };
             timer.Tick += new EventHandler(gameLoop);
@@ -61,95 +75,156 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
             TeamBlue.Add(new Character(grid, grid.Tiles[0, 3], Character.Teams.Blue, CharacterTypePhysical.Archer, this));
         }
 
-        private void switchStage() {
-            if(gameStage == GameStage.Buy) {
+        private void switchStage()
+        {
+            if (gameStage == GameStage.Buy)
+            {
                 gameStage = GameStage.BuyToFight;
                 stageTimer.resetTimer(StageTime.BUY_TO_FIGHT);
-            } else if(gameStage == GameStage.Fight) {
+            }
+            else if (gameStage == GameStage.Fight)
+            {
                 gameStage = GameStage.FightToBuy;
                 stageTimer.resetTimer(StageTime.FIGHT_TO_BUY);
-            } else if(gameStage == GameStage.BuyToFight) {
+            }
+            else if (gameStage == GameStage.BuyToFight)
+            {
                 gameStage = GameStage.Fight;
                 switchStageFight();
-            } else if(gameStage == GameStage.FightToBuy) {
+            }
+            else if (gameStage == GameStage.FightToBuy)
+            {
+                endRound();
                 gameStage = GameStage.Buy;
                 switchStageBuy();
             }
         }
 
-        private void switchStageBuy() {
-            foreach(Character character in TeamRed.Where(e => !e.IsDead)) {
+        private void endRound()
+        {
+            roundCount++;
+            if (TeamRed.Count(character => !character.IsDead) == 0)
+            {
+                player.incrementGold(Player.RoundEndStatus.WIN);
+            }
+            else
+            {
+                int dmg = 0;
+                foreach (Character character in TeamRed)
+                {
+                    if (character.IsDead)
+                    {
+                        continue;
+                    }
+                    dmg += DMG_PER_CHARACTER_LEVEL[character.CurrentLevel];
+                }
+                player.Health -= 2 + dmg;
+                player.incrementGold(Player.RoundEndStatus.LOSS);
+            }
+        }
+
+        private void switchStageBuy()
+        {
+            foreach (Character character in TeamRed.Where(e => !e.IsDead))
+            {
                 character.CurrentTile.CurrentCharacter = null;
             }
             TeamRed.Clear();
-            foreach(Character character in TeamBlue.Where(e => !e.IsDead)) {
+            foreach (Character character in TeamBlue.Where(e => !e.IsDead))
+            {
                 character.CurrentTile.CurrentCharacter = null;
             }
             TeamBlue.Clear();
 
-            foreach(KeyValuePair<Character, Tile> characterPrevPos in charactersPrevPos) {
-                if(characterPrevPos.Key.team == Character.Teams.Blue) {
+            foreach (KeyValuePair<Character, Tile> characterPrevPos in charactersPrevPos)
+            {
+                if (characterPrevPos.Key.team == Character.Teams.Blue)
+                {
                     TeamBlue.Add(characterPrevPos.Key);
-                } else {
+                }
+                else
+                {
                     TeamRed.Add(characterPrevPos.Key);
                 }
                 characterPrevPos.Value.CurrentCharacter = characterPrevPos.Key;
                 characterPrevPos.Key.reset();
             }
-            foreach(Tile tile in grid.Tiles) {
+            foreach (Tile tile in grid.Tiles)
+            {
                 tile.Transparent = false;
             }
             stageTimer.resetTimer(StageTime.BUY);
         }
 
-        private void switchStageFight() {
+        private void switchStageFight()
+        {
             charactersPrevPos.Clear();
-            foreach(Character character in TeamRed) {
+            foreach (Character character in TeamRed)
+            {
                 charactersPrevPos.Add(character, character.CurrentTile);
             }
-            foreach(Character character in TeamBlue) {
+            foreach (Character character in TeamBlue)
+            {
                 charactersPrevPos.Add(character, character.CurrentTile);
             }
 
-            foreach(Tile tile in grid.Tiles) {
+            foreach (Tile tile in grid.Tiles)
+            {
                 tile.Transparent = true;
             }
 
-            if(selectedTile != null) {
+            if (selectedTile != null)
+            {
                 selectedTile.Selected = false;
                 selectedTile = null;
             }
             stageTimer.resetTimer(StageTime.FIGHT);
         }
 
-        public void startTimer() {
+        public void startTimer()
+        {
             gameStart();
             timer.Start();
         }
 
-        public void mouseClick(MouseEventArgs e) {
-            if(gameStage == GameStage.Buy) {
-                if(e.Button == MouseButtons.Right) {
-                    selectedTile.Selected = false;
-                    selectedTile = null;
-                    gameForm.Invalidate();
-                } else if(e.Button == MouseButtons.Left) {
+        public void mouseClick(MouseEventArgs e)
+        {
+            if (gameStage == GameStage.Buy)
+            {
+                if (e.Button == MouseButtons.Right)
+                {
+                    if (selectedTile != null)
+                    {
+                        selectedTile.Selected = false;
+                        selectedTile = null;
+                        gameForm.Invalidate();
+                    }
+                }
+                else if (e.Button == MouseButtons.Left)
+                {
                     Tile tile = grid.getSelectedHexagon(e.X, e.Y);
-                    if(tile != null) {
+                    if (tile != null)
+                    {
                         selectTile(tile);
                     }
                 }
             }
         }
 
-        private void selectTile(Tile tile) {
-            if(selectedTile == tile) {
+        private void selectTile(Tile tile)
+        {
+            if (selectedTile == tile)
+            {
                 selectedTile.Selected = false;
                 selectedTile = null;
-            } else if(selectedTile == null) {
+            }
+            else if (selectedTile == null)
+            {
                 selectedTile = tile;
                 selectedTile.Selected = true;
-            } else {
+            }
+            else
+            {
                 selectedTile.Selected = false;
                 Character temp = selectedTile.CurrentCharacter;
                 selectedTile.CurrentCharacter = tile.CurrentCharacter;
@@ -160,62 +235,78 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
             gameForm.Invalidate();
         }
 
-        public void updatePaint(PaintEventArgs e) {
+        public void updatePaint(PaintEventArgs e)
+        {
             grid.draw(e.Graphics);
 
             TeamBlue.ForEach(character => character.draw(e.Graphics));
             TeamRed.ForEach(character => character.draw(e.Graphics));
 
             stageTimer.draw(e.Graphics);
+
+            player.draw(e.Graphics);
         }
 
-        private void gameStart() {
+        private void gameStart()
+        {
             stopwatch.Start();
-            stageTimer.resetTimer(StageTime.DEBUGGING);//Debugging
+            switchStage();//Debugging
             //stageTimer.resetTimer(StageTime.BUY_TIME);
         }
 
-        private void gameLoop(object sender, EventArgs e) {
+        private void gameLoop(object sender, EventArgs e)
+        {
             bool updateCanvas = stageTimer.update();
 
-            if(gameStage == GameStage.Buy) {
+            if (gameStage == GameStage.Buy)
+            {
                 updateCanvas = stageUpdateBuy() || updateCanvas;
-            } else if(gameStage == GameStage.Fight) {
+            }
+            else if (gameStage == GameStage.Fight)
+            {
                 updateCanvas = stageUpdateFight() || updateCanvas;
             }
 
-            if(updateCanvas)
+            if (updateCanvas)
                 gameForm.Invalidate();
         }
 
-        private bool stageUpdateBuy() {
+        private bool stageUpdateBuy()
+        {
             bool updateCanvas = false;
             return updateCanvas;
         }
 
-        private bool stageUpdateFight() {
-            if(TeamBlue.Count(e => !e.IsDead) == 0 || TeamRed.Count(e => !e.IsDead) == 0) {
+        private bool stageUpdateFight()
+        {
+            if (TeamBlue.Count(e => !e.IsDead) == 0 || TeamRed.Count(e => !e.IsDead) == 0)
+            {
                 stageTimer.endTimer();
                 return true;
             }
 
             bool updateCanvas = false;
 
-            foreach(Character character in TeamBlue.Where(e => !e.IsDead)) {
+            foreach (Character character in TeamBlue.Where(e => !e.IsDead))
+            {
                 updateCanvas = character.update() || updateCanvas;
             }
 
-            foreach(Character character in TeamRed.Where(e => !e.IsDead)) {
+            foreach (Character character in TeamRed.Where(e => !e.IsDead))
+            {
                 updateCanvas = character.update() || updateCanvas;
             }
 
 
-            if(nextTickTime < ElapsedTime) {
+            if (nextTickTime < ElapsedTime)
+            {
                 nextTickTime = ElapsedTime + TICK_INTERVAL;
-                foreach(Character character in TeamBlue.Where(e => !e.IsDead)) {
+                foreach (Character character in TeamBlue.Where(e => !e.IsDead))
+                {
                     updateCanvas = character.tick() || updateCanvas;
                 }
-                foreach(Character character in TeamRed.Where(e => !e.IsDead)) {
+                foreach (Character character in TeamRed.Where(e => !e.IsDead))
+                {
                     updateCanvas = character.tick() || updateCanvas;
                 }
             }

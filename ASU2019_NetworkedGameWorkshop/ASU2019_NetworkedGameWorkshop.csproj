@@ -62,6 +62,7 @@
     <Compile Include="controller\PathFinding.cs" />
     <Compile Include="model\grid\Grid.cs" />
     <Compile Include="model\grid\Tile.cs" />
+    <Compile Include="model\Player.cs" />
     <Compile Include="model\StatBar.cs" />
     <Compile Include="model\ui\StageTimer.cs" />
     <Compile Include="Program.cs" />
@@ -101,6 +102,7 @@
   <ItemGroup>
     <Content Include="assets\sprites\tiles\Tile.png" />
     <Content Include="assets\sprites\tiles\Tile_Selected.png" />
+    <Content Include="assets\sprites\tiles\Tile_Transparent.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
