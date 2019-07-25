@@ -6,6 +6,7 @@ using ASU2019_NetworkedGameWorkshop.model.ui;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using static ASU2019_NetworkedGameWorkshop.model.ui.StageTimer;
@@ -32,7 +33,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
         private Tile selectedTile;
         private long nextTickTime;
         private GameStage gameStage;
-        private int roundCount;
+        private int currentRound;
 
         public long ElapsedTime
         {
@@ -55,7 +56,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             TeamRed = new List<Character>();
 
             player = new Player();
-            roundCount = 1;
+            currentRound = 1;
 
             gameStage = GameStage.Buy;
             stageTimer = new StageTimer(this, switchStage);
@@ -102,7 +103,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
 
         private void endRound()
         {
-            roundCount++;
+            currentRound++;
             if (TeamRed.Count(character => !character.IsDead) == 0)
             {
                 player.incrementGold(Player.RoundEndStatus.WIN);
@@ -237,6 +238,8 @@ namespace ASU2019_NetworkedGameWorkshop.controller
 
         public void updatePaint(PaintEventArgs e)
         {
+            e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+
             grid.draw(e.Graphics);
 
             TeamBlue.ForEach(character => character.draw(e.Graphics));
@@ -245,6 +248,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             stageTimer.draw(e.Graphics);
 
             player.draw(e.Graphics);
+            e.Graphics.DrawString("Round: " + currentRound, new Font("Roboto", 12, FontStyle.Bold), Brushes.Black, 800, 15);//temp pos
         }
 
         private void gameStart()

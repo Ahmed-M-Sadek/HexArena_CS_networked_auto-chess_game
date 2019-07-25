@@ -9,6 +9,8 @@ namespace ASU2019_NetworkedGameWorkshop.model
 
         private const int BASE_GOLD_INCOME = 5;
 
+        private static readonly Pen darkRedPen;
+
         private int health = 100;
         private int gold;
         private int streak;
@@ -28,6 +30,12 @@ namespace ASU2019_NetworkedGameWorkshop.model
                     health = value;
                 }
             }
+        }
+
+        static Player()
+        {
+            darkRedPen = Pens.DarkRed.Clone() as Pen;
+            darkRedPen.Width = 4;
         }
 
         public void incrementGold(RoundEndStatus roundEndStatus)
@@ -69,8 +77,11 @@ namespace ASU2019_NetworkedGameWorkshop.model
 
         public override void draw(Graphics graphics)
         {
-            graphics.DrawString(Health.ToString(), new Font("Roboto", 12, FontStyle.Bold), Brushes.DarkRed, 200, 30);//temp pos
-            graphics.DrawString(gold.ToString(), new Font("Roboto", 12, FontStyle.Bold), Brushes.LightGoldenrodYellow, 250, 30);//temp pos
+            graphics.DrawString(health.ToString(), new Font("Roboto", 12, FontStyle.Bold), Brushes.DarkRed, 200, 15);//temp pos
+            graphics.DrawArc(darkRedPen, 200-7, 15-12, 50, 50, 180, -360 * health / 100);//temp pos
+            graphics.DrawString("Gold: "+gold, new Font("Roboto", 12, FontStyle.Bold), Brushes.Yellow, 260, 15);//temp pos
+            graphics.DrawString("Streak: " + streak, new Font("Roboto", 12, FontStyle.Bold),
+                streakStatus == RoundEndStatus.WIN ? Brushes.OrangeRed : Brushes.SteelBlue, 350, 15);//temp pos
         }
     }
 }
