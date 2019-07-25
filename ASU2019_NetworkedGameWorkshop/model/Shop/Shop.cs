@@ -1,5 +1,6 @@
 ﻿using ASU2019_NetworkedGameWorkshop.controller;
 using ASU2019_NetworkedGameWorkshop.model.character;
+using ASU2019_NetworkedGameWorkshop.model.spell;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
@@ -11,8 +12,12 @@ namespace ASU2019_NetworkedGameWorkshop.model.Shop {
         private static FlowLayoutPanel skillShop;
         private static Button btn_hideSkillShop;
         private static Button btn_buySkill;
-        public static Skill selectedSkill;
-        public Shop(GameForm gameForm) {
+        public static Spell selectedSkill;
+        GameManager manager;
+        public Shop(GameManager manager,GameForm gameForm) {
+
+            this.manager = manager;
+
             selectedCharacterView = new FlowLayoutPanel();
             selectedCharacterView.Size = new Size(245, 215);
             selectedCharacterView.Location = new Point(12, 534);
@@ -39,47 +44,34 @@ namespace ASU2019_NetworkedGameWorkshop.model.Shop {
 
             gameForm.Controls.Add(skillShop);
         }
+        
 
         private void hideShop_btn(object sender, MouseEventArgs e) {
             skillShop.Visible = false;
         }
 
         private void buySkill_click(object sender, MouseEventArgs e) {
-            selectedSkill.buySkill();
+
             skillShop.Visible = false;
             selectedCharacterView.Invalidate();
         }
 
-        public void updateShop(Character character) {
-
-            selectedCharacter = character;
-            showSkills();
-
+        public void updateShop() {
+            selectedCharacter = manager.selectedTile.CurrentCharacter;
+            viewNewSkills();
+            selectedCharacterView.Invalidate();
         }
-
-        public void showStats() {
-            selectedCharacterView.Controls.Clear();
-            foreach (SingleStat stat in selectedCharacter.charStats.list) {
-                Label lbl_stat = new Label();
-                lbl_stat.ForeColor = Color.Orange;
-                lbl_stat.Text = stat.Show();
-                selectedCharacterView.Controls.Add(lbl_stat);
-                selectedCharacterView.Invalidate();
-            }
-        }
-        public void showSkills() {
-            selectedCharacterView.Controls.Clear();
+        private void viewNewSkills() {
             if (selectedCharacter != null) {
-                foreach (Skill skill in selectedCharacter.allSkills) {
-
-                    if (!skill.isUnlocked) {
-                        selectedCharacterView.Controls.Add(skill.getLabel());
+                selectedCharacterView.Controls.Clear();
+                foreach (Spell spell in Spell.Values) {
+                    if (!(selectedCharacter.spells.Contains(spell))) {
+                        selectedCharacterView.Controls.Add(spell.lbl_spell);
                     }
                 }
             }
         }
-
-        public static void viewSkillShop(Skill skill) {
+        public static void viewSkillShop() {
             skillShop.Controls.Clear();
 
             skillShop.Controls.Add(btn_hideSkillShop);
@@ -87,9 +79,5 @@ namespace ASU2019_NetworkedGameWorkshop.model.Shop {
 
             skillShop.Visible = true;
         }
-        private void selectedCharacterView_Paint(object sender, PaintEventArgs e) {
-            throw new NotImplementedException();
-        }
-
     }
 }

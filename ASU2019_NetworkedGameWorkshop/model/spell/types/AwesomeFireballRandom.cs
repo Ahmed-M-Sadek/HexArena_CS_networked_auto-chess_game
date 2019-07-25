@@ -9,6 +9,8 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell.types
     public class AwesomeFireballRandom : Spell
     {
         public AwesomeFireballRandom() :base(200,new Target(false,PriorityType.Random),SpellType.Damage) {
+            name = "Awesome Fireball (Random)";
+            lbl_spell.Text = name;
         }
     }
 }

@@ -9,7 +9,8 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell.types
     public class AwesomeFireball : Spell
     {
         public AwesomeFireball() :base(200,new Target(false,PriorityType.Current),SpellType.Damage) {
-
+            name = "Awesome Fireball";
+            lbl_spell.Text = name;
         }
     }
 }

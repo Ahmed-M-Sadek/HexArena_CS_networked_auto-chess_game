@@ -29,7 +29,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell.types
 
         public string Name { get; private set; }
         public int Duration { get; private set; }
-        SpellType(string name)
+        public SpellType(string name)
         {
             (Name) = (name);
         }
@@ -44,7 +44,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell.types
         {
             if(this == SpellType.Damage)
             {
-                castee.takeDamage(abilityValue);   
+                castee.takeDamage(abilityValue,DamageType.MagicDamage);   
             }
             if(this == SpellType.Buff)
             {

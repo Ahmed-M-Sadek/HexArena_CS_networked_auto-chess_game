@@ -35,30 +35,32 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell.types
         }
         public List<Character> getTargets()
         {
+            int range = caster.CharacterType.statsCopy()[StatusType.Range];
             if (!Ally)
+
             {
                 if (MultiTargeted == false)
                 {
                     if (PriorityType == PriorityType.Current)
                     {
-                        recievers.Add(caster.CurrentTarget);
+                        recievers.Add(caster.currentTarget);
                         return recievers;
                     }
                     if (PriorityType == PriorityType.Random)
                     {
                         Random random = new Random();
-                        List<Character> enemyList = (caster.team == Character.Teams.Red) ? caster.getGrid().TeamBlue : caster.getGrid().TeamRed;
+                        List<Character> enemyList = (caster.team == Character.Teams.Red) ? caster.getGameManager().TeamBlue : caster.getGameManager().TeamRed;
                         List<Character> removedList = new List<Character>();
                         foreach (Character character in enemyList)
                         {
-                            if(PathFinding.getDistance(caster.CurrentTile, character.CurrentTile) > caster.CharacterType.Range)
+                            if(PathFinding.getDistance(caster.CurrentTile, character.CurrentTile) > range)
                             {
                                 removedList.Add(character);
                             }
                         }
                         foreach (Character character in removedList)
                         {
-                            if (PathFinding.getDistance(caster.CurrentTile, character.CurrentTile) <= caster.CharacterType.Range)
+                            if (PathFinding.getDistance(caster.CurrentTile, character.CurrentTile) <= range)
                             {
                                 enemyList.Remove(character);
                             }
@@ -71,11 +73,11 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell.types
                 {
                     if(PriorityType == PriorityType.Current)
                     {
-                        recievers.Add(caster.CurrentTarget);
+                        recievers.Add(caster.currentTarget);
                         Character newTarget;
                         for(int i = 0; i < numberOfTargets; i++)
                         {
-                            (_, newTarget) = PathFinding.findClosestEnemy(caster.CurrentTarget.CurrentTile, caster.team, caster.getGrid(), caster.CharacterType.Range);
+                            (_, newTarget) = PathFinding.findClosestEnemy(caster.currentTarget.CurrentTile, caster.team, caster.getGrid(), range,caster.getGameManager());
                             recievers.Add(newTarget);
                         }
                     }
@@ -88,18 +90,18 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell.types
                     if (PriorityType == PriorityType.Random)
                     {
                         Random random = new Random();
-                        List<Character> teamMateList = (caster.team == Character.Teams.Red) ? caster.getGrid().TeamRed : caster.getGrid().TeamBlue;
+                        List<Character> teamMateList = (caster.team == Character.Teams.Red) ? caster.getGameManager().TeamRed : caster.getGameManager().TeamBlue;
                         List<Character> removedList = new List<Character>();
                         foreach (Character character in teamMateList)
                         {
-                            if (PathFinding.getDistance(caster.CurrentTile, character.CurrentTile) > caster.CharacterType.Range)
+                            if (PathFinding.getDistance(caster.CurrentTile, character.CurrentTile) > range)
                             {
                                 removedList.Add(character);
                             }
                         }
                         foreach (Character character in removedList)
                         {
-                            if (PathFinding.getDistance(caster.CurrentTile, character.CurrentTile) <= caster.CharacterType.Range)
+                            if (PathFinding.getDistance(caster.CurrentTile, character.CurrentTile) <= range)
                             {
                                 teamMateList.Remove(character);
                             }
@@ -112,11 +114,11 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell.types
                 {
                     if (PriorityType == PriorityType.Current)
                     {
-                        recievers.Add(caster.CurrentTarget);
+                        recievers.Add(caster.currentTarget);
                         Character newTarget;
                         for (int i = 0; i < numberOfTargets; i++)
                         {
-                            (_, newTarget) = PathFinding.findClosestEnemy(caster.CurrentTarget.CurrentTile, caster.CurrentTarget.team, caster.getGrid(), caster.CharacterType.Range);
+                            (_, newTarget) = PathFinding.findClosestEnemy(caster.currentTarget.CurrentTile, caster.currentTarget.team, caster.getGrid(), range,caster.getGameManager());
                             recievers.Add(newTarget);
                         }
                     }
