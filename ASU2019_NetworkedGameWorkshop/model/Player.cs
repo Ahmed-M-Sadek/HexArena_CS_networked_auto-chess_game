@@ -3,6 +3,9 @@ using System.Drawing;
 
 namespace ASU2019_NetworkedGameWorkshop.model
 {
+    /// <summary>
+    /// A class representing the player which hold the current health points, gold, and streak
+    /// </summary>
     public class Player : GraphicsObject
     {
         public enum RoundEndStatus { WIN, LOSS }
@@ -16,6 +19,11 @@ namespace ASU2019_NetworkedGameWorkshop.model
         private int streak;
         private RoundEndStatus streakStatus;
 
+        /// <summary>
+        /// <para>The Player's health points</para>
+        /// 
+        /// The health points will never go below zero.
+        /// </summary>
         public int Health
         {
             get { return health; }
@@ -33,14 +41,28 @@ namespace ASU2019_NetworkedGameWorkshop.model
         }
 
         public string Name { get; }
+        /// <summary>
+        /// Represents whether is player represents the local player of the machine or a player on another machine
+        /// </summary>
         public bool Local { get; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="local">Represents whether is player represents the local player of the machine or a player on another machine</param>
         public Player(string name, bool local = false)
         {
             Name = name;
             Local = local;
         }
 
+        /// <summary>
+        /// Increases the player's gold based on players win streak, whether the player won or lost the last round and gold interest.
+        /// 
+        /// <para>The streak is incremented after increasing the player's gold</para>
+        /// </summary>
+        /// <param name="roundEndStatus">the status of the last round</param>
         public void incrementGold(RoundEndStatus roundEndStatus)
         {
             gold += BASE_GOLD_INCOME
@@ -78,6 +100,10 @@ namespace ASU2019_NetworkedGameWorkshop.model
             }
         }
 
+        /// <summary>
+        /// Draws labels for the Player's Gold and Win/Lose Streak (colored accordingly)
+        /// </summary>
+        /// <param name="graphics">graphics object to draw on</param>
         public override void draw(Graphics graphics)
         {
             graphics.DrawString("Gold: " + gold, new Font("Roboto", 12, FontStyle.Bold), Brushes.DarkGoldenrod, 260, 15);//temp pos
