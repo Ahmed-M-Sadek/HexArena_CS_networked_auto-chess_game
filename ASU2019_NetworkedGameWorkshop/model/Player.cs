@@ -14,6 +14,8 @@ namespace ASU2019_NetworkedGameWorkshop.model
 
         private const int BASE_GOLD_INCOME = 5;
 
+        private static readonly Font FONT = new Font("Roboto", 12, FontStyle.Bold);
+
         private int health = MAX_HP;
         private int gold;
         private int streak;
@@ -27,17 +29,7 @@ namespace ASU2019_NetworkedGameWorkshop.model
         public int Health
         {
             get { return health; }
-            set
-            {
-                if (value < 0)
-                {
-                    health = 0;
-                }
-                else
-                {
-                    health = value;
-                }
-            }
+            set { health = (value < 0) ? 0 : value; }
         }
 
         public string Name { get; }
@@ -106,8 +98,8 @@ namespace ASU2019_NetworkedGameWorkshop.model
         /// <param name="graphics">graphics object to draw on</param>
         public override void draw(Graphics graphics)
         {
-            graphics.DrawString("Gold: " + gold, new Font("Roboto", 12, FontStyle.Bold), Brushes.DarkGoldenrod, 260, 15);//temp pos
-            graphics.DrawString("Streak: " + streak, new Font("Roboto", 12, FontStyle.Bold),
+            graphics.DrawString("Gold: " + gold, FONT, Brushes.DarkGoldenrod, 260, 15);//temp pos
+            graphics.DrawString("Streak: " + streak, FONT,
                 streakStatus == RoundEndStatus.WIN ? Brushes.OrangeRed : Brushes.SteelBlue, 350, 15);//temp pos
         }
     }
