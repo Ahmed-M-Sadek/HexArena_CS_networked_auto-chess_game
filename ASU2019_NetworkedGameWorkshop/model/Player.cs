@@ -80,7 +80,7 @@ namespace ASU2019_NetworkedGameWorkshop.model
 
         public override void draw(Graphics graphics)
         {
-            graphics.DrawString("Gold: " + gold, new Font("Roboto", 12, FontStyle.Bold), Brushes.Yellow, 260, 15);//temp pos
+            graphics.DrawString("Gold: " + gold, new Font("Roboto", 12, FontStyle.Bold), Brushes.DarkGoldenrod, 260, 15);//temp pos
             graphics.DrawString("Streak: " + streak, new Font("Roboto", 12, FontStyle.Bold),
                 streakStatus == RoundEndStatus.WIN ? Brushes.OrangeRed : Brushes.SteelBlue, 350, 15);//temp pos
         }
