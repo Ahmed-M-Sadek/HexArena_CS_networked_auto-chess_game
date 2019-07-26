@@ -7,11 +7,11 @@ namespace ASU2019_NetworkedGameWorkshop.model
     {
         public enum RoundEndStatus { WIN, LOSS }
 
+        public const int MAX_HP = 100;
+
         private const int BASE_GOLD_INCOME = 5;
 
-        private static readonly Pen darkRedPen;
-
-        private int health = 100;
+        private int health = MAX_HP;
         private int gold;
         private int streak;
         private RoundEndStatus streakStatus;
@@ -32,17 +32,20 @@ namespace ASU2019_NetworkedGameWorkshop.model
             }
         }
 
-        static Player()
+        public string Name { get; }
+        public bool Local { get; }
+
+        public Player(string name, bool local = false)
         {
-            darkRedPen = Pens.DarkRed.Clone() as Pen;
-            darkRedPen.Width = 4;
+            Name = name;
+            Local = local;
         }
 
         public void incrementGold(RoundEndStatus roundEndStatus)
         {
-            gold += BASE_GOLD_INCOME 
-                + getstreakIncome() 
-                + Math.Min(5, gold/10)
+            gold += BASE_GOLD_INCOME
+                + getstreakIncome()
+                + Math.Min(5, gold / 10)
                 + ((roundEndStatus == RoundEndStatus.WIN) ? 1 : 0);
             if (streakStatus == roundEndStatus)
             {
@@ -77,9 +80,7 @@ namespace ASU2019_NetworkedGameWorkshop.model
 
         public override void draw(Graphics graphics)
         {
-            graphics.DrawString(health.ToString(), new Font("Roboto", 12, FontStyle.Bold), Brushes.DarkRed, 200, 15);//temp pos
-            graphics.DrawArc(darkRedPen, 200-7, 15-12, 50, 50, 180, -360 * health / 100);//temp pos
-            graphics.DrawString("Gold: "+gold, new Font("Roboto", 12, FontStyle.Bold), Brushes.Yellow, 260, 15);//temp pos
+            graphics.DrawString("Gold: " + gold, new Font("Roboto", 12, FontStyle.Bold), Brushes.Yellow, 260, 15);//temp pos
             graphics.DrawString("Streak: " + streak, new Font("Roboto", 12, FontStyle.Bold),
                 streakStatus == RoundEndStatus.WIN ? Brushes.OrangeRed : Brushes.SteelBlue, 350, 15);//temp pos
         }

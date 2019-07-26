@@ -29,6 +29,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
         private readonly Stopwatch stopwatch;
         private readonly Dictionary<Character, Tile> charactersPrevPos;
         private readonly Player player;
+        private readonly PlayersLeaderBoard playersLeaderBoard;
 
         private Tile selectedTile;
         private long nextTickTime;
@@ -55,7 +56,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             TeamBlue = new List<Character>();
             TeamRed = new List<Character>();
 
-            player = new Player();
+            player = new Player("Local", true);
             currentRound = 1;
 
             gameStage = GameStage.Buy;
@@ -68,6 +69,24 @@ namespace ASU2019_NetworkedGameWorkshop.controller
                 Interval = GAMELOOP_INTERVAL //Arbitrary: 20 ticks per sec
             };
             timer.Tick += new EventHandler(gameLoop);
+
+            //Debugging
+            Player playertemp1 = new Player("NoobMaster 1");
+            playertemp1.Health = 99;
+            Player playertemp2 = new Player("NoobMaster 2");
+            playertemp2.Health = 10;
+            Player playertemp3 = new Player("NoobMaster 3");
+            playertemp3.Health = 33;
+            Player playertemp4 = new Player("NoobMaster 4");
+            //end Debugging
+
+            playersLeaderBoard = new PlayersLeaderBoard(
+                player,
+                playertemp1,
+                playertemp2,
+                playertemp3,
+                playertemp4
+            );
 
             //Debugging 
             TeamRed.Add(new Character(grid, grid.Tiles[6, 5], Character.Teams.Red, CharacterTypePhysical.Melee, this));
@@ -122,6 +141,8 @@ namespace ASU2019_NetworkedGameWorkshop.controller
                 player.Health -= 2 + dmg;
                 player.incrementGold(Player.RoundEndStatus.LOSS);
             }
+
+            playersLeaderBoard.update();
         }
 
         private void switchStageBuy()
@@ -249,6 +270,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
 
             player.draw(e.Graphics);
             e.Graphics.DrawString("Round: " + currentRound, new Font("Roboto", 12, FontStyle.Bold), Brushes.Black, 800, 15);//temp pos
+            playersLeaderBoard.draw(e.Graphics);
         }
 
         private void gameStart()
