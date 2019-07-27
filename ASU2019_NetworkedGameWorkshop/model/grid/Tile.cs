@@ -1,6 +1,7 @@
 using ASU2019_NetworkedGameWorkshop.model.character;
 using System;
 using System.Drawing;
+using ASU2019_NetworkedGameWorkshop.Properties;
 
 namespace ASU2019_NetworkedGameWorkshop.model.grid {
     public class Tile : GraphicsObject, IHeapItem<Tile>, ICloneable {
@@ -9,10 +10,6 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
         public const float HEX_C = HALF_WIDTH * 0.57735026919f,
             HEX_HEIGHT = HEIGHT - HEX_C,
             HEX_M = HEX_C / HALF_WIDTH;
-
-        private static readonly Image image = Image.FromFile("../../assets/sprites/tiles/Tile.png"),
-            imageTransparent = Image.FromFile("../../assets/sprites/tiles/Tile_Transparent.png"),
-            imageSelected = Image.FromFile("../../assets/sprites/tiles/Tile_Selected.png");//todo path
 
         public readonly float centerX, centerY;
 
@@ -70,9 +67,9 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
 
         public override void draw(Graphics graphics) {
             if(Transparent) {
-                graphics.DrawImage(imageTransparent, posX, posY, WIDTH, HEIGHT);
+                graphics.DrawImage(Resources.Tile_Transparent, posX, posY, WIDTH, HEIGHT);
             } else {
-                graphics.DrawImage(Selected ? imageSelected : image, posX, posY, WIDTH, HEIGHT);
+                graphics.DrawImage(Selected ? Resources.Tile_Selected : Resources.Tile, posX, posY, WIDTH, HEIGHT);
             }
 
             //debug
