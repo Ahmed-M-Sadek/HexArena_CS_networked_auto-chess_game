@@ -132,7 +132,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character.types
         };//low hp, dmg, armor then explodes
 
 
-        public static readonly CharacterTypePhysical[] Sniper = new CharacterTypePhysical[]{
+        public static readonly CharacterTypePhysical[] Marksman = new CharacterTypePhysical[]{
             new CharacterTypePhysical(
                 250,
                 10, 100,
