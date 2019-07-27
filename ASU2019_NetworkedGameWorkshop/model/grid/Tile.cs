@@ -11,10 +11,6 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
             HEX_HEIGHT = HEIGHT - HEX_C,
             HEX_M = HEX_C / HALF_WIDTH;
 
-        private static readonly Image image = Resources.Tile,
-            imageTransparent = Resources.Tile_Transparent,
-            imageSelected = Resources.Tile_Selected;//todo path
-
         public readonly float centerX, centerY;
 
         private readonly float posX, posY;
@@ -71,9 +67,9 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
 
         public override void draw(Graphics graphics) {
             if(Transparent) {
-                graphics.DrawImage(imageTransparent, posX, posY, WIDTH, HEIGHT);
+                graphics.DrawImage(Resources.Tile_Transparent, posX, posY, WIDTH, HEIGHT);
             } else {
-                graphics.DrawImage(Selected ? imageSelected : image, posX, posY, WIDTH, HEIGHT);
+                graphics.DrawImage(Selected ? Resources.Tile_Selected : Resources.Tile, posX, posY, WIDTH, HEIGHT);
             }
 
             //debug
