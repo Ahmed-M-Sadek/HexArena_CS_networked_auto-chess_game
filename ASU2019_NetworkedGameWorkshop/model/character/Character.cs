@@ -12,16 +12,6 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
     public class Character : GraphicsObject
     {
         public enum Teams { Red, Blue };
-        public Tile CurrentTile { get; set; }//public set ?
-        public CharacterType CharacterType
-        {
-            get
-            {
-                return characterType[CurrentLevel];
-            }
-        }
-        public bool IsDead { get; private set; }
-        public int CurrentLevel { get; private set; }
 
         public readonly Teams team;
 
@@ -36,8 +26,19 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
         private Dictionary<StatusType, int> stats;
         private List<StatusEffect> statusEffects;
         private Character currentTarget;
-        private Tile toMoveTo;
         private long nextAtttackTime;
+
+        public Tile CurrentTile { get; set; }//public set ?
+        public CharacterType CharacterType
+        {
+            get
+            {
+                return characterType[CurrentLevel];
+            }
+        }
+        public bool IsDead { get; private set; }
+        public int CurrentLevel { get; private set; }
+        public Tile ToMoveTo { get; private set; }
 
         public Character(Grid grid, Tile currentTile, Teams team,
             CharacterType[] characterType, GameManager gameManager)
@@ -93,9 +94,8 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
 
                 CurrentTile.CurrentCharacter = null;
                 CurrentTile = null; //why?
-                if (toMoveTo != null)
-                    toMoveTo.Walkable = true;
-
+                if (ToMoveTo != null)
+                    ToMoveTo.Walkable = true;
             }
             else
             {
@@ -108,7 +108,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
             stats = CharacterType.statsCopy();
             statusEffects.Clear();
             IsDead = false;
-            toMoveTo = null;
+            ToMoveTo = null;
             currentTarget = null;
         }
 
@@ -118,15 +118,14 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
             statusEffects.Add(statusEffect);
         }
 
-
         public bool tick()
         {
-            if (toMoveTo != null)
+            if (ToMoveTo != null)
             {
                 CurrentTile.CurrentCharacter = null;
                 CurrentTile.Walkable = true;
-                toMoveTo.CurrentCharacter = this;
-                toMoveTo = null;
+                ToMoveTo.CurrentCharacter = this;
+                ToMoveTo = null;
 
                 return true;
             }
@@ -146,7 +145,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
                 return true;
             }).ToList();
 
-            if (toMoveTo == null)
+            if (ToMoveTo == null)
             {
                 List<Tile> path = null;
                 if (currentTarget == null
@@ -183,8 +182,8 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
                             return false;
                         }
                     }
-                    toMoveTo = path[0];
-                    toMoveTo.Walkable = false;
+                    ToMoveTo = path[0];
+                    ToMoveTo.Walkable = false;
                 }
             }
             return false;

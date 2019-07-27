@@ -19,16 +19,19 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui
         private static readonly Font FONT = new Font("Roboto", 14f);
 
         private readonly GameManager gameManager;
-        private readonly SwitchStage switchStage;
 
         private StageTime currentStageTime;
         private long timerEnd;
         private long currentTime;
 
+        public SwitchStage switchStageEvent { get; set; }
+
+        public StageTimer(GameManager gameManager) : this(gameManager, null) { }
+
         public StageTimer(GameManager gameManager, SwitchStage switchStage)
         {
             this.gameManager = gameManager;
-            this.switchStage = switchStage;
+            this.switchStageEvent = switchStage;
         }
 
         public void resetTimer(StageTime stageTime)
@@ -48,7 +51,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui
             {
                 if (newTime == 0)
                 {
-                    switchStage();
+                    switchStageEvent();
                 }
                 currentTime = newTime;
                 return true;
@@ -59,7 +62,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui
 
         public void endTimer()
         {
-            switchStage();
+            switchStageEvent();
         }
 
         public override void draw(Graphics graphics)
