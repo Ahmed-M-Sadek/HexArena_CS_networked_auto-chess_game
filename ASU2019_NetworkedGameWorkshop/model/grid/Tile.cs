@@ -83,7 +83,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid
         public override void drawDebug(Graphics graphics)
         {
             graphics.DrawString(ToString(), DEBUG_FONT,
-                Walkable ? Brushes.Purple : Brushes.Red,
+                Walkable ? Brushes.Purple : Brushes.Orange,
                 centerX, centerY);
         }
 

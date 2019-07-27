@@ -12,25 +12,30 @@ namespace ASU2019_NetworkedGameWorkshop.model.character.types
         public const int MAX_CHAR_LVL = 3;
 
         private readonly Dictionary<StatusType, int> stats;
+        public string Name { get; }
 
-        public CharacterType(int healthPointsMax,
+        public CharacterType(string name,
+            int healthPointsMax,
             int charge, int chargeMax,
             int range,
             int attackDamage, float attackSpeed,
             int armor, int magicResist)
-            : this(healthPointsMax, healthPointsMax,
+            : this(name,
+                  healthPointsMax, healthPointsMax,
                  charge, chargeMax,
                  range,
                  attackDamage, attackSpeed,
                  armor, magicResist)
         { }
 
-        public CharacterType(int healthPoints, int healthPointsMax,
+        public CharacterType(string name,
+            int healthPoints, int healthPointsMax,
             int charge, int chargeMax,
             int range,
             int attackDamage, float attackSpeed,
             int armor, int magicResist)
         {
+            Name = name;
             stats = new Dictionary<StatusType, int>
             {
                 [StatusType.Armor] = armor,
@@ -63,6 +68,12 @@ namespace ASU2019_NetworkedGameWorkshop.model.character.types
                 yield return CharacterTypePhysical.Values;
                 yield return CharacterTypeMagical.Values;
             }
+        }
+
+
+        public override string ToString()
+        {
+            return Name;
         }
     }
 }

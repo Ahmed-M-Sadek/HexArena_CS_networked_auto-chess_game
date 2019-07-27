@@ -13,6 +13,8 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
     {
         public enum Teams { Red, Blue };
 
+        private static readonly Font DEBUG_FONT = new Font("Roboto", 10f);
+
         public readonly Teams team;
 
         private readonly Grid grid;
@@ -226,6 +228,16 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
 
         public override void drawDebug(Graphics graphics)
         {
+            if (!IsDead)
+            {
+                graphics.DrawString(CharacterType.ToString(),
+                DEBUG_FONT, Brushes.White,
+                CurrentTile.centerX - CharacterType.WIDTH_HALF,
+                CurrentTile.centerY);
+
+                hpBar.drawDebug(graphics);
+                charageBar.drawDebug(graphics);
+            }
         }
     }
 }

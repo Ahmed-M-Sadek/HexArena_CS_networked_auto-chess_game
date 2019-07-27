@@ -130,6 +130,8 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             if (true)//debugging
             {
                 grid.drawDebug(e.Graphics);
+                TeamBlue.ForEach(character => character.drawDebug(e.Graphics));
+                TeamRed.ForEach(character => character.drawDebug(e.Graphics));
             }
         }
 
