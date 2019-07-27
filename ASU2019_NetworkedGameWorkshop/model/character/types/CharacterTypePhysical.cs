@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 
-namespace ASU2019_NetworkedGameWorkshop.model.character.types {
-    public class CharacterTypePhysical : CharacterType {
+namespace ASU2019_NetworkedGameWorkshop.model.character.types
+{
+    public class CharacterTypePhysical : CharacterType
+    {
         public static readonly CharacterTypePhysical[] Archer = new CharacterTypePhysical[]{
             new CharacterTypePhysical(
                 500,
@@ -50,11 +52,14 @@ namespace ASU2019_NetworkedGameWorkshop.model.character.types {
             int range,
             int attackDamage, float attackSpeed,
             int armor, int magicResist)
-            : base(healthPoints, charge, chargeMax, range, attackDamage, attackSpeed, armor, magicResist) {
+            : base(healthPoints, charge, chargeMax, range, attackDamage, attackSpeed, armor, magicResist)
+        {
         }
 
-        public new static IEnumerable<CharacterTypePhysical[]> Values {
-            get {
+        public new static IEnumerable<CharacterTypePhysical[]> Values
+        {
+            get
+            {
                 yield return Archer;
                 yield return Melee;
             }

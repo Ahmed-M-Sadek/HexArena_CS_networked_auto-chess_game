@@ -2,8 +2,10 @@ using ASU2019_NetworkedGameWorkshop.model.character;
 using System;
 using System.Drawing;
 
-namespace ASU2019_NetworkedGameWorkshop.model.grid {
-    public class Tile : GraphicsObject, IHeapItem<Tile>, ICloneable {
+namespace ASU2019_NetworkedGameWorkshop.model.grid
+{
+    public class Tile : GraphicsObject, IHeapItem<Tile>, ICloneable
+    {
         public const float HEIGHT = 100f * 1.3f, WIDTH = 86.6f * 1.3f; //todo
         public const float HALF_HEIGHT = HEIGHT / 2f, HALF_WIDTH = WIDTH / 2f;
         public const float HEX_C = HALF_WIDTH * 0.57735026919f,
@@ -25,16 +27,22 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
 
         //todo remove character from here
         private Character currentCharacter;
-        public Character CurrentCharacter {
-            get {
+        public Character CurrentCharacter
+        {
+            get
+            {
                 return currentCharacter;
             }
-            set {
+            set
+            {
                 currentCharacter = value;
-                if(value != null) {
+                if (value != null)
+                {
                     value.CurrentTile = this;
                     Walkable = false;
-                } else {
+                }
+                else
+                {
                     Walkable = true;
                 }
             }
@@ -44,8 +52,10 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
         public int Gcost { get; set; }
         public int Hcost { get; set; }
         public Tile Parent { get; set; }
-        public int Fcost {
-            get {
+        public int Fcost
+        {
+            get
+            {
                 return Gcost + Hcost;
             }
         }
@@ -56,7 +66,8 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
         public int HeapIndex { get; set; }
         public bool Transparent { get; set; }
 
-        public Tile(int x, int y, int startingX, int startingY) {
+        public Tile(int x, int y, int startingX, int startingY)
+        {
             X = x;
             Y = y;
 
@@ -76,31 +87,40 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
                 centerX, centerY);
         }
 
-        public override void draw(Graphics graphics) {
-            if(Transparent) {
+        public override void draw(Graphics graphics)
+        {
+            if (Transparent)
+            {
                 graphics.DrawImage(imageTransparent, posX, posY, WIDTH, HEIGHT);
-            } else {
+            }
+            else
+            {
                 graphics.DrawImage(Selected ? imageSelected : image, posX, posY, WIDTH, HEIGHT);
             }
         }
 
-        public int CompareTo(Tile other) {
+        public int CompareTo(Tile other)
+        {
             int compare = Fcost.CompareTo(other.Fcost);
-            if(compare == 0) {
+            if (compare == 0)
+            {
                 compare = Hcost.CompareTo(other.Hcost);
             }
             return -compare;
         }
 
-        public object Clone() {
+        public object Clone()
+        {
             return MemberwiseClone();
         }
 
-        public override bool Equals(object obj) {
+        public override bool Equals(object obj)
+        {
             return (obj is Tile item) && item.X == X && item.Y == Y;
         }
 
-        public override string ToString() {
+        public override string ToString()
+        {
             return string.Format("({0}, {1})", X, Y);
         }
     }

@@ -7,12 +7,16 @@ using System.Drawing;
 using System.Linq;
 using static ASU2019_NetworkedGameWorkshop.model.character.StatusEffect;
 
-namespace ASU2019_NetworkedGameWorkshop.model.character {
-    public class Character : GraphicsObject {
+namespace ASU2019_NetworkedGameWorkshop.model.character
+{
+    public class Character : GraphicsObject
+    {
         public enum Teams { Red, Blue };
         public Tile CurrentTile { get; set; }//public set ?
-        public CharacterType CharacterType {
-            get {
+        public CharacterType CharacterType
+        {
+            get
+            {
                 return characterType[CurrentLevel];
             }
         }
@@ -36,7 +40,8 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
         private long nextAtttackTime;
 
         public Character(Grid grid, Tile currentTile, Teams team,
-            CharacterType[] characterType, GameManager gameManager) {
+            CharacterType[] characterType, GameManager gameManager)
+        {
             this.grid = grid;
             currentTile.CurrentCharacter = this;
             this.team = team;
@@ -47,7 +52,8 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
             stats = CharacterType.statsCopy();
             statsMultiplier = new Dictionary<StatusType, float>();
             statsAdder = new Dictionary<StatusType, int>();
-            foreach(StatusType statusType in Enum.GetValues(typeof(StatusType))) {
+            foreach (StatusType statusType in Enum.GetValues(typeof(StatusType)))
+            {
                 statsAdder.Add(statusType, 0);
                 statsMultiplier.Add(statusType, 1f);
             }
@@ -62,35 +68,43 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
         }
 
 
-        public void healHealthPoints(int healValue) {
-            if(healValue < 0) {
+        public void healHealthPoints(int healValue)
+        {
+            if (healValue < 0)
+            {
                 throw new ArgumentException("healValue should be positive: " + healValue);
             }
             stats[StatusType.HealthPoints] = Math.Min(stats[StatusType.HealthPoints] + healValue,
                                                         stats[StatusType.HealthPointsMax]);
         }
 
-        public void takeDamage(int dmgValue, DamageType damageType) {
-            if(dmgValue < 0) {
+        public void takeDamage(int dmgValue, DamageType damageType)
+        {
+            if (dmgValue < 0)
+            {
                 throw new ArgumentException("dmgValue should be positive: " + dmgValue);
             }
-            stats[StatusType.HealthPoints] -= (int) (dmgValue * 100 /
+            stats[StatusType.HealthPoints] -= (int)(dmgValue * 100 /
                 (100 + (damageType == DamageType.MagicDamage ? stats[StatusType.Armor] : stats[StatusType.MagicResist])));
-            if(stats[StatusType.HealthPoints] <= 0) {
+            if (stats[StatusType.HealthPoints] <= 0)
+            {
                 stats[StatusType.HealthPoints] = 0;
                 IsDead = true;
-                
+
                 CurrentTile.CurrentCharacter = null;
                 CurrentTile = null; //why?
                 if (toMoveTo != null)
                     toMoveTo.Walkable = true;
 
-            } else {
+            }
+            else
+            {
                 stats[StatusType.Charge] = Math.Min(stats[StatusType.Charge] + 10, stats[StatusType.ChargeMax]);//temp value
             }
         }
 
-        public void reset() {
+        public void reset()
+        {
             stats = CharacterType.statsCopy();
             statusEffects.Clear();
             IsDead = false;
@@ -98,14 +112,17 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
             currentTarget = null;
         }
 
-        public void addStatusEffect(StatusEffect statusEffect) {
+        public void addStatusEffect(StatusEffect statusEffect)
+        {
             applyStatusEffect(statusEffect);
             statusEffects.Add(statusEffect);
         }
 
 
-        public bool tick() {
-            if(toMoveTo != null) {
+        public bool tick()
+        {
+            if (toMoveTo != null)
+            {
                 CurrentTile.CurrentCharacter = null;
                 CurrentTile.Walkable = true;
                 toMoveTo.CurrentCharacter = this;
@@ -116,9 +133,12 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
             return false;
         }
 
-        public bool update() {
-            statusEffects = statusEffects.Where(effect => {
-                if(effect.removeEffectTimeStamp < gameManager.ElapsedTime) {
+        public bool update()
+        {
+            statusEffects = statusEffects.Where(effect =>
+            {
+                if (effect.removeEffectTimeStamp < gameManager.ElapsedTime)
+                {
                     effect.inverseValue();
                     applyStatusEffect(effect);
                     return false;
@@ -126,27 +146,40 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
                 return true;
             }).ToList();
 
-            if(toMoveTo == null) {
+            if (toMoveTo == null)
+            {
                 List<Tile> path = null;
-                if(currentTarget == null
-                    || currentTarget.IsDead) {
-                    try {
+                if (currentTarget == null
+                    || currentTarget.IsDead)
+                {
+                    try
+                    {
                         (path, currentTarget) = PathFinding.findPathToClosestEnemy(CurrentTile, team, grid, gameManager);//temp
-                    } catch(PathFinding.PathNotFoundException) {
+                    }
+                    catch (PathFinding.PathNotFoundException)
+                    {
                         return false;
                     }
                 }
-                if(PathFinding.getDistance(CurrentTile, currentTarget.CurrentTile) <= stats[StatusType.Range]) {
-                    if(gameManager.ElapsedTime > nextAtttackTime) {
+                if (PathFinding.getDistance(CurrentTile, currentTarget.CurrentTile) <= stats[StatusType.Range])
+                {
+                    if (gameManager.ElapsedTime > nextAtttackTime)
+                    {
                         nextAtttackTime = gameManager.ElapsedTime + stats[StatusType.AttackSpeed];
                         currentTarget.takeDamage(stats[StatusType.AttackDamage], DamageType.PhysicalDamage);//temp DamageType?
                         return true;
                     }
-                } else {
-                    if(path == null) {
-                        try {
+                }
+                else
+                {
+                    if (path == null)
+                    {
+                        try
+                        {
                             (path, currentTarget) = PathFinding.findPathToClosestEnemy(CurrentTile, team, grid, gameManager);
-                        } catch(PathFinding.PathNotFoundException) {
+                        }
+                        catch (PathFinding.PathNotFoundException)
+                        {
                             return false;
                         }
                     }
@@ -157,21 +190,29 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
             return false;
         }
 
-        private void levelUp() {
-            if(CurrentLevel < CharacterType.MAX_CHAR_LVL) {
+        private void levelUp()
+        {
+            if (CurrentLevel < CharacterType.MAX_CHAR_LVL)
+            {
                 CurrentLevel++;
                 stats = CharacterType.statsCopy();
             }
         }
-        private void applyStatusEffect(StatusEffect statusEffect) {
-            if(statusEffect.Type == StatusEffectType.Adder) {
+        private void applyStatusEffect(StatusEffect statusEffect)
+        {
+            if (statusEffect.Type == StatusEffectType.Adder)
+            {
                 statsMultiplier[statusEffect.StatusType] += statusEffect.Value;
-            } else {
+            }
+            else
+            {
                 statsMultiplier[statusEffect.StatusType] *= statusEffect.Value;
             }
         }
-        public override void draw(Graphics graphics) {
-            if (!IsDead){
+        public override void draw(Graphics graphics)
+        {
+            if (!IsDead)
+            {
                 graphics.FillRectangle(brush,
                     CurrentTile.centerX - CharacterType.WIDTH_HALF,
                     CurrentTile.centerY - CharacterType.HEIGHT_HALF,
@@ -184,7 +225,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
 
         public override void drawDebug(Graphics graphics)
         {
-            
+
         }
     }
 }
