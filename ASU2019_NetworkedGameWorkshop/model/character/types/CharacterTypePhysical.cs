@@ -174,6 +174,27 @@ namespace ASU2019_NetworkedGameWorkshop.model.character.types
                 45, 40),
         };//high hp mid dmg, atk speed
 
+        public static readonly CharacterTypePhysical[] Melee = new CharacterTypePhysical[]{
+            new CharacterTypePhysical(
+                600,
+                50, 100,
+                1,
+                60, 0.7f,
+                25, 20),
+            new CharacterTypePhysical(
+                600,
+                50, 100,
+                1,
+                60, 0.7f,
+                25, 20),
+            new CharacterTypePhysical(
+                600,
+                50, 100,
+                1,
+                60, 0.7f,
+                25, 20),
+        };
+
         public CharacterTypePhysical(
             int healthPoints,
             int charge, int chargeMax,
@@ -194,7 +215,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character.types
                 yield return Ranger;
                 yield return Sentinal;
                 yield return Slime;
-                yield return Sniper;
+                yield return Marksman;
                 yield return Warrior;
             }
         }
