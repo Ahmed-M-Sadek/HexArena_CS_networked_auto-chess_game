@@ -103,17 +103,6 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
             statusEffects.Add(statusEffect);
         }
 
-        public override void draw(Graphics graphics) {
-            if (!IsDead){
-                graphics.FillRectangle(brush,
-                    CurrentTile.centerX - CharacterType.WIDTH_HALF,
-                    CurrentTile.centerY - CharacterType.HEIGHT_HALF,
-                    CharacterType.WIDTH, CharacterType.HEIGHT);
-
-                hpBar.setTrackedAndDraw(graphics, stats[StatusType.HealthPoints], stats[StatusType.HealthPointsMax]);
-                charageBar.setTrackedAndDraw(graphics, stats[StatusType.Charge], stats[StatusType.ChargeMax]);
-            }
-        }
 
         public bool tick() {
             if(toMoveTo != null) {
@@ -180,6 +169,22 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
             } else {
                 statsMultiplier[statusEffect.StatusType] *= statusEffect.Value;
             }
+        }
+        public override void draw(Graphics graphics) {
+            if (!IsDead){
+                graphics.FillRectangle(brush,
+                    CurrentTile.centerX - CharacterType.WIDTH_HALF,
+                    CurrentTile.centerY - CharacterType.HEIGHT_HALF,
+                    CharacterType.WIDTH, CharacterType.HEIGHT);
+
+                hpBar.setTrackedAndDraw(graphics, stats[StatusType.HealthPoints], stats[StatusType.HealthPointsMax]);
+                charageBar.setTrackedAndDraw(graphics, stats[StatusType.Charge], stats[StatusType.ChargeMax]);
+            }
+        }
+
+        public override void drawDebug(Graphics graphics)
+        {
+            
         }
     }
 }

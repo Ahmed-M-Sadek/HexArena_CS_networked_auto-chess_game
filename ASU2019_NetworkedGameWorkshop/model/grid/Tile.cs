@@ -13,6 +13,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
         private static readonly Image image = Image.FromFile("../../assets/sprites/tiles/Tile.png"),
             imageTransparent = Image.FromFile("../../assets/sprites/tiles/Tile_Transparent.png"),
             imageSelected = Image.FromFile("../../assets/sprites/tiles/Tile_Selected.png");//todo path
+        private static readonly Font DEBUG_FONT = new Font("Roboto", 14f);
 
         public readonly float centerX, centerY;
 
@@ -55,7 +56,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
         public int HeapIndex { get; set; }
         public bool Transparent { get; set; }
 
-        public Tile(int x, int y, float startingX, float startingY) {
+        public Tile(int x, int y, int startingX, int startingY) {
             X = x;
             Y = y;
 
@@ -68,17 +69,19 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
             Walkable = true;
         }
 
+        public override void drawDebug(Graphics graphics)
+        {
+            graphics.DrawString(ToString(), DEBUG_FONT,
+                Walkable ? Brushes.Purple : Brushes.Red,
+                centerX, centerY);
+        }
+
         public override void draw(Graphics graphics) {
             if(Transparent) {
                 graphics.DrawImage(imageTransparent, posX, posY, WIDTH, HEIGHT);
             } else {
                 graphics.DrawImage(Selected ? imageSelected : image, posX, posY, WIDTH, HEIGHT);
             }
-
-            //debug
-            graphics.DrawString(this.ToString(), new Font("Roboto", 14f),
-                (!Walkable) ? Brushes.Red : Brushes.Purple,
-                centerX, centerY);
         }
 
         public int CompareTo(Tile other) {

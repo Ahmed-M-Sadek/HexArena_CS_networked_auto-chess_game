@@ -18,7 +18,8 @@ namespace ASU2019_NetworkedGameWorkshop {
             gameManager.updatePaint(e);
         }
 
-        private void GameForm_MouseClick(object sender, MouseEventArgs e) {
+        private void GameForm_MouseDown(object sender, MouseEventArgs e)
+        {
             gameManager.mouseClick(e);
         }
     }

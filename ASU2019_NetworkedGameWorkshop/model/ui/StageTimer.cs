@@ -13,6 +13,8 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui {
 
         public delegate void SwitchStage();
 
+        private static readonly Font FONT = new Font("Roboto", 14f);
+
         private readonly GameManager gameManager;
         private readonly SwitchStage switchStage;
 
@@ -43,13 +45,20 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui {
             }
         }
 
-        public override void draw(Graphics graphics) {
-            graphics.DrawString(currentStageTime + " - Time Left: " + currentTime, new Font("Roboto", 14f),
-                Brushes.Black, 500, 15);//temp
-        }
+
 
         public void endTimer() {
             switchStage();
+        }
+
+        public override void draw(Graphics graphics)
+        {
+            graphics.DrawString(currentStageTime + " - Time Left: " + currentTime, FONT,
+                Brushes.Black, 500, 15);//temp
+        }
+
+        public override void drawDebug(Graphics graphics)
+        {
         }
     }
 }

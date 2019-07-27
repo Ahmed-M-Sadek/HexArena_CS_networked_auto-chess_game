@@ -26,6 +26,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
         private Tile selectedTile;
         private long nextTickTime;
         private GameStage gameStage;
+        private bool updateCanvas;
 
         public long ElapsedTime {
             get {
@@ -34,12 +35,14 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
         }
         public List<Character> TeamBlue { get; private set; }
         public List<Character> TeamRed { get; private set; }
+        public Tile SelectedTile { get => selectedTile; set => selectedTile = value; }
 
         public GameManager(GameForm gameForm) {
             this.gameForm = gameForm;
             grid = new Grid(GRID_WIDTH, GRID_HEIGHT,
                 (int) ((gameForm.Width - (Tile.WIDTH * GRID_WIDTH)) / 2),
-                (int) ((gameForm.Height - (Tile.HEIGHT * GRID_HEIGHT)) / 2) + 30);//temp values 
+                (int) ((gameForm.Height - (Tile.HEIGHT * GRID_HEIGHT)) / 2) + 30,
+                this);//temp values 
 
             TeamBlue = new List<Character>();
             TeamRed = new List<Character>();
@@ -96,9 +99,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
                 characterPrevPos.Value.CurrentCharacter = characterPrevPos.Key;
                 characterPrevPos.Key.reset();
             }
-            foreach(Tile tile in grid.Tiles) {
-                tile.Transparent = false;
-            }
+            grid.Transparent = false;
             stageTimer.resetTimer(StageTime.BUY);
         }
 
@@ -111,13 +112,11 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
                 charactersPrevPos.Add(character, character.CurrentTile);
             }
 
-            foreach(Tile tile in grid.Tiles) {
-                tile.Transparent = true;
-            }
+            grid.Transparent = true;
 
-            if(selectedTile != null) {
-                selectedTile.Selected = false;
-                selectedTile = null;
+            if(SelectedTile != null) {
+                SelectedTile.Selected = false;
+                SelectedTile = null;
             }
             stageTimer.resetTimer(StageTime.FIGHT);
         }
@@ -130,9 +129,9 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
         public void mouseClick(MouseEventArgs e) {
             if(gameStage == GameStage.Buy) {
                 if(e.Button == MouseButtons.Right) {
-                    selectedTile.Selected = false;
-                    selectedTile = null;
-                    gameForm.Invalidate();
+                    SelectedTile.Selected = false;
+                    SelectedTile = null;
+                    updateCanvas = true;
                 } else if(e.Button == MouseButtons.Left) {
                     Tile tile = grid.getSelectedHexagon(e.X, e.Y);
                     if(tile != null) {
@@ -143,21 +142,20 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
         }
 
         private void selectTile(Tile tile) {
-            if(selectedTile == tile) {
-                selectedTile.Selected = false;
-                selectedTile = null;
-            } else if(selectedTile == null) {
-                selectedTile = tile;
-                selectedTile.Selected = true;
+            if(SelectedTile == tile) {
+                SelectedTile.Selected = false;
+                SelectedTile = null;
+            } else if(SelectedTile == null) {
+                SelectedTile = tile;
+                SelectedTile.Selected = true;
             } else {
-                selectedTile.Selected = false;
-                Character temp = selectedTile.CurrentCharacter;
-                selectedTile.CurrentCharacter = tile.CurrentCharacter;
+                SelectedTile.Selected = false;
+                Character temp = SelectedTile.CurrentCharacter;
+                SelectedTile.CurrentCharacter = tile.CurrentCharacter;
                 tile.CurrentCharacter = temp;
-                selectedTile = null;
+                SelectedTile = null;
             }
-
-            gameForm.Invalidate();
+            updateCanvas = true;
         }
 
         public void updatePaint(PaintEventArgs e) {
@@ -167,6 +165,11 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
             TeamRed.ForEach(character => character.draw(e.Graphics));
 
             stageTimer.draw(e.Graphics);
+
+            if (true)//debugging
+            {
+                grid.drawDebug(e.Graphics);
+            }
         }
 
         private void gameStart() {
@@ -176,7 +179,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
         }
 
         private void gameLoop(object sender, EventArgs e) {
-            bool updateCanvas = stageTimer.update();
+            updateCanvas = stageTimer.update() || updateCanvas;
 
             if(gameStage == GameStage.Buy) {
                 updateCanvas = stageUpdateBuy() || updateCanvas;
@@ -184,8 +187,15 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
                 updateCanvas = stageUpdateFight() || updateCanvas;
             }
 
-            if(updateCanvas)
-                gameForm.Invalidate();
+            if (updateCanvas)
+            {
+                Stopwatch stopwatch = new Stopwatch();
+                stopwatch.Start();
+                gameForm.Refresh();
+                //gameForm.Invalidate();
+                stopwatch.Stop();
+                Console.WriteLine(stopwatch.ElapsedMilliseconds);
+            }
         }
 
         private bool stageUpdateBuy() {

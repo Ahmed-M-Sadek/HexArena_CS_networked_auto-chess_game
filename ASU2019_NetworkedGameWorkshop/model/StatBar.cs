@@ -43,6 +43,11 @@ namespace ASU2019_NetworkedGameWorkshop.model {
                 Height);
         }
 
+        public override void drawDebug(Graphics graphics)
+        {
+            
+        }
+
         public void setTrackedAndDraw(Graphics graphics, int trackedStat, int trackedStatMax) {//this is stupid
             this.trackedStat = trackedStat;
             this.trackedStatMax = trackedStatMax;
