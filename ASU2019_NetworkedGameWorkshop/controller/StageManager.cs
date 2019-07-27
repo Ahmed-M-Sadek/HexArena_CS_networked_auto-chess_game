@@ -1,4 +1,5 @@
-﻿using ASU2019_NetworkedGameWorkshop.model.character;
+﻿using ASU2019_NetworkedGameWorkshop.model;
+using ASU2019_NetworkedGameWorkshop.model.character;
 using ASU2019_NetworkedGameWorkshop.model.grid;
 using ASU2019_NetworkedGameWorkshop.model.ui;
 using System.Collections.Generic;
@@ -11,28 +12,38 @@ namespace ASU2019_NetworkedGameWorkshop.controller
     {
         public enum GameStage { Buy, Fight, FightToBuy, BuyToFight }
 
+        private readonly static int[] DMG_PER_CHARACTER_LEVEL = new int[] { 3, 5, 7 };
+
         private readonly StageTimer stageTimer;
         private readonly List<Character> teamBlue, teamRed;
         private readonly Grid grid;
         private readonly Dictionary<Character, Tile> charactersPrevPos;
         private readonly GameManager gameManager;
+        private readonly PlayersLeaderBoard playersLeaderBoard;
+        private readonly Player player;
 
         public GameStage CurrentGameStage { get; private set; }
+        public int CurrentRound { get; set; }
 
         public StageManager(StageTimer stageTimer,
                             List<Character> teamBlue,
                             List<Character> teamRed,
                             Grid grid,
+                            Player player,
+                            PlayersLeaderBoard playersLeaderBoard,
                             GameManager gameManager)
         {
             this.stageTimer = stageTimer;
             this.teamBlue = teamBlue;
             this.teamRed = teamRed;
             this.grid = grid;
+            this.player = player;
+            this.playersLeaderBoard = playersLeaderBoard;
             this.gameManager = gameManager;
 
             charactersPrevPos = new Dictionary<Character, Tile>();
             CurrentGameStage = GameStage.Buy;
+            CurrentRound = 1;
         }
 
         public void switchStage()
@@ -55,6 +66,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             }
             else if (CurrentGameStage == GameStage.FightToBuy)
             {
+                endRound();
                 CurrentGameStage = GameStage.Buy;
                 switchStageBuy();
             }
@@ -107,6 +119,31 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             grid.Transparent = true;
 
             stageTimer.resetTimer(StageTime.FIGHT);
+        }
+
+        private void endRound()
+        {
+            CurrentRound++;
+            if (teamRed.Count(character => !character.IsDead) == 0)
+            {
+                player.incrementGold(Player.RoundEndStatus.WIN);
+            }
+            else
+            {
+                int dmg = 0;
+                foreach (Character character in teamRed)
+                {
+                    if (character.IsDead)
+                    {
+                        continue;
+                    }
+                    dmg += DMG_PER_CHARACTER_LEVEL[character.CurrentLevel];
+                }
+                player.Health -= 2 + dmg;
+                player.incrementGold(Player.RoundEndStatus.LOSS);
+            }
+
+            playersLeaderBoard.update();
         }
     }
 }

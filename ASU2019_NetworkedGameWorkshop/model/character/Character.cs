@@ -30,7 +30,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
         private Character currentTarget;
         private long nextAtttackTime;
 
-        public Tile CurrentTile { get; private set; }//public set ?
+        public Tile CurrentTile { get; set; }//public set ?
 
         /// <summary>
         /// CharacterType according to the Character's current level.

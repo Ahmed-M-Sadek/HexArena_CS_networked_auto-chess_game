@@ -1,14 +1,15 @@
-﻿using ASU2019_NetworkedGameWorkshop.model.character;
+﻿using ASU2019_NetworkedGameWorkshop.model;
+using ASU2019_NetworkedGameWorkshop.model.character;
 using ASU2019_NetworkedGameWorkshop.model.character.types;
 using ASU2019_NetworkedGameWorkshop.model.grid;
 using ASU2019_NetworkedGameWorkshop.model.ui;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using static ASU2019_NetworkedGameWorkshop.controller.StageManager;
-using static ASU2019_NetworkedGameWorkshop.model.ui.StageTimer;
 
 namespace ASU2019_NetworkedGameWorkshop.controller
 {
@@ -23,6 +24,8 @@ namespace ASU2019_NetworkedGameWorkshop.controller
         private readonly StageTimer stageTimer;
         private readonly Stopwatch stopwatch;
         private readonly StageManager stageManager;
+        private readonly PlayersLeaderBoard playersLeaderBoard;
+        private readonly Player player;
 
         private long nextTickTime;
         private bool updateCanvas;
@@ -47,8 +50,27 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             TeamBlue = new List<Character>();
             TeamRed = new List<Character>();
 
+            player = new Player("Local", true);
+            //Debugging
+            Player playertemp1 = new Player("NoobMaster 1");
+            playertemp1.Health = 99;
+            Player playertemp2 = new Player("NoobMaster 2");
+            playertemp2.Health = 10;
+            Player playertemp3 = new Player("NoobMaster 3");
+            playertemp3.Health = 33;
+            Player playertemp4 = new Player("NoobMaster 4");
+            //end Debugging
+
+            playersLeaderBoard = new PlayersLeaderBoard(
+                player,
+                playertemp1,
+                playertemp2,
+                playertemp3,
+                playertemp4
+            );
+
             stageTimer = new StageTimer(this);
-            stageManager = new StageManager(stageTimer, TeamBlue, TeamRed, grid, this);
+            stageManager = new StageManager(stageTimer, TeamBlue, TeamRed, grid, player, playersLeaderBoard, this);
             stageTimer.switchStageEvent += stageManager.switchStage;
 
             stopwatch = new Stopwatch();
@@ -59,9 +81,10 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             timer.Tick += new EventHandler(gameLoop);
 
             //Debugging 
-            TeamRed.Add(new Character(grid, grid.Tiles[6, 5], Character.Teams.Red, CharacterTypePhysical.Melee, this));
+
+            TeamRed.Add(new Character(grid, grid.Tiles[6, 5], Character.Teams.Red, CharacterTypePhysical.Warrior, this));
             TeamRed.Add(new Character(grid, grid.Tiles[5, 5], Character.Teams.Red, CharacterTypePhysical.Archer, this));
-            TeamBlue.Add(new Character(grid, grid.Tiles[4, 0], Character.Teams.Blue, CharacterTypePhysical.Melee, this));
+            TeamBlue.Add(new Character(grid, grid.Tiles[4, 0], Character.Teams.Blue, CharacterTypePhysical.Warrior, this));
             TeamBlue.Add(new Character(grid, grid.Tiles[0, 3], Character.Teams.Blue, CharacterTypePhysical.Archer, this));
         }
 
@@ -123,12 +146,18 @@ namespace ASU2019_NetworkedGameWorkshop.controller
 
         public void updatePaint(PaintEventArgs e)
         {
+            e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+
             grid.draw(e.Graphics);
 
             TeamBlue.ForEach(character => character.draw(e.Graphics));
             TeamRed.ForEach(character => character.draw(e.Graphics));
 
             stageTimer.draw(e.Graphics);
+
+            player.draw(e.Graphics);
+            e.Graphics.DrawString("Round: " + stageManager.CurrentRound, new Font("Roboto", 12, FontStyle.Bold), Brushes.Black, 800, 15);//temp pos and font
+            playersLeaderBoard.draw(e.Graphics);
 
             if (true)//debugging
             {
@@ -141,7 +170,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
         private void gameStart()
         {
             stopwatch.Start();
-            stageTimer.resetTimer(StageTime.DEBUGGING);//Debugging
+            stageManager.switchStage();//Debugging
             //stageTimer.resetTimer(StageTime.BUY_TIME);
         }
 
@@ -185,6 +214,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             {
                 updateCanvas = character.update() || updateCanvas;
             }
+
             foreach (Character character in TeamRed.Where(e => !e.IsDead))
             {
                 updateCanvas = character.update() || updateCanvas;
