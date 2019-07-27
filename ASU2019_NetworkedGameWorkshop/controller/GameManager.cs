@@ -23,19 +23,13 @@ namespace ASU2019_NetworkedGameWorkshop.controller
         private readonly StageTimer stageTimer;
         private readonly Stopwatch stopwatch;
         private readonly StageManager stageManager;
+
         private long nextTickTime;
         private bool updateCanvas;
 
-        public long ElapsedTime
-        {
-            get
-            {
-                return stopwatch.ElapsedMilliseconds;
-            }
-        }
+        public long ElapsedTime { get { return stopwatch.ElapsedMilliseconds; } }
         public List<Character> TeamBlue { get; private set; }
         public List<Character> TeamRed { get; private set; }
-
 
         public Tile SelectedTile { get; set; }
 
@@ -161,12 +155,8 @@ namespace ASU2019_NetworkedGameWorkshop.controller
 
             if (updateCanvas)
             {
-                Stopwatch stopwatch = new Stopwatch();
-                stopwatch.Start();
                 gameForm.Refresh();
                 //gameForm.Invalidate();
-                stopwatch.Stop();
-                Console.WriteLine(stopwatch.ElapsedMilliseconds);
             }
         }
 

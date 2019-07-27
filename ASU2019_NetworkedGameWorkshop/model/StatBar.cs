@@ -49,7 +49,6 @@ namespace ASU2019_NetworkedGameWorkshop.model
 
         public override void drawDebug(Graphics graphics)
         {
-
         }
 
         public void setTrackedAndDraw(Graphics graphics, int trackedStat, int trackedStatMax)

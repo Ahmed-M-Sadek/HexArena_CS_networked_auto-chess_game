@@ -83,7 +83,6 @@ namespace ASU2019_NetworkedGameWorkshop.controller
                     int newNeighbourCost = currentTile.Gcost + getDistance(currentTile, neighbour);
                     if (newNeighbourCost < neighbour.Gcost || !openSet.Contains(neighbour))
                     {
-
                         neighbour.Gcost = newNeighbourCost;
                         neighbour.Hcost = getDistance(neighbour, endTile);
                         neighbour.Parent = currentTile;
@@ -117,13 +116,9 @@ namespace ASU2019_NetworkedGameWorkshop.controller
         {
             Cube startCube = oddrToCube(start);
             Cube destCube = oddrToCube(dest);
-            return Math.Max(
-                        Math.Abs(startCube.X - destCube.X),
-                        Math.Max(
-                                Math.Abs(startCube.Y - destCube.Y),
-                                Math.Abs(startCube.Z - destCube.Z)
-                                )
-                        );
+            return Math.Max(Math.Abs(startCube.X - destCube.X),
+                            Math.Max(Math.Abs(startCube.Y - destCube.Y),
+                                     Math.Abs(startCube.Z - destCube.Z)));
         }
 
         private static Cube oddrToCube(Tile tile)
@@ -133,6 +128,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             var y = -x - z;
             return new Cube(x, y, z);
         }
+
         private struct Cube
         {
             public int X;
@@ -150,21 +146,10 @@ namespace ASU2019_NetworkedGameWorkshop.controller
         [Serializable]
         public class PathNotFoundException : Exception
         {
-            public PathNotFoundException()
-            {
-            }
-
-            public PathNotFoundException(string message) : base(message)
-            {
-            }
-
-            public PathNotFoundException(string message, Exception innerException) : base(message, innerException)
-            {
-            }
-
-            protected PathNotFoundException(SerializationInfo info, StreamingContext context) : base(info, context)
-            {
-            }
+            public PathNotFoundException() { }
+            public PathNotFoundException(string message) : base(message) { }
+            public PathNotFoundException(string message, Exception innerException) : base(message, innerException) { }
+            protected PathNotFoundException(SerializationInfo info, StreamingContext context) : base(info, context) { }
         }
     }
 }

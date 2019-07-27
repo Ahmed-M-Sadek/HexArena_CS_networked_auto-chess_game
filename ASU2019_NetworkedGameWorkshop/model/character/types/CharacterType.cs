@@ -31,17 +31,18 @@ namespace ASU2019_NetworkedGameWorkshop.model.character.types
             int attackDamage, float attackSpeed,
             int armor, int magicResist)
         {
-            stats = new Dictionary<StatusType, int>();
-
-            stats[StatusType.Armor] = armor;
-            stats[StatusType.AttackDamage] = attackDamage;
-            stats[StatusType.AttackSpeed] = (int)(1000 / attackSpeed);
-            stats[StatusType.Charge] = charge;
-            stats[StatusType.ChargeMax] = chargeMax;
-            stats[StatusType.HealthPoints] = healthPoints;
-            stats[StatusType.HealthPointsMax] = healthPointsMax;
-            stats[StatusType.MagicResist] = magicResist;
-            stats[StatusType.Range] = range;
+            stats = new Dictionary<StatusType, int>
+            {
+                [StatusType.Armor] = armor,
+                [StatusType.AttackDamage] = attackDamage,
+                [StatusType.AttackSpeed] = (int)(1000 / attackSpeed),
+                [StatusType.Charge] = charge,
+                [StatusType.ChargeMax] = chargeMax,
+                [StatusType.HealthPoints] = healthPoints,
+                [StatusType.HealthPointsMax] = healthPointsMax,
+                [StatusType.MagicResist] = magicResist,
+                [StatusType.Range] = range
+            };
         }
 
         public int this[StatusType index]

@@ -58,8 +58,6 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui
             }
         }
 
-
-
         public void endTimer()
         {
             switchStageEvent();

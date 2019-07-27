@@ -19,14 +19,7 @@
 
         public void inverseValue()
         {
-            if (Type == StatusEffectType.Adder)
-            {
-                Value *= -1;
-            }
-            else
-            {
-                Value = 1 / Value;
-            }
+            Value = (Type == StatusEffectType.Adder) ? (Value * -1) : (1 / Value);
         }
     }
 }

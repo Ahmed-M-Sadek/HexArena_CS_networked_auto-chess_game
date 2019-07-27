@@ -53,8 +53,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character.types
             int attackDamage, float attackSpeed,
             int armor, int magicResist)
             : base(healthPoints, charge, chargeMax, range, attackDamage, attackSpeed, armor, magicResist)
-        {
-        }
+        { }
 
         public new static IEnumerable<CharacterTypePhysical[]> Values
         {

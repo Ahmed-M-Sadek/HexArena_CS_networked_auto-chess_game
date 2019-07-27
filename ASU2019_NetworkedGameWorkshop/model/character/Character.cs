@@ -40,17 +40,23 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
         public int CurrentLevel { get; private set; }
         public Tile ToMoveTo { get; private set; }
 
-        public Character(Grid grid, Tile currentTile, Teams team,
-            CharacterType[] characterType, GameManager gameManager)
+        public Character(Grid grid,
+                         Tile currentTile,
+                         Teams team,
+                         CharacterType[] characterType,
+                         GameManager gameManager)
         {
             this.grid = grid;
             currentTile.CurrentCharacter = this;
             this.team = team;
             this.characterType = characterType;
             this.gameManager = gameManager;
-            brush = team == Teams.Blue ? Brushes.BlueViolet : Brushes.Red;
 
+            brush = (team == Teams.Blue) ? Brushes.BlueViolet : Brushes.Red;
+            statusEffects = new List<StatusEffect>();
             stats = CharacterType.statsCopy();
+            IsDead = false;
+
             statsMultiplier = new Dictionary<StatusType, float>();
             statsAdder = new Dictionary<StatusType, int>();
             foreach (StatusType statusType in Enum.GetValues(typeof(StatusType)))
@@ -58,10 +64,6 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
                 statsAdder.Add(statusType, 0);
                 statsMultiplier.Add(statusType, 1f);
             }
-
-            statusEffects = new List<StatusEffect>();
-
-            IsDead = false;
 
             hpBar = new StatBar(this,
                 team == Teams.Blue ? Brushes.GreenYellow : Brushes.OrangeRed, 0);
@@ -224,7 +226,6 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
 
         public override void drawDebug(Graphics graphics)
         {
-
         }
     }
 }

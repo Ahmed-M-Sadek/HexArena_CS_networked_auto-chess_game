@@ -98,7 +98,6 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid
             return null;
         }
 
-
         //valid for  odd_r hexagons
         public List<Tile> getNeighbours(Tile tile, Tile[,] TilesClone)
         {
@@ -125,8 +124,8 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid
                         gridY = tile.Y - y;
                     }
 
-                    if (gridX >= 0 && gridX < gridWidth &&
-                        gridY >= 0 && gridY < gridHeight)
+                    if (gridX >= 0 && gridX < gridWidth
+                        && gridY >= 0 && gridY < gridHeight)
                     {
                         neighbours.Add(TilesClone[gridX, gridY]);
                     }
