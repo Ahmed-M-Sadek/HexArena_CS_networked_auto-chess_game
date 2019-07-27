@@ -52,7 +52,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character.types
                 25, 20),
         };
 
-        public CharacterTypePhysical(
+        private CharacterTypePhysical(
             string name,
             int healthPoints,
             int charge, int chargeMax,
@@ -62,6 +62,9 @@ namespace ASU2019_NetworkedGameWorkshop.model.character.types
             : base(name, healthPoints, charge, chargeMax, range, attackDamage, attackSpeed, armor, magicResist)
         { }
 
+        /// <summary>
+        /// All of the static instances of CharacterTypePhysical
+        /// </summary>
         public new static IEnumerable<CharacterTypePhysical[]> Values
         {
             get

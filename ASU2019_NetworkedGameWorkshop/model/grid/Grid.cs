@@ -143,6 +143,10 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid
             }
         }
 
+        /// <summary>
+        /// Calls the DrawDebug() of the Tiles in the grid.
+        /// </summary>
+        /// <param name="graphics">graphics object to draw on.</param>
         public override void drawDebug(Graphics graphics)
         {
             foreach (Tile tile in Tiles)

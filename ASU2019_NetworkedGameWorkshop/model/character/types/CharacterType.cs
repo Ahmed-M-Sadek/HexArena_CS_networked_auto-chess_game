@@ -12,6 +12,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character.types
         public const int MAX_CHAR_LVL = 3;
 
         private readonly Dictionary<StatusType, int> stats;
+
         public string Name { get; }
 
         public CharacterType(string name,
@@ -61,6 +62,9 @@ namespace ASU2019_NetworkedGameWorkshop.model.character.types
             return new Dictionary<StatusType, int>(stats);
         }
 
+        /// <summary>
+        /// the Values (IEnumerable) of the Classes that inherit from CharacterType.
+        /// </summary>
         public static IEnumerable<IEnumerable<CharacterType[]>> Values
         {
             get
@@ -70,7 +74,10 @@ namespace ASU2019_NetworkedGameWorkshop.model.character.types
             }
         }
 
-
+        /// <summary>
+        /// String representation of the instance
+        /// </summary>
+        /// <returns>Character's name</returns>
         public override string ToString()
         {
             return Name;

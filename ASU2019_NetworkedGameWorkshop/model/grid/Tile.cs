@@ -80,6 +80,10 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid
             Walkable = true;
         }
 
+        /// <summary>
+        /// Draws a string containing the tile's coordinates on the tile.
+        /// </summary>
+        /// <param name="graphics">graphics object to draw on</param>
         public override void drawDebug(Graphics graphics)
         {
             graphics.DrawString(ToString(), DEBUG_FONT,
@@ -109,16 +113,29 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid
             return -compare;
         }
 
+        /// <summary>
+        /// MemberwiseClone
+        /// </summary>
+        /// <returns></returns>
         public object Clone()
         {
             return MemberwiseClone();
         }
 
+        /// <summary>
+        /// checks equality of the X and Y of the current and given objects.
+        /// </summary>
+        /// <param name="obj">The object to check agnist.</param>
+        /// <returns>returns true if obj is a tile and has the same X and Y as the current tile. false otherwise.</returns>
         public override bool Equals(object obj)
         {
             return (obj is Tile item) && item.X == X && item.Y == Y;
         }
 
+        /// <summary>
+        /// The string representation of the Tile.
+        /// </summary>
+        /// <returns>returns a formatted string containing the X and Y of the tile.</returns>
         public override string ToString()
         {
             return string.Format("({0}, {1})", X, Y);

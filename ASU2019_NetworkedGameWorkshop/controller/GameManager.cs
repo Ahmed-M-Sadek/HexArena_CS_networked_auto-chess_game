@@ -27,10 +27,13 @@ namespace ASU2019_NetworkedGameWorkshop.controller
         private long nextTickTime;
         private bool updateCanvas;
 
+        /// <summary>
+        /// Elapsed Time in ms.
+        /// <para>Increments even if program execution was paused (uses system time).</para>
+        /// </summary>
         public long ElapsedTime { get { return stopwatch.ElapsedMilliseconds; } }
         public List<Character> TeamBlue { get; private set; }
         public List<Character> TeamRed { get; private set; }
-
         public Tile SelectedTile { get; set; }
 
         public GameManager(GameForm gameForm)

@@ -48,6 +48,10 @@ namespace ASU2019_NetworkedGameWorkshop.model
                 Height);
         }
 
+        /// <summary>
+        /// Draws a string containing the Maximum and current value of the StatBar.
+        /// </summary>
+        /// <param name="graphics">graphics object to draw on.</param>
         public override void drawDebug(Graphics graphics)
         {
             graphics.DrawString(string.Format("{0}/{1}", trackedStat, trackedStatMax),
@@ -56,7 +60,13 @@ namespace ASU2019_NetworkedGameWorkshop.model
                 character.CurrentTile.centerY + offsetY);
         }
 
-        public void setTrackedAndDraw(Graphics graphics, int trackedStat, int trackedStatMax)
+        /// <summary>
+        /// updates the Tracked Stat value then calls Draw().
+        /// </summary>
+        /// <param name="graphics">graphics object to draw on.</param>
+        /// <param name="trackedStat">updated value of trackedStat.</param>
+        /// <param name="trackedStatMax">updated value of trackedStatMax.</param>
+        public void updateTrackedAndDraw(Graphics graphics, int trackedStat, int trackedStatMax)
         {//this is stupid
             this.trackedStat = trackedStat;
             this.trackedStatMax = trackedStatMax;

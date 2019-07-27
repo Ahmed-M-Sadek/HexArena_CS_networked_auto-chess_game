@@ -24,6 +24,9 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui
         private long timerEnd;
         private long currentTime;
 
+        /// <summary>
+        /// Method called if the timer reaches zero or ends.
+        /// </summary>
         public SwitchStage switchStageEvent { get; set; }
 
         public StageTimer(GameManager gameManager) : this(gameManager, null) { }

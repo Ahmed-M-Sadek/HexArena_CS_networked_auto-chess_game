@@ -28,7 +28,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character.types
                 25, 20),
         };
 
-        public CharacterTypeMagical(
+        private CharacterTypeMagical(
             string name,
             int healthPoints,
             int charge, int chargeMax,
@@ -38,6 +38,9 @@ namespace ASU2019_NetworkedGameWorkshop.model.character.types
             : base(name, healthPoints, charge, chargeMax, range, attackDamage, attackSpeed, armor, magicResist)
         { }
 
+        /// <summary>
+        /// All of the static instances of CharacterTypeMagical
+        /// </summary>
         public new static IEnumerable<CharacterTypeMagical[]> Values
         {
             get

@@ -30,7 +30,11 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
         private Character currentTarget;
         private long nextAtttackTime;
 
-        public Tile CurrentTile { get; set; }//public set ?
+        public Tile CurrentTile { get; private set; }//public set ?
+
+        /// <summary>
+        /// CharacterType according to the Character's current level.
+        /// </summary>
         public CharacterType CharacterType
         {
             get
@@ -72,7 +76,13 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
             charageBar = new StatBar(this, Brushes.Blue, 1);
         }
 
-
+        /// <summary>
+        /// Increases the character's Health Points by healValue after applying modifiers.
+        /// 
+        /// <para>Can NOT increases the Character's Health Points above the Character's type max Health Points.</para>
+        /// </summary>
+        /// <param name="healValue">the amount the character should heal.</param>
+        /// <exception cref="ArgumentException">if the healValue is Negative.</exception>
         public void healHealthPoints(int healValue)
         {
             if (healValue < 0)
@@ -83,6 +93,12 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
                                                         stats[StatusType.HealthPointsMax]);
         }
 
+        /// <summary>
+        /// Decreases the character's Health Points by healValue after applying modifiers.
+        /// </summary>
+        /// <param name="dmgValue">The damage the character took.</param>
+        /// <param name="damageType">The type of damage the Character took.</param>
+        /// <exception cref="ArgumentException">if the dmgValue is Negative.</exception>
         public void takeDamage(int dmgValue, DamageType damageType)
         {
             if (dmgValue < 0)
@@ -221,11 +237,17 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
                     CurrentTile.centerY - CharacterType.HEIGHT_HALF,
                     CharacterType.WIDTH, CharacterType.HEIGHT);
 
-                hpBar.setTrackedAndDraw(graphics, stats[StatusType.HealthPoints], stats[StatusType.HealthPointsMax]);
-                charageBar.setTrackedAndDraw(graphics, stats[StatusType.Charge], stats[StatusType.ChargeMax]);
+                hpBar.updateTrackedAndDraw(graphics, stats[StatusType.HealthPoints], stats[StatusType.HealthPointsMax]);
+                charageBar.updateTrackedAndDraw(graphics, stats[StatusType.Charge], stats[StatusType.ChargeMax]);
             }
         }
 
+        /// <summary>
+        /// Draws a string containing the Characters Classes on the character.
+        /// 
+        /// <para>Calls the DrawDebug() of the Character's Statbars.</para>
+        /// </summary>
+        /// <param name="graphics">graphics object to draw on.</param>
         public override void drawDebug(Graphics graphics)
         {
             if (!IsDead)
