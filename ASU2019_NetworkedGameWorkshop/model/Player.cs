@@ -102,5 +102,9 @@ namespace ASU2019_NetworkedGameWorkshop.model
             graphics.DrawString("Streak: " + streak, FONT,
                 streakStatus == RoundEndStatus.WIN ? Brushes.OrangeRed : Brushes.SteelBlue, 350, 15);//temp pos
         }
+
+        public override void drawDebug(Graphics graphics)
+        {
+        }
     }
 }

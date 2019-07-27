@@ -1,11 +1,14 @@
 ﻿using ASU2019_NetworkedGameWorkshop.controller;
 using System.Windows.Forms;
 
-namespace ASU2019_NetworkedGameWorkshop {
-    public partial class GameForm : Form {
+namespace ASU2019_NetworkedGameWorkshop
+{
+    public partial class GameForm : Form
+    {
         private GameManager gameManager;
 
-        public GameForm() {
+        public GameForm()
+        {
             InitializeComponent();
 
             this.DoubleBuffered = true;
@@ -14,11 +17,13 @@ namespace ASU2019_NetworkedGameWorkshop {
             gameManager.startTimer();
         }
 
-        private void GameForm_Paint(object sender, PaintEventArgs e) {
+        private void GameForm_Paint(object sender, PaintEventArgs e)
+        {
             gameManager.updatePaint(e);
         }
 
-        private void GameForm_MouseClick(object sender, MouseEventArgs e) {
+        private void GameForm_MouseDown(object sender, MouseEventArgs e)
+        {
             gameManager.mouseClick(e);
         }
     }

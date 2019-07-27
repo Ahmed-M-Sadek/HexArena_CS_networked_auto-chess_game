@@ -1,5 +1,7 @@
-﻿namespace ASU2019_NetworkedGameWorkshop.model.character {
-    public enum StatusType {
+﻿namespace ASU2019_NetworkedGameWorkshop.model.character
+{
+    public enum StatusType
+    {
         HealthPoints,
         HealthPointsMax,
         Charge,

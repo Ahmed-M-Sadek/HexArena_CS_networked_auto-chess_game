@@ -9,7 +9,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui
     /// 
     /// <para>This class only uses the health property of the Player so an incomplete player can be passed as long as the health is correct.</para>
     /// </summary>
-    class PlayersLeaderBoard : GraphicsObject
+    public class PlayersLeaderBoard : GraphicsObject
     {
         private const int X = 30,
             Y_START = 100, CIRCLE_DIM = 50, ENTRY_PADDING = 10;
@@ -70,7 +70,11 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui
             players.Sort((p1, p2) =>
             {
                 int diff = p2.Health - p1.Health;
-                return diff == 0 ? 1 : diff;
+                if (diff == 0)
+                {
+                    return (p1.Local) ? -1 : 1;
+                }
+                return diff;
             });
         }
 
@@ -88,6 +92,10 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui
                 graphics.DrawArc(PEN_DARK_RED, X - 11, y - 15, CIRCLE_DIM, CIRCLE_DIM, 180, -360 * players[i].Health / Player.MAX_HP);//temp padding
                 graphics.DrawString(players[i].Name, new Font("Roboto", 8, FontStyle.Bold), fontBrush, X + CIRCLE_DIM + 2, y + 8 / 2);//temp padding
             }
+        }
+
+        public override void drawDebug(Graphics graphics)
+        {
         }
     }
 }
