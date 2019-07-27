@@ -76,6 +76,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             {
                 gameStage = GameStage.BuyToFight;
                 stageTimer.resetTimer(StageTime.BUY_TO_FIGHT);
+                deselectSelectedTile();
             }
             else if (gameStage == GameStage.Fight)
             {
@@ -138,11 +139,6 @@ namespace ASU2019_NetworkedGameWorkshop.controller
 
             grid.Transparent = true;
 
-            if (SelectedTile != null)
-            {
-                SelectedTile.Selected = false;
-                SelectedTile = null;
-            }
             stageTimer.resetTimer(StageTime.FIGHT);
         }
 
@@ -158,9 +154,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             {
                 if (e.Button == MouseButtons.Right)
                 {
-                    SelectedTile.Selected = false;
-                    SelectedTile = null;
-                    updateCanvas = true;
+                    deselectSelectedTile();
                 }
                 else if (e.Button == MouseButtons.Left)
                 {
@@ -177,23 +171,31 @@ namespace ASU2019_NetworkedGameWorkshop.controller
         {
             if (SelectedTile == tile)
             {
-                SelectedTile.Selected = false;
-                SelectedTile = null;
+                deselectSelectedTile();
             }
             else if (SelectedTile == null)
             {
                 SelectedTile = tile;
                 SelectedTile.Selected = true;
+                updateCanvas = true;
             }
             else
             {
-                SelectedTile.Selected = false;
                 Character temp = SelectedTile.CurrentCharacter;
                 SelectedTile.CurrentCharacter = tile.CurrentCharacter;
                 tile.CurrentCharacter = temp;
-                SelectedTile = null;
+                deselectSelectedTile();
             }
-            updateCanvas = true;
+        }
+
+        private void deselectSelectedTile()
+        {
+            if (selectedTile != null)
+            {
+                SelectedTile.Selected = false;
+                selectedTile = null;
+                updateCanvas = true;
+            }
         }
 
         public void updatePaint(PaintEventArgs e)
