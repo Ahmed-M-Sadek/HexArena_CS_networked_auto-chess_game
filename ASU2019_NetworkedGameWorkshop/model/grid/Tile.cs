@@ -1,6 +1,7 @@
 using ASU2019_NetworkedGameWorkshop.model.character;
 using System;
 using System.Drawing;
+using ASU2019_NetworkedGameWorkshop.Properties;
 
 namespace ASU2019_NetworkedGameWorkshop.model.grid {
     public class Tile : GraphicsObject, IHeapItem<Tile>, ICloneable {
@@ -10,9 +11,9 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid {
             HEX_HEIGHT = HEIGHT - HEX_C,
             HEX_M = HEX_C / HALF_WIDTH;
 
-        private static readonly Image image = Image.FromFile("../../assets/sprites/tiles/Tile.png"),
-            imageTransparent = Image.FromFile("../../assets/sprites/tiles/Tile_Transparent.png"),
-            imageSelected = Image.FromFile("../../assets/sprites/tiles/Tile_Selected.png");//todo path
+        private static readonly Image image = Resources.Tile,
+            imageTransparent = Resources.Tile_Transparent,
+            imageSelected = Resources.Tile_Selected;//todo path
 
         public readonly float centerX, centerY;
 
