@@ -2,8 +2,10 @@
 using ASU2019_NetworkedGameWorkshop.model.grid;
 using System.Drawing;
 
-namespace ASU2019_NetworkedGameWorkshop.model {
-    public class StatBar : GraphicsObject {
+namespace ASU2019_NetworkedGameWorkshop.model
+{
+    public class StatBar : GraphicsObject
+    {
         private const float WIDTH = Tile.WIDTH - 30 * 2,
             WIDTH_HALF = WIDTH / 2f,
             Height = 8;
@@ -23,14 +25,16 @@ namespace ASU2019_NetworkedGameWorkshop.model {
         private int trackedStat;
         private int trackedStatMax;
 
-        public StatBar(Character character, Brush brush, int order) {
+        public StatBar(Character character, Brush brush, int order)
+        {
             this.character = character;
             this.brush = brush;
             offsetY = -Tile.HALF_HEIGHT + order * BACK_HEIGHT + HEX_OFFSET_Y;
             backOffsetY = offsetY - (BACK_OFFSET_Y / 2f);
         }
 
-        public override void draw(Graphics graphics) {
+        public override void draw(Graphics graphics)
+        {
             graphics.FillRectangle(BACK_BRUSH,
                 character.CurrentTile.centerX - BACK_OFFSET_X,
                 character.CurrentTile.centerY + backOffsetY,
@@ -43,7 +47,8 @@ namespace ASU2019_NetworkedGameWorkshop.model {
                 Height);
         }
 
-        public void setTrackedAndDraw(Graphics graphics, int trackedStat, int trackedStatMax) {//this is stupid
+        public void setTrackedAndDraw(Graphics graphics, int trackedStat, int trackedStatMax)
+        {//this is stupid
             this.trackedStat = trackedStat;
             this.trackedStatMax = trackedStatMax;
             draw(graphics);

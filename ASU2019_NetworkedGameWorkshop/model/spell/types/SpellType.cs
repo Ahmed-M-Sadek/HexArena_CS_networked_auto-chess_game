@@ -1,10 +1,5 @@
-﻿using System;
+﻿using ASU2019_NetworkedGameWorkshop.model.character;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ASU2019_NetworkedGameWorkshop.model.character;
-using ASU2019_NetworkedGameWorkshop.controller;
 
 namespace ASU2019_NetworkedGameWorkshop.model.spell.types
 {
@@ -37,20 +32,21 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell.types
         {
             (Status) = (status);
         }
-        public void cast(List<Character> recievers,float abilityValue)
+        public void cast(List<Character> recievers, float abilityValue)
         {
             foreach (var castee in recievers)
             {
                 apply(castee, abilityValue);
             }
         }
-        private void apply(Character castee,float abilityValue)
+        private void apply(Character castee, float abilityValue)
         {
-            if(this == SpellType.Damage)
+            if (this == SpellType.Damage)
             {
-                castee.takeDamage(abilityValue,DamageType.MagicDamage);   
+                castee.takeDamage(abilityValue, DamageType.MagicDamage);
             }
-            else  {
+            else
+            {
                 castee.addStatusEffect(Status);
             }
         }

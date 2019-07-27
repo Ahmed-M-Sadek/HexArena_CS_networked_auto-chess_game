@@ -1,9 +1,12 @@
 ﻿using ASU2019_NetworkedGameWorkshop.controller;
 using System.Drawing;
 
-namespace ASU2019_NetworkedGameWorkshop.model.ui {
-    public class StageTimer : GraphicsObject {
-        public enum StageTime {
+namespace ASU2019_NetworkedGameWorkshop.model.ui
+{
+    public class StageTimer : GraphicsObject
+    {
+        public enum StageTime
+        {
             FIGHT = 41 * 1000,
             BUY = 31 * 1000,
             DEBUGGING = 6 * 1000,
@@ -20,22 +23,29 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui {
         private long timerEnd;
         private long currentTime;
 
-        public StageTimer(GameManager gameManager, SwitchStage switchStage) {
+        public StageTimer(GameManager gameManager, SwitchStage switchStage)
+        {
             this.gameManager = gameManager;
             this.switchStage = switchStage;
         }
 
-        public void resetTimer(StageTime stageTime) {
+        public void resetTimer(StageTime stageTime)
+        {
             currentStageTime = stageTime;
-            timerEnd = (int) (stageTime) + gameManager.ElapsedTime;
+            timerEnd = (int)(stageTime) + gameManager.ElapsedTime;
         }
 
-        public bool update() {
+        public bool update()
+        {
             long newTime = (timerEnd - gameManager.ElapsedTime) / 1000;
-            if(currentTime == newTime) {
+            if (currentTime == newTime)
+            {
                 return false;
-            } else {
-                if(newTime == 0) {
+            }
+            else
+            {
+                if (newTime == 0)
+                {
                     switchStage();
                 }
                 currentTime = newTime;
@@ -43,12 +53,14 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui {
             }
         }
 
-        public override void draw(Graphics graphics) {
+        public override void draw(Graphics graphics)
+        {
             graphics.DrawString(currentStageTime + " - Time Left: " + currentTime, new Font("Roboto", 14f),
                 Brushes.Black, 500, 15);//temp
         }
 
-        public void endTimer() {
+        public void endTimer()
+        {
             switchStage();
         }
     }

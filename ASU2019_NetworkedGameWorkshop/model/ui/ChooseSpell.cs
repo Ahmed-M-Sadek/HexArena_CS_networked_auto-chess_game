@@ -1,10 +1,10 @@
 ﻿using ASU2019_NetworkedGameWorkshop.model.character;
 using ASU2019_NetworkedGameWorkshop.model.grid;
 using ASU2019_NetworkedGameWorkshop.model.spell;
-using System.Collections.Generic;
-using System.Windows.Forms;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace ASU2019_NetworkedGameWorkshop.model
 {
@@ -18,8 +18,8 @@ namespace ASU2019_NetworkedGameWorkshop.model
         private const float BACK_OFFSET_X = WIDTH_HALF + BACK_PADDING_H / 2f,
             BACK_OFFSET_Y = 2f;
         private const float BACK_WIDTH = WIDTH + BACK_PADDING_H,
-            BACK_HEIGHT = height + BACK_OFFSET_Y +12;
-       
+            BACK_HEIGHT = height + BACK_OFFSET_Y + 12;
+
         private readonly Character character;
         private List<Spells> spells;
         private readonly float offsetY;
@@ -30,7 +30,7 @@ namespace ASU2019_NetworkedGameWorkshop.model
             this.BackColor = Color.White;
             this.spells = spells;
             this.character = character;
-            offsetY = -Tile.HALF_HEIGHT -1 * BACK_HEIGHT + HEX_OFFSET_Y;
+            offsetY = -Tile.HALF_HEIGHT - 1 * BACK_HEIGHT + HEX_OFFSET_Y;
             backOffsetY = offsetY - (BACK_OFFSET_Y / 2f);
             this.Size = new Size((int)BACK_WIDTH, (int)BACK_HEIGHT);
             this.Location = new Point((int)(character.CurrentTile.centerX - BACK_OFFSET_X), (int)(character.CurrentTile.centerY + backOffsetY));
@@ -41,7 +41,7 @@ namespace ASU2019_NetworkedGameWorkshop.model
                 pics[i].ImageLocation = spells[i].image;
                 pics[i].Size = new Size(18, 18);
                 pics[i].SizeMode = PictureBoxSizeMode.StretchImage;
-                pics[i].Location = new Point(i * 18 + 2 * (i + 1),  2);
+                pics[i].Location = new Point(i * 18 + 2 * (i + 1), 2);
                 pics[i].MouseClick += new MouseEventHandler(NewMethod(spells, i));
 
                 this.Controls.Add(pics[i]);
@@ -53,15 +53,15 @@ namespace ASU2019_NetworkedGameWorkshop.model
             return (sender, e) => picOneFaceUpA_Click(sender, e, spells[k]);
         }
 
-        public void picOneFaceUpA_Click(object sender,EventArgs e,Spells spell)
+        public void picOneFaceUpA_Click(object sender, EventArgs e, Spells spell)
         {
             character.gameManager.removeFromForm(this);
             character.SpellReady = false;
             character.resetMana();
             spell.castSpell(character);
-            
+
         }
 
-            
+
     }
 }
