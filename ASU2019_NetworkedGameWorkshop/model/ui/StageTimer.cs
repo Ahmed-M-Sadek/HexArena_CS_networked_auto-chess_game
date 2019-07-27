@@ -42,6 +42,11 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui
 
         public bool update()
         {
+            if (timerEnd < gameManager.ElapsedTime)
+            {
+                switchStageEvent();
+                return true;
+            }
             long newTime = (timerEnd - gameManager.ElapsedTime) / 1000;
             if (currentTime == newTime)
             {
@@ -49,10 +54,6 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui
             }
             else
             {
-                if (newTime == 0)
-                {
-                    switchStageEvent();
-                }
                 currentTime = newTime;
                 return true;
             }
