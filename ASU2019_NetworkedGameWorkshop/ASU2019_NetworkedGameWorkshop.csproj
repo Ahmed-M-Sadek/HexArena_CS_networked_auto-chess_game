@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="controller\GameManager.cs" />
+    <Compile Include="controller\StageManager.cs" />
     <Compile Include="model\character\Character.cs" />
     <Compile Include="model\character\StatusEffect.cs" />
     <Compile Include="model\character\types\CharacterTypeMagical.cs" />
@@ -62,7 +63,7 @@
     <Compile Include="controller\PathFinding.cs" />
     <Compile Include="model\grid\Grid.cs" />
     <Compile Include="model\grid\Tile.cs" />
-    <Compile Include="model\Shop\CharacterShop.cs" />
+    <Compile Include="model\Player.cs" />
     <Compile Include="model\Shop\Shop.cs" />
     <Compile Include="model\spell\Spell.cs" />
     <Compile Include="model\spell\types\FantasticHeal.cs" />
