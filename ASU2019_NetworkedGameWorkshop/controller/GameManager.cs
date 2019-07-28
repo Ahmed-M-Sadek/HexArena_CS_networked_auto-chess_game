@@ -74,14 +74,14 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             TeamRed.Add(red);
             TeamBlue.Add(blue1);
             TeamBlue.Add(blue2);
-            TeamBlue.Add(blue3);
+            TeamBlue.Add(blue3)
+        }
 
-        }
-        public void addToForm(Control control)
+        public void addRangeToForm(params Control[] control)
         {
-            gameForm.Controls.Add(control);
+            gameForm.Controls.AddRange(control);
         }
-        public void removeFromForm(Control control)
+        public void removeRangeFromForm(params Control[] control)
         {
             gameForm.Controls.Remove(control);
         }

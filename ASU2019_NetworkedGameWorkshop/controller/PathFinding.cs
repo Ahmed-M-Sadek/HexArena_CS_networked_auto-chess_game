@@ -65,20 +65,19 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             List<Character> enemyList = team;
             Character closestEnemy = null;
             int? shortestDist = null;
-
-            Tile[,] tilesClone = (Tile[,])grid.Tiles.Clone();
+            
             foreach (Character enemy in enemyList)
             {
                 if (enemy.CurrentTile == currentTile)
                 {
                     continue;
                 }
-                if (PathFinding.getDistance(currentTile, enemy.CurrentTile) > range) continue;
+                if (getDistance(currentTile, enemy.CurrentTile) > range) continue;
                 int dist;
 
                 try
                 {
-                    dist = PathFinding.getDistance(currentTile, enemy.CurrentTile);
+                    dist = getDistance(currentTile, enemy.CurrentTile);
                 }
                 catch (PathNotFoundException)
                 {
@@ -90,7 +89,6 @@ namespace ASU2019_NetworkedGameWorkshop.controller
                     shortestDist = dist;
                     closestEnemy = enemy;
                 }
-                
             }
 
             if (shortestDist == null)

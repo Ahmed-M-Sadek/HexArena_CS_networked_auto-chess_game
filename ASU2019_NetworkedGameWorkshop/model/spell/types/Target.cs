@@ -7,104 +7,92 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell.types
 {
     public class Target
     {
+        private readonly Random random;
 
-        public Character caster { get; set; }
-        public List<Character> recievers { get; set; }
+        public Character Caster { get; set; }
+        public List<Character> Recievers { get; set; }
         public bool MultiTargeted { get; private set; }
-        public int numberOfTargets { get; private set; }
-        public bool Ally { get; private set; }
-        public PriorityType PriorityType { get; private set; }
+        public int NumberOfTargets { get; private set; }
+        public bool TargetAlly { get; private set; }
+        public CastTarget CastTarget { get; private set; }
 
-        public Target(bool Ally, PriorityType priorityType)
+        public Target(bool TargetAlly, CastTarget castTarget) : this(TargetAlly, false, 1, castTarget)
+        { }
+
+        public Target(bool TargetAlly, bool aOE, int numberOfTargets, CastTarget castTarget)
         {
-            recievers = new List<Character>();
-            this.Ally = Ally;
-            MultiTargeted = false;
-            this.numberOfTargets = 1;
-            PriorityType = priorityType;
-        }
-        public Target(bool Ally, bool aOE, int numberOfTargets, PriorityType priorityType)
-        {
-            recievers = new List<Character>();
-            this.Ally = Ally;
+            Recievers = new List<Character>();
+            this.TargetAlly = TargetAlly;
             MultiTargeted = aOE;
-            this.numberOfTargets = numberOfTargets;
-            PriorityType = priorityType;
+            NumberOfTargets = numberOfTargets;
+            CastTarget = castTarget;
+            random = new Random();
         }
         public List<Character> getTargets()
         {
-            int range = caster.CharacterType.statsCopy()[StatusType.Range];
-            List<Character> enemyList = (caster.team == Character.Teams.Red) ? caster.getGameManager().TeamBlue : caster.getGameManager().TeamRed;
-            enemyList = charactersInRange(enemyList, caster);
-            List<Character> teamMateList = (caster.team == Character.Teams.Red) ? caster.getGameManager().TeamRed : caster.getGameManager().TeamBlue;
-            teamMateList = charactersInRange(teamMateList, caster);
-            List<Character> desiredTeam;
-            if (Ally)
-            {
-                desiredTeam = teamMateList;
-            }
-            else
-            {
-                desiredTeam = enemyList;
-            }
-            for(int i = 0; i < numberOfTargets; i++)
-            {
-                Character newTarget;
-                switch (PriorityType)
-                {
-                    case PriorityType.Self:
-                        recievers.Add(caster);
-                        return recievers;
-                    case PriorityType.Current:
-                        newTarget = PathFinding.findClosestEnemy(caster.CurrentTile, desiredTeam, caster.getGrid(), range, caster.getGameManager());
-                        recievers.Add(newTarget);
-                        desiredTeam.Remove(newTarget);
-                        break;
-                    case PriorityType.Random:
-                        Random random = new Random();
-                        int index = random.Next(desiredTeam.Count);
-                        recievers.Add(desiredTeam[index]);
-                        break;
-                    case PriorityType.LowHealth:
-                        Character lowChar = desiredTeam[0];
-                        foreach (Character character in desiredTeam)
-                        {
-                            if (character.Stats[StatusType.HealthPoints] < lowChar.Stats[StatusType.HealthPoints])
-                            {
-                                lowChar = character;
-                            }
-                        }
-                        recievers.Add(lowChar);
-                        desiredTeam.Remove(lowChar);
-                        break;
-                }
-            }
-            return recievers;
-        }
-        
+            List<Character> desiredTeam = TargetAlly ? charactersInRange((Caster.team == Character.Teams.Red) ? Caster.gameManager.TeamRed : Caster.gameManager.TeamBlue, Caster)
+                : charactersInRange((Caster.team == Character.Teams.Red) ? Caster.gameManager.TeamBlue : Caster.gameManager.TeamRed, Caster);
 
+            switch (CastTarget)
+            {
+                case CastTarget.Self:
+                    Recievers.Add(Caster);
+                    break;
+                case CastTarget.CurrentTarget:
+                    for (int i = 0; i < NumberOfTargets; i++)
+                    {
+                        Character newTarget = PathFinding.findClosestEnemy(Caster.CurrentTile,
+                                                                           desiredTeam,
+                                                                           Caster.grid,
+                                                                           Caster.CharacterType[StatusType.Range],
+                                                                           Caster.gameManager);
+                        Recievers.Add(newTarget);
+                        desiredTeam.Remove(newTarget);
+                    }
+                    break;
+                case CastTarget.Random:
+                    for (int i = 0; i < NumberOfTargets; i++)
+                    {
+                        Recievers.Add(desiredTeam[random.Next(desiredTeam.Count)]);
+                    }
+                    break;
+                case CastTarget.LowHealth:
+                    for (int j = 0; j < NumberOfTargets; j++)
+                    {
+                        if (desiredTeam.Count > 0)
+                        {
+                            Character lowChar = desiredTeam[0];
+                            for (int i = 0; i < desiredTeam.Count; i++)
+                            {
+                                Character character = desiredTeam[i];
+                                if (character.Stats[StatusType.HealthPoints] < lowChar.Stats[StatusType.HealthPoints])
+                                {
+                                    lowChar = character;
+                                }
+                            }
+                            Recievers.Add(lowChar);
+                            desiredTeam.Remove(lowChar);
+                        }
+                    }
+                    break;
+            }
+            return Recievers;
+        }
 
         public List<Character> charactersInRange(List<Character> team, Character caster)
         {
-            List<Character> removedList = new List<Character>();
-            int range = caster.CharacterType.statsCopy()[StatusType.Range];
+            int range = caster.CharacterType[StatusType.Range];
+            List<Character> inRange = new List<Character>();
             foreach (Character character in team)
-            {
-                if (PathFinding.getDistance(caster.CurrentTile, character.CurrentTile) > range)
-                {
-                    removedList.Add(character);
-                }
-            }
-            foreach (Character character in removedList)
             {
                 if (PathFinding.getDistance(caster.CurrentTile, character.CurrentTile) <= range)
                 {
-                    team.Remove(character);
+                    inRange.Add(character);
                 }
             }
-            return team;
+            return inRange;
         }
 
     }
-    
+
 }

@@ -6,7 +6,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{50D7236F-86B2-4E81-8DFF-1135BE91B285}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <RootNamespace>ASU2019_NetworkedGameWorkshop</RootNamespace>
     <AssemblyName>ASU2019_NetworkedGameWorkshop</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
@@ -113,12 +113,91 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="assets\sprites\spells\enchant-acid-1.png" />
+    <None Include="assets\sprites\spells\enchant-acid-2.png" />
+    <None Include="assets\sprites\spells\enchant-acid-3.png" />
+    <None Include="assets\sprites\spells\enchant-blue-1.png" />
+    <None Include="assets\sprites\spells\enchant-blue-2.png" />
+    <None Include="assets\sprites\spells\enchant-blue-3.png" />
+    <None Include="assets\sprites\spells\enchant-eerie-1.png" />
+    <None Include="assets\sprites\spells\enchant-eerie-2.png" />
+    <None Include="assets\sprites\spells\enchant-eerie-3.png" />
+    <None Include="assets\sprites\spells\enchant-jade-1.png" />
+    <None Include="assets\sprites\spells\enchant-jade-2.png" />
+    <None Include="assets\sprites\spells\enchant-jade-3.png" />
+    <None Include="assets\sprites\spells\enchant-magenta-1.png" />
+    <None Include="assets\sprites\spells\enchant-magenta-2.png" />
+    <None Include="assets\sprites\spells\enchant-magenta-3.png" />
+    <None Include="assets\sprites\spells\enchant-orange-1.png" />
+    <None Include="assets\sprites\spells\enchant-orange-2.png" />
+    <None Include="assets\sprites\spells\enchant-orange-3.png" />
+    <None Include="assets\sprites\spells\enchant-red-1.png" />
+    <None Include="assets\sprites\spells\enchant-red-2.png" />
+    <None Include="assets\sprites\spells\enchant-red-3.png" />
+    <None Include="assets\sprites\spells\enchant-royal-1.png" />
+    <None Include="assets\sprites\spells\enchant-royal-2.png" />
+    <None Include="assets\sprites\spells\enchant-royal-3.png" />
+    <None Include="assets\sprites\spells\enchant-sky-1.png" />
+    <None Include="assets\sprites\spells\enchant-sky-2.png" />
+    <None Include="assets\sprites\spells\enchant-sky-3.png" />
+    <None Include="assets\sprites\spells\evil-eye-eerie-1.png" />
+    <None Include="assets\sprites\spells\evil-eye-eerie-2.png" />
+    <None Include="assets\sprites\spells\evil-eye-eerie-3.png" />
+    <None Include="assets\sprites\spells\evil-eye-red-1.png" />
+    <None Include="assets\sprites\spells\evil-eye-red-2.png" />
+    <None Include="assets\sprites\spells\evil-eye-red-3.png" />
+    <None Include="assets\sprites\spells\fireball-acid-1.png" />
+    <None Include="assets\sprites\spells\fireball-acid-2.png" />
+    <None Include="assets\sprites\spells\fireball-acid-3.png" />
+    <None Include="assets\sprites\spells\fireball-eerie-1.png" />
+    <None Include="assets\sprites\spells\fireball-eerie-2.png" />
+    <None Include="assets\sprites\spells\fireball-eerie-3.png" />
+    <None Include="assets\sprites\spells\fireball-red-1.png" />
+    <None Include="assets\sprites\spells\fireball-red-2.png" />
+    <None Include="assets\sprites\spells\fireball-red-3.png" />
+    <None Include="assets\sprites\spells\fireball-sky-1.png" />
+    <None Include="assets\sprites\spells\fireball-sky-2.png" />
+    <None Include="assets\sprites\spells\fireball-sky-3.png" />
+    <None Include="assets\sprites\spells\heal-jade-1.png" />
+    <None Include="assets\sprites\spells\heal-jade-2.png" />
+    <None Include="assets\sprites\spells\heal-jade-3.png" />
+    <None Include="assets\sprites\spells\heal-royal-1.png" />
+    <None Include="assets\sprites\spells\heal-royal-2.png" />
+    <None Include="assets\sprites\spells\heal-royal-3.png" />
+    <None Include="assets\sprites\spells\heal-sky-1.png" />
+    <None Include="assets\sprites\spells\heal-sky-2.png" />
+    <None Include="assets\sprites\spells\heal-sky-3.png" />
+    <None Include="assets\sprites\spells\protect-acid-1.png" />
+    <None Include="assets\sprites\spells\protect-acid-2.png" />
+    <None Include="assets\sprites\spells\protect-acid-3.png" />
+    <None Include="assets\sprites\spells\protect-blue-1.png" />
+    <None Include="assets\sprites\spells\protect-blue-2.png" />
+    <None Include="assets\sprites\spells\protect-blue-3.png" />
+    <None Include="assets\sprites\spells\protect-eerie-1.png" />
+    <None Include="assets\sprites\spells\protect-eerie-2.png" />
+    <None Include="assets\sprites\spells\protect-eerie-3.png" />
+    <None Include="assets\sprites\spells\protect-jade-1.png" />
+    <None Include="assets\sprites\spells\protect-jade-2.png" />
+    <None Include="assets\sprites\spells\protect-jade-3.png" />
+    <None Include="assets\sprites\spells\protect-magenta-1.png" />
+    <None Include="assets\sprites\spells\protect-magenta-2.png" />
+    <None Include="assets\sprites\spells\protect-magenta-3.png" />
+    <None Include="assets\sprites\spells\protect-orange-1.png" />
+    <None Include="assets\sprites\spells\protect-orange-2.png" />
+    <None Include="assets\sprites\spells\protect-orange-3.png" />
+    <None Include="assets\sprites\spells\protect-red-1.png" />
+    <None Include="assets\sprites\spells\protect-red-2.png" />
+    <None Include="assets\sprites\spells\protect-red-3.png" />
+    <None Include="assets\sprites\spells\protect-royal-1.png" />
+    <None Include="assets\sprites\spells\protect-royal-2.png" />
+    <None Include="assets\sprites\spells\protect-royal-3.png" />
+    <None Include="assets\sprites\spells\protect-sky-1.png" />
+    <None Include="assets\sprites\spells\protect-sky-2.png" />
+    <None Include="assets\sprites\spells\protect-sky-3.png" />
     <Content Include="assets\sprites\tiles\Tile.png" />
     <Content Include="assets\sprites\tiles\Tile_Selected.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="assets\sprites\spells\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

@@ -23,26 +23,25 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
         }
         public bool IsDead { get; private set; }
         public int CurrentLevel { get; private set; }
-
+        public bool SpellReady { get; set; }
+        public Character CurrentTarget { get; private set; }
+        public Dictionary<StatusType, int> Stats { get; private set; }
 
         public readonly Teams team;
-
-        private readonly Grid grid;
-        private readonly StatBar hpBar, charageBar;
         public readonly GameManager gameManager;
+        public readonly Grid grid;
+
+        private readonly StatBar hpBar, charageBar;
         private readonly Brush brush;
         private readonly CharacterType[] characterType;
         private readonly Dictionary<StatusType, int> statsAdder;
         private readonly Dictionary<StatusType, float> statsMultiplier;
-        public bool SpellReady { get; set; }
+        private readonly List<Spells> spells;
 
-        public Dictionary<StatusType, int> Stats { get; private set; }
         private List<StatusEffect> statusEffects;
-        public Character currentTarget { get; private set; }
         private Tile toMoveTo;
         private long nextAtttackTime;
-        private List<Spells> spells;
-        private ChooseSpell sp;
+        private ChooseSpell chooseSpell;
 
 
         public Character(Grid grid, Tile currentTile, Teams team,
@@ -86,7 +85,6 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
                                                         Stats[StatusType.HealthPointsMax]);
         }
 
-
         public void learnSpell(Spells spell)
         {
             spells.Add(spell);
@@ -107,7 +105,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
                 IsDead = true;
                 if (SpellReady == true)
                 {
-                    gameManager.removeFromForm(sp);
+                    gameManager.removeRangeFromForm(chooseSpell);
                     SpellReady = false;
                 }
                 if (CurrentTile != null)
@@ -122,9 +120,8 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
             {
                 Stats[StatusType.Charge] = Math.Min(Stats[StatusType.Charge] + 10, Stats[StatusType.ChargeMax]);//temp value
             }
+
         }
-
-
 
         public void reset()
         {
@@ -132,30 +129,22 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
             statusEffects.Clear();
             IsDead = false;
             toMoveTo = null;
-            currentTarget = null;
+            CurrentTarget = null;
         }
 
         public void addStatusEffect(StatusEffect statusEffect)
         {
-            statusEffect.removeEffectTimeStamp += gameManager.ElapsedTime;
+            statusEffect.RemoveEffectTimeStamp += gameManager.ElapsedTime;
             applyStatusEffect(statusEffect);
             statusEffects.Add(statusEffect);
         }
 
         public override void draw(Graphics graphics)
         {
-
             graphics.FillRectangle(brush,
                 CurrentTile.centerX - CharacterType.WIDTH_HALF,
                 CurrentTile.centerY - CharacterType.HEIGHT_HALF,
                 CharacterType.WIDTH, CharacterType.HEIGHT);
-            if (Stats[StatusType.Charge] == Stats[StatusType.ChargeMax] && spells.Count != 0 && SpellReady == false)
-            {
-                sp = new ChooseSpell(this, spells);
-                SpellReady = true;
-                gameManager.addToForm(sp);
-
-            }
 
             hpBar.setTrackedAndDraw(graphics, Stats[StatusType.HealthPoints], Stats[StatusType.HealthPointsMax]);
             charageBar.setTrackedAndDraw(graphics, Stats[StatusType.Charge], Stats[StatusType.ChargeMax]);
@@ -164,14 +153,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
         {
             Stats[StatusType.Charge] = 0;
         }
-        public Grid getGrid()
-        {
-            return this.grid;
-        }
-        public GameManager getGameManager()
-        {
-            return gameManager;
-        }
+
         public bool tick()
         {
             if (toMoveTo != null)
@@ -185,19 +167,12 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
             }
             return false;
         }
-        //private void chooseSpell()
-        //{
-        //    stats[StatusType.Charge] = 0;
 
-        //    int currentSpell = Convert.ToInt32(Console.ReadLine());
-        //    spells[currentSpell].castSpell(this);
-
-        //}
         public bool update()
         {
             statusEffects = statusEffects.Where(effect =>
             {
-                if (effect.removeEffectTimeStamp < gameManager.ElapsedTime)
+                if (effect.RemoveEffectTimeStamp < gameManager.ElapsedTime)
                 {
                     foreach (StatusEffect item in statusEffects)
                     {
@@ -211,7 +186,6 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
                             applyStatusEffect(item);
                             return false;
                         }
-
                     }
                     effect.inverseValue();
                     applyStatusEffect(effect);
@@ -219,16 +193,26 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
                 }
                 return true;
             }).ToList();
+
+            if (Stats[StatusType.Charge] == Stats[StatusType.ChargeMax] 
+                && spells.Count != 0
+                && !SpellReady)
+            {
+                chooseSpell = new ChooseSpell(this, spells);
+                SpellReady = true;
+                gameManager.addRangeToForm(chooseSpell);
+            }
+
             if (toMoveTo == null)
             {
                 List<Tile> path = null;
-                if (currentTarget == null
-                    || currentTarget.IsDead)
+                if (CurrentTarget == null
+                    || CurrentTarget.IsDead)
                 {
                     try
                     {
 
-                        (path, currentTarget) = PathFinding.findPathToClosestEnemy(CurrentTile, team, grid, gameManager);//temp
+                        (path, CurrentTarget) = PathFinding.findPathToClosestEnemy(CurrentTile, team, grid, gameManager);//temp
                     }
                     catch (PathFinding.PathNotFoundException)
                     {
@@ -236,13 +220,13 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
                     }
                 }
 
-                if (PathFinding.getDistance(CurrentTile, currentTarget.CurrentTile) <= Stats[StatusType.Range])
+                if (PathFinding.getDistance(CurrentTile, CurrentTarget.CurrentTile) <= Stats[StatusType.Range])
                 {
 
                     if (gameManager.ElapsedTime > nextAtttackTime)
                     {
                         nextAtttackTime = gameManager.ElapsedTime + Stats[StatusType.AttackSpeed];
-                        currentTarget.takeDamage(Stats[StatusType.AttackDamage], DamageType.PhysicalDamage);//temp DamageType?
+                        CurrentTarget.takeDamage(Stats[StatusType.AttackDamage], DamageType.PhysicalDamage);//temp DamageType?
                         return true;
                     }
                 }
@@ -252,7 +236,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
                     {
                         try
                         {
-                            path = PathFinding.findPath(CurrentTile, currentTarget.CurrentTile, grid, (Tile[,])grid.Tiles.Clone());
+                            path = PathFinding.findPath(CurrentTile, CurrentTarget.CurrentTile, grid, (Tile[,])grid.Tiles.Clone());
                         }
                         catch (PathFinding.PathNotFoundException)
                         {
@@ -275,20 +259,16 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
         }
         private void applyStatusEffect(StatusEffect statusEffect)
         {
-            Console.WriteLine("Before : " + Stats[StatusType.HealthPoints]);
             if (statusEffect.Type == StatusEffectType.Adder)
             {
                 statsAdder[statusEffect.StatusType] += (int)statusEffect.Value;
                 Stats[statusEffect.StatusType] = (int)Math.Round(Stats[statusEffect.StatusType] + statusEffect.Value);
-
-                Console.WriteLine("After : " + Stats[StatusType.HealthPoints]);
             }
             else
             {
                 statsMultiplier[statusEffect.StatusType] *= statusEffect.Value;
 
                 Stats[statusEffect.StatusType] = (int)Math.Round(Stats[statusEffect.StatusType] * statusEffect.Value);
-                Console.WriteLine("After : " + Stats[StatusType.HealthPoints]);
             }
 
         }

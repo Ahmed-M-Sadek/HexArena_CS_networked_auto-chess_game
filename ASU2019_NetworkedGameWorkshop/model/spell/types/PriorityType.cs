@@ -1,8 +1,8 @@
 ﻿namespace ASU2019_NetworkedGameWorkshop.model.spell.types
 {
-    public enum PriorityType
+    public enum CastTarget
     {
-        Current,
+        CurrentTarget,
         Self,
         Random,
         LowHealth

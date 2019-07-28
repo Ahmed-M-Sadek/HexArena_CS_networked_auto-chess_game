@@ -6,32 +6,26 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell.types
     public class SpellType
     {
         public static readonly SpellType Buff = new SpellType("Buff");
+        public static readonly SpellType Heal = new SpellType("Heal");
         public static readonly SpellType Damage = new SpellType("Damage");
-
-
-
 
         public static IEnumerable<SpellType> Values
         {
             get
             {
                 yield return Buff;
+                yield return Heal;
                 yield return Damage;
-
             }
         }
 
-        public string Name { get; private set; }
-        public StatusEffect Status { get; set; }
-        public int Duration { get; private set; }
-        public SpellType(string name)
-        {
-            (Name) = (name);
-        }
-        public SpellType(StatusEffect status)
-        {
-            (Status) = (status);
-        }
+        private StatusEffect status;
+
+        public string Name { get; }
+
+        public SpellType(string name) => Name = name;
+        public SpellType(StatusEffect status) => this.status = status;
+
         public void cast(List<Character> recievers, float abilityValue)
         {
             foreach (var castee in recievers)
@@ -39,15 +33,20 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell.types
                 apply(castee, abilityValue);
             }
         }
+
         private void apply(Character castee, float abilityValue)
         {
-            if (this == SpellType.Damage)
+            if (this == Damage)
             {
                 castee.takeDamage(abilityValue, DamageType.MagicDamage);
             }
+            else if(this == Heal)
+            {
+                castee.healHealthPoints((int)abilityValue);//temp
+            }
             else
             {
-                castee.addStatusEffect(Status);
+                castee.addStatusEffect(status);
             }
         }
     }

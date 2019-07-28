@@ -6,18 +6,14 @@
 
         public StatusType StatusType { get; private set; }
         public float Value { get; private set; }
-
-        public long removeEffectTimeStamp { get; set; }
+        public long RemoveEffectTimeStamp { get; set; }
         public StatusEffectType Type { get; private set; }
-        private static int inc = 0;
-        public int Order { get; private set; }
+
         public StatusEffect(StatusType statusType, float value, long removeEffectTimeStamp, StatusEffectType type)
         {
             StatusType = statusType;
             Value = value;
-            this.removeEffectTimeStamp = removeEffectTimeStamp;
-            Order = inc;
-            inc++;
+            this.RemoveEffectTimeStamp = removeEffectTimeStamp;
             Type = type;
         }
 
