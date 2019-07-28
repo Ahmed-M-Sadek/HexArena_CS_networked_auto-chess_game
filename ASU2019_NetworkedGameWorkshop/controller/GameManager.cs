@@ -2,6 +2,7 @@
 using ASU2019_NetworkedGameWorkshop.model.character;
 using ASU2019_NetworkedGameWorkshop.model.character.types;
 using ASU2019_NetworkedGameWorkshop.model.grid;
+using ASU2019_NetworkedGameWorkshop.model.spell;
 using ASU2019_NetworkedGameWorkshop.model.ui;
 using ASU2019_NetworkedGameWorkshop.model.ui.shop;
 using System;
@@ -96,10 +97,28 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             };
             timer.Tick += new EventHandler(gameLoop);
 
-            //Debugging 
 
+            //Debugging 
+            Character blue = new Character(grid, grid.Tiles[0, 0], Character.Teams.Blue, CharacterTypePhysical.Archer, this);
+            blue.learnSpell(Spells.AwesomeFireballAOE);
+            blue.learnSpell(Spells.Execute);
+            blue.learnSpell(Spells.Heal);
+            TeamBlue.Add(blue);
+            TeamBlue.Add(new Character(grid, grid.Tiles[1, 0], Character.Teams.Blue, CharacterTypePhysical.Warrior, this));
             TeamRed.Add(new Character(grid, grid.Tiles[6, 5], Character.Teams.Red, CharacterTypePhysical.Warrior, this));
             TeamRed.Add(new Character(grid, grid.Tiles[5, 5], Character.Teams.Red, CharacterTypePhysical.Archer, this));
+        }
+
+        public void addRangeToForm(params Control[] controls)
+        {
+            gameForm.Controls.AddRange(controls);
+        }
+        public void removeRangeFromForm(params Control[] controls)
+        {
+            foreach (Control control in controls)
+            {
+                gameForm.Controls.Remove(control);
+            }
         }
 
         public void startTimer()

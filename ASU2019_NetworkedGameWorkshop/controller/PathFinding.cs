@@ -10,6 +10,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
 {
     public class PathFinding
     {
+
         private PathFinding() { }
 
         /// <summary>
@@ -59,6 +60,44 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             return Tuple.Create(shortestPath, closestEnemy);
         }
 
+        internal static Character findClosestEnemy(Tile currentTile, List<Character> team, Grid grid, int range, GameManager gameManager)
+        {
+            List<Character> enemyList = team;
+            Character closestEnemy = null;
+            int? shortestDist = null;
+
+            foreach (Character enemy in enemyList.Where(en => !en.IsDead))
+            {
+                if (enemy.CurrentTile == currentTile)
+                {
+                    continue;
+                }
+                if (getDistance(currentTile, enemy.CurrentTile) > range) continue;
+                int dist;
+
+                try
+                {
+                    dist = getDistance(currentTile, enemy.CurrentTile);
+                }
+                catch (PathNotFoundException)
+                {
+                    continue;
+                }
+
+                if (shortestDist == null)
+                {
+                    shortestDist = dist;
+                    closestEnemy = enemy;
+                }
+            }
+
+            if (shortestDist == null)
+            {
+                throw new PathNotFoundException();
+            }
+            return closestEnemy;
+        }
+
         /// <exception cref="PathNotFoundException">if a path to a target was not found.</exception>
         public static List<Tile> findPath(Tile startTile, Tile endTile, Grid grid, Tile[,] tilesClone)
         {
@@ -72,7 +111,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
 
                 closedSet.Add(currentTile);
                 if (currentTile.Equals(endTile))
-                {
+                { 
                     return retracePath(startTile, currentTile, grid);
                 }
                 foreach (Tile neighbour in grid.getNeighbours(currentTile, tilesClone))
@@ -89,9 +128,11 @@ namespace ASU2019_NetworkedGameWorkshop.controller
 
                         if (!openSet.Contains(neighbour))
                             openSet.Add(neighbour);
+
                     }
                 }
             }
+
             throw new PathNotFoundException();
         }
 
