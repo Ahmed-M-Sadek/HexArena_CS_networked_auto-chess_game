@@ -5,26 +5,26 @@ namespace ASU2019_NetworkedGameWorkshop
 {
     public partial class GameForm : Form
     {
-        public GameManager GameManager { get; set; }
+        private readonly GameManager gameManager;
 
         public GameForm()
         {
             InitializeComponent();
 
-            this.DoubleBuffered = true;
+            DoubleBuffered = true;
 
-            this.GameManager = new GameManager(this);
-            GameManager.startTimer();
+            gameManager = new GameManager(this);
+            gameManager.startTimer();
         }
 
         private void GameForm_Paint(object sender, PaintEventArgs e)
         {
-            GameManager.updatePaint(e);
+            gameManager.updatePaint(e);
         }
 
         private void GameForm_MouseDown(object sender, MouseEventArgs e)
         {
-            GameManager.mouseClick(e);
+            gameManager.mouseClick(e);
         }
     }
 }

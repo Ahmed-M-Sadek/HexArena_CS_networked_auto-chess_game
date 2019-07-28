@@ -71,11 +71,11 @@
     <Compile Include="model\grid\Tile.cs" />
     <Compile Include="model\Player.cs" />
     <Compile Include="model\StatBar.cs" />
-    <Compile Include="model\ui\CharShop.cs" />
-    <Compile Include="model\ui\ShopButton.cs">
+    <Compile Include="model\ui\shop\CharShop.cs" />
+    <Compile Include="model\ui\PlayersLeaderBoard.cs" />
+    <Compile Include="model\ui\shop\ShopButton.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="model\ui\PlayersLeaderBoard.cs" />
     <Compile Include="model\ui\StageTimer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

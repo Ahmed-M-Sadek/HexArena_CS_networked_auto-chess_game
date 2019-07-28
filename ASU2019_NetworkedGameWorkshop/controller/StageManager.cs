@@ -2,6 +2,7 @@
 using ASU2019_NetworkedGameWorkshop.model.character;
 using ASU2019_NetworkedGameWorkshop.model.grid;
 using ASU2019_NetworkedGameWorkshop.model.ui;
+using ASU2019_NetworkedGameWorkshop.model.ui.shop;
 using System.Collections.Generic;
 using System.Linq;
 using static ASU2019_NetworkedGameWorkshop.model.ui.StageTimer;
@@ -111,7 +112,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             }
             grid.Transparent = false;
 
-            charShop.generate();
+            charShop.refreshShop();
 
             stageTimer.resetTimer(StageTime.BUY);
         }

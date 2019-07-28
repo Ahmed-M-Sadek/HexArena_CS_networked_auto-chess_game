@@ -14,12 +14,6 @@ namespace ASU2019_NetworkedGameWorkshop.model.character.types
         private readonly Dictionary<StatusType, int> stats;
 
         public string Name { get; }
-        public int Health { get { return stats[StatusType.HealthPoints]; } }
-        public int Range { get { return stats[StatusType.Range]; } }
-        public int Armour { get { return stats[StatusType.Armor]; } }
-        public int AtkSpeed { get { return stats[StatusType.AttackSpeed]; } }
-        public int AtkDamage { get { return stats[StatusType.AttackDamage]; } }
-        public int MagicResist { get { return stats[StatusType.MagicResist]; } }
 
         public CharacterType(string name,
             int healthPointsMax,
