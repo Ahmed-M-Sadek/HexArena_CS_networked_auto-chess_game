@@ -1,8 +1,10 @@
 ﻿using ASU2019_NetworkedGameWorkshop.model.grid;
 using System.Collections.Generic;
 
-namespace ASU2019_NetworkedGameWorkshop.model.character.types {
-    public abstract class CharacterType {
+namespace ASU2019_NetworkedGameWorkshop.model.character.types
+{
+    public abstract class CharacterType
+    {
         public const float HEIGHT = Tile.HEIGHT / 2f,
             WIDTH = HEIGHT,
             HEIGHT_HALF = HEIGHT / 2f,
@@ -41,7 +43,8 @@ namespace ASU2019_NetworkedGameWorkshop.model.character.types {
             int armor, int magicResist)
         {
             Name = name;
-            stats = new Dictionary<StatusType, int> {
+            stats = new Dictionary<StatusType, int>
+            {
                 [StatusType.Armor] = armor,
                 [StatusType.AttackDamage] = attackDamage,
                 [StatusType.AttackSpeed] = (int)(1000 / attackSpeed),
@@ -54,7 +57,8 @@ namespace ASU2019_NetworkedGameWorkshop.model.character.types {
             };
         }
 
-        public int this[StatusType index] {
+        public int this[StatusType index]
+        {
             get { return stats[index]; }
         }
 
@@ -67,8 +71,10 @@ namespace ASU2019_NetworkedGameWorkshop.model.character.types {
         /// <summary>
         /// the Values (IEnumerable) of the Classes that inherit from CharacterType.
         /// </summary>
-        public static IEnumerable<IEnumerable<CharacterType[]>> Values {
-            get {
+        public static IEnumerable<IEnumerable<CharacterType[]>> Values
+        {
+            get
+            {
                 yield return CharacterTypePhysical.Values;
                 yield return CharacterTypeMagical.Values;
             }

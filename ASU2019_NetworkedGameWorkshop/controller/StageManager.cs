@@ -112,7 +112,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             grid.Transparent = false;
 
             charShop.generate();
-            
+
             stageTimer.resetTimer(StageTime.BUY);
         }
 

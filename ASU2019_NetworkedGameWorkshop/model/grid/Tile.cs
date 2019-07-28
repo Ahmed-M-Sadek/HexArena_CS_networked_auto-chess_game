@@ -1,7 +1,7 @@
 using ASU2019_NetworkedGameWorkshop.model.character;
+using ASU2019_NetworkedGameWorkshop.Properties;
 using System;
 using System.Drawing;
-using ASU2019_NetworkedGameWorkshop.Properties;
 
 namespace ASU2019_NetworkedGameWorkshop.model.grid
 {
@@ -97,7 +97,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid
             }
             else
             {
-                graphics.DrawImage(Selected ? Resources.Tile_Selected: Resources.Tile, posX, posY, WIDTH, HEIGHT);
+                graphics.DrawImage(Selected ? Resources.Tile_Selected : Resources.Tile, posX, posY, WIDTH, HEIGHT);
             }
         }
 

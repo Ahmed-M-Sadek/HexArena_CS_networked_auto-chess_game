@@ -11,8 +11,10 @@ using System.Linq;
 using System.Windows.Forms;
 using static ASU2019_NetworkedGameWorkshop.controller.StageManager;
 
-namespace ASU2019_NetworkedGameWorkshop.controller {
-    public class GameManager {
+namespace ASU2019_NetworkedGameWorkshop.controller
+{
+    public class GameManager
+    {
         private const int GAMELOOP_INTERVAL = 50, TICK_INTERVAL = 1000;
         private const int GRID_HEIGHT = 6, GRID_WIDTH = 7;
 
@@ -37,8 +39,10 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
         public List<Character> TeamBlue { get; private set; }
         public List<Character> TeamRed { get; private set; }
         public Tile SelectedTile { get; set; }
-        public int CharacterPrice {
-            get {//not working as required
+        public int CharacterPrice
+        {
+            get
+            {//not working as required
                 return Math.Min(40, TeamBlue.Count * 10 - Math.Max(0, TeamBlue.Count * 2));
             }
         }
@@ -80,7 +84,8 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
             stageTimer.switchStageEvent += stageManager.switchStage;
 
             stopwatch = new Stopwatch();
-            timer = new Timer {
+            timer = new Timer
+            {
                 Interval = GAMELOOP_INTERVAL //Arbitrary: 20 ticks per sec
             };
             timer.Tick += new EventHandler(gameLoop);
@@ -101,15 +106,16 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
 
         public void mouseClick(MouseEventArgs e)
         {
-            if(stageManager.CurrentGameStage == GameStage.Buy)
+            if (stageManager.CurrentGameStage == GameStage.Buy)
             {
-                if(e.Button == MouseButtons.Right)
+                if (e.Button == MouseButtons.Right)
                 {
                     deselectSelectedTile();
-                } else if(e.Button == MouseButtons.Left)
+                }
+                else if (e.Button == MouseButtons.Left)
                 {
                     Tile tile = grid.getSelectedHexagon(e.X, e.Y);
-                    if(tile != null)
+                    if (tile != null)
                     {
                         selectTile(tile);
                     }
@@ -119,15 +125,17 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
 
         private void selectTile(Tile tile)
         {
-            if(SelectedTile == tile)
+            if (SelectedTile == tile)
             {
                 deselectSelectedTile();
-            } else if(SelectedTile == null)
+            }
+            else if (SelectedTile == null)
             {
                 SelectedTile = tile;
                 SelectedTile.Selected = true;
                 updateCanvas = true;
-            } else
+            }
+            else
             {
                 Character temp = SelectedTile.CurrentCharacter;
                 SelectedTile.CurrentCharacter = tile.CurrentCharacter;
@@ -138,7 +146,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
 
         public void deselectSelectedTile()
         {
-            if(SelectedTile != null)
+            if (SelectedTile != null)
             {
                 SelectedTile.Selected = false;
                 SelectedTile = null;
@@ -162,7 +170,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
             playersLeaderBoard.draw(e.Graphics);
             charShop.draw(e.Graphics);
 
-            if(true)//debugging
+            if (true)//debugging
             {
                 grid.drawDebug(e.Graphics);
                 TeamBlue.ForEach(character => character.drawDebug(e.Graphics));
@@ -181,15 +189,16 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
         {
             updateCanvas = stageTimer.update() || updateCanvas;
 
-            if(stageManager.CurrentGameStage == GameStage.Buy)
+            if (stageManager.CurrentGameStage == GameStage.Buy)
             {
                 updateCanvas = stageUpdateBuy() || updateCanvas;
-            } else if(stageManager.CurrentGameStage == GameStage.Fight)
+            }
+            else if (stageManager.CurrentGameStage == GameStage.Fight)
             {
                 updateCanvas = stageUpdateFight() || updateCanvas;
             }
 
-            if(updateCanvas)
+            if (updateCanvas)
             {
                 gameForm.Refresh();
                 //gameForm.Invalidate();
@@ -204,7 +213,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
 
         private bool stageUpdateFight()
         {
-            if(TeamBlue.Count(e => !e.IsDead) == 0 || TeamRed.Count(e => !e.IsDead) == 0)
+            if (TeamBlue.Count(e => !e.IsDead) == 0 || TeamRed.Count(e => !e.IsDead) == 0)
             {
                 stageTimer.endTimer();
                 return true;
@@ -212,25 +221,25 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
 
             bool updateCanvas = false;
 
-            foreach(Character character in TeamBlue.Where(e => !e.IsDead))
+            foreach (Character character in TeamBlue.Where(e => !e.IsDead))
             {
                 updateCanvas = character.update() || updateCanvas;
             }
 
-            foreach(Character character in TeamRed.Where(e => !e.IsDead))
+            foreach (Character character in TeamRed.Where(e => !e.IsDead))
             {
                 updateCanvas = character.update() || updateCanvas;
             }
 
 
-            if(nextTickTime < ElapsedTime)
+            if (nextTickTime < ElapsedTime)
             {
                 nextTickTime = ElapsedTime + TICK_INTERVAL;
-                foreach(Character character in TeamBlue.Where(e => !e.IsDead))
+                foreach (Character character in TeamBlue.Where(e => !e.IsDead))
                 {
                     updateCanvas = character.tick() || updateCanvas;
                 }
-                foreach(Character character in TeamRed.Where(e => !e.IsDead))
+                foreach (Character character in TeamRed.Where(e => !e.IsDead))
                 {
                     updateCanvas = character.tick() || updateCanvas;
                 }
@@ -240,7 +249,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
         }
         public void AddCharacter(CharacterType[] characterType)
         {
-            if(player.Gold < CharacterPrice || stageManager.CurrentGameStage != GameStage.Buy)
+            if (player.Gold < CharacterPrice || stageManager.CurrentGameStage != GameStage.Buy)
             {
                 return;
             }
@@ -249,11 +258,11 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
 
             int x = grid.GridWidth - 1;
             int y = grid.GridHeight - 1;
-            for(int j = grid.GridHeight - 1; j > (grid.GridHeight - 1) / 2; j--)
+            for (int j = grid.GridHeight - 1; j > (grid.GridHeight - 1) / 2; j--)
             {
-                for(int i = grid.GridWidth - 1; i >= 0; i--)
+                for (int i = grid.GridWidth - 1; i >= 0; i--)
                 {
-                    if(grid.Tiles[i, j].CurrentCharacter == null)
+                    if (grid.Tiles[i, j].CurrentCharacter == null)
                     {
                         TeamBlue.Add(new Character(grid, grid.Tiles[i, j], Character.Teams.Blue, characterType, this));
                         return;

@@ -1,21 +1,28 @@
-﻿using System;
+﻿using ASU2019_NetworkedGameWorkshop.controller;
+using ASU2019_NetworkedGameWorkshop.model.character.types;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
-using ASU2019_NetworkedGameWorkshop.controller;
-using ASU2019_NetworkedGameWorkshop.model.character.types;
 
-namespace ASU2019_NetworkedGameWorkshop.model.ui {
-    class ShopButton : Button {
+namespace ASU2019_NetworkedGameWorkshop.model.ui
+{
+    class ShopButton : Button
+    {
         private GameManager gameManager;
         private CharacterType[] characterType;
-        public bool MouseHovered {
-            get; set; }
+        public bool MouseHovered
+        {
+            get; set;
+        }
 
-        public CharacterType[] CharacterType {
-            get {
+        public CharacterType[] CharacterType
+        {
+            get
+            {
                 return characterType;
             }
-            set {
+            set
+            {
                 characterType = value;
                 Text = CharacterType[0].ToString();
             }

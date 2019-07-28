@@ -1,12 +1,14 @@
-﻿using System;
+﻿using ASU2019_NetworkedGameWorkshop.model.character.types;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using ASU2019_NetworkedGameWorkshop.model.character.types;
 
-namespace ASU2019_NetworkedGameWorkshop.model.ui {
-    public class CharShop : GraphicsObject {
+namespace ASU2019_NetworkedGameWorkshop.model.ui
+{
+    public class CharShop : GraphicsObject
+    {
         private Rectangle rectangle;
         private Label label;
         private int drawInShopY;
@@ -32,14 +34,14 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui {
             label.Text = "Buy Characters";
 
             charTypesList = new List<CharacterType[]>();
-            foreach(var item in CharacterType.Values)
+            foreach (var item in CharacterType.Values)
             {
                 charTypesList.AddRange(item.ToList());
             }
 
             shopList = generateChars();
             charBtns = new ShopButton[3];
-            for(int i = 0; i < shopList.Count; i++)
+            for (int i = 0; i < shopList.Count; i++)
             {
                 charBtns[i] = new ShopButton(shopList[i], gameManager);
                 gameForm.Controls.Add(charBtns[i]);
@@ -54,7 +56,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui {
             graphics.DrawRectangle(Pens.Black, rectangle);
             graphics.DrawString("Buy Characters", new Font("Arial", 14f, FontStyle.Bold), Brushes.Black, rectangle, stringFormat);
 
-            for(int i = 0; i < shopList.Count; i++)
+            for (int i = 0; i < shopList.Count; i++)
             {
                 charBtns[i].Location = new Point((int)(drawInShopX + (CharacterType.WIDTH + PADDINGX) * i), drawInShopY + PADDINGX);
                 if (charBtns[i].MouseHovered)
@@ -68,7 +70,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui {
                         "Atk Speed: {4}\n" +
                         "armour: {5}\n" +
                         "magicResist: {6}",
-                        c.Name, c.Health, c.Range, 
+                        c.Name, c.Health, c.Range,
                         c.AtkDamage, c.AtkSpeed,
                         c.Armour, c.MagicResist);
                     graphics.DrawString(charInfo, new Font("Arial", 14f, FontStyle.Bold), Brushes.Black, rect_info, stringFormat);
@@ -88,10 +90,10 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui {
         {
             List<CharacterType[]> shopList = new List<CharacterType[]>();
             Random random = new Random();
-            for(int i = 0; i < 3; i++)
+            for (int i = 0; i < 3; i++)
             {
                 shopList.Add(charTypesList[random.Next(charTypesList.Count())]);
-                if(charBtns != null)
+                if (charBtns != null)
                     charBtns[i].CharacterType = shopList[i];
             }
             return shopList;
