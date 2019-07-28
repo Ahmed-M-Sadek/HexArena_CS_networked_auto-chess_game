@@ -65,7 +65,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             List<Character> enemyList = team;
             Character closestEnemy = null;
             int? shortestDist = null;
-            
+
             foreach (Character enemy in enemyList)
             {
                 if (enemy.CurrentTile == currentTile)

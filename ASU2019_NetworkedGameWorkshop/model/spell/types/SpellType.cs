@@ -40,7 +40,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell.types
             {
                 castee.takeDamage(abilityValue, DamageType.MagicDamage);
             }
-            else if(this == Heal)
+            else if (this == Heal)
             {
                 castee.healHealthPoints((int)abilityValue);//temp
             }

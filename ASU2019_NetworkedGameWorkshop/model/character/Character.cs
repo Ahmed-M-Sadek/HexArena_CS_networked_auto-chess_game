@@ -194,7 +194,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
                 return true;
             }).ToList();
 
-            if (Stats[StatusType.Charge] == Stats[StatusType.ChargeMax] 
+            if (Stats[StatusType.Charge] == Stats[StatusType.ChargeMax]
                 && spells.Count != 0
                 && !SpellReady)
             {

@@ -70,7 +70,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             Character blue1 = new Character(grid, grid.Tiles[2, 0], Character.Teams.Blue, CharacterTypePhysical.Archer, this);
             Character blue2 = new Character(grid, grid.Tiles[3, 0], Character.Teams.Blue, CharacterTypePhysical.Archer, this);
             Character blue3 = new Character(grid, grid.Tiles[4, 0], Character.Teams.Blue, CharacterTypePhysical.Archer, this);
-            blue1.takeDamage(200,model.DamageType.MagicDamage);
+            blue1.takeDamage(200, model.DamageType.MagicDamage);
             TeamRed.Add(red);
             TeamBlue.Add(blue1);
             TeamBlue.Add(blue2);
