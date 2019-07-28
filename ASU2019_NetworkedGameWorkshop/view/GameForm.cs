@@ -5,7 +5,7 @@ namespace ASU2019_NetworkedGameWorkshop
 {
     public partial class GameForm : Form
     {
-        private GameManager gameManager;
+        public GameManager GameManager { get; set; }
 
         public GameForm()
         {
@@ -13,18 +13,18 @@ namespace ASU2019_NetworkedGameWorkshop
 
             this.DoubleBuffered = true;
 
-            this.gameManager = new GameManager(this);
-            gameManager.startTimer();
+            this.GameManager = new GameManager(this);
+            GameManager.startTimer();
         }
 
         private void GameForm_Paint(object sender, PaintEventArgs e)
         {
-            gameManager.updatePaint(e);
+            GameManager.updatePaint(e);
         }
 
         private void GameForm_MouseDown(object sender, MouseEventArgs e)
         {
-            gameManager.mouseClick(e);
+            GameManager.mouseClick(e);
         }
     }
 }

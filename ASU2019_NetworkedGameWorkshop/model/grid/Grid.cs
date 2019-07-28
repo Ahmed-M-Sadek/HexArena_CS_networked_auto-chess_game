@@ -7,7 +7,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid
 {
     public class Grid : GraphicsObject
     {
-        private readonly int gridWidth, gridHeight;
+        public readonly int GridWidth, GridHeight;
         private readonly int startingX, startingY;
         private readonly controller.GameManager gameManager;
         private readonly Bitmap tilesBitmap;
@@ -15,14 +15,14 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid
 
         public Tile[,] Tiles { get; }//temp public
 
-        public int MaxSize => gridHeight * gridWidth;
+        public int MaxSize => GridHeight * GridWidth;
 
         public bool Transparent { get; set; }
 
         public Grid(int gridWidth, int gridHeight, int startingX, int startingY, controller.GameManager gameManager)
         {
-            this.gridWidth = gridWidth;
-            this.gridHeight = gridHeight;
+            this.GridWidth = gridWidth;
+            this.GridHeight = gridHeight;
             this.startingX = startingX;
             this.startingY = startingY;
             this.gameManager = gameManager;
@@ -90,8 +90,8 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid
                     column++;
             }
 
-            if (column < gridWidth
-                && row < gridHeight
+            if (column < GridWidth
+                && row < GridHeight
                 && column > -1
                 && row > -1)
                 return Tiles[column, row];
@@ -124,8 +124,8 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid
                         gridY = tile.Y - y;
                     }
 
-                    if (gridX >= 0 && gridX < gridWidth
-                        && gridY >= 0 && gridY < gridHeight)
+                    if (gridX >= 0 && gridX < GridWidth
+                        && gridY >= 0 && gridY < GridHeight)
                     {
                         neighbours.Add(TilesClone[gridX, gridY]);
                     }
