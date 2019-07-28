@@ -16,17 +16,25 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui
 
         public delegate void SwitchStage();
 
+        private static readonly Font FONT = new Font("Roboto", 14f);
+
         private readonly GameManager gameManager;
-        private readonly SwitchStage switchStage;
 
         private StageTime currentStageTime;
         private long timerEnd;
         private long currentTime;
 
+        /// <summary>
+        /// Method called if the timer reaches zero or ends.
+        /// </summary>
+        public SwitchStage switchStageEvent { get; set; }
+
+        public StageTimer(GameManager gameManager) : this(gameManager, null) { }
+
         public StageTimer(GameManager gameManager, SwitchStage switchStage)
         {
             this.gameManager = gameManager;
-            this.switchStage = switchStage;
+            this.switchStageEvent = switchStage;
         }
 
         public void resetTimer(StageTime stageTime)
@@ -37,6 +45,11 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui
 
         public bool update()
         {
+            if (timerEnd < gameManager.ElapsedTime)
+            {
+                switchStageEvent();
+                return true;
+            }
             long newTime = (timerEnd - gameManager.ElapsedTime) / 1000;
             if (currentTime == newTime)
             {
@@ -44,24 +57,24 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui
             }
             else
             {
-                if (newTime == 0)
-                {
-                    switchStage();
-                }
                 currentTime = newTime;
                 return true;
             }
         }
 
+        public void endTimer()
+        {
+            switchStageEvent();
+        }
+
         public override void draw(Graphics graphics)
         {
-            graphics.DrawString(currentStageTime + " - Time Left: " + currentTime, new Font("Roboto", 14f),
+            graphics.DrawString(currentStageTime + " - Time Left: " + currentTime, FONT,
                 Brushes.Black, 500, 15);//temp
         }
 
-        public void endTimer()
+        public override void drawDebug(Graphics graphics)
         {
-            switchStage();
         }
     }
 }

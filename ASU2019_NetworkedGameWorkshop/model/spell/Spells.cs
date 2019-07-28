@@ -28,7 +28,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell
             SpellType.Heal,
             Resources.heal_jade_1);
 
-        public static readonly Spells VeigarDebug = new Spells(1.2f,
+        public static readonly Spells VeigarDebug = new Spells(0,
             new Target(false, CastTarget.Self),
             new SpellType(new StatusEffect(StatusType.HealthPoints, 1.2f, 1100, StatusEffect.StatusEffectType.Multiplier)),
             Resources.fireball_sky_1);
@@ -51,12 +51,12 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell
             }
         }
 
-        public float AbilityValue { get; private set; }
+        public int AbilityValue { get; private set; }
         public Target Target { get; private set; }
         public SpellType SpellType { get; private set; }
         public Image Image { get; private set; }
 
-        public Spells(float abilityValue, Target target, SpellType spellType, Image image)
+        public Spells(int abilityValue, Target target, SpellType spellType, Image image)
         {
             AbilityValue = abilityValue;
             Target = target;

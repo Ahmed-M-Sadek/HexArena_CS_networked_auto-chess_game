@@ -3,6 +3,7 @@ using ASU2019_NetworkedGameWorkshop.model.collection;
 using ASU2019_NetworkedGameWorkshop.model.grid;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
 
 namespace ASU2019_NetworkedGameWorkshop.controller
@@ -28,7 +29,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
 
             Tile[,] tilesClone = (Tile[,])grid.Tiles.Clone();
 
-            foreach (Character enemy in enemyList)
+            foreach (Character enemy in enemyList.Where(en => !en.IsDead))
             {
                 List<Tile> path;
 
@@ -48,8 +49,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
                 }
                 else
                 {
-                    shortestPath = shortestPath.Count <= path.Count ? shortestPath : path;
-                    closestEnemy = enemy;
+                    (closestEnemy, shortestPath) = shortestPath.Count <= path.Count ? (closestEnemy, shortestPath) : (enemy, path);
                 }
             }
 
@@ -66,7 +66,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             Character closestEnemy = null;
             int? shortestDist = null;
 
-            foreach (Character enemy in enemyList)
+            foreach (Character enemy in enemyList.Where(en => !en.IsDead))
             {
                 if (enemy.CurrentTile == currentTile)
                 {
@@ -111,8 +111,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
 
                 closedSet.Add(currentTile);
                 if (currentTile.Equals(endTile))
-                {
-
+                { 
                     return retracePath(startTile, currentTile, grid);
                 }
                 foreach (Tile neighbour in grid.getNeighbours(currentTile, tilesClone))
@@ -123,7 +122,6 @@ namespace ASU2019_NetworkedGameWorkshop.controller
                     int newNeighbourCost = currentTile.Gcost + getDistance(currentTile, neighbour);
                     if (newNeighbourCost < neighbour.Gcost || !openSet.Contains(neighbour))
                     {
-
                         neighbour.Gcost = newNeighbourCost;
                         neighbour.Hcost = getDistance(neighbour, endTile);
                         neighbour.Parent = currentTile;
@@ -140,7 +138,6 @@ namespace ASU2019_NetworkedGameWorkshop.controller
 
         private static List<Tile> retracePath(Tile startTile, Tile endTile, Grid grid)
         {
-
             List<Tile> path = new List<Tile>();
             Tile currentTile = endTile;
 
@@ -160,15 +157,9 @@ namespace ASU2019_NetworkedGameWorkshop.controller
         {
             Cube startCube = oddrToCube(start);
             Cube destCube = oddrToCube(dest);
-            return Math.Max(
-                        Math.Abs(startCube.X - destCube.X),
-                        Math.Max(
-
-                                Math.Abs(startCube.Y - destCube.Y),
-                                Math.Abs(startCube.Z - destCube.Z)
-                                )
-                        );
-
+            return Math.Max(Math.Abs(startCube.X - destCube.X),
+                            Math.Max(Math.Abs(startCube.Y - destCube.Y),
+                                     Math.Abs(startCube.Z - destCube.Z)));
         }
 
         private static Cube oddrToCube(Tile tile)
@@ -187,7 +178,6 @@ namespace ASU2019_NetworkedGameWorkshop.controller
 
             public Cube(int x, int y, int z)
             {
-
                 X = x;
                 Y = y;
                 Z = z;
@@ -197,21 +187,10 @@ namespace ASU2019_NetworkedGameWorkshop.controller
         [Serializable]
         public class PathNotFoundException : Exception
         {
-            public PathNotFoundException()
-            {
-            }
-
-            public PathNotFoundException(string message) : base(message)
-            {
-            }
-
-            public PathNotFoundException(string message, Exception innerException) : base(message, innerException)
-            {
-            }
-
-            protected PathNotFoundException(SerializationInfo info, StreamingContext context) : base(info, context)
-            {
-            }
+            public PathNotFoundException() { }
+            public PathNotFoundException(string message) : base(message) { }
+            public PathNotFoundException(string message, Exception innerException) : base(message, innerException) { }
+            protected PathNotFoundException(SerializationInfo info, StreamingContext context) : base(info, context) { }
         }
     }
 }

@@ -1,4 +1,5 @@
 using ASU2019_NetworkedGameWorkshop.model.character;
+using ASU2019_NetworkedGameWorkshop.Properties;
 using System;
 using System.Drawing;
 
@@ -12,9 +13,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid
             HEX_HEIGHT = HEIGHT - HEX_C,
             HEX_M = HEX_C / HALF_WIDTH;
 
-        private static readonly Image image = Image.FromFile("../../assets/sprites/tiles/Tile.png"),
-            imageTransparent = Image.FromFile("../../assets/sprites/tiles/Tile_Transparent.png"),
-            imageSelected = Image.FromFile("../../assets/sprites/tiles/Tile_Selected.png");//todo path
+        private static readonly Font DEBUG_FONT = new Font("Roboto", 14f);
 
         public readonly float centerX, centerY;
 
@@ -38,6 +37,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid
                 if (value != null)
                 {
                     value.CurrentTile = this;
+                    Walkable = false;
                 }
                 else
                 {
@@ -64,7 +64,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid
         public int HeapIndex { get; set; }
         public bool Transparent { get; set; }
 
-        public Tile(int x, int y, float startingX, float startingY)
+        public Tile(int x, int y, int startingX, int startingY)
         {
             X = x;
             Y = y;
@@ -78,27 +78,27 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid
             Walkable = true;
         }
 
+        /// <summary>
+        /// Draws a string containing the tile's coordinates on the tile.
+        /// </summary>
+        /// <param name="graphics">graphics object to draw on</param>
+        public override void drawDebug(Graphics graphics)
+        {
+            graphics.DrawString(ToString(), DEBUG_FONT,
+                Walkable ? Brushes.Purple : Brushes.Orange,
+                centerX, centerY);
+        }
+
         public override void draw(Graphics graphics)
         {
             if (Transparent)
             {
-                graphics.DrawImage(imageTransparent, posX, posY, WIDTH, HEIGHT);
+                graphics.DrawImage(Resources.Tile_Transparent, posX, posY, WIDTH, HEIGHT);
             }
             else
             {
-                graphics.DrawImage(Selected ? imageSelected : image, posX, posY, WIDTH, HEIGHT);
+                graphics.DrawImage(Selected ? Resources.Tile_Selected : Resources.Tile, posX, posY, WIDTH, HEIGHT);
             }
-
-
-            if (CurrentCharacter != null)
-            {//wrong place
-                Walkable = false;
-            }
-
-            //debug
-            graphics.DrawString(this.ToString(), new Font("Roboto", 14f),
-                (!Walkable) ? Brushes.Red : Brushes.Purple,
-                centerX, centerY);
         }
 
         public int CompareTo(Tile other)
@@ -111,16 +111,29 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid
             return -compare;
         }
 
+        /// <summary>
+        /// MemberwiseClone
+        /// </summary>
+        /// <returns></returns>
         public object Clone()
         {
             return MemberwiseClone();
         }
 
+        /// <summary>
+        /// checks equality of the X and Y of the current and given objects.
+        /// </summary>
+        /// <param name="obj">The object to check agnist.</param>
+        /// <returns>returns true if obj is a tile and has the same X and Y as the current tile. false otherwise.</returns>
         public override bool Equals(object obj)
         {
             return (obj is Tile item) && item.X == X && item.Y == Y;
         }
 
+        /// <summary>
+        /// The string representation of the Tile.
+        /// </summary>
+        /// <returns>returns a formatted string containing the X and Y of the tile.</returns>
         public override string ToString()
         {
             return string.Format("({0}, {1})", X, Y);

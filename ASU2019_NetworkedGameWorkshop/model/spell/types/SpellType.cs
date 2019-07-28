@@ -26,7 +26,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell.types
         public SpellType(string name) => Name = name;
         public SpellType(StatusEffect status) => this.status = status;
 
-        public void cast(List<Character> recievers, float abilityValue)
+        public void cast(List<Character> recievers, int abilityValue)
         {
             foreach (var castee in recievers)
             {
@@ -34,7 +34,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell.types
             }
         }
 
-        private void apply(Character castee, float abilityValue)
+        private void apply(Character castee, int abilityValue)
         {
             if (this == Damage)
             {
@@ -42,7 +42,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell.types
             }
             else if (this == Heal)
             {
-                castee.healHealthPoints((int)abilityValue);//temp
+                castee.healHealthPoints(abilityValue);//temp
             }
             else
             {
