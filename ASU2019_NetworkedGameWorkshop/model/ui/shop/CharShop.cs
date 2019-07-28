@@ -22,9 +22,9 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui.shop
         private readonly Random random;
         private readonly List<CharacterType[]> charTypesList;
         private readonly ShopButton[] shopButtons;
+        private readonly List<CharacterType[]> offeredCharacters;
 
         private Rectangle rectangle;
-        private List<CharacterType[]> offeredCharacters;
 
         private int CharacterPrice
         {
@@ -88,20 +88,39 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui.shop
             {
                 CharacterType characterType = shopButton.CharacterType[0];
                 graphics.DrawString(
-                    $@"Character Class: {characterType.Name}
-Health Points: {characterType[StatusType.HealthPoints]}
-Range: {characterType[StatusType.Range]}
-Atk Damage: {characterType[StatusType.AttackDamage]}
-Atk Speed: {1000f / characterType[StatusType.AttackSpeed]:0.00}
-Armour: {characterType[StatusType.Armor]}
-Magic Resist: {characterType[StatusType.MagicResist]}",
+                    $@"Character Class: 
+Health Points: 
+Range: 
+Atk Damage: 
+Atk Speed: 
+Armour: 
+Magic Resist:",
                     FONT_INFO,
                     Brushes.Black,
                     rect_info,
-                    stringFormat);
+                    new StringFormat {
+                        Alignment = StringAlignment.Near
+                    });
+
+                graphics.DrawString(
+                                    $@"{characterType.Name}
+{characterType[StatusType.HealthPoints]}
+{characterType[StatusType.Range]}
+{characterType[StatusType.AttackDamage]}
+{1000f / characterType[StatusType.AttackSpeed]:0.00}
+{characterType[StatusType.Armor]}
+{characterType[StatusType.MagicResist]}",
+                                    FONT_INFO,
+                                    Brushes.Black,
+                                    rect_info,
+                                    new StringFormat {
+                                        Alignment = StringAlignment.Far
+                                    });
+
             }
 
-            graphics.DrawString("Character cost: " + CharacterPrice, FONT_PRICE, Brushes.Black, rect_price, stringFormat);
+            Brush costBrush = gameManager.Player.Gold >= CharacterPrice ? Brushes.Goldenrod : Brushes.Red;
+            graphics.DrawString("Character cost: " + CharacterPrice, FONT_PRICE, costBrush, rect_price, stringFormat);
         }
         public override void drawDebug(Graphics graphics)
         {
