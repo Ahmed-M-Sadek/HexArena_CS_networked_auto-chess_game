@@ -105,7 +105,6 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
             spells.Add(spell);
         }
 
-
         /// <summary>
         /// Decreases the character's Health Points by healValue after applying modifiers.
         /// </summary>
@@ -171,7 +170,6 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
         {
             Stats[StatusType.Charge] = 0;
         }
-
 
         public bool tick()
         {

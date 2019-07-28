@@ -2,6 +2,7 @@
 using ASU2019_NetworkedGameWorkshop.model.character;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ASU2019_NetworkedGameWorkshop.model.spell.types
 {
@@ -39,7 +40,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell.types
                     Recievers.Add(Caster);
                     break;
                 case CastTarget.CurrentTarget:
-                    for (int i = 0; i < NumberOfTargets; i++)
+                    for (int i = 0; i < NumberOfTargets && desiredTeam.Count != 0; i++)
                     {
                         Character newTarget = PathFinding.findClosestEnemy(Caster.CurrentTile,
                                                                            desiredTeam,
@@ -83,7 +84,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell.types
         {
             int range = caster.CharacterType[StatusType.Range];
             List<Character> inRange = new List<Character>();
-            foreach (Character character in team)
+            foreach (Character character in team.Where(en => !en.IsDead))
             {
                 if (PathFinding.getDistance(caster.CurrentTile, character.CurrentTile) <= range)
                 {
@@ -92,7 +93,5 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell.types
             }
             return inRange;
         }
-
     }
-
 }
