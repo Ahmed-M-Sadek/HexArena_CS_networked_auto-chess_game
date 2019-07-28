@@ -2,6 +2,7 @@
 using ASU2019_NetworkedGameWorkshop.model.character;
 using ASU2019_NetworkedGameWorkshop.model.grid;
 using ASU2019_NetworkedGameWorkshop.model.ui;
+using ASU2019_NetworkedGameWorkshop.model.ui.shop;
 using System.Collections.Generic;
 using System.Linq;
 using static ASU2019_NetworkedGameWorkshop.model.ui.StageTimer;
@@ -20,6 +21,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
         private readonly Dictionary<Character, Tile> charactersPrevPos;
         private readonly GameManager gameManager;
         private readonly PlayersLeaderBoard playersLeaderBoard;
+        private readonly CharShop charShop;
         private readonly Player player;
 
         public GameStage CurrentGameStage { get; private set; }
@@ -31,6 +33,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
                             Grid grid,
                             Player player,
                             PlayersLeaderBoard playersLeaderBoard,
+                            CharShop charShop,
                             GameManager gameManager)
         {
             this.stageTimer = stageTimer;
@@ -39,6 +42,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             this.grid = grid;
             this.player = player;
             this.playersLeaderBoard = playersLeaderBoard;
+            this.charShop = charShop;
             this.gameManager = gameManager;
 
             charactersPrevPos = new Dictionary<Character, Tile>();
@@ -107,6 +111,9 @@ namespace ASU2019_NetworkedGameWorkshop.controller
                 characterPrevPos.Key.reset();
             }
             grid.Transparent = false;
+
+            charShop.refreshShop();
+
             stageTimer.resetTimer(StageTime.BUY);
         }
 

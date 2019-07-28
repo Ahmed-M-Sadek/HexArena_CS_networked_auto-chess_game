@@ -3,6 +3,7 @@ using ASU2019_NetworkedGameWorkshop.model.character;
 using ASU2019_NetworkedGameWorkshop.model.character.types;
 using ASU2019_NetworkedGameWorkshop.model.grid;
 using ASU2019_NetworkedGameWorkshop.model.ui;
+using ASU2019_NetworkedGameWorkshop.model.ui.shop;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -25,8 +26,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
         private readonly Stopwatch stopwatch;
         private readonly StageManager stageManager;
         private readonly PlayersLeaderBoard playersLeaderBoard;
-        private readonly Player player;
-
+        private readonly CharShop charShop;
         private long nextTickTime;
         private bool updateCanvas;
 
@@ -38,39 +38,55 @@ namespace ASU2019_NetworkedGameWorkshop.controller
         public List<Character> TeamBlue { get; private set; }
         public List<Character> TeamRed { get; private set; }
         public Tile SelectedTile { get; set; }
+        public Player Player { get; }
+        public GameStage CurrentGameStage
+        {
+            get
+            {
+                return stageManager.CurrentGameStage;
+            }
+        }
 
         public GameManager(GameForm gameForm)
         {
             this.gameForm = gameForm;
             grid = new Grid(GRID_WIDTH, GRID_HEIGHT,
-                (int)((gameForm.Width - (Tile.WIDTH * GRID_WIDTH)) / 2),
-                (int)((gameForm.Height - (Tile.HEIGHT * GRID_HEIGHT)) / 2) + 30,
+                (int)((gameForm.Width - (Tile.WIDTH * GRID_WIDTH)) / 3),
+                (int)((gameForm.Height - (Tile.HEIGHT * GRID_HEIGHT)) / 3) + 30,
                 this);//temp values 
 
             TeamBlue = new List<Character>();
             TeamRed = new List<Character>();
 
-            player = new Player("Local", true);
+            Player = new Player("Local", true);
             //Debugging
-            Player playertemp1 = new Player("NoobMaster 1");
-            playertemp1.Health = 99;
-            Player playertemp2 = new Player("NoobMaster 2");
-            playertemp2.Health = 10;
-            Player playertemp3 = new Player("NoobMaster 3");
-            playertemp3.Health = 33;
+            Player playertemp1 = new Player("NoobMaster 1")
+            {
+                Health = 99
+            };
+            Player playertemp2 = new Player("NoobMaster 2")
+            {
+                Health = 10
+            };
+            Player playertemp3 = new Player("NoobMaster 3")
+            {
+                Health = 33
+            };
             Player playertemp4 = new Player("NoobMaster 4");
             //end Debugging
 
             playersLeaderBoard = new PlayersLeaderBoard(
-                player,
+                Player,
                 playertemp1,
                 playertemp2,
                 playertemp3,
                 playertemp4
             );
 
+            charShop = new CharShop(gameForm, this);
+
             stageTimer = new StageTimer(this);
-            stageManager = new StageManager(stageTimer, TeamBlue, TeamRed, grid, player, playersLeaderBoard, this);
+            stageManager = new StageManager(stageTimer, TeamBlue, TeamRed, grid, Player, playersLeaderBoard, charShop, this);
             stageTimer.switchStageEvent += stageManager.switchStage;
 
             stopwatch = new Stopwatch();
@@ -84,8 +100,6 @@ namespace ASU2019_NetworkedGameWorkshop.controller
 
             TeamRed.Add(new Character(grid, grid.Tiles[6, 5], Character.Teams.Red, CharacterTypePhysical.Warrior, this));
             TeamRed.Add(new Character(grid, grid.Tiles[5, 5], Character.Teams.Red, CharacterTypePhysical.Archer, this));
-            TeamBlue.Add(new Character(grid, grid.Tiles[4, 0], Character.Teams.Blue, CharacterTypePhysical.Warrior, this));
-            TeamBlue.Add(new Character(grid, grid.Tiles[0, 3], Character.Teams.Blue, CharacterTypePhysical.Archer, this));
         }
 
         public void startTimer()
@@ -155,9 +169,10 @@ namespace ASU2019_NetworkedGameWorkshop.controller
 
             stageTimer.draw(e.Graphics);
 
-            player.draw(e.Graphics);
+            Player.draw(e.Graphics);
             e.Graphics.DrawString("Round: " + stageManager.CurrentRound, new Font("Roboto", 12, FontStyle.Bold), Brushes.Black, 800, 15);//temp pos and font
             playersLeaderBoard.draw(e.Graphics);
+            charShop.draw(e.Graphics);
 
             if (true)//debugging
             {
@@ -236,5 +251,21 @@ namespace ASU2019_NetworkedGameWorkshop.controller
 
             return updateCanvas;
         }
+        public void AddCharacter(CharacterType[] characterType)
+        {
+
+            for (int j = grid.GridHeight - 1; j > (grid.GridHeight - 1) / 2; j--)
+            {
+                for (int i = grid.GridWidth - 1; i >= 0; i--)
+                {
+                    if (grid.Tiles[i, j].CurrentCharacter == null)
+                    {
+                        TeamBlue.Add(new Character(grid, grid.Tiles[i, j], Character.Teams.Blue, characterType, this));
+                        return;
+                    }
+                }
+            }
+        }
     }
+
 }

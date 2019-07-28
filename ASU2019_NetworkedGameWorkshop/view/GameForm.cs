@@ -5,15 +5,15 @@ namespace ASU2019_NetworkedGameWorkshop
 {
     public partial class GameForm : Form
     {
-        private GameManager gameManager;
+        private readonly GameManager gameManager;
 
         public GameForm()
         {
             InitializeComponent();
 
-            this.DoubleBuffered = true;
+            DoubleBuffered = true;
 
-            this.gameManager = new GameManager(this);
+            gameManager = new GameManager(this);
             gameManager.startTimer();
         }
 

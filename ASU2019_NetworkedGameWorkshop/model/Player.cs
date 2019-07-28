@@ -17,7 +17,7 @@ namespace ASU2019_NetworkedGameWorkshop.model
         private static readonly Font FONT = new Font("Roboto", 12, FontStyle.Bold);
 
         private int health = MAX_HP;
-        private int gold;
+        public int Gold { get; set; }
         private int streak;
         private RoundEndStatus streakStatus;
 
@@ -57,9 +57,9 @@ namespace ASU2019_NetworkedGameWorkshop.model
         /// <param name="roundEndStatus">the status of the last round</param>
         public void incrementGold(RoundEndStatus roundEndStatus)
         {
-            gold += BASE_GOLD_INCOME
+            Gold += BASE_GOLD_INCOME
                 + getstreakIncome()
-                + Math.Min(5, gold / 10)
+                + Math.Min(5, Gold / 10)
                 + ((roundEndStatus == RoundEndStatus.WIN) ? 1 : 0);
             if (streakStatus == roundEndStatus)
             {
@@ -98,7 +98,7 @@ namespace ASU2019_NetworkedGameWorkshop.model
         /// <param name="graphics">graphics object to draw on</param>
         public override void draw(Graphics graphics)
         {
-            graphics.DrawString("Gold: " + gold, FONT, Brushes.DarkGoldenrod, 260, 15);//temp pos
+            graphics.DrawString("Gold: " + Gold, FONT, Brushes.DarkGoldenrod, 260, 15);//temp pos
             graphics.DrawString("Streak: " + streak, FONT,
                 streakStatus == RoundEndStatus.WIN ? Brushes.OrangeRed : Brushes.SteelBlue, 350, 15);//temp pos
         }
