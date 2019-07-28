@@ -11,7 +11,6 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using static ASU2019_NetworkedGameWorkshop.model.ui.StageTimer;
 using static ASU2019_NetworkedGameWorkshop.controller.StageManager;
 
 namespace ASU2019_NetworkedGameWorkshop.controller
@@ -105,6 +104,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             blue.learnSpell(Spells.Execute);
             blue.learnSpell(Spells.Heal);
             TeamBlue.Add(blue);
+            TeamBlue.Add(new Character(grid, grid.Tiles[1, 0], Character.Teams.Blue, CharacterTypePhysical.Warrior, this));
             TeamRed.Add(new Character(grid, grid.Tiles[6, 5], Character.Teams.Red, CharacterTypePhysical.Warrior, this));
             TeamRed.Add(new Character(grid, grid.Tiles[5, 5], Character.Teams.Red, CharacterTypePhysical.Archer, this));
         }

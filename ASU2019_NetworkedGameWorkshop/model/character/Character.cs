@@ -30,13 +30,11 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
         private long nextAtttackTime;
         private ChooseSpell chooseSpell;
 
-
         public bool SpellReady { get; set; }
         public Dictionary<StatusType, int> Stats { get; private set; }
-
         public Tile CurrentTile { get; set; }//public set ?
-
         public Character CurrentTarget { get; private set; }
+
         /// <summary>
         /// CharacterType according to the Character's current level.
         /// </summary>
@@ -222,20 +220,27 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
 
             if (ToMoveTo == null)
             {
-                List<Tile> path = null;
                 if (CurrentTarget == null
-                    || CurrentTarget.IsDead)
+                    || CurrentTarget.IsDead
+                    || PathFinding.getDistance(CurrentTile, CurrentTarget.CurrentTile) > Stats[StatusType.Range])
                 {
+                    List<Tile> path = null;
                     try
                     {
                         (path, CurrentTarget) = PathFinding.findPathToClosestEnemy(CurrentTile, team, grid, gameManager);//temp
+
                     }
                     catch (PathFinding.PathNotFoundException)
                     {
                         return false;
                     }
+                    if (PathFinding.getDistance(CurrentTile, CurrentTarget.CurrentTile) > Stats[StatusType.Range])
+                    {
+                        ToMoveTo = path[0];
+                        ToMoveTo.Walkable = false;
+                    }
                 }
-                if (PathFinding.getDistance(CurrentTile, CurrentTarget.CurrentTile) <= Stats[StatusType.Range])
+                else
                 {
                     if (gameManager.ElapsedTime > nextAtttackTime)
                     {
@@ -243,22 +248,6 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
                         CurrentTarget.takeDamage(Stats[StatusType.AttackDamage], DamageType.PhysicalDamage);//temp DamageType?
                         return true;
                     }
-                }
-                else
-                {
-                    if (path == null)
-                    {
-                        try
-                        {
-                            (path, CurrentTarget) = PathFinding.findPathToClosestEnemy(CurrentTile, team, grid, gameManager);
-                        }
-                        catch (PathFinding.PathNotFoundException)
-                        {
-                            return false;
-                        }
-                    }
-                    ToMoveTo = path[0];
-                    ToMoveTo.Walkable = false;
                 }
             }
             return false;
