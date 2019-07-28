@@ -7,16 +7,22 @@ using System.Windows.Forms;
 
 namespace ASU2019_NetworkedGameWorkshop.model.Shop {
     class Shop {
-        FlowLayoutPanel selectedCharacterView;
+
+        private FlowLayoutPanel selectedCharacterView;
         private Character selectedCharacter;
+        private GameManager manager;
+        private CharacterShop characterShop;
+
         private static FlowLayoutPanel skillShop;
         private static Button btn_hideSkillShop;
         private static Button btn_buySkill;
-        public static Spell selectedSkill;
-        GameManager manager;
-        public Shop(GameManager manager,GameForm gameForm) {
+
+        public static Spell selectedSpell;
+
+        public Shop(GameManager manager, GameForm gameForm) {
 
             this.manager = manager;
+            characterShop = new CharacterShop(gameForm);
 
             selectedCharacterView = new FlowLayoutPanel();
             selectedCharacterView.Size = new Size(245, 215);
@@ -28,8 +34,8 @@ namespace ASU2019_NetworkedGameWorkshop.model.Shop {
 
             skillShop = new FlowLayoutPanel();
             skillShop.Visible = false;
-            skillShop.Location = new Point((gameForm.Width / 2) - (skillShop.Width / 2), (gameForm.Height / 2) - (skillShop.Height / 2));
-            skillShop.BackColor = Color.Yellow;
+            skillShop.Location = new Point(20, (gameForm.Height / 2) - (skillShop.Height / 2));
+            skillShop.BackColor = Color.Gold;
             skillShop.FlowDirection = FlowDirection.TopDown;
 
             btn_hideSkillShop = new Button();
@@ -44,26 +50,34 @@ namespace ASU2019_NetworkedGameWorkshop.model.Shop {
 
             gameForm.Controls.Add(skillShop);
         }
-        
+
 
         private void hideShop_btn(object sender, MouseEventArgs e) {
             skillShop.Visible = false;
         }
 
         private void buySkill_click(object sender, MouseEventArgs e) {
+            if (!selectedCharacter.spells.Contains(selectedSpell)) {
 
-            skillShop.Visible = false;
-            selectedCharacterView.Invalidate();
+                selectedCharacter.learnSpell(selectedSpell);
+
+                skillShop.Visible = false;
+                selectedCharacterView.Controls.Remove(selectedSpell.lbl_spell);
+                viewNewSpells();
+
+                printLearnedSpells();
+            }
+
         }
 
         public void updateShop() {
             selectedCharacter = manager.selectedTile.CurrentCharacter;
-            viewNewSkills();
+            viewNewSpells();
             selectedCharacterView.Invalidate();
         }
-        private void viewNewSkills() {
+        private void viewNewSpells() {
+            selectedCharacterView.Controls.Clear();
             if (selectedCharacter != null) {
-                selectedCharacterView.Controls.Clear();
                 foreach (Spell spell in Spell.Values) {
                     if (!(selectedCharacter.spells.Contains(spell))) {
                         selectedCharacterView.Controls.Add(spell.lbl_spell);
@@ -78,6 +92,11 @@ namespace ASU2019_NetworkedGameWorkshop.model.Shop {
             skillShop.Controls.Add(btn_buySkill);
 
             skillShop.Visible = true;
+        }
+        private void printLearnedSpells() {
+            foreach (Spell spell in selectedCharacter.spells) {
+                Console.WriteLine(spell.name);
+            }
         }
     }
 }

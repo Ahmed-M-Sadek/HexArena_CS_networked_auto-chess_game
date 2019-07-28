@@ -62,6 +62,7 @@
     <Compile Include="controller\PathFinding.cs" />
     <Compile Include="model\grid\Grid.cs" />
     <Compile Include="model\grid\Tile.cs" />
+    <Compile Include="model\Shop\CharacterShop.cs" />
     <Compile Include="model\Shop\Shop.cs" />
     <Compile Include="model\spell\Spell.cs" />
     <Compile Include="model\spell\types\FantasticHeal.cs" />
