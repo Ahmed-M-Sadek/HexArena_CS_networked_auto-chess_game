@@ -12,6 +12,8 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using static ASU2019_NetworkedGameWorkshop.controller.StageManager;
+using static ASU2019_NetworkedGameWorkshop.model.ui.StageTimer;
+
 
 namespace ASU2019_NetworkedGameWorkshop.controller
 {
@@ -100,9 +102,10 @@ namespace ASU2019_NetworkedGameWorkshop.controller
 
             //Debugging 
             Character blue = new Character(grid, grid.Tiles[0, 0], Character.Teams.Blue, CharacterTypePhysical.Archer, this);
-            blue.learnSpell(Spells.AwesomeFireballAOE);
-            blue.learnSpell(Spells.Execute);
-            blue.learnSpell(Spells.Heal);
+            blue.learnSpell(Spells.AwesomeFireballAOE[0]);
+            blue.learnSpell(Spells.Execute[0]);
+            blue.learnSpell(Spells.Heal[0]);
+            blue.learnSpell(Spells.AwesomeFireballRandom[0]);
             TeamBlue.Add(blue);
             TeamBlue.Add(new Character(grid, grid.Tiles[1, 0], Character.Teams.Blue, CharacterTypePhysical.Warrior, this));
             TeamRed.Add(new Character(grid, grid.Tiles[6, 5], Character.Teams.Red, CharacterTypePhysical.Warrior, this));
@@ -204,8 +207,8 @@ namespace ASU2019_NetworkedGameWorkshop.controller
         private void gameStart()
         {
             stopwatch.Start();
-            stageManager.switchStage();//Debugging
-            //stageTimer.resetTimer(StageTime.BUY_TIME);
+            //stageManager.switchStage();
+            stageTimer.resetTimer(StageTime.BUY);//Debugging
         }
 
         private void gameLoop(object sender, EventArgs e)
@@ -230,7 +233,15 @@ namespace ASU2019_NetworkedGameWorkshop.controller
 
         private bool stageUpdateBuy()
         {
-            bool updateCanvas = false;
+            foreach (Character character in TeamBlue.Where(e => !e.IsDead))
+            {
+                updateCanvas = character.updateBuy() || updateCanvas;
+            }
+
+            foreach (Character character in TeamRed.Where(e => !e.IsDead))
+            {
+                updateCanvas = character.updateBuy() || updateCanvas;
+            }
             return updateCanvas;
         }
 
