@@ -117,4 +117,257 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="enchant_acid_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\enchant-acid-1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="enchant_acid_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\enchant-acid-2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="enchant_acid_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\enchant-acid-3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="enchant_blue_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\enchant-blue-1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="enchant_blue_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\enchant-blue-2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="enchant_blue_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\enchant-blue-3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="enchant_eerie_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\enchant-eerie-1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="enchant_eerie_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\enchant-eerie-2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="enchant_eerie_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\enchant-eerie-3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="enchant_jade_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\enchant-jade-1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="enchant_jade_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\enchant-jade-2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="enchant_jade_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\enchant-jade-3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="enchant_magenta_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\enchant-magenta-1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="enchant_magenta_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\enchant-magenta-2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="enchant_magenta_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\enchant-magenta-3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="enchant_orange_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\enchant-orange-1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="enchant_orange_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\enchant-orange-2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="enchant_orange_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\enchant-orange-3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="enchant_red_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\enchant-red-1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="enchant_red_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\enchant-red-2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="enchant_red_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\enchant-red-3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="enchant_royal_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\enchant-royal-1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="enchant_royal_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\enchant-royal-2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="enchant_royal_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\enchant-royal-3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="enchant_sky_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\enchant-sky-1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="enchant_sky_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\enchant-sky-2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="enchant_sky_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\enchant-sky-3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="evil_eye_eerie_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\evil-eye-eerie-1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="evil_eye_eerie_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\evil-eye-eerie-2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="evil_eye_eerie_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\evil-eye-eerie-3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="evil_eye_red_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\evil-eye-red-1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="evil_eye_red_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\evil-eye-red-2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="evil_eye_red_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\evil-eye-red-3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fireball_acid_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\fireball-acid-1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fireball_acid_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\fireball-acid-2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fireball_acid_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\fireball-acid-3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fireball_eerie_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\fireball-eerie-1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fireball_eerie_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\fireball-eerie-2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fireball_eerie_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\fireball-eerie-3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fireball_red_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\fireball-red-1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fireball_red_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\fireball-red-2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fireball_red_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\fireball-red-3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fireball_sky_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\fireball-sky-1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fireball_sky_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\fireball-sky-2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fireball_sky_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\fireball-sky-3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="heal_jade_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\heal-jade-1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="heal_jade_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\heal-jade-2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="heal_jade_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\heal-jade-3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="heal_royal_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\heal-royal-1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="heal_royal_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\heal-royal-2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="heal_royal_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\heal-royal-3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="heal_sky_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\heal-sky-1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="heal_sky_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\heal-sky-2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="heal_sky_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\heal-sky-3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="protect_acid_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\protect-acid-1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="protect_acid_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\protect-acid-2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="protect_acid_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\protect-acid-3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="protect_blue_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\protect-blue-1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="protect_blue_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\protect-blue-2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="protect_blue_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\protect-blue-3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="protect_eerie_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\protect-eerie-1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="protect_eerie_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\protect-eerie-2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="protect_eerie_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\protect-eerie-3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="protect_jade_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\protect-jade-1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="protect_jade_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\protect-jade-2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="protect_jade_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\protect-jade-3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="protect_magenta_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\protect-magenta-1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="protect_magenta_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\protect-magenta-2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="protect_magenta_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\protect-magenta-3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="protect_orange_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\protect-orange-1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="protect_orange_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\protect-orange-2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="protect_orange_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\protect-orange-3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="protect_red_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\protect-red-1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="protect_red_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\protect-red-2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="protect_red_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\protect-red-3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="protect_royal_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\protect-royal-1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="protect_royal_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\protect-royal-2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="protect_royal_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\protect-royal-3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="protect_sky_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\protect-sky-1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="protect_sky_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\protect-sky-2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="protect_sky_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\spells\protect-sky-3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Tile" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\tiles\Tile.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Tile_Selected" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\tiles\Tile_Selected.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Tile_Transparent" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\tiles\Tile_Transparent.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>
