@@ -107,6 +107,17 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             blue.learnSpell(Spells.Heal[0]);
             blue.learnSpell(Spells.AwesomeFireballRandom[0]);
             TeamBlue.Add(blue);
+
+            string test = NetworkManager.serializeCharacter(blue);
+            NetworkManager.CharStat chSt = NetworkManager.parseCharacter(test);
+            Character blueTest = new Character(grid, grid.Tiles[chSt.X, chSt.Y + 1], Character.Teams.Blue, chSt.charType, this);
+            //blueTest.learnSpell(Spells.Heal[0]);
+            foreach(var (spell, spellLevel) in chSt.SpellList)
+            {
+                blueTest.learnSpell(spell[spellLevel - 1]);
+            }
+            TeamBlue.Add(blueTest);
+
             TeamBlue.Add(new Character(grid, grid.Tiles[1, 0], Character.Teams.Blue, CharacterTypePhysical.Warrior, this));
             TeamRed.Add(new Character(grid, grid.Tiles[6, 5], Character.Teams.Red, CharacterTypePhysical.Warrior, this));
             TeamRed.Add(new Character(grid, grid.Tiles[5, 5], Character.Teams.Red, CharacterTypePhysical.Archer, this));

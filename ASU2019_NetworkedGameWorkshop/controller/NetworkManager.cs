@@ -176,7 +176,14 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             return activeIPs.ToArray();
         }
 
-        public CharStat parseCharacter(string character)
+        /// <summary>
+        /// takes a string and parses it returning CharStat
+        /// token sequence: CharType, CharLvl, X, Y, number of skill, skill, lvl, skill, lvl...
+        /// tokens seperated by a '#'
+        /// </summary>
+        /// <param name="character"></param>
+        /// <returns></returns>
+        public static CharStat parseCharacter(string character)
         {
             String[] tokens = character.Split('#');
 
@@ -192,9 +199,21 @@ namespace ASU2019_NetworkedGameWorkshop.controller
                 Convert.ToInt32(tokens[2]), Convert.ToInt32(tokens[3]), spellList);
         }
 
-        public string serializeCharacter(model.character.Character character)
+        /// <summary>
+        /// takes a Character and serializes it returning a string
+        /// token sequence: CharType, CharLvl, X, Y, number of skill, skill, lvl, skill, lvl...
+        /// tokens seperated by a '#'
+        /// </summary>
+        /// <param name="character"></param>
+        /// <returns></returns>
+        public static string serializeCharacter(model.character.Character character)
         {
-            return "";
+            string spells = "";
+            foreach(var spell in character.LearnedSpells)
+            {
+                spells += $"#{spell.Id}#{spell.Level}";
+            }
+            return $"{character.CharacterType.Id}#{character.CurrentLevel}#{character.CurrentTile.X}#{character.CurrentTile.Y}#{character.LearnedSpells.Count}{spells}" ;
         }
         public void parseSkill(string character)
         {

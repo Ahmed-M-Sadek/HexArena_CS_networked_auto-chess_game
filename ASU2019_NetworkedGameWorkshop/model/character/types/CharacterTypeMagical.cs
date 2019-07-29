@@ -32,6 +32,10 @@ namespace ASU2019_NetworkedGameWorkshop.model.character.types
         {
             foreach(var charType in Values)
             {
+                foreach(var charTypeLevel in charType)
+                {
+                    charTypeLevel.Id = ID;
+                }
                 charactersList[ID++] = charType;
                 System.Console.WriteLine(charactersList[ID - 1][0].Name);
             }
