@@ -6,6 +6,8 @@ using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Threading;
+using ASU2019_NetworkedGameWorkshop.model.character.types;
+using ASU2019_NetworkedGameWorkshop.model.spell;
 
 namespace ASU2019_NetworkedGameWorkshop.controller
 {
@@ -173,5 +175,43 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             countdownEvent.Wait();
             return activeIPs.ToArray();
         }
+
+        public CharStat parseCharacter(string character)
+        {
+            String[] tokens = character.Split('#');
+
+            List<Spells> spellList = new List<Spells>();
+            int spellNum = Convert.ToInt32(tokens[4]);
+            for(int i = 0; i < spellNum; i++)
+            {
+                //spellList.Add(tokens[5 + i]);
+            }
+            
+            return new CharStat(CharacterType.getCharacterType(Convert.ToInt32(tokens[0])), Convert.ToInt32(tokens[1]), Convert.ToInt32(tokens[2]), Convert.ToInt32(tokens[3]), spellList);
+        }
+        public void parseSkill(string character)
+        {
+
+        }
+
+        public struct CharStat 
+        {
+            public model.character.types.CharacterType[] charType;
+            public int Level;
+            public int X;
+            public int Y;
+            public List<model.spell.Spells> SpellList;
+
+            public CharStat(CharacterType[] charType, int level, int x, int y, List<Spells> spellList)
+            {
+                this.charType = charType;
+                Level = level;
+                X = x;
+                Y = y;
+                SpellList = spellList;
+            }
+        }
+
     }
+
 }

@@ -12,8 +12,16 @@ namespace ASU2019_NetworkedGameWorkshop.model.character.types
         public const int MAX_CHAR_LVL = 3;
 
         private readonly Dictionary<StatusType, int> stats;
-
         public string Name { get; }
+        public int Id { get; set; }
+        public static int ID = 0;
+
+        private readonly static List<CharacterType[]> charactersList = new List<CharacterType[]>();
+        public static CharacterType[] getCharacterType(int id)
+        {
+            return charactersList[id];
+        }
+
 
         public CharacterType(string name,
             int healthPointsMax,
@@ -49,6 +57,9 @@ namespace ASU2019_NetworkedGameWorkshop.model.character.types
                 [StatusType.MagicResist] = magicResist,
                 [StatusType.Range] = range
             };
+            //charactersList.Add(this);
+            this.Id = ID;
+            ID++;
         }
 
         public int this[StatusType index]
