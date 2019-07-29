@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" 
-  xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\packages\Microsoft.Net.Compilers.3.1.1\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.3.1.1\build\Microsoft.Net.Compilers.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -57,6 +56,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="controller\GameManager.cs" />
+    <Compile Include="controller\networking\LobbyClient.cs" />
+    <Compile Include="controller\networking\LobbyServer.cs" />
     <Compile Include="controller\NetworkManager.cs" />
     <Compile Include="controller\StageManager.cs" />
     <Compile Include="model\character\Character.cs" />
@@ -221,6 +222,7 @@
     <Resource Include="assets\sprites\spells\protect-sky-3.png" />
     <Resource Include="assets\sprites\tiles\Tile.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

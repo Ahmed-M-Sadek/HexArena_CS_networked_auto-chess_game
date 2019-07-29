@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ASU2019_NetworkedGameWorkshop.model.character.types;
+using ASU2019_NetworkedGameWorkshop.model.spell;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
@@ -6,8 +8,6 @@ using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Threading;
-using ASU2019_NetworkedGameWorkshop.model.character.types;
-using ASU2019_NetworkedGameWorkshop.model.spell;
 
 namespace ASU2019_NetworkedGameWorkshop.controller
 {
@@ -34,97 +34,6 @@ namespace ASU2019_NetworkedGameWorkshop.controller
                     string ip = host.AddressList[i].ToString();
                     LocalIP.Add(ip);
                     LocalIPBase.Add(ip.Substring(0, ip.LastIndexOf('.') + 1));
-                }
-            }
-        }
-
-        public static void startServer(string gameName, int port, view.ConnectForm connectForm)
-        {
-            Thread thread = new Thread(() => startNetworkListener(gameName, port, connectForm))
-            {
-                IsBackground = true
-            };
-            thread.Start();
-        }
-
-        private static void startNetworkClient(string gameName)
-        {
-            throw new NotImplementedException();
-        }
-
-        private static void startNetworkListener(string gameName, int port, view.ConnectForm connectForm)
-        {
-            TcpListener tcpListener = TcpListener.Create(port);
-            tcpListener.Start();
-
-            try
-            {
-                while (true)
-                {
-                    TcpClient tcpClient = tcpListener.AcceptTcpClient();
-
-                    Thread thread = new Thread(() => handleClient(gameName, tcpClient, connectForm))
-                    {
-                        IsBackground = true
-                    };
-                    thread.Start();
-                }
-            }
-            catch (SocketException)
-            {
-                return;
-            }
-        }
-
-        private static void handleClient(string gameName, TcpClient tcpClient, view.ConnectForm connectForm)
-        {
-            using (StreamWriter streamWriter = new StreamWriter(tcpClient.GetStream()))
-            using (StreamReader streamReader = new StreamReader(tcpClient.GetStream()))
-            {
-                while (true)
-                {
-                    string msg = streamReader.ReadLine();
-                    if (msg.Equals("PING"))
-                    {
-                        streamWriter.WriteLine(gameName);
-                        streamWriter.Flush();//needed ?
-                        break;
-                    }
-
-                    string ip = ((IPEndPoint)tcpClient.Client.RemoteEndPoint).Address.ToString();
-                    connectForm.LobbyMembers.Enqueue(ip.Substring(ip.LastIndexOf(':')+1));
-                    streamWriter.WriteLine("LOBBY");
-                    streamWriter.WriteLine(gameName);
-                    streamWriter.Flush();//needed ?
-
-                    break;
-                }
-            }
-            tcpClient.Close();
-        }
-
-
-        public static void connectToServer(string ip, int port)
-        {
-            Thread thread = new Thread(() => handleServer(ip, port))
-            {
-                IsBackground = true
-            };
-            thread.Start();
-        }
-
-        private static void handleServer(string ip, int port)
-        {
-            using (TcpClient tcpClient = new TcpClient(ip, port))
-            using (StreamReader streamReader = new StreamReader(tcpClient.GetStream()))
-            using (StreamWriter streamWriter = new StreamWriter(tcpClient.GetStream()))
-            {
-                streamWriter.WriteLine("LOBBY");
-                streamWriter.Flush();
-                string msg = streamReader.ReadLine();
-                if (msg.Equals("LOBBY"))
-                {
-                    Console.WriteLine(streamReader.ReadLine());
                 }
             }
         }
@@ -182,11 +91,11 @@ namespace ASU2019_NetworkedGameWorkshop.controller
 
             List<Spells> spellList = new List<Spells>();
             int spellNum = Convert.ToInt32(tokens[4]);
-            for(int i = 0; i < spellNum; i++)
+            for (int i = 0; i < spellNum; i++)
             {
                 //spellList.Add(tokens[5 + i]);
             }
-            
+
             return new CharStat(CharacterType.getCharacterType(Convert.ToInt32(tokens[0])), Convert.ToInt32(tokens[1]), Convert.ToInt32(tokens[2]), Convert.ToInt32(tokens[3]), spellList);
         }
         public void parseSkill(string character)
@@ -194,7 +103,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
 
         }
 
-        public struct CharStat 
+        public struct CharStat
         {
             public model.character.types.CharacterType[] charType;
             public int Level;
@@ -213,5 +122,4 @@ namespace ASU2019_NetworkedGameWorkshop.controller
         }
 
     }
-
 }

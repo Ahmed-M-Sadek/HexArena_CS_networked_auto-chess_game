@@ -1,7 +1,8 @@
 ﻿using ASU2019_NetworkedGameWorkshop.controller;
+using ASU2019_NetworkedGameWorkshop.controller.networking;
 using System;
-using System.Collections.Generic;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -11,7 +12,7 @@ namespace ASU2019_NetworkedGameWorkshop.view
     {
         private readonly List<Tuple<string, long, string>> ips;
 
-        private bool hasLobby;
+        private bool connectedToServer;
         private int lastPortScanned;
 
         public ConcurrentQueue<string> LobbyMembers { get; private set; }
@@ -121,26 +122,33 @@ namespace ASU2019_NetworkedGameWorkshop.view
 
         private void Btn_host_Click(object sender, EventArgs e)
         {
-            if (!hasLobby)
+            if (!connectedToServer)
             {
-                hasLobby = true;
+                connectedToServer = true;
                 tabControl.SelectedTab = tabControl.TabPages[2];
+                disableNewServerOptions();
 
                 lbx_lobbyPlayerList.Items.Add("Local Player\t(HOST)");
                 setLobbyGameName(txt_hostGameName.Text);
 
-                NetworkManager.startServer(txt_hostGameName.Text, int.Parse(txt_hostPort.Text), this);
+                new LobbyServer(txt_hostGameName.Text, int.Parse(txt_hostPort.Text), this).startServer();
                 timer.Start();
             }
         }
 
+        private void disableNewServerOptions()
+        {
+            btn_host.Enabled = false;
+            btn_connect.Enabled = false;
+            btn_manualConnect.Enabled = false;
+        }
+
         private void TabControl_Selecting(object sender, TabControlCancelEventArgs e)
         {
-            if (e.TabPageIndex == 2
-                && !hasLobby)
+            if (e.TabPageIndex == 2 && !connectedToServer)
             {
                 e.Cancel = true;
-                MessageBox.Show("Please host or join a game first.", "Can't Show Lobby", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Please host or join a Lobby first.", "Can't Show Lobby", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -148,12 +156,14 @@ namespace ASU2019_NetworkedGameWorkshop.view
         {
             if (lbx_connectList.SelectedIndex != -1)
             {
-                (string ip, _, string gameName) = ips[lbx_connectList.SelectedIndex];
-                hasLobby = true;
+                connectedToServer = true;
                 tabControl.SelectedTab = tabControl.TabPages[2];
-                lbx_lobbyPlayerList.Items.Add("Local Player\t(LOCAL)");
+                disableNewServerOptions();
+
+                (string ip, _, string gameName) = ips[lbx_connectList.SelectedIndex];
+                lbx_lobbyPlayerList.Items.Add("Local Player\t(Local)");
                 setLobbyGameName(gameName);
-                NetworkManager.connectToServer(ip, lastPortScanned);
+                new LobbyClient(ip, lastPortScanned, this).connectToServer();
                 timer.Start();
             }
         }
