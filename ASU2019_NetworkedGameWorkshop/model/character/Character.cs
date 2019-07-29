@@ -30,9 +30,9 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
         private bool spellsUIVisible = false;
         private List<StatusEffect> statusEffects;
         private long nextAtttackTime;
-        private LearnedSpell activeSpell;
 
-        public ChooseSpell chooseSpell { get; set; }
+        public ChooseSpell ChooseSpell { get; set; }
+        public InactiveSpell InactiveSpell { get; set; }
         public List<Spells> ActiveSpells { get; set; }
         public List<Spells> InactiveSpells { get; set; }
         public bool SpellReady { get; set; }
@@ -150,7 +150,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
 
         private void hideSpellUI()
         {
-            gameManager.removeRangeFromForm(chooseSpell);
+            gameManager.removeRangeFromForm(ChooseSpell);
             SpellReady = false;
         }
 
@@ -194,15 +194,15 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
         {
             if (gameManager.CurrentGameStage == StageManager.GameStage.Buy && !spellsUIVisible && this.CurrentTile == gameManager.SelectedTile)
             {
-                activeSpell = new LearnedSpell(this, InactiveSpells);
-                chooseSpell = new ChooseSpell(this, ActiveSpells);
-                gameManager.addRangeToForm(activeSpell, chooseSpell);
+                InactiveSpell = new InactiveSpell(this, InactiveSpells);
+                ChooseSpell = new ChooseSpell(this, ActiveSpells);
+                gameManager.addRangeToForm(InactiveSpell, ChooseSpell);
                 spellsUIVisible = true;
                 return true;
             }
             else if(this.CurrentTile != gameManager.SelectedTile)
             {
-                gameManager.removeRangeFromForm(activeSpell, chooseSpell);
+                gameManager.removeRangeFromForm(InactiveSpell, ChooseSpell);
                 foreach(Spells spell in ActiveSpells)
                 {
                     InactiveSpells.Remove(spell);
@@ -216,7 +216,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
         {
             if (gameManager.CurrentGameStage != StageManager.GameStage.Buy && spellsUIVisible)
             {
-                gameManager.removeRangeFromForm(activeSpell, chooseSpell);
+                gameManager.removeRangeFromForm(InactiveSpell, ChooseSpell);
                 spellsUIVisible = false;
                 return true;
             }
@@ -248,9 +248,9 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
                 && ActiveSpells.Count != 0
                 && !SpellReady)
             {
-                chooseSpell = new ChooseSpell(this, ActiveSpells);
+                ChooseSpell = new ChooseSpell(this, ActiveSpells);
                 SpellReady = true;
-                gameManager.addRangeToForm(chooseSpell);
+                gameManager.addRangeToForm(ChooseSpell);
             }
 
             if (ToMoveTo == null)

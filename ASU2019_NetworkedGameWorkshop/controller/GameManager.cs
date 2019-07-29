@@ -105,6 +105,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             blue.learnSpell(Spells.AwesomeFireballAOE[0]);
             blue.learnSpell(Spells.Execute[0]);
             blue.learnSpell(Spells.Heal[0]);
+            blue.learnSpell(Spells.AwesomeFireballRandom[0]);
             TeamBlue.Add(blue);
             TeamBlue.Add(new Character(grid, grid.Tiles[1, 0], Character.Teams.Blue, CharacterTypePhysical.Warrior, this));
             TeamRed.Add(new Character(grid, grid.Tiles[6, 5], Character.Teams.Red, CharacterTypePhysical.Warrior, this));

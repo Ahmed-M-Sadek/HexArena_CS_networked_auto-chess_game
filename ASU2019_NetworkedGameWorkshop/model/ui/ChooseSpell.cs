@@ -43,13 +43,13 @@ namespace ASU2019_NetworkedGameWorkshop.model
                     SizeMode = PictureBoxSizeMode.StretchImage,
                     Location = new Point(i * IMAGE_SIZE + IMAGE_PADDING_X * (i + 1), IMAGE_PADDING_Y)
                 };
-                pics.MouseClick += new MouseEventHandler(mouseEvent(spells, i));
+                pics.MouseClick += new MouseEventHandler(mouseEvent(spells, i,pics));
 
                 Controls.Add(pics);
             }
         }
 
-        private MouseEventHandler mouseEvent(List<Spells> spells, int k)
+        private MouseEventHandler mouseEvent(List<Spells> spells, int k,PictureBox pic)
         {
             return (sender, e) =>
             {
@@ -59,6 +59,16 @@ namespace ASU2019_NetworkedGameWorkshop.model
                     character.SpellReady = false;
                     character.resetMana();
                     spells[k].castSpell(character);
+                }
+                if(character.gameManager.CurrentGameStage == StageManager.GameStage.Buy)
+                {
+                    character.InactiveSpells.Add(spells[k]);
+                    character.ActiveSpells.Remove(spells[k]);
+                    character.gameManager.removeRangeFromForm(this,character.InactiveSpell);
+                    character.ChooseSpell = new ChooseSpell(character, character.ActiveSpells);
+                    character.InactiveSpell = new InactiveSpell(character, character.InactiveSpells);
+                    character.gameManager.addRangeToForm(character.ChooseSpell,character.InactiveSpell);
+                    
                 }
             };
         }
