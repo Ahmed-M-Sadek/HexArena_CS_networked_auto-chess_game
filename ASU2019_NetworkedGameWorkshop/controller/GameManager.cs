@@ -100,7 +100,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
 
             //Debugging 
             Character blue = new Character(grid, grid.Tiles[0, 0], Character.Teams.Blue, CharacterTypePhysical.Archer, this);
-            blue.learnSpell(Spells.AwesomeFireballAOE);
+            blue.learnSpell(Spells.AwesomeFireballRandom);
             blue.learnSpell(Spells.Execute);
             blue.learnSpell(Spells.Heal);
             TeamBlue.Add(blue);

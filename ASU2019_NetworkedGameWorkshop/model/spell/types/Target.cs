@@ -8,7 +8,12 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell.types
 {
     public class Target
     {
-        private readonly Random random;
+        private static readonly Random random;
+
+        static Target()
+        {
+            random = new Random();
+        }
 
         public Character Caster { get; set; }
         public List<Character> Recievers { get; set; }
@@ -27,7 +32,6 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell.types
             MultiTargeted = aOE;
             NumberOfTargets = numberOfTargets;
             CastTarget = castTarget;
-            random = new Random();
         }
         public List<Character> getTargets()
         {
