@@ -1,4 +1,5 @@
-﻿using ASU2019_NetworkedGameWorkshop.view;
+﻿using ASU2019_NetworkedGameWorkshop.controller;
+using ASU2019_NetworkedGameWorkshop.view;
 using System;
 using System.Windows.Forms;
 
