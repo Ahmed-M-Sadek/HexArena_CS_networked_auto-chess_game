@@ -47,7 +47,6 @@ namespace ASU2019_NetworkedGameWorkshop.controller.networking
                     string[] msg = streamReader.ReadLine().Split('#');
                     if (msg[0].Equals("MEMBER"))
                     {
-                        Console.WriteLine($"recieved: {msg[1]}");
                         connectForm.LobbyMembers.Enqueue(msg[1]);
                     }
                 }

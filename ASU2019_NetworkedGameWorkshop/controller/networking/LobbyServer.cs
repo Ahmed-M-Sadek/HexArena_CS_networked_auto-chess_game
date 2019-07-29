@@ -69,7 +69,6 @@ namespace ASU2019_NetworkedGameWorkshop.controller.networking
 
                     foreach (string ip in ConnectedIPs)
                     {
-                        System.Console.WriteLine($"sent {ip} to new user");
                         streamWriter.WriteLine("MEMBER#" + ip);
                     }
                     streamWriter.Flush();
@@ -88,7 +87,6 @@ namespace ASU2019_NetworkedGameWorkshop.controller.networking
                             {
                                 for (int i = currentDevicesCount; i < ConnectedIPs.Count; i++)
                                 {
-                                    System.Console.WriteLine($"sending {ConnectedIPs[i]} to {clientIP}");
                                     streamWriter.WriteLine("MEMBER#" + ConnectedIPs[i]);
                                 }
                             }
