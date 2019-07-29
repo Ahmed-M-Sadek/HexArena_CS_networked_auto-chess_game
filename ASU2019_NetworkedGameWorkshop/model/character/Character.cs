@@ -24,12 +24,17 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
         private readonly CharacterType[] characterType;
         private readonly Dictionary<StatusType, int> statsAdder;
         private readonly Dictionary<StatusType, float> statsMultiplier;
-        private readonly List<Spells> spells;
+        private readonly List<Spells> learnedSpells;
 
+
+        private bool spellsUIVisible = false;
         private List<StatusEffect> statusEffects;
         private long nextAtttackTime;
-        private ChooseSpell chooseSpell;
+        private LearnedSpell activeSpell;
 
+        public ChooseSpell chooseSpell { get; set; }
+        public List<Spells> ActiveSpells { get; set; }
+        public List<Spells> InactiveSpells { get; set; }
         public bool SpellReady { get; set; }
         public Dictionary<StatusType, int> Stats { get; private set; }
         public Tile CurrentTile { get; set; }//public set ?
@@ -63,7 +68,9 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
             this.gameManager = gameManager;
 
             Stats = CharacterType.statsCopy();
-            spells = new List<Spells>();
+            ActiveSpells = new List<Spells>();
+            InactiveSpells = new List<Spells>();
+            learnedSpells = new List<Spells>();
             brush = (team == Teams.Blue) ? Brushes.BlueViolet : Brushes.Red;
             statusEffects = new List<StatusEffect>();
             IsDead = false;
@@ -100,7 +107,8 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
 
         public void learnSpell(Spells spell)
         {
-            spells.Add(spell);
+            learnedSpells.Add(spell);
+            InactiveSpells.Add(spell);
         }
 
         /// <summary>
@@ -182,9 +190,36 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
             }
             return false;
         }
-
+        public bool updateBuy()
+        {
+            if (gameManager.CurrentGameStage == StageManager.GameStage.Buy && !spellsUIVisible && this.CurrentTile == gameManager.SelectedTile)
+            {
+                activeSpell = new LearnedSpell(this, InactiveSpells);
+                chooseSpell = new ChooseSpell(this, ActiveSpells);
+                gameManager.addRangeToForm(activeSpell, chooseSpell);
+                spellsUIVisible = true;
+                return true;
+            }
+            else if(this.CurrentTile != gameManager.SelectedTile)
+            {
+                gameManager.removeRangeFromForm(activeSpell, chooseSpell);
+                foreach(Spells spell in ActiveSpells)
+                {
+                    InactiveSpells.Remove(spell);
+                }
+                spellsUIVisible = false;
+                return true;
+            }
+            return false;
+        }
         public bool update()
         {
+            if (gameManager.CurrentGameStage != StageManager.GameStage.Buy && spellsUIVisible)
+            {
+                gameManager.removeRangeFromForm(activeSpell, chooseSpell);
+                spellsUIVisible = false;
+                return true;
+            }
             statusEffects = statusEffects.Where(effect =>
             {
                 if (effect.RemoveEffectTimeStamp < gameManager.ElapsedTime)
@@ -210,10 +245,10 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
             }).ToList();
 
             if (Stats[StatusType.Charge] == Stats[StatusType.ChargeMax]
-                && spells.Count != 0
+                && ActiveSpells.Count != 0
                 && !SpellReady)
             {
-                chooseSpell = new ChooseSpell(this, spells);
+                chooseSpell = new ChooseSpell(this, ActiveSpells);
                 SpellReady = true;
                 gameManager.addRangeToForm(chooseSpell);
             }
@@ -278,6 +313,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
         }
         public override void draw(Graphics graphics)
         {
+            
             if (!IsDead)
             {
                 graphics.FillRectangle(brush,

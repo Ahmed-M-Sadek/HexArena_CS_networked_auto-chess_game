@@ -8,37 +8,55 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell
 {
     public class Spells
     {
-        public static readonly Spells AwesomeFireball = new Spells(200,
-            new Target(false, CastTarget.CurrentTarget),
-            SpellType.Damage,
-            Resources.fireball_red_1);
+        public static readonly Spells[] AwesomeFireball = new Spells[]{
+            new Spells(
+                100,
+                new Target(false, CastTarget.CurrentTarget),
+                SpellType.Damage,
+                Resources.fireball_red_1),
+            new Spells(
+                200,
+                new Target(false, CastTarget.CurrentTarget),
+                SpellType.Damage,
+                Resources.fireball_red_1)
+            };
 
-        public static readonly Spells AwesomeFireballAOE = new Spells(200,
-            new Target(false, true, 3, CastTarget.CurrentTarget),
-            SpellType.Damage,
-            Resources.fireball_acid_3);
+        public static readonly Spells[] AwesomeFireballAOE = new Spells[]{
+            new Spells(
+                200,
+                new Target(false, true, 3, CastTarget.CurrentTarget),
+                SpellType.Damage,
+                Resources.fireball_acid_3) };
 
-        public static readonly Spells AwesomeFireballRandom = new Spells(200,
-            new Target(false, CastTarget.Random),
-            SpellType.Damage,
-            Resources.fireball_sky_1);
+        public static readonly Spells[] AwesomeFireballRandom = new Spells[]{
+            new Spells(
+                200,
+                new Target(false, CastTarget.Random),
+                SpellType.Damage,
+                Resources.fireball_sky_1) };
 
-        public static readonly Spells Heal = new Spells(1000,
-            new Target(false, CastTarget.Self),
-            SpellType.Heal,
-            Resources.heal_jade_1);
+        public static readonly Spells[] Heal = new Spells[]{
+            new Spells(
+                1000,
+                new Target(false, CastTarget.Self),
+                SpellType.Heal,
+                Resources.heal_jade_1) };
 
-        public static readonly Spells VeigarDebug = new Spells(0,
-            new Target(false, CastTarget.Self),
-            new SpellType(new StatusEffect(StatusType.HealthPoints, 1.2f, 1100, StatusEffect.StatusEffectType.Multiplier)),
-            Resources.fireball_sky_1);
+        public static readonly Spells[] VeigarDebug = new Spells[]{
+            new Spells(
+                0,
+                new Target(false, CastTarget.Self),
+                new SpellType(new StatusEffect(StatusType.HealthPoints, 1.2f, 1100, StatusEffect.StatusEffectType.Multiplier)),
+                Resources.fireball_sky_1) };
 
-        public static readonly Spells Execute = new Spells(200,
-            new Target(false, CastTarget.LowHealth),
-            SpellType.Damage,
-            Resources.fireball_red_1);
+        public static readonly Spells[] Execute = new Spells[]{
+            new Spells(
+                200,
+                new Target(false, CastTarget.LowHealth),
+                SpellType.Damage,
+                Resources.fireball_red_1) };
 
-        public static IEnumerable<Spells> Values
+        public static IEnumerable<Spells[]> Values
         {
             get
             {

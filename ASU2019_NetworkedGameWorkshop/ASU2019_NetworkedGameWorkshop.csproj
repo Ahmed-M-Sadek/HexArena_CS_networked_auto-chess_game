@@ -75,6 +75,9 @@
     <Compile Include="model\spell\types\SpellType.cs" />
     <Compile Include="model\spell\types\Target.cs" />
     <Compile Include="model\StatBar.cs" />
+    <Compile Include="model\ui\LearnedSpell.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="model\ui\ChooseSpell.cs">
       <SubType>Component</SubType>
     </Compile>
