@@ -2,6 +2,7 @@
 using ASU2019_NetworkedGameWorkshop.model.character;
 using ASU2019_NetworkedGameWorkshop.model.character.types;
 using ASU2019_NetworkedGameWorkshop.model.grid;
+using ASU2019_NetworkedGameWorkshop.model.spell;
 using ASU2019_NetworkedGameWorkshop.model.ui;
 using ASU2019_NetworkedGameWorkshop.model.ui.shop;
 using System;
@@ -99,6 +100,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
 
             //Debugging 
 <<<<<<< HEAD
+<<<<<<< HEAD
             Character red = new Character(grid, grid.Tiles[6, 5], Character.Teams.Red, CharacterTypePhysical.Archer, this);
             Spell spell = new AwesomeFireball();
             red.learnSpell(spell);
@@ -127,50 +129,36 @@ namespace ASU2019_NetworkedGameWorkshop.controller
                 gameStage = GameStage.Buy;
                 switchStageBuy();
             }
+=======
+            Character blue = new Character(grid, grid.Tiles[0, 0], Character.Teams.Blue, CharacterTypePhysical.Archer, this);
+            blue.learnSpell(Spells.AwesomeFireballAOE);
+            blue.learnSpell(Spells.Execute);
+            blue.learnSpell(Spells.Heal);
+            TeamBlue.Add(blue);
+            TeamBlue.Add(new Character(grid, grid.Tiles[1, 0], Character.Teams.Blue, CharacterTypePhysical.Warrior, this));
+            TeamRed.Add(new Character(grid, grid.Tiles[6, 5], Character.Teams.Red, CharacterTypePhysical.Warrior, this));
+            TeamRed.Add(new Character(grid, grid.Tiles[5, 5], Character.Teams.Red, CharacterTypePhysical.Archer, this));
+>>>>>>> b635d5cabd9564af63f794672ba44c8a165ef5d5
         }
 
-        private void switchStageBuy() {
-            foreach(Character character in TeamRed) {
-                character.CurrentTile.CurrentCharacter = null;
-            }
-            TeamRed.Clear();
-            foreach(Character character in TeamBlue) {
-                character.CurrentTile.CurrentCharacter = null;
-            }
-            TeamBlue.Clear();
-
-            foreach(KeyValuePair<Character, Tile> characterPrevPos in charactersPrevPos) {
-                if(characterPrevPos.Key.team == Character.Teams.Blue) {
-                    TeamBlue.Add(characterPrevPos.Key);
-                } else {
-                    TeamRed.Add(characterPrevPos.Key);
-                }
-                characterPrevPos.Value.CurrentCharacter = characterPrevPos.Key;
-                characterPrevPos.Key.reset();
-            }
-            foreach(Tile tile in grid.Tiles) {
-                tile.Transparent = false;
-            }
-            stageTimer.resetTimer(StageTime.BUY);
+        public void addRangeToForm(params Control[] controls)
+        {
+            gameForm.Controls.AddRange(controls);
         }
-
-        private void switchStageFight() {
-            charactersPrevPos.Clear();
-            foreach(Character character in TeamRed) {
-                charactersPrevPos.Add(character, character.CurrentTile);
+        public void removeRangeFromForm(params Control[] controls)
+        {
+            foreach (Control control in controls)
+            {
+                gameForm.Controls.Remove(control);
             }
-            foreach(Character character in TeamBlue) {
-                charactersPrevPos.Add(character, character.CurrentTile);
-            }
-
-            foreach(Tile tile in grid.Tiles) {
-                tile.Transparent = true;
-            }
+<<<<<<< HEAD
 =======
 >>>>>>> 53eeadf8303d6034c1aca6339def06bc8f7a448b
 
             TeamRed.Add(new Character(grid, grid.Tiles[6, 5], Character.Teams.Red, CharacterTypePhysical.Warrior, this));
             TeamRed.Add(new Character(grid, grid.Tiles[5, 5], Character.Teams.Red, CharacterTypePhysical.Archer, this));
+=======
+>>>>>>> b635d5cabd9564af63f794672ba44c8a165ef5d5
         }
 
         public void startTimer()

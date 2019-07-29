@@ -6,8 +6,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 
-namespace ASU2019_NetworkedGameWorkshop.controller {
-    public class PathFinding {
+
+namespace ASU2019_NetworkedGameWorkshop.controller
+{
+    public class PathFinding
+    {
 
         private PathFinding() { }
 
@@ -49,38 +52,44 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
             return Tuple.Create(shortestPath, closestEnemy);
         }
 
-        internal static Tuple<List<Tile>, Character> findClosestEnemy(Tile currentTile, Character.Teams team, Grid grid, int range, GameManager gameManager) {
-            List<Character> enemyList = (team == Character.Teams.Red) ? gameManager.TeamBlue : gameManager.TeamRed;
+
+        internal static Character findClosestEnemy(Tile currentTile, List<Character> team, Grid grid, int range, GameManager gameManager)
+        {
+            List<Character> enemyList = team;
             Character closestEnemy = null;
-            List<Tile> shortestPath = null;
+            int? shortestDist = null;
 
-            Tile[,] tilesClone = (Tile[,])grid.Tiles.Clone();
-            foreach (Character enemy in enemyList) {
-                if (enemy.CurrentTile == currentTile) {
+            foreach (Character enemy in enemyList.Where(en => !en.IsDead))
+            {
+                if (enemy.CurrentTile == currentTile)
+                {
                     continue;
                 }
-                if (PathFinding.getDistance(currentTile, enemy.CurrentTile) <= range) continue;
-                List<Tile> path;
+                if (getDistance(currentTile, enemy.CurrentTile) > range) continue;
+                int dist;
 
-                try {
-                    path = findPath(currentTile, enemy.CurrentTile, grid, tilesClone);
-                } catch (PathNotFoundException) {
+                try
+                {
+                    dist = getDistance(currentTile, enemy.CurrentTile);
+                }
+                catch (PathNotFoundException)
+                {
                     continue;
                 }
 
-                if (shortestPath == null) {
-                    shortestPath = path;
-                    closestEnemy = enemy;
-                } else {
-                    shortestPath = shortestPath.Count <= path.Count ? shortestPath : path;
+                if (shortestDist == null)
+                {
+                    shortestDist = dist;
                     closestEnemy = enemy;
                 }
             }
 
-            if (shortestPath == null) {
+
+            if (shortestDist == null)
+            {
                 throw new PathNotFoundException();
             }
-            return Tuple.Create(shortestPath, closestEnemy);
+            return closestEnemy;
         }
 
         /// <exception cref="PathNotFoundException">if a path to a target was not found.</exception>
@@ -93,9 +102,8 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
                 Tile currentTile = openSet.RemoveFirst();
 
                 closedSet.Add(currentTile);
-
-                if (currentTile.Equals(endTile)) {
-
+                if (currentTile.Equals(endTile))
+                { 
                     return retracePath(startTile, currentTile, grid);
                 }
                 foreach (Tile neighbour in grid.getNeighbours(currentTile, tilesClone)) {
@@ -118,9 +126,8 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
             throw new PathNotFoundException();
         }
 
-
-        private static List<Tile> retracePath(Tile startTile, Tile endTile, Grid grid) {
-
+        private static List<Tile> retracePath(Tile startTile, Tile endTile, Grid grid)
+        {
             List<Tile> path = new List<Tile>();
             Tile currentTile = endTile;
 
@@ -138,7 +145,6 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
         public static int getDistance(Tile start, Tile dest) {
             Cube startCube = oddrToCube(start);
             Cube destCube = oddrToCube(dest);
-
             return Math.Max(Math.Abs(startCube.X - destCube.X),
                             Math.Max(Math.Abs(startCube.Y - destCube.Y),
                                      Math.Abs(startCube.Z - destCube.Z)));
@@ -152,11 +158,11 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
         }
 
 
-        private struct Cube {
+        private struct Cube
+        {
             public int X;
             public int Y;
             public int Z;
-
 
             public Cube(int x, int y, int z)
             {

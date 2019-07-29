@@ -21,8 +21,8 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid
 
         public Grid(int gridWidth, int gridHeight, int startingX, int startingY, controller.GameManager gameManager)
         {
-            this.GridWidth = gridWidth;
-            this.GridHeight = gridHeight;
+            GridWidth = gridWidth;
+            GridHeight = gridHeight;
             this.startingX = startingX;
             this.startingY = startingY;
             this.gameManager = gameManager;

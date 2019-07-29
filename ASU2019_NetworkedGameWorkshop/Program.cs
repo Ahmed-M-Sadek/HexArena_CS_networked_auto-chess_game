@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ASU2019_NetworkedGameWorkshop.view;
+using System;
 using System.Windows.Forms;
 
 namespace ASU2019_NetworkedGameWorkshop
@@ -13,7 +14,8 @@ namespace ASU2019_NetworkedGameWorkshop
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new GameForm());
+            //Application.Run(new GameForm());
+            Application.Run(new ConnectForm());
         }
     }
 }
