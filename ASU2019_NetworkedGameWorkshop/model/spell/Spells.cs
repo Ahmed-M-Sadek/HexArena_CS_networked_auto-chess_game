@@ -8,6 +8,15 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell
 {
     public class Spells
     {
+        private readonly static Dictionary<int, Spells[]> spellsList;
+        public static int ID = 0;
+
+        public static Spells[] getSpell(int id)
+        {
+            return spellsList[id];
+        }
+
+
         public static readonly Spells[] AwesomeFireball = new Spells[]{
             new Spells(
                 100,
@@ -55,6 +64,14 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell
                 new Target(false, CastTarget.LowHealth),
                 SpellType.Damage,
                 Resources.fireball_red_1) };
+        static Spells()
+        {
+            spellsList = new Dictionary<int, Spells[]>();
+            foreach(var spell in Values)
+            {
+                spellsList[ID++] = spell;
+            }
+        }
 
         public static IEnumerable<Spells[]> Values
         {
