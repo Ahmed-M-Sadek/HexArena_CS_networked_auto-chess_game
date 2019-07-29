@@ -18,7 +18,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell
                 200,
                 new Target(false, CastTarget.CurrentTarget),
                 SpellType.Damage,
-                Resources.fireball_red_1)
+                Resources.fireball_red_2)
             };
 
         public static readonly Spells[] AwesomeFireballAOE = new Spells[]{
@@ -33,7 +33,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell
                 200,
                 new Target(false, CastTarget.Random),
                 SpellType.Damage,
-                Resources.fireball_sky_1) };
+                Resources.fireball_eerie_2) };
 
         public static readonly Spells[] Heal = new Spells[]{
             new Spells(
@@ -54,7 +54,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell
                 200,
                 new Target(false, CastTarget.LowHealth),
                 SpellType.Damage,
-                Resources.fireball_red_1) };
+                Resources.enchant_acid_1) };
 
         public static IEnumerable<Spells[]> Values
         {

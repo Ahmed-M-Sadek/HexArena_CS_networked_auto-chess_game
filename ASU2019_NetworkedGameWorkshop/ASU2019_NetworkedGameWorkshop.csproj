@@ -75,10 +75,10 @@
     <Compile Include="model\spell\types\SpellType.cs" />
     <Compile Include="model\spell\types\Target.cs" />
     <Compile Include="model\StatBar.cs" />
-    <Compile Include="model\ui\InactiveSpell.cs">
+    <Compile Include="model\ui\spells\InactiveSpell.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="model\ui\ChooseSpell.cs">
+    <Compile Include="model\ui\spells\ChooseSpell.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="model\ui\shop\CharShop.cs" />

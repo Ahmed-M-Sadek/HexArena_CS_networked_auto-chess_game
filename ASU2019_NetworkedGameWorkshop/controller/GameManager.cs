@@ -101,13 +101,17 @@ namespace ASU2019_NetworkedGameWorkshop.controller
 
 
             //Debugging 
-            Character blue = new Character(grid, grid.Tiles[0, 0], Character.Teams.Blue, CharacterTypePhysical.Archer, this);
+            Character blue = new Character(grid, grid.Tiles[1, 0], Character.Teams.Blue, CharacterTypePhysical.Warrior, this);
             blue.learnSpell(Spells.AwesomeFireballAOE[0]);
             blue.learnSpell(Spells.Execute[0]);
             blue.learnSpell(Spells.Heal[0]);
             blue.learnSpell(Spells.AwesomeFireballRandom[0]);
+            blue.learnSpell(Spells.AwesomeFireball[0]);
+            blue.learnSpell(Spells.AwesomeFireball[1]);
+            blue.learnSpell(Spells.VeigarDebug[0]);
+
             TeamBlue.Add(blue);
-            TeamBlue.Add(new Character(grid, grid.Tiles[1, 0], Character.Teams.Blue, CharacterTypePhysical.Warrior, this));
+            TeamBlue.Add(new Character(grid, grid.Tiles[0, 0], Character.Teams.Blue, CharacterTypePhysical.Archer, this));
             TeamRed.Add(new Character(grid, grid.Tiles[6, 5], Character.Teams.Red, CharacterTypePhysical.Warrior, this));
             TeamRed.Add(new Character(grid, grid.Tiles[5, 5], Character.Teams.Red, CharacterTypePhysical.Archer, this));
         }
@@ -137,6 +141,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
                 if (e.Button == MouseButtons.Right)
                 {
                     deselectSelectedTile();
+
                 }
                 else if (e.Button == MouseButtons.Left)
                 {
@@ -147,8 +152,20 @@ namespace ASU2019_NetworkedGameWorkshop.controller
                     }
                 }
             }
+            else if(stageManager.CurrentGameStage == GameStage.Fight)
+            {
+                Tile tile = grid.getSelectedHexagon(e.X, e.Y);
+                if (tile != null && tile.CurrentCharacter != null)
+                {
+                    if (tile.CurrentCharacter.ActiveSpells.Count > 0)
+                    {
+                        tile.CurrentCharacter.showChooseSpell();
+                    }
+                }
+            }
         }
 
+        
         private void selectTile(Tile tile)
         {
             if (SelectedTile == tile)

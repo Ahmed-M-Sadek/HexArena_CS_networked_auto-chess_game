@@ -31,11 +31,14 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
         private List<StatusEffect> statusEffects;
         private long nextAtttackTime;
 
+        public Spells defaultSkill { get; set;}
         public ChooseSpell ChooseSpell { get; set; }
         public InactiveSpell InactiveSpell { get; set; }
         public List<Spells> ActiveSpells { get; set; }
         public List<Spells> InactiveSpells { get; set; }
         public bool SpellReady { get; set; }
+
+
         public Dictionary<StatusType, int> Stats { get; private set; }
         public Tile CurrentTile { get; set; }//public set ?
         public Character CurrentTarget { get; private set; }
@@ -148,7 +151,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
 
         }
 
-        private void hideSpellUI()
+        public void hideSpellUI()
         {
             gameManager.removeRangeFromForm(ChooseSpell);
             SpellReady = false;
@@ -185,14 +188,25 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
                 CurrentTile.Walkable = true;
                 ToMoveTo.CurrentCharacter = this;
                 ToMoveTo = null;
-
+                if (SpellReady)
+                {
+                    hideSpellUI();
+                    showChooseSpell();
+                }
                 return true;
             }
             return false;
         }
+        public void showChooseSpell()
+        {
+            ChooseSpell = new ChooseSpell(this, ActiveSpells);
+            gameManager.addRangeToForm(ChooseSpell);
+            SpellReady = true ;
+        }
+        
         public bool updateBuy()
         {
-            if (gameManager.CurrentGameStage == StageManager.GameStage.Buy && !spellsUIVisible && this.CurrentTile == gameManager.SelectedTile)
+            if (gameManager.CurrentGameStage == StageManager.GameStage.Buy && !spellsUIVisible && this.CurrentTile == gameManager.SelectedTile && learnedSpells.Count !=0)
             {
                 InactiveSpell = new InactiveSpell(this, InactiveSpells);
                 ChooseSpell = new ChooseSpell(this, ActiveSpells);
@@ -244,13 +258,18 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
                 return true;
             }).ToList();
 
-            if (Stats[StatusType.Charge] == Stats[StatusType.ChargeMax]
+            
+            if(Stats[StatusType.Charge] == Stats[StatusType.ChargeMax]
                 && ActiveSpells.Count != 0
                 && !SpellReady)
             {
-                ChooseSpell = new ChooseSpell(this, ActiveSpells);
-                SpellReady = true;
-                gameManager.addRangeToForm(ChooseSpell);
+                if(defaultSkill == null)
+                {
+                    defaultSkill = ActiveSpells[0];
+                }
+                defaultSkill.castSpell(this);
+                hideSpellUI();
+                resetMana();
             }
 
             if (ToMoveTo == null)
