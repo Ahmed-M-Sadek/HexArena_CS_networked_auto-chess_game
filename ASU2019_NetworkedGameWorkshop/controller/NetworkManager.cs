@@ -27,9 +27,9 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             LocalIP = new List<string>();
             LocalIPBase = new List<string>();
             IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
-            for (int i = 0; i < host.AddressList.Length; i++)
+            for(int i = 0; i < host.AddressList.Length; i++)
             {
-                if (host.AddressList[i].AddressFamily == AddressFamily.InterNetwork)
+                if(host.AddressList[i].AddressFamily == AddressFamily.InterNetwork)
                 {
                     string ip = host.AddressList[i].ToString();
                     LocalIP.Add(ip);
@@ -85,33 +85,68 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             return activeIPs.ToArray();
         }
 
-        public CharStat parseCharacter(string character)
+        /// <summary>
+        /// takes a string and parses it returning CharStat
+        /// token sequence: CharType, CharLvl, X, Y, number of skill, skill, lvl, skill, lvl...
+        /// tokens seperated by a '#'
+        /// </summary>
+        /// <param name="character"></param>
+        /// <returns></returns>
+        public static CharStat parseCharacter(string character)
         {
             String[] tokens = character.Split('#');
 
-            List<Spells> spellList = new List<Spells>();
+            List<(Spells[], int)> spellList = new List<(Spells[], int)>();
             int spellNum = Convert.ToInt32(tokens[4]);
             for (int i = 0; i < spellNum; i++)
             {
-                //spellList.Add(tokens[5 + i]);
+                spellList.Add((Spells.getSpell(Convert.ToInt32(tokens[5 + 2 * i])), Convert.ToInt32(tokens[6 + 2 * i])));
             }
 
+<<<<<<< HEAD
             return new CharStat(CharacterType.getCharacterType(Convert.ToInt32(tokens[0])), Convert.ToInt32(tokens[1]), Convert.ToInt32(tokens[2]), Convert.ToInt32(tokens[3]), spellList);
+=======
+            return new CharStat(
+                CharacterType.getCharacterType(Convert.ToInt32(tokens[0])), Convert.ToInt32(tokens[1]),
+                Convert.ToInt32(tokens[2]), Convert.ToInt32(tokens[3]), spellList);
+        }
+
+        /// <summary>
+        /// takes a Character and serializes it returning a string
+        /// token sequence: CharType, CharLvl, X, Y, number of skill, skill, lvl, skill, lvl...
+        /// tokens seperated by a '#'
+        /// </summary>
+        /// <param name="character"></param>
+        /// <returns></returns>
+        public static string serializeCharacter(model.character.Character character)
+        {
+            string spells = "";
+            foreach(var spell in character.LearnedSpells)
+            {
+                spells += $"#{spell.Id}#{spell.Level}";
+            }
+            return $"{character.CharacterType.Id}#{character.CurrentLevel}#{character.CurrentTile.X}#{character.CurrentTile.Y}#{character.LearnedSpells.Count}{spells}" ;
+>>>>>>> b5b90e4e8aafe743d13810ca7d33be92bb8214ef
         }
         public void parseSkill(string character)
         {
 
         }
 
+<<<<<<< HEAD
         public struct CharStat
         {
             public model.character.types.CharacterType[] charType;
+=======
+        public struct CharStat {
+            public CharacterType[] charType;
+>>>>>>> b5b90e4e8aafe743d13810ca7d33be92bb8214ef
             public int Level;
             public int X;
             public int Y;
-            public List<model.spell.Spells> SpellList;
+            public List<(Spells[], int)> SpellList;
 
-            public CharStat(CharacterType[] charType, int level, int x, int y, List<Spells> spellList)
+            public CharStat(CharacterType[] charType, int level, int x, int y, List<(Spells[], int)> spellList)
             {
                 this.charType = charType;
                 Level = level;

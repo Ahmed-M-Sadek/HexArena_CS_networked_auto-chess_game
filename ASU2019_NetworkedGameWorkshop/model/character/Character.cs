@@ -24,7 +24,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
         private readonly CharacterType[] characterType;
         private readonly Dictionary<StatusType, int> statsAdder;
         private readonly Dictionary<StatusType, float> statsMultiplier;
-        private readonly List<Spells> learnedSpells;
+        public List<Spells> LearnedSpells { get; }
 
 
         private bool spellsUIVisible = false;
@@ -70,7 +70,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
             Stats = CharacterType.statsCopy();
             ActiveSpells = new List<Spells>();
             InactiveSpells = new List<Spells>();
-            learnedSpells = new List<Spells>();
+            LearnedSpells = new List<Spells>();
             brush = (team == Teams.Blue) ? Brushes.BlueViolet : Brushes.Red;
             statusEffects = new List<StatusEffect>();
             IsDead = false;
@@ -107,7 +107,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
 
         public void learnSpell(Spells spell)
         {
-            learnedSpells.Add(spell);
+            LearnedSpells.Add(spell);
             InactiveSpells.Add(spell);
         }
 

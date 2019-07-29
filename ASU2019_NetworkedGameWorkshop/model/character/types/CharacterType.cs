@@ -1,5 +1,6 @@
 ﻿using ASU2019_NetworkedGameWorkshop.model.grid;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ASU2019_NetworkedGameWorkshop.model.character.types
 {
@@ -14,14 +15,20 @@ namespace ASU2019_NetworkedGameWorkshop.model.character.types
         private readonly Dictionary<StatusType, int> stats;
         public string Name { get; }
         public int Id { get; set; }
+
         public static int ID = 0;
 
-        private readonly static List<CharacterType[]> charactersList = new List<CharacterType[]>();
+        protected readonly static Dictionary<int, CharacterType[]> charactersList;
         public static CharacterType[] getCharacterType(int id)
         {
             return charactersList[id];
         }
 
+
+        static CharacterType()
+        {
+            charactersList = new Dictionary<int, CharacterType[]>();
+        }
 
         public CharacterType(string name,
             int healthPointsMax,
@@ -57,9 +64,6 @@ namespace ASU2019_NetworkedGameWorkshop.model.character.types
                 [StatusType.MagicResist] = magicResist,
                 [StatusType.Range] = range
             };
-            //charactersList.Add(this);
-            this.Id = ID;
-            ID++;
         }
 
         public int this[StatusType index]
