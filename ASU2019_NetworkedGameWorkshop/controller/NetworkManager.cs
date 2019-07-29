@@ -103,9 +103,6 @@ namespace ASU2019_NetworkedGameWorkshop.controller
                 spellList.Add((Spells.getSpell(Convert.ToInt32(tokens[5 + 2 * i])), Convert.ToInt32(tokens[6 + 2 * i])));
             }
 
-<<<<<<< HEAD
-            return new CharStat(CharacterType.getCharacterType(Convert.ToInt32(tokens[0])), Convert.ToInt32(tokens[1]), Convert.ToInt32(tokens[2]), Convert.ToInt32(tokens[3]), spellList);
-=======
             return new CharStat(
                 CharacterType.getCharacterType(Convert.ToInt32(tokens[0])), Convert.ToInt32(tokens[1]),
                 Convert.ToInt32(tokens[2]), Convert.ToInt32(tokens[3]), spellList);
@@ -126,21 +123,14 @@ namespace ASU2019_NetworkedGameWorkshop.controller
                 spells += $"#{spell.Id}#{spell.Level}";
             }
             return $"{character.CharacterType.Id}#{character.CurrentLevel}#{character.CurrentTile.X}#{character.CurrentTile.Y}#{character.LearnedSpells.Count}{spells}" ;
->>>>>>> b5b90e4e8aafe743d13810ca7d33be92bb8214ef
         }
         public void parseSkill(string character)
         {
 
         }
 
-<<<<<<< HEAD
-        public struct CharStat
-        {
-            public model.character.types.CharacterType[] charType;
-=======
         public struct CharStat {
             public CharacterType[] charType;
->>>>>>> b5b90e4e8aafe743d13810ca7d33be92bb8214ef
             public int Level;
             public int X;
             public int Y;
