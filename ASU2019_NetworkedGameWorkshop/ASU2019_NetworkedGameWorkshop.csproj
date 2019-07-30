@@ -59,6 +59,7 @@
     <Compile Include="controller\networking\game\GameClient.cs" />
     <Compile Include="controller\networking\game\GameNetworkManager.cs" />
     <Compile Include="controller\networking\game\GameServer.cs" />
+    <Compile Include="controller\networking\game\MsgPrefix.cs" />
     <Compile Include="controller\networking\lobby\LobbyClient.cs" />
     <Compile Include="controller\networking\lobby\LobbyServer.cs" />
     <Compile Include="controller\networking\GameNetworkUtilities.cs" />

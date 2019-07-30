@@ -79,6 +79,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             TeamRed = new List<Character>();
 
             Player = new Player("Local", true);
+            Player.Gold = 50;//debugging
             //Debugging
             Player playertemp1 = new Player("NoobMaster 1")
             {
@@ -124,16 +125,6 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             blue.learnSpell(Spells.Heal[0]);
             blue.learnSpell(Spells.AwesomeFireballRandom[0]);
             TeamBlue.Add(blue);
-
-            string test = GameNetworkUtilities.serializeCharacter(blue);
-            GameNetworkUtilities.CharStat chSt = GameNetworkUtilities.parseCharacter(test);
-            Character blueTest = new Character(grid, grid.Tiles[chSt.X, chSt.Y + 1], Character.Teams.Blue, chSt.charType, this);
-            //blueTest.learnSpell(Spells.Heal[0]);
-            foreach (var (spell, spellLevel) in chSt.SpellList)
-            {
-                blueTest.learnSpell(spell[spellLevel - 1]);
-            }
-            TeamBlue.Add(blueTest);
 
             TeamBlue.Add(new Character(grid, grid.Tiles[1, 0], Character.Teams.Blue, CharacterTypePhysical.Warrior, this));
             TeamRed.Add(new Character(grid, grid.Tiles[6, 5], Character.Teams.Red, CharacterTypePhysical.Warrior, this));
@@ -193,11 +184,18 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             }
             else
             {
-                Character temp = SelectedTile.CurrentCharacter;
-                SelectedTile.CurrentCharacter = tile.CurrentCharacter;
-                tile.CurrentCharacter = temp;
+                swapCharacters(tile, SelectedTile);
+                gameNetworkManager.enqueueMsg(NetworkMsgPrefix.CharacterSwap,
+                                              GameNetworkUtilities.serializeCharacterSwap(tile, SelectedTile));
                 deselectSelectedTile();
             }
+        }
+
+        private void swapCharacters(Tile tile, Tile selectedTile)
+        {
+            Character temp = selectedTile.CurrentCharacter;
+            selectedTile.CurrentCharacter = tile.CurrentCharacter;
+            tile.CurrentCharacter = temp;
         }
 
         public void deselectSelectedTile()
@@ -243,6 +241,8 @@ namespace ASU2019_NetworkedGameWorkshop.controller
 
         private void gameLoop(object sender, EventArgs e)
         {
+            checkNetworkMsgs();
+
             updateCanvas = stageTimer.update() || updateCanvas;
 
             if (stageManager.CurrentGameStage == GameStage.Buy)
@@ -258,6 +258,25 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             {
                 gameForm.Refresh();
                 //gameForm.Invalidate();
+            }
+        }
+
+        private void checkNetworkMsgs()
+        {
+            if (gameNetworkManager.DataReceived.Count > 0)
+            {
+                gameNetworkManager.DataReceived.TryDequeue(out string result);
+                Console.WriteLine("parsing " + result);
+                string[] msg = result.Split(GameNetworkManager.NETWORK_MSG_SEPARATOR);
+                if (msg[0].Equals(NetworkMsgPrefix.NewCharacter.getPrefix()))
+                {
+                    TeamRed.Add(CharStatToCharacter(GameNetworkUtilities.parseCharacter(msg)));
+                }
+                else if (msg[0].Equals(NetworkMsgPrefix.CharacterSwap.getPrefix()))
+                {
+                    (Tile tile, Tile selectedTile) = GameNetworkUtilities.parseCharacterSwap(msg, grid);
+                    swapCharacters(tile, selectedTile);
+                }
             }
         }
 
@@ -313,18 +332,26 @@ namespace ASU2019_NetworkedGameWorkshop.controller
         }
         public void AddCharacter(CharacterType[] characterType)
         {
-
             for (int j = grid.GridHeight - 1; j > (grid.GridHeight - 1) / 2; j--)
             {
                 for (int i = grid.GridWidth - 1; i >= 0; i--)
                 {
                     if (grid.Tiles[i, j].CurrentCharacter == null)
                     {
-                        TeamBlue.Add(new Character(grid, grid.Tiles[i, j], Character.Teams.Blue, characterType, this));
+                        Character item = new Character(grid, grid.Tiles[i, j], Character.Teams.Blue, characterType, this);
+                        TeamBlue.Add(item);
+                        gameNetworkManager.enqueueMsg(NetworkMsgPrefix.NewCharacter, GameNetworkUtilities.serializeCharacter(item));
                         return;
                     }
                 }
             }
+        }
+
+        [Obsolete()]
+        private Character CharStatToCharacter(GameNetworkUtilities.CharStat charStat)//should be in charstat
+        {
+            //no spells 
+            return new Character(grid, grid.Tiles[charStat.X, charStat.Y], Character.Teams.Red, charStat.charType, this);
         }
     }
 }

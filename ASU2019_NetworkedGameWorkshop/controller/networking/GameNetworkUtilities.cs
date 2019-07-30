@@ -92,20 +92,18 @@ namespace ASU2019_NetworkedGameWorkshop.controller.networking
         /// </summary>
         /// <param name="character"></param>
         /// <returns></returns>
-        public static CharStat parseCharacter(string character)
+        public static CharStat parseCharacter(string[] character)
         {
-            string[] tokens = character.Split('#');
-
             List<(Spells[], int)> spellList = new List<(Spells[], int)>();
-            int spellNum = Convert.ToInt32(tokens[4]);
+            int spellNum = Convert.ToInt32(character[5]);
             for (int i = 0; i < spellNum; i++)
             {
-                spellList.Add((Spells.getSpell(Convert.ToInt32(tokens[5 + 2 * i])), Convert.ToInt32(tokens[6 + 2 * i])));
+                spellList.Add((Spells.getSpell(Convert.ToInt32(character[6 + 2 * i])), Convert.ToInt32(character[7 + 2 * i])));
             }
 
             return new CharStat(
-                CharacterType.getCharacterType(Convert.ToInt32(tokens[0])), Convert.ToInt32(tokens[1]),
-                Convert.ToInt32(tokens[2]), Convert.ToInt32(tokens[3]), spellList);
+                CharacterType.getCharacterType(Convert.ToInt32(character[1])), Convert.ToInt32(character[2]),
+                Convert.ToInt32(character[3]), Convert.ToInt32(character[4]), spellList);
         }
 
         /// <summary>
@@ -147,5 +145,15 @@ namespace ASU2019_NetworkedGameWorkshop.controller.networking
             }
         }
 
+        public static string serializeCharacterSwap(model.grid.Tile tile, model.grid.Tile selectedTile)
+        {
+            return $"{tile.X}#{tile.Y}#{selectedTile.X}#{selectedTile.Y}";
+        }
+
+        public static Tuple<model.grid.Tile, model.grid.Tile> parseCharacterSwap(string[] msg, model.grid.Grid grid)
+        {
+            return Tuple.Create(grid.Tiles[int.Parse(msg[1]), int.Parse(msg[2])],
+                grid.Tiles[int.Parse(msg[3]), int.Parse(msg[4])]);
+        }
     }
 }
