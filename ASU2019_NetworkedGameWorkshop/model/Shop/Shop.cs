@@ -65,12 +65,23 @@ namespace ASU2019_NetworkedGameWorkshop.model.Shop {
 
             btn_showSpells.MouseClick += showSpells_click;
             btn_levelUp.MouseClick += levelUp_click;
+            btn_levelUp.MouseHover += levelUp_hover;
+            btn_levelUp.MouseLeave += levelUp_leave;
             btn_sellChar.MouseClick += sellChar_click;
             btn_hideSkillShop.MouseClick += hideShop_btn;
 
             skillShop.Controls.Add(btn_hideSkillShop);
 
             SelectedCharacterView.Visible = false;
+
+        }
+
+        private void levelUp_leave(object sender, EventArgs e) {
+            SelectedCharacterView.HideChanges();
+        }
+
+        private void levelUp_hover(object sender, EventArgs e) {
+            SelectedCharacterView.ShowStatsChanges();
 
         }
 
@@ -92,6 +103,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.Shop {
             if (!(selectedCharacter.CurrentLevel < CharacterType.MAX_CHAR_LVL - 1)) {
                 btn_levelUp.Enabled = false;
             }
+            SelectedCharacterView.UpdateChanges();
         }
 
         private void showSpells_click(object sender, MouseEventArgs e) {
@@ -109,16 +121,17 @@ namespace ASU2019_NetworkedGameWorkshop.model.Shop {
                 SelectedCharacterView.Visible = true;
                 viewCharStats();
                 SelectedCharacterView.Invalidate();
+                if (selectedCharacter.CurrentLevel < CharacterType.MAX_CHAR_LVL - 1) {
+                    btn_levelUp.Enabled = true;
+                } else {
+                    btn_levelUp.Enabled = false;
+                }
             } else {
                 SelectedCharacterView.Visible = false; ;
                 skillShop.Visible = false;
                 spellShopView.Visible = false;
             }
-            if (selectedCharacter.CurrentLevel < CharacterType.MAX_CHAR_LVL - 1) {
-                btn_levelUp.Enabled = true;
-            } else {
-                btn_levelUp.Enabled = false;
-            }
+            
         }
         private void viewCharStats() {
             if (selectedCharacter != null) {
