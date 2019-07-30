@@ -8,7 +8,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui
         public enum StageTime
         {
             FIGHT = 41 * 1000,
-            BUY = 10 * 1000,
+            BUY = 40 * 1000,
             DEBUGGING = 6 * 1000,
             FIGHT_TO_BUY = 6 * 1000,
             BUY_TO_FIGHT = 6 * 1000,

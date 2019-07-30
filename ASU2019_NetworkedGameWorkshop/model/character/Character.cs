@@ -31,7 +31,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
         private List<StatusEffect> statusEffects;
         private long nextAtttackTime;
 
-        public Spells defaultSkill { get; set;}
+        public Spells DefaultSkill { get; set;}
         public ChooseSpell ChooseSpell { get; set; }
         public InactiveSpell InactiveSpell { get; set; }
         public List<Spells> ActiveSpells { get; set; }
@@ -217,10 +217,6 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
             else if(this.CurrentTile != gameManager.SelectedTile)
             {
                 gameManager.removeRangeFromForm(InactiveSpell, ChooseSpell);
-                foreach(Spells spell in ActiveSpells)
-                {
-                    InactiveSpells.Remove(spell);
-                }
                 spellsUIVisible = false;
                 return true;
             }
@@ -260,14 +256,13 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
 
             
             if(Stats[StatusType.Charge] == Stats[StatusType.ChargeMax]
-                && ActiveSpells.Count != 0
-                && !SpellReady)
+                && ActiveSpells.Count != 0)
             {
-                if(defaultSkill == null)
+                if(DefaultSkill == null)
                 {
-                    defaultSkill = ActiveSpells[0];
+                    DefaultSkill = ActiveSpells[0];
                 }
-                defaultSkill.castSpell(this);
+                DefaultSkill.castSpell(this);
                 hideSpellUI();
                 resetMana();
             }

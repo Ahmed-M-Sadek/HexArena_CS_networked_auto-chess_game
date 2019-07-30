@@ -22,7 +22,7 @@ namespace ASU2019_NetworkedGameWorkshop.model
         private const int IMAGE_SIZE = 18;
         private const int IMAGE_PADDING_Y = 2,
                           IMAGE_PADDING_X = 2;
-        private readonly Character character;
+        private Character character;
         private readonly float offsetY;
         private readonly float backOffsetY;
 
@@ -43,13 +43,13 @@ namespace ASU2019_NetworkedGameWorkshop.model
                     SizeMode = PictureBoxSizeMode.StretchImage,
                     Location = new Point(i * IMAGE_SIZE + IMAGE_PADDING_X * (i + 1), IMAGE_PADDING_Y)
                 };
-                pics.MouseClick += new MouseEventHandler(mouseEvent(spells, i,pics));
+                pics.MouseClick += new MouseEventHandler(mouseEvent(spells, i));
 
                 Controls.Add(pics);
             }
         }
 
-        private MouseEventHandler mouseEvent(List<Spells> spells, int k,PictureBox pic)
+        private MouseEventHandler mouseEvent(List<Spells> spells, int k)
         {
             return (sender, e) =>
             {
@@ -71,16 +71,16 @@ namespace ASU2019_NetworkedGameWorkshop.model
                         character.resetMana();
                         spells[k].castSpell(character);
                     }
-                    if( character.Stats[StatusType.Charge] /character.Stats[StatusType.ChargeMax] < 0.9)
+                    if( character.Stats[StatusType.Charge]/character.Stats[StatusType.ChargeMax] < 0.9)
                     {
+                        character.DefaultSkill = spells[k];
                         Spells temp;
-                        temp = spells[0];
-                        spells[0] = spells[k];
-                        spells[k] = temp;
+                        temp = character.ActiveSpells[0];
+                        character.ActiveSpells[0] = character.ActiveSpells[k];
+                        character.ActiveSpells[k] = temp;
                         character.gameManager.removeRangeFromForm(this);
                         character.ChooseSpell = new ChooseSpell(character, character.ActiveSpells);
                         character.gameManager.addRangeToForm(character.ChooseSpell);
-                        character.defaultSkill = spells[k];
                         if(character.gameManager.CurrentGameStage == StageManager.GameStage.Fight && e.Button == MouseButtons.Left)
                         character.hideSpellUI();
                     }
