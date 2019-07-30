@@ -30,9 +30,9 @@ namespace ASU2019_NetworkedGameWorkshop.model.character.types
 
         static CharacterTypeMagical()
         {
-            foreach(var charType in Values)
+            foreach (var charType in Values)
             {
-                foreach(var charTypeLevel in charType)
+                foreach (var charTypeLevel in charType)
                 {
                     charTypeLevel.Id = ID;
                 }

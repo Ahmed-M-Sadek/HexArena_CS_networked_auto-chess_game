@@ -16,8 +16,8 @@ namespace ASU2019_NetworkedGameWorkshop.model
         private const int BACK_PADDING_H = 6;
         private const float BACK_OFFSET_X = WIDTH_HALF + BACK_PADDING_H / 2f,
             BACK_OFFSET_Y = 2f;
-        private const float BACK_WIDTH = WIDTH + BACK_PADDING_H +4,
-            BACK_HEIGHT = height + BACK_OFFSET_Y+12;
+        private const float BACK_WIDTH = WIDTH + BACK_PADDING_H + 4,
+            BACK_HEIGHT = height + BACK_OFFSET_Y + 12;
         private const int IMAGE_SIZE = 18;
         private const int IMAGE_PADDING_Y = 2,
                           IMAGE_PADDING_X = 2;
@@ -37,9 +37,9 @@ namespace ASU2019_NetworkedGameWorkshop.model
             }
             else
             {
-                Size = new Size((int)BACK_WIDTH, (int)BACK_HEIGHT+20);
+                Size = new Size((int)BACK_WIDTH, (int)BACK_HEIGHT + 20);
             }
-            Location = new Point((int)(character.CurrentTile.centerX - BACK_OFFSET_X), (int)(character.CurrentTile.centerY + backOffsetY+44));
+            Location = new Point((int)(character.CurrentTile.centerX - BACK_OFFSET_X), (int)(character.CurrentTile.centerY + backOffsetY + 44));
             for (int i = 0; i < spells.Count; i++)
             {
                 PictureBox pics = new PictureBox
@@ -48,24 +48,24 @@ namespace ASU2019_NetworkedGameWorkshop.model
                     Size = new Size(IMAGE_SIZE, IMAGE_SIZE),
                     SizeMode = PictureBoxSizeMode.StretchImage,
 
-                    Location = new Point(i % 3 * IMAGE_SIZE + IMAGE_PADDING_X * (i % 3 + 1), IMAGE_PADDING_Y + (20)*(int)(i / 3))
+                    Location = new Point(i % 3 * IMAGE_SIZE + IMAGE_PADDING_X * (i % 3 + 1), IMAGE_PADDING_Y + (20) * (int)(i / 3))
                 };
-                pics.MouseClick += new MouseEventHandler(mouseEvent(spells, i,pics));
+                pics.MouseClick += new MouseEventHandler(mouseEvent(spells, i, pics));
 
                 Controls.Add(pics);
             }
         }
 
-        private MouseEventHandler mouseEvent(List<Spells> spells, int k,PictureBox pic)
+        private MouseEventHandler mouseEvent(List<Spells> spells, int k, PictureBox pic)
         {
             return (sender, e) =>
             {
                 character.ActiveSpells.Add(spells[k]);
                 character.InactiveSpells.Remove(spells[k]);
-                character.gameManager.removeRangeFromForm(this,character.ChooseSpell);
+                character.gameManager.removeRangeFromForm(this, character.ChooseSpell);
                 character.InactiveSpell = new InactiveSpell(character, character.InactiveSpells);
                 character.ChooseSpell = new ChooseSpell(character, character.ActiveSpells);
-                character.gameManager.addRangeToForm(character.InactiveSpell,character.ChooseSpell);
+                character.gameManager.addRangeToForm(character.InactiveSpell, character.ChooseSpell);
             };
         }
     }

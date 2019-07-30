@@ -1,7 +1,7 @@
-﻿using ASU2019_NetworkedGameWorkshop.model.character;
+﻿using ASU2019_NetworkedGameWorkshop.controller;
+using ASU2019_NetworkedGameWorkshop.model.character;
 using ASU2019_NetworkedGameWorkshop.model.grid;
 using ASU2019_NetworkedGameWorkshop.model.spell;
-using ASU2019_NetworkedGameWorkshop.controller;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
@@ -43,32 +43,32 @@ namespace ASU2019_NetworkedGameWorkshop.model
                     SizeMode = PictureBoxSizeMode.StretchImage,
                     Location = new Point(i * IMAGE_SIZE + IMAGE_PADDING_X * (i + 1), IMAGE_PADDING_Y)
                 };
-                pics.MouseClick += new MouseEventHandler(mouseEvent(spells, i,pics));
+                pics.MouseClick += new MouseEventHandler(mouseEvent(spells, i, pics));
 
                 Controls.Add(pics);
             }
         }
 
-        private MouseEventHandler mouseEvent(List<Spells> spells, int k,PictureBox pic)
+        private MouseEventHandler mouseEvent(List<Spells> spells, int k, PictureBox pic)
         {
             return (sender, e) =>
             {
-                if(character.gameManager.CurrentGameStage == StageManager.GameStage.Fight)
+                if (character.gameManager.CurrentGameStage == StageManager.GameStage.Fight)
                 {
                     character.gameManager.removeRangeFromForm(this);
                     character.SpellReady = false;
                     character.resetMana();
                     spells[k].castSpell(character);
                 }
-                if(character.gameManager.CurrentGameStage == StageManager.GameStage.Buy)
+                if (character.gameManager.CurrentGameStage == StageManager.GameStage.Buy)
                 {
                     character.InactiveSpells.Add(spells[k]);
                     character.ActiveSpells.Remove(spells[k]);
-                    character.gameManager.removeRangeFromForm(this,character.InactiveSpell);
+                    character.gameManager.removeRangeFromForm(this, character.InactiveSpell);
                     character.ChooseSpell = new ChooseSpell(character, character.ActiveSpells);
                     character.InactiveSpell = new InactiveSpell(character, character.InactiveSpells);
-                    character.gameManager.addRangeToForm(character.ChooseSpell,character.InactiveSpell);
-                    
+                    character.gameManager.addRangeToForm(character.ChooseSpell, character.InactiveSpell);
+
                 }
             };
         }

@@ -111,7 +111,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
 
                 closedSet.Add(currentTile);
                 if (currentTile.Equals(endTile))
-                { 
+                {
                     return retracePath(startTile, currentTile, grid);
                 }
                 foreach (Tile neighbour in grid.getNeighbours(currentTile, tilesClone))

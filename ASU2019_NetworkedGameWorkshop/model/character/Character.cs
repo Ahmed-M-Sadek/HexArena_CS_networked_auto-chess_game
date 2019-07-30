@@ -200,10 +200,10 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
                 spellsUIVisible = true;
                 return true;
             }
-            else if(this.CurrentTile != gameManager.SelectedTile)
+            else if (this.CurrentTile != gameManager.SelectedTile)
             {
                 gameManager.removeRangeFromForm(InactiveSpell, ChooseSpell);
-                foreach(Spells spell in ActiveSpells)
+                foreach (Spells spell in ActiveSpells)
                 {
                     InactiveSpells.Remove(spell);
                 }
@@ -313,7 +313,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
         }
         public override void draw(Graphics graphics)
         {
-            
+
             if (!IsDead)
             {
                 graphics.FillRectangle(brush,

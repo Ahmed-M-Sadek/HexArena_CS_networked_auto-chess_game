@@ -98,7 +98,8 @@ Magic Resist:",
                     FONT_INFO,
                     Brushes.Black,
                     rect_info,
-                    new StringFormat {
+                    new StringFormat
+                    {
                         Alignment = StringAlignment.Near
                     });
 
@@ -113,7 +114,8 @@ Magic Resist:",
                                     FONT_INFO,
                                     Brushes.Black,
                                     rect_info,
-                                    new StringFormat {
+                                    new StringFormat
+                                    {
                                         Alignment = StringAlignment.Far
                                     });
 

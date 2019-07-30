@@ -112,7 +112,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             NetworkManager.CharStat chSt = NetworkManager.parseCharacter(test);
             Character blueTest = new Character(grid, grid.Tiles[chSt.X, chSt.Y + 1], Character.Teams.Blue, chSt.charType, this);
             //blueTest.learnSpell(Spells.Heal[0]);
-            foreach(var (spell, spellLevel) in chSt.SpellList)
+            foreach (var (spell, spellLevel) in chSt.SpellList)
             {
                 blueTest.learnSpell(spell[spellLevel - 1]);
             }

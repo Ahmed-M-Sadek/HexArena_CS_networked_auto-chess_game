@@ -27,9 +27,9 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             LocalIP = new List<string>();
             LocalIPBase = new List<string>();
             IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
-            for(int i = 0; i < host.AddressList.Length; i++)
+            for (int i = 0; i < host.AddressList.Length; i++)
             {
-                if(host.AddressList[i].AddressFamily == AddressFamily.InterNetwork)
+                if (host.AddressList[i].AddressFamily == AddressFamily.InterNetwork)
                 {
                     string ip = host.AddressList[i].ToString();
                     LocalIP.Add(ip);
@@ -118,18 +118,19 @@ namespace ASU2019_NetworkedGameWorkshop.controller
         public static string serializeCharacter(model.character.Character character)
         {
             string spells = "";
-            foreach(var spell in character.LearnedSpells)
+            foreach (var spell in character.LearnedSpells)
             {
                 spells += $"#{spell.Id}#{spell.Level}";
             }
-            return $"{character.CharacterType.Id}#{character.CurrentLevel}#{character.CurrentTile.X}#{character.CurrentTile.Y}#{character.LearnedSpells.Count}{spells}" ;
+            return $"{character.CharacterType.Id}#{character.CurrentLevel}#{character.CurrentTile.X}#{character.CurrentTile.Y}#{character.LearnedSpells.Count}{spells}";
         }
         public void parseSkill(string character)
         {
 
         }
 
-        public struct CharStat {
+        public struct CharStat
+        {
             public CharacterType[] charType;
             public int Level;
             public int X;

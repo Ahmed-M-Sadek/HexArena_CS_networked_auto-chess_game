@@ -76,9 +76,9 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell
         static Spells()
         {
             spellsList = new Dictionary<int, Spells[]>();
-            foreach(var spell in Values)
+            foreach (var spell in Values)
             {
-                foreach(var spellLevel in spell)
+                foreach (var spellLevel in spell)
                 {
                     spellLevel.Id = ID;
                 }

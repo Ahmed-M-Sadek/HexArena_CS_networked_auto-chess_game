@@ -1,6 +1,5 @@
 ﻿using ASU2019_NetworkedGameWorkshop.model.grid;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace ASU2019_NetworkedGameWorkshop.model.character.types
 {
