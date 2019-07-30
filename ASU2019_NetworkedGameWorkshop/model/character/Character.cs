@@ -19,10 +19,10 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
 
         private readonly StatBar hpBar, charageBar;
         private readonly Brush brush;
-        private readonly CharacterType[] characterType;
+        public CharacterType[] characterType { get; private set; }
         private readonly Dictionary<StatusType, int> statsAdder;
         private readonly Dictionary<StatusType, float> statsMultiplier;
-        private readonly List<Spells> spells;
+        public List<Spells> spells { get; private set; }
 
         private List<StatusEffect> statusEffects;
 
@@ -251,7 +251,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character {
             return false;
         }
 
-        private void levelUp() {
+        public void levelUp() {
             if (CurrentLevel < CharacterType.MAX_CHAR_LVL) {
                 CurrentLevel++;
                 Stats = CharacterType.statsCopy();

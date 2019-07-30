@@ -14,8 +14,8 @@ namespace ASU2019_NetworkedGameWorkshop
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new GameForm());
-            Application.Run(new ConnectForm());
+            Application.Run(new GameForm());
+            //Application.Run(new ConnectForm());
         }
     }
 }

@@ -1,8 +1,10 @@
 ﻿using ASU2019_NetworkedGameWorkshop.model.character;
 using ASU2019_NetworkedGameWorkshop.model.spell.types;
 using ASU2019_NetworkedGameWorkshop.Properties;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace ASU2019_NetworkedGameWorkshop.model.spell
 {
@@ -11,32 +13,32 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell
         public static readonly Spells AwesomeFireball = new Spells(200,
             new Target(false, CastTarget.CurrentTarget),
             SpellType.Damage,
-            Resources.fireball_red_1);
+            Resources.fireball_red_1, "AwesomeFireball");
 
         public static readonly Spells AwesomeFireballAOE = new Spells(200,
             new Target(false, true, 3, CastTarget.CurrentTarget),
             SpellType.Damage,
-            Resources.fireball_acid_3);
+            Resources.fireball_acid_3, "AwesomeFireballAOE");
 
         public static readonly Spells AwesomeFireballRandom = new Spells(200,
             new Target(false, CastTarget.Random),
             SpellType.Damage,
-            Resources.fireball_sky_1);
+            Resources.fireball_sky_1, "AwesomeFireballRandom");
 
         public static readonly Spells Heal = new Spells(1000,
             new Target(false, CastTarget.Self),
             SpellType.Heal,
-            Resources.heal_jade_1);
+            Resources.heal_jade_1, "Heal");
 
         public static readonly Spells VeigarDebug = new Spells(0,
             new Target(false, CastTarget.Self),
             new SpellType(new StatusEffect(StatusType.HealthPoints, 1.2f, 1100, StatusEffect.StatusEffectType.Multiplier)),
-            Resources.fireball_sky_1);
+            Resources.fireball_sky_1, "VeigarDebug");
 
         public static readonly Spells Execute = new Spells(200,
             new Target(false, CastTarget.LowHealth),
             SpellType.Damage,
-            Resources.fireball_red_1);
+            Resources.fireball_red_1, "Execute");
 
         public static IEnumerable<Spells> Values
         {
@@ -55,13 +57,27 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell
         public Target Target { get; private set; }
         public SpellType SpellType { get; private set; }
         public Image Image { get; private set; }
+        public string name { get; private set; }
+        public Label lbl_spell { get; private set; }
 
-        public Spells(int abilityValue, Target target, SpellType spellType, Image image)
+        public Spells(int abilityValue, Target target, SpellType spellType, Image image , string spellName)
         {
             AbilityValue = abilityValue;
             Target = target;
             SpellType = spellType;
             Image = image;
+            name = spellName;
+
+            lbl_spell = new Label();
+            lbl_spell.Text = name;
+            lbl_spell.AutoSize = true;
+            lbl_spell.Font = new Font("Arial", 10, FontStyle.Bold);
+            lbl_spell.MouseClick += buySpell_click;
+        }
+
+        private void buySpell_click(object sender, MouseEventArgs e) {
+            Shop.Shop.selectedSpell = this;
+            Shop.Shop.viewSkillShop();
         }
 
         private List<Character> specifyTargets(Character caster)
@@ -74,6 +90,8 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell
         {
             SpellType.cast(specifyTargets(caster), AbilityValue);
         }
-
+        public override String ToString() {
+            return $"{name}\nType -> {SpellType.Name} : {AbilityValue}";
+        }
     }
 }

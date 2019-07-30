@@ -2,6 +2,7 @@
 using ASU2019_NetworkedGameWorkshop.model.character;
 using ASU2019_NetworkedGameWorkshop.model.character.types;
 using ASU2019_NetworkedGameWorkshop.model.grid;
+using ASU2019_NetworkedGameWorkshop.model.Shop;
 using ASU2019_NetworkedGameWorkshop.model.spell;
 using ASU2019_NetworkedGameWorkshop.model.ui;
 using ASU2019_NetworkedGameWorkshop.model.ui.shop;
@@ -12,6 +13,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using static ASU2019_NetworkedGameWorkshop.controller.StageManager;
+using static ASU2019_NetworkedGameWorkshop.model.ui.StageTimer;
 
 namespace ASU2019_NetworkedGameWorkshop.controller
 {
@@ -28,6 +30,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
         private readonly StageManager stageManager;
         private readonly PlayersLeaderBoard playersLeaderBoard;
         private readonly CharShop charShop;
+        private Shop spellShop;
         private long nextTickTime;
         private bool updateCanvas;
 
@@ -85,6 +88,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             );
 
             charShop = new CharShop(gameForm, this);
+            spellShop = new Shop(gameForm, this);
 
             stageTimer = new StageTimer(this);
             stageManager = new StageManager(stageTimer, TeamBlue, TeamRed, grid, Player, playersLeaderBoard, charShop, this);
@@ -99,66 +103,24 @@ namespace ASU2019_NetworkedGameWorkshop.controller
 
 
             //Debugging 
-<<<<<<< HEAD
-<<<<<<< HEAD
-            Character red = new Character(grid, grid.Tiles[6, 5], Character.Teams.Red, CharacterTypePhysical.Archer, this);
-            Spell spell = new AwesomeFireball();
-            red.learnSpell(spell);
-            Character blue0 = new Character(grid, grid.Tiles[4, 0], Character.Teams.Blue, CharacterTypePhysical.Archer, this);
-
-            Character blue1 = new Character(grid, grid.Tiles[0, 3], Character.Teams.Blue, CharacterTypePhysical.Archer, this);
-
-            shop = new Shop(this,gameForm);
-
-            TeamRed.Add(red);
-            TeamBlue.Add(blue0 );
-            TeamBlue.Add(blue1);
-        }
-
-        private void switchStage() {
-            if(gameStage == GameStage.Buy) {
-                gameStage = GameStage.BuyToFight;
-                stageTimer.resetTimer(StageTime.BUY_TO_FIGHT);
-            } else if(gameStage == GameStage.Fight) {
-                gameStage = GameStage.FightToBuy;
-                stageTimer.resetTimer(StageTime.FIGHT_TO_BUY);
-            } else if(gameStage == GameStage.BuyToFight) {
-                gameStage = GameStage.Fight;
-                switchStageFight();
-            } else if(gameStage == GameStage.FightToBuy) {
-                gameStage = GameStage.Buy;
-                switchStageBuy();
-            }
-=======
             Character blue = new Character(grid, grid.Tiles[0, 0], Character.Teams.Blue, CharacterTypePhysical.Archer, this);
             blue.learnSpell(Spells.AwesomeFireballAOE);
             blue.learnSpell(Spells.Execute);
             blue.learnSpell(Spells.Heal);
+            blue.learnSpell(Spells.AwesomeFireballRandom);
             TeamBlue.Add(blue);
             TeamBlue.Add(new Character(grid, grid.Tiles[1, 0], Character.Teams.Blue, CharacterTypePhysical.Warrior, this));
             TeamRed.Add(new Character(grid, grid.Tiles[6, 5], Character.Teams.Red, CharacterTypePhysical.Warrior, this));
             TeamRed.Add(new Character(grid, grid.Tiles[5, 5], Character.Teams.Red, CharacterTypePhysical.Archer, this));
->>>>>>> b635d5cabd9564af63f794672ba44c8a165ef5d5
         }
 
-        public void addRangeToForm(params Control[] controls)
-        {
+        public void addRangeToForm(params Control[] controls) {
             gameForm.Controls.AddRange(controls);
         }
-        public void removeRangeFromForm(params Control[] controls)
-        {
-            foreach (Control control in controls)
-            {
+        public void removeRangeFromForm(params Control[] controls) {
+            foreach (Control control in controls) {
                 gameForm.Controls.Remove(control);
             }
-<<<<<<< HEAD
-=======
->>>>>>> 53eeadf8303d6034c1aca6339def06bc8f7a448b
-
-            TeamRed.Add(new Character(grid, grid.Tiles[6, 5], Character.Teams.Red, CharacterTypePhysical.Warrior, this));
-            TeamRed.Add(new Character(grid, grid.Tiles[5, 5], Character.Teams.Red, CharacterTypePhysical.Archer, this));
-=======
->>>>>>> b635d5cabd9564af63f794672ba44c8a165ef5d5
         }
 
         public void startTimer()
@@ -186,20 +148,6 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             }
         }
 
-<<<<<<< HEAD
-        private void selectTile(Tile tile) {
-            if(selectedTile == tile) {
-                selectedTile.Selected = false;
-                selectedTile = null;
-            } else if(selectedTile == null) {
-                selectedTile = tile;
-                selectedTile.Selected = true;
-                shop.updateShop();
-            } else {
-                selectedTile.Selected = false;
-                Character temp = selectedTile.CurrentCharacter;
-                selectedTile.CurrentCharacter = tile.CurrentCharacter;
-=======
         private void selectTile(Tile tile)
         {
             if (SelectedTile == tile)
@@ -211,12 +159,12 @@ namespace ASU2019_NetworkedGameWorkshop.controller
                 SelectedTile = tile;
                 SelectedTile.Selected = true;
                 updateCanvas = true;
+                spellShop.updateShop();
             }
             else
             {
                 Character temp = SelectedTile.CurrentCharacter;
                 SelectedTile.CurrentCharacter = tile.CurrentCharacter;
->>>>>>> 53eeadf8303d6034c1aca6339def06bc8f7a448b
                 tile.CurrentCharacter = temp;
                 deselectSelectedTile();
             }
@@ -259,8 +207,8 @@ namespace ASU2019_NetworkedGameWorkshop.controller
         private void gameStart()
         {
             stopwatch.Start();
-            stageManager.switchStage();//Debugging
-            //stageTimer.resetTimer(StageTime.BUY_TIME);
+            //stageManager.switchStage();//Debugging
+            stageTimer.resetTimer(StageTime.BUY);
         }
 
         private void gameLoop(object sender, EventArgs e)
