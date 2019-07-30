@@ -152,6 +152,7 @@ namespace ASU2019_NetworkedGameWorkshop.view
             btn_host.Enabled = false;
             btn_connect.Enabled = false;
             btn_manualConnect.Enabled = false;
+            btn_refresh.Enabled = false;
         }
 
         private void TabControl_Selecting(object sender, TabControlCancelEventArgs e)
