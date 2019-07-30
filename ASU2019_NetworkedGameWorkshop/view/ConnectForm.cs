@@ -132,9 +132,8 @@ namespace ASU2019_NetworkedGameWorkshop.view
 
         private void Btn_host_Click(object sender, EventArgs e)
         {
-            isConnectedToServer = true;
-            tabControl.SelectedTab = tabControl.TabPages[2];
-            disableNewServerOptions();
+            connected();
+
             btn_lobbyStartGame.Enabled = true;
 
             connectedIP = null;
@@ -145,7 +144,6 @@ namespace ASU2019_NetworkedGameWorkshop.view
 
             lobbyServer = new LobbyServer(txt_hostGameName.Text, connectedPort, this);
             lobbyServer.startServer();
-            timer.Start();
 
         }
 
@@ -169,9 +167,7 @@ namespace ASU2019_NetworkedGameWorkshop.view
         {
             if (lbx_connectList.SelectedIndex != -1)
             {
-                isConnectedToServer = true;
-                tabControl.SelectedTab = tabControl.TabPages[2];
-                disableNewServerOptions();
+                connected();
 
                 (string ip, _, string gameName) = ips[lbx_connectList.SelectedIndex];
                 connectedIP = ip;
@@ -180,7 +176,6 @@ namespace ASU2019_NetworkedGameWorkshop.view
                 setLobbyGameName(gameName);
                 lobbyClient = new LobbyClient(connectedIP, connectedPort, this);
                 lobbyClient.connectToServer();
-                timer.Start();
             }
         }
 
@@ -211,6 +206,30 @@ namespace ASU2019_NetworkedGameWorkshop.view
             gameForm.Show();
             Hide();
             timer.Stop();
+        }
+
+        private void Btn_manualConnect_Click(object sender, EventArgs e)
+        {
+            connected();
+            
+            connectedIP = txt_connectIP.Text;
+            connectedPort = int.Parse(txt_connectPort.Text);
+            lbx_lobbyPlayerList.Items.Add("Local Player\t(Local)");
+            lobbyClient = new LobbyClient(connectedIP, connectedPort, this);
+            lobbyClient.connectToServer();
+        }
+
+        private void connected()//rename
+        {
+            switchToLobby();
+            disableNewServerOptions();
+            timer.Start();
+        }
+
+        private void switchToLobby()
+        {
+            isConnectedToServer = true;
+            tabControl.SelectedTab = tabControl.TabPages[2];
         }
     }
 }

@@ -91,6 +91,7 @@
             this.btn_manualConnect.TabIndex = 4;
             this.btn_manualConnect.Text = "Manual Connect";
             this.btn_manualConnect.UseVisualStyleBackColor = true;
+            this.btn_manualConnect.Click += new System.EventHandler(this.Btn_manualConnect_Click);
             // 
             // txt_connectIP
             // 
