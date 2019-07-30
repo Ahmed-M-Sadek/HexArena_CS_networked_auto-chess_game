@@ -1,16 +1,10 @@
-﻿using ASU2019_NetworkedGameWorkshop.controller;
-using ASU2019_NetworkedGameWorkshop.model.character;
+﻿using ASU2019_NetworkedGameWorkshop.model.character;
 using ASU2019_NetworkedGameWorkshop.model.spell;
-using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ASU2019_NetworkedGameWorkshop.model.Shop {
-    class SpellShopUIPanel:FlowLayoutPanel {
+    class SpellShopUIPanel : FlowLayoutPanel {
         private readonly Button btn_hide;
         public SpellShopUIPanel(GameForm gameForm) {
             this.Size = new Size(270, 300);
@@ -35,17 +29,17 @@ namespace ASU2019_NetworkedGameWorkshop.model.Shop {
         }
 
         public void ShowSpells(Character selectedChar) {
-            this.Controls.Clear();
-            this.Controls.Add(btn_hide);
+            Controls.Clear();
+            Controls.Add(btn_hide);
             foreach (Spells spell in Spells.Values) {
                 if (selectedChar.spells.Contains(spell)) {
                     spell.lbl_spell.ForeColor = Color.MediumSeaGreen;
                 } else {
                     spell.lbl_spell.ForeColor = Color.OrangeRed;
                 }
-                this.Controls.Add(spell.lbl_spell);
+                Controls.Add(spell.lbl_spell);
             }
-            this.Visible = true;
+            Visible = true;
         }
     }
 }

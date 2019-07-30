@@ -28,11 +28,11 @@ namespace ASU2019_NetworkedGameWorkshop.view {
         }
 
         private void Txt_connectIP_KeyPress(object sender, KeyPressEventArgs e) {
-            if(e.KeyChar == '.') {
-                if((sender as TextBox).Text.Count(c => c == '.') > 2) {
+            if (e.KeyChar == '.') {
+                if ((sender as TextBox).Text.Count(c => c == '.') > 2) {
                     e.Handled = true;
                 }
-            } else if(!(char.IsControl(e.KeyChar) || char.IsDigit(e.KeyChar))) {
+            } else if (!(char.IsControl(e.KeyChar) || char.IsDigit(e.KeyChar))) {
                 e.Handled = true;
             }
         }
@@ -46,7 +46,7 @@ namespace ASU2019_NetworkedGameWorkshop.view {
             lbx_connectList.Items.Clear();
             lbl_connectStatus.Visible = true;
             lbl_connectStatus.Refresh();
-            foreach(var (ip, ping) in NetworkManager.getServersInNetwork(int.Parse(txt_connectPort.Text))) {
+            foreach (var (ip, ping) in NetworkManager.getServersInNetwork(int.Parse(txt_connectPort.Text))) {
                 lbx_connectList.Items.Add(string.Format("{0}\t({1}ms)", ip, ping));
             }
             lbl_connectStatus.Visible = false;

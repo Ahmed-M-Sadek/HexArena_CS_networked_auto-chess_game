@@ -2,15 +2,11 @@
 using ASU2019_NetworkedGameWorkshop.model.character;
 using ASU2019_NetworkedGameWorkshop.model.character.types;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ASU2019_NetworkedGameWorkshop.model.Shop {
-    class ShopUIPanel:Panel {
+    class ShopUIPanel : Panel {
         private readonly FlowLayoutPanel statLabels;
         private readonly GameManager manager;
         private readonly Label lbl_statsNames;
@@ -19,7 +15,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.Shop {
 
         private Label lbl_statsValues;
 
-        public ShopUIPanel(GameForm gameForm,GameManager gameManager) {
+        public ShopUIPanel(GameForm gameForm, GameManager gameManager) {
             manager = gameManager;
 
             this.Size = new Size(270, 300);
@@ -74,14 +70,16 @@ namespace ASU2019_NetworkedGameWorkshop.model.Shop {
             lbl_statsChanges.Visible = false;
         }
         public void UpdateChanges() {
-            CharacterType nextLevel = selected.characterType[selected.CurrentLevel + 1];
-            String changesHP = (selected.Stats[StatusType.HealthPointsMax] != nextLevel[StatusType.HealthPointsMax] ? $"--> {nextLevel[StatusType.HealthPointsMax]}\n" : "\n");
-            String changesRange = (selected.Stats[StatusType.Range] != nextLevel[StatusType.Range] ? $"--> {nextLevel[StatusType.Range]}\n" : "\n");
-            String changesDmg = (selected.Stats[StatusType.AttackDamage] != nextLevel[StatusType.AttackDamage] ? $"--> {nextLevel[StatusType.AttackDamage]}\n" : "\n");
-            String changesSpd = (selected.Stats[StatusType.AttackSpeed] != nextLevel[StatusType.AttackSpeed] ? $"--> {nextLevel[StatusType.AttackSpeed]}\n" : "\n");
-            String changesArmour = (selected.Stats[StatusType.Armor] != nextLevel[StatusType.Armor] ? $"--> {nextLevel[StatusType.Armor]}\n" : "\n");
-            String changesResist = (selected.Stats[StatusType.MagicResist] != nextLevel[StatusType.MagicResist] ? $"--> {nextLevel[StatusType.MagicResist]}\n" : "\n");
-            lbl_statsChanges.Text = "\n" + changesHP + changesRange + changesDmg + changesSpd + changesArmour + changesResist;
+            if (selected.CurrentLevel + 1 < CharacterType.MAX_CHAR_LVL) {
+                CharacterType nextLevel = selected.characterType[selected.CurrentLevel + 1];
+                String changesHP = (selected.Stats[StatusType.HealthPointsMax] != nextLevel[StatusType.HealthPointsMax] ? $"--> {nextLevel[StatusType.HealthPointsMax]}\n" : "\n");
+                String changesRange = (selected.Stats[StatusType.Range] != nextLevel[StatusType.Range] ? $"--> {nextLevel[StatusType.Range]}\n" : "\n");
+                String changesDmg = (selected.Stats[StatusType.AttackDamage] != nextLevel[StatusType.AttackDamage] ? $"--> {nextLevel[StatusType.AttackDamage]}\n" : "\n");
+                String changesSpd = (selected.Stats[StatusType.AttackSpeed] != nextLevel[StatusType.AttackSpeed] ? $"--> {nextLevel[StatusType.AttackSpeed]}\n" : "\n");
+                String changesArmour = (selected.Stats[StatusType.Armor] != nextLevel[StatusType.Armor] ? $"--> {nextLevel[StatusType.Armor]}\n" : "\n");
+                String changesResist = (selected.Stats[StatusType.MagicResist] != nextLevel[StatusType.MagicResist] ? $"--> {nextLevel[StatusType.MagicResist]}\n" : "\n");
+                lbl_statsChanges.Text = "\n" + changesHP + changesRange + changesDmg + changesSpd + changesArmour + changesResist;
+            }
         }
     }
 }

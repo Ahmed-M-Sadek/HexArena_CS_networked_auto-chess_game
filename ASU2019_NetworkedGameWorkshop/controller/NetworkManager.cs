@@ -21,8 +21,8 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
             LocalIP = new List<string>();
             LocalIPBase = new List<string>();
             IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
-            for(int i = 0; i < host.AddressList.Length; i++) {
-                if(host.AddressList[i].AddressFamily == AddressFamily.InterNetwork) {
+            for (int i = 0; i < host.AddressList.Length; i++) {
+                if (host.AddressList[i].AddressFamily == AddressFamily.InterNetwork) {
                     string ip = host.AddressList[i].ToString();
                     LocalIP.Add(ip);
                     LocalIPBase.Add(ip.Substring(0, ip.LastIndexOf('.') + 1));
@@ -34,20 +34,20 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
             ConcurrentBag<Tuple<string, long>> activeIPs = new ConcurrentBag<Tuple<string, long>>();
             CountdownEvent countdownEvent = new CountdownEvent((254 * LocalIPBase.Count) + 1);
             new Thread(new ThreadStart(() => {
-                foreach(string ipBase in LocalIPBase) {
-                    for(int i = 1; i < 255; i++) {
+                foreach (string ipBase in LocalIPBase) {
+                    for (int i = 1; i < 255; i++) {
                         Ping p = new Ping();
                         p.PingCompleted += new PingCompletedEventHandler((object sender, PingCompletedEventArgs e) => {
-                            if(e.Reply != null && e.Reply.Status == IPStatus.Success) {
+                            if (e.Reply != null && e.Reply.Status == IPStatus.Success) {
                                 try {
-                                    using(var client = new TcpClient()) {
-                                        IAsyncResult asyncResult = client.BeginConnect((string) e.UserState, port, null, null);
-                                        if(asyncResult.AsyncWaitHandle.WaitOne(PORT_CHECK_TIMEOUT)) {
-                                            activeIPs.Add(Tuple.Create((string) e.UserState, e.Reply.RoundtripTime));
+                                    using (var client = new TcpClient()) {
+                                        IAsyncResult asyncResult = client.BeginConnect((string)e.UserState, port, null, null);
+                                        if (asyncResult.AsyncWaitHandle.WaitOne(PORT_CHECK_TIMEOUT)) {
+                                            activeIPs.Add(Tuple.Create((string)e.UserState, e.Reply.RoundtripTime));
                                             client.EndConnect(asyncResult);
                                         }
                                     }
-                                } catch(SocketException) { }
+                                } catch (SocketException) { }
                             }
                             countdownEvent.Signal();
                         });

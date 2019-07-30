@@ -1,12 +1,9 @@
 ﻿using ASU2019_NetworkedGameWorkshop.controller;
 using System.Drawing;
 
-namespace ASU2019_NetworkedGameWorkshop.model.ui
-{
-    public class StageTimer : GraphicsObject
-    {
-        public enum StageTime
-        {
+namespace ASU2019_NetworkedGameWorkshop.model.ui {
+    public class StageTimer : GraphicsObject {
+        public enum StageTime {
             FIGHT = 41 * 1000,
             BUY = 31 * 1000,
             DEBUGGING = 6 * 1000,
@@ -31,50 +28,40 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui
 
         public StageTimer(GameManager gameManager) : this(gameManager, null) { }
 
-        public StageTimer(GameManager gameManager, SwitchStage switchStage)
-        {
+        public StageTimer(GameManager gameManager, SwitchStage switchStage) {
             this.gameManager = gameManager;
             this.switchStageEvent = switchStage;
         }
 
-        public void resetTimer(StageTime stageTime)
-        {
+        public void resetTimer(StageTime stageTime) {
             currentStageTime = stageTime;
             timerEnd = (int)(stageTime) + gameManager.ElapsedTime;
         }
 
-        public bool update()
-        {
-            if (timerEnd < gameManager.ElapsedTime)
-            {
+        public bool update() {
+            if (timerEnd < gameManager.ElapsedTime) {
                 switchStageEvent();
                 return true;
             }
             long newTime = (timerEnd - gameManager.ElapsedTime) / 1000;
-            if (currentTime == newTime)
-            {
+            if (currentTime == newTime) {
                 return false;
-            }
-            else
-            {
+            } else {
                 currentTime = newTime;
                 return true;
             }
         }
 
-        public void endTimer()
-        {
+        public void endTimer() {
             switchStageEvent();
         }
 
-        public override void draw(Graphics graphics)
-        {
+        public override void draw(Graphics graphics) {
             graphics.DrawString(currentStageTime + " - Time Left: " + currentTime, FONT,
                 Brushes.Black, 500, 15);//temp
         }
 
-        public override void drawDebug(Graphics graphics)
-        {
+        public override void drawDebug(Graphics graphics) {
         }
     }
 }

@@ -3,10 +3,8 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 
-namespace ASU2019_NetworkedGameWorkshop.model.grid
-{
-    public class Grid : GraphicsObject
-    {
+namespace ASU2019_NetworkedGameWorkshop.model.grid {
+    public class Grid : GraphicsObject {
         public readonly int GridWidth, GridHeight;
         private readonly int startingX, startingY;
         private readonly controller.GameManager gameManager;
@@ -19,8 +17,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid
 
         public bool Transparent { get; set; }
 
-        public Grid(int gridWidth, int gridHeight, int startingX, int startingY, controller.GameManager gameManager)
-        {
+        public Grid(int gridWidth, int gridHeight, int startingX, int startingY, controller.GameManager gameManager) {
             GridWidth = gridWidth;
             GridHeight = gridHeight;
             this.startingX = startingX;
@@ -28,10 +25,8 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid
             this.gameManager = gameManager;
 
             Tiles = new Tile[gridWidth, gridHeight];
-            for (int y = 0; y < gridHeight; y++)
-            {
-                for (int x = 0; x < gridWidth; x++)
-                {
+            for (int y = 0; y < gridHeight; y++) {
+                for (int x = 0; x < gridWidth; x++) {
                     Tiles[x, y] = new Tile(x, y, startingX, startingY);
                 }
             }
@@ -40,8 +35,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid
             tilesTransparentBitmap = createTilesBitmap(gridWidth, gridHeight, startingX, startingY, Tiles, true);
         }
 
-        private static Bitmap createTilesBitmap(int gridWidth, int gridHeight, int startingX, int startingY, Tile[,] tiles, bool transparent)
-        {
+        private static Bitmap createTilesBitmap(int gridWidth, int gridHeight, int startingX, int startingY, Tile[,] tiles, bool transparent) {
             Bitmap bitmap = new Bitmap(startingX + (int)((gridWidth + 1) * Tile.WIDTH),
                 startingY + (int)(gridHeight * Tile.HEIGHT),
                 PixelFormat.Format32bppArgb);
@@ -52,8 +46,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid
             graphics.SmoothingMode = SmoothingMode.HighQuality;
             graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
 
-            foreach (Tile tile in tiles)
-            {
+            foreach (Tile tile in tiles) {
                 bool temp = tile.Transparent;
                 tile.Transparent = transparent;
                 tile.draw(graphics);
@@ -63,8 +56,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid
         }
 
         //Credits: https://stackoverflow.com/questions/7705228/hexagonal-grids-how-do-you-find-which-hexagon-a-point-is-in
-        public Tile getSelectedHexagon(int x, int y)
-        {
+        public Tile getSelectedHexagon(int x, int y) {
             x -= startingX;
             y -= startingY;
 
@@ -77,14 +69,11 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid
             double relY = y - (row * Tile.HEX_HEIGHT);
             double relX = x - (column * Tile.WIDTH) - (rowIsOdd ? Tile.HALF_WIDTH : 0);
 
-            if (relY < (-Tile.HEX_M * relX) + Tile.HEX_C)
-            {
+            if (relY < (-Tile.HEX_M * relX) + Tile.HEX_C) {
                 row--;
                 if (!rowIsOdd)
                     column--;
-            }
-            else if (relY < (Tile.HEX_M * relX) - Tile.HEX_C)
-            {
+            } else if (relY < (Tile.HEX_M * relX) - Tile.HEX_C) {
                 row--;
                 if (rowIsOdd)
                     column++;
@@ -99,13 +88,10 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid
         }
 
         //valid for  odd_r hexagons
-        public List<Tile> getNeighbours(Tile tile, Tile[,] TilesClone)
-        {
+        public List<Tile> getNeighbours(Tile tile, Tile[,] TilesClone) {
             List<Tile> neighbours = new List<Tile>();
-            for (int x = -1; x <= 1; x++)
-            {
-                for (int y = -1; y <= 1; y++)
-                {
+            for (int x = -1; x <= 1; x++) {
+                for (int y = -1; y <= 1; y++) {
                     if ((x == -1 && y == -1) ||
                         (x == -1 && y == 1) ||
                         (x == 0 && y == 0))
@@ -113,20 +99,16 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid
 
                     int gridX, gridY;
                     //checks if even
-                    if ((tile.Y & 1) != 0)
-                    {
+                    if ((tile.Y & 1) != 0) {
                         gridX = tile.X + x;
                         gridY = tile.Y + y;
-                    }
-                    else
-                    {
+                    } else {
                         gridX = tile.X - x;
                         gridY = tile.Y - y;
                     }
 
                     if (gridX >= 0 && gridX < GridWidth
-                        && gridY >= 0 && gridY < GridHeight)
-                    {
+                        && gridY >= 0 && gridY < GridHeight) {
 
                         neighbours.Add(TilesClone[gridX, gridY]);
                     }
@@ -135,11 +117,9 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid
             return neighbours;
         }
 
-        public override void draw(Graphics graphics)
-        {
+        public override void draw(Graphics graphics) {
             graphics.DrawImage(Transparent ? tilesTransparentBitmap : tilesBitmap, 0, 0);
-            if (gameManager.SelectedTile != null)
-            {
+            if (gameManager.SelectedTile != null) {
                 gameManager.SelectedTile.draw(graphics);
             }
         }
@@ -148,10 +128,8 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid
         /// Calls the DrawDebug() of the Tiles in the grid.
         /// </summary>
         /// <param name="graphics">graphics object to draw on.</param>
-        public override void drawDebug(Graphics graphics)
-        {
-            foreach (Tile tile in Tiles)
-            {
+        public override void drawDebug(Graphics graphics) {
+            foreach (Tile tile in Tiles) {
                 tile.drawDebug(graphics);
             }
         }

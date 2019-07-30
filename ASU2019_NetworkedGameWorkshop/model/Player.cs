@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Drawing;
 
-namespace ASU2019_NetworkedGameWorkshop.model
-{
+namespace ASU2019_NetworkedGameWorkshop.model {
     /// <summary>
     /// A class representing the player which hold the current health points, gold, and streak
     /// </summary>
-    public class Player : GraphicsObject
-    {
+    public class Player : GraphicsObject {
         public enum RoundEndStatus { WIN, LOSS }
 
         public const int MAX_HP = 100;
@@ -26,8 +24,7 @@ namespace ASU2019_NetworkedGameWorkshop.model
         /// 
         /// The health points will never go below zero.
         /// </summary>
-        public int Health
-        {
+        public int Health {
             get { return health; }
             set { health = (value < 0) ? 0 : value; }
         }
@@ -43,8 +40,7 @@ namespace ASU2019_NetworkedGameWorkshop.model
         /// </summary>
         /// <param name="name"></param>
         /// <param name="local">Represents whether is player represents the local player of the machine or a player on another machine</param>
-        public Player(string name, bool local = false)
-        {
+        public Player(string name, bool local = false) {
             Name = name;
             Local = local;
         }
@@ -55,39 +51,27 @@ namespace ASU2019_NetworkedGameWorkshop.model
         /// <para>The streak is incremented after increasing the player's gold</para>
         /// </summary>
         /// <param name="roundEndStatus">the status of the last round</param>
-        public void incrementGold(RoundEndStatus roundEndStatus)
-        {
+        public void incrementGold(RoundEndStatus roundEndStatus) {
             Gold += BASE_GOLD_INCOME
                 + getstreakIncome()
                 + Math.Min(5, Gold / 10)
                 + ((roundEndStatus == RoundEndStatus.WIN) ? 1 : 0);
-            if (streakStatus == roundEndStatus)
-            {
+            if (streakStatus == roundEndStatus) {
                 streak++;
-            }
-            else
-            {
+            } else {
                 streakStatus = roundEndStatus;
                 streak = 1;
             }
         }
 
-        private int getstreakIncome()
-        {
-            if (streak > 6)
-            {
+        private int getstreakIncome() {
+            if (streak > 6) {
                 return 3;
-            }
-            else if (streak > 3)
-            {
+            } else if (streak > 3) {
                 return 2;
-            }
-            else if (streak > 1)
-            {
+            } else if (streak > 1) {
                 return 1;
-            }
-            else
-            {
+            } else {
                 return 0;
             }
         }
@@ -96,15 +80,13 @@ namespace ASU2019_NetworkedGameWorkshop.model
         /// Draws labels for the Player's Gold and Win/Lose Streak (colored accordingly)
         /// </summary>
         /// <param name="graphics">graphics object to draw on</param>
-        public override void draw(Graphics graphics)
-        {
+        public override void draw(Graphics graphics) {
             graphics.DrawString("Gold: " + Gold, FONT, Brushes.DarkGoldenrod, 260, 15);//temp pos
             graphics.DrawString("Streak: " + streak, FONT,
                 streakStatus == RoundEndStatus.WIN ? Brushes.OrangeRed : Brushes.SteelBlue, 350, 15);//temp pos
         }
 
-        public override void drawDebug(Graphics graphics)
-        {
+        public override void drawDebug(Graphics graphics) {
         }
     }
 }

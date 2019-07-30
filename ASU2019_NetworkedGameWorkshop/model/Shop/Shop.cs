@@ -13,7 +13,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.Shop {
         private static SpellShopPopUP skillShop;
         private static Button btn_hideSkillShop;
         private static Character selectedCharacter;
-        private static SpellShopUIPanel spellShopView;
+        public static SpellShopUIPanel spellShopView { get; private set; }
 
         private readonly Button btn_showSpells;
         private readonly Button btn_levelUp;
@@ -26,7 +26,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.Shop {
         public Shop(GameForm gameForm, GameManager manager) {
             this.manager = manager;
             SelectedCharacterView = new ShopUIPanel(gameForm, manager);
-            skillShop = new SpellShopPopUP(gameForm, manager);
+            skillShop = new SpellShopPopUP(gameForm, manager,this);
             spellShopView = new SpellShopUIPanel(gameForm);
 
             btn_hideSkillShop = new Button {
@@ -74,7 +74,6 @@ namespace ASU2019_NetworkedGameWorkshop.model.Shop {
 
             SelectedCharacterView.Visible = false;
             spellShopView.Visible = false;
-
         }
 
         private void levelUp_leave(object sender, EventArgs e) {
@@ -83,7 +82,6 @@ namespace ASU2019_NetworkedGameWorkshop.model.Shop {
 
         private void levelUp_hover(object sender, EventArgs e) {
             SelectedCharacterView.ShowStatsChanges();
-
         }
 
         private void sellChar_click(object sender, MouseEventArgs e) {
@@ -117,22 +115,28 @@ namespace ASU2019_NetworkedGameWorkshop.model.Shop {
         }
 
         public void updateShop() {
-            selectedCharacter = manager.SelectedTile.CurrentCharacter;
-            if (selectedCharacter != null) {
-                SelectedCharacterView.Visible = true;
-                viewCharStats();
-                SelectedCharacterView.Invalidate();
-                if (selectedCharacter.CurrentLevel < CharacterType.MAX_CHAR_LVL - 1) {
-                    btn_levelUp.Enabled = true;
+            if (manager.SelectedTile != null) {
+                selectedCharacter = manager.SelectedTile.CurrentCharacter;
+                if (selectedCharacter != null) {
+                    SelectedCharacterView.Visible = true;
+                    viewCharStats();
+                    SelectedCharacterView.Invalidate();
+                    if (selectedCharacter.CurrentLevel < CharacterType.MAX_CHAR_LVL - 1) {
+                        btn_levelUp.Enabled = true;
+                    } else {
+                        btn_levelUp.Enabled = false;
+                    }
                 } else {
-                    btn_levelUp.Enabled = false;
+                    SelectedCharacterView.Visible = false; ;
+                    skillShop.Visible = false;
+                    spellShopView.Visible = false;
                 }
             } else {
                 SelectedCharacterView.Visible = false; ;
                 skillShop.Visible = false;
                 spellShopView.Visible = false;
+
             }
-            
         }
         private void viewCharStats() {
             if (selectedCharacter != null) {

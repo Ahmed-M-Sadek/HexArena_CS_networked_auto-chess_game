@@ -4,10 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ASU2019_NetworkedGameWorkshop.model.spell.types
-{
-    public class Target
-    {
+namespace ASU2019_NetworkedGameWorkshop.model.spell.types {
+    public class Target {
         private readonly Random random;
 
         public Character Caster { get; set; }
@@ -17,11 +15,9 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell.types
         public bool TargetAlly { get; private set; }
         public CastTarget CastTarget { get; private set; }
 
-        public Target(bool TargetAlly, CastTarget castTarget) : this(TargetAlly, false, 1, castTarget)
-        { }
+        public Target(bool TargetAlly, CastTarget castTarget) : this(TargetAlly, false, 1, castTarget) { }
 
-        public Target(bool TargetAlly, bool aOE, int numberOfTargets, CastTarget castTarget)
-        {
+        public Target(bool TargetAlly, bool aOE, int numberOfTargets, CastTarget castTarget) {
             Recievers = new List<Character>();
             this.TargetAlly = TargetAlly;
             MultiTargeted = aOE;
@@ -29,19 +25,16 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell.types
             CastTarget = castTarget;
             random = new Random();
         }
-        public List<Character> getTargets()
-        {
+        public List<Character> getTargets() {
             List<Character> desiredTeam = TargetAlly ? charactersInRange((Caster.team == Character.Teams.Red) ? Caster.gameManager.TeamRed : Caster.gameManager.TeamBlue, Caster)
                 : charactersInRange((Caster.team == Character.Teams.Red) ? Caster.gameManager.TeamBlue : Caster.gameManager.TeamRed, Caster);
 
-            switch (CastTarget)
-            {
+            switch (CastTarget) {
                 case CastTarget.Self:
                     Recievers.Add(Caster);
                     break;
                 case CastTarget.CurrentTarget:
-                    for (int i = 0; i < NumberOfTargets && desiredTeam.Count != 0; i++)
-                    {
+                    for (int i = 0; i < NumberOfTargets && desiredTeam.Count != 0; i++) {
                         Character newTarget = PathFinding.findClosestEnemy(Caster.CurrentTile,
                                                                            desiredTeam,
                                                                            Caster.grid,
@@ -52,22 +45,17 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell.types
                     }
                     break;
                 case CastTarget.Random:
-                    for (int i = 0; i < NumberOfTargets; i++)
-                    {
+                    for (int i = 0; i < NumberOfTargets; i++) {
                         Recievers.Add(desiredTeam[random.Next(desiredTeam.Count)]);
                     }
                     break;
                 case CastTarget.LowHealth:
-                    for (int j = 0; j < NumberOfTargets; j++)
-                    {
-                        if (desiredTeam.Count > 0)
-                        {
+                    for (int j = 0; j < NumberOfTargets; j++) {
+                        if (desiredTeam.Count > 0) {
                             Character lowChar = desiredTeam[0];
-                            for (int i = 0; i < desiredTeam.Count; i++)
-                            {
+                            for (int i = 0; i < desiredTeam.Count; i++) {
                                 Character character = desiredTeam[i];
-                                if (character.Stats[StatusType.HealthPoints] < lowChar.Stats[StatusType.HealthPoints])
-                                {
+                                if (character.Stats[StatusType.HealthPoints] < lowChar.Stats[StatusType.HealthPoints]) {
                                     lowChar = character;
                                 }
                             }
@@ -80,14 +68,11 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell.types
             return Recievers;
         }
 
-        public List<Character> charactersInRange(List<Character> team, Character caster)
-        {
+        public List<Character> charactersInRange(List<Character> team, Character caster) {
             int range = caster.CharacterType[StatusType.Range];
             List<Character> inRange = new List<Character>();
-            foreach (Character character in team.Where(en => !en.IsDead))
-            {
-                if (PathFinding.getDistance(caster.CurrentTile, character.CurrentTile) <= range)
-                {
+            foreach (Character character in team.Where(en => !en.IsDead)) {
+                if (PathFinding.getDistance(caster.CurrentTile, character.CurrentTile) <= range) {
                     inRange.Add(character);
                 }
             }

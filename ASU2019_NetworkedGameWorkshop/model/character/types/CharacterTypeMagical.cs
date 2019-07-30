@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 
-namespace ASU2019_NetworkedGameWorkshop.model.character.types
-{
-    public class CharacterTypeMagical : CharacterType
-    {
+namespace ASU2019_NetworkedGameWorkshop.model.character.types {
+    public class CharacterTypeMagical : CharacterType {
         public static readonly CharacterTypeMagical[] Healer = new CharacterTypeMagical[]{
             new CharacterTypeMagical(
                 "Healer",
@@ -35,16 +33,13 @@ namespace ASU2019_NetworkedGameWorkshop.model.character.types
             int range,
             int attackDamage, float attackSpeed,
             int armor, int magicResist)
-            : base(name, healthPoints, charge, chargeMax, range, attackDamage, attackSpeed, armor, magicResist)
-        { }
+            : base(name, healthPoints, charge, chargeMax, range, attackDamage, attackSpeed, armor, magicResist) { }
 
         /// <summary>
         /// All of the static instances of CharacterTypeMagical
         /// </summary>
-        public new static IEnumerable<CharacterTypeMagical[]> Values
-        {
-            get
-            {
+        public new static IEnumerable<CharacterTypeMagical[]> Values {
+            get {
                 yield return Healer;
             }
         }

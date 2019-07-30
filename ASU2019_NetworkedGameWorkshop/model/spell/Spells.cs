@@ -6,10 +6,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace ASU2019_NetworkedGameWorkshop.model.spell
-{
-    public class Spells
-    {
+namespace ASU2019_NetworkedGameWorkshop.model.spell {
+    public class Spells {
         public static readonly Spells AwesomeFireball = new Spells(200,
             new Target(false, CastTarget.CurrentTarget),
             SpellType.Damage,
@@ -40,10 +38,8 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell
             SpellType.Damage,
             Resources.fireball_red_1, "Execute");
 
-        public static IEnumerable<Spells> Values
-        {
-            get
-            {
+        public static IEnumerable<Spells> Values {
+            get {
                 yield return AwesomeFireball;
                 yield return AwesomeFireballAOE;
                 yield return AwesomeFireballRandom;
@@ -60,8 +56,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell
         public string name { get; private set; }
         public Label lbl_spell { get; private set; }
 
-        public Spells(int abilityValue, Target target, SpellType spellType, Image image , string spellName)
-        {
+        public Spells(int abilityValue, Target target, SpellType spellType, Image image, string spellName) {
             AbilityValue = abilityValue;
             Target = target;
             SpellType = spellType;
@@ -80,14 +75,12 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell
             Shop.Shop.viewSkillShop();
         }
 
-        private List<Character> specifyTargets(Character caster)
-        {
+        private List<Character> specifyTargets(Character caster) {
             Target.Caster = caster;
             return Target.getTargets();
         }
 
-        public void castSpell(Character caster)
-        {
+        public void castSpell(Character caster) {
             SpellType.cast(specifyTargets(caster), AbilityValue);
         }
         public override String ToString() {

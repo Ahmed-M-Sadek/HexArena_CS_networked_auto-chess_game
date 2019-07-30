@@ -7,10 +7,8 @@ using System.Linq;
 using System.Runtime.Serialization;
 
 
-namespace ASU2019_NetworkedGameWorkshop.controller
-{
-    public class PathFinding
-    {
+namespace ASU2019_NetworkedGameWorkshop.controller {
+    public class PathFinding {
 
         private PathFinding() { }
 
@@ -53,40 +51,32 @@ namespace ASU2019_NetworkedGameWorkshop.controller
         }
 
 
-        internal static Character findClosestEnemy(Tile currentTile, List<Character> team, Grid grid, int range, GameManager gameManager)
-        {
+        internal static Character findClosestEnemy(Tile currentTile, List<Character> team, Grid grid, int range, GameManager gameManager) {
             List<Character> enemyList = team;
             Character closestEnemy = null;
             int? shortestDist = null;
 
-            foreach (Character enemy in enemyList.Where(en => !en.IsDead))
-            {
-                if (enemy.CurrentTile == currentTile)
-                {
+            foreach (Character enemy in enemyList.Where(en => !en.IsDead)) {
+                if (enemy.CurrentTile == currentTile) {
                     continue;
                 }
                 if (getDistance(currentTile, enemy.CurrentTile) > range) continue;
                 int dist;
 
-                try
-                {
+                try {
                     dist = getDistance(currentTile, enemy.CurrentTile);
-                }
-                catch (PathNotFoundException)
-                {
+                } catch (PathNotFoundException) {
                     continue;
                 }
 
-                if (shortestDist == null)
-                {
+                if (shortestDist == null) {
                     shortestDist = dist;
                     closestEnemy = enemy;
                 }
             }
 
 
-            if (shortestDist == null)
-            {
+            if (shortestDist == null) {
                 throw new PathNotFoundException();
             }
             return closestEnemy;
@@ -102,8 +92,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
                 Tile currentTile = openSet.RemoveFirst();
 
                 closedSet.Add(currentTile);
-                if (currentTile.Equals(endTile))
-                { 
+                if (currentTile.Equals(endTile)) {
                     return retracePath(startTile, currentTile, grid);
                 }
                 foreach (Tile neighbour in grid.getNeighbours(currentTile, tilesClone)) {
@@ -126,8 +115,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             throw new PathNotFoundException();
         }
 
-        private static List<Tile> retracePath(Tile startTile, Tile endTile, Grid grid)
-        {
+        private static List<Tile> retracePath(Tile startTile, Tile endTile, Grid grid) {
             List<Tile> path = new List<Tile>();
             Tile currentTile = endTile;
 
@@ -158,14 +146,12 @@ namespace ASU2019_NetworkedGameWorkshop.controller
         }
 
 
-        private struct Cube
-        {
+        private struct Cube {
             public int X;
             public int Y;
             public int Z;
 
-            public Cube(int x, int y, int z)
-            {
+            public Cube(int x, int y, int z) {
                 X = x;
                 Y = y;
                 Z = z;

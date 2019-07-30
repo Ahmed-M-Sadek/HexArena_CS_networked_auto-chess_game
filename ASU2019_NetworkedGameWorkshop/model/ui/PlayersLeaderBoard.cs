@@ -1,16 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 
-namespace ASU2019_NetworkedGameWorkshop.model.ui
-{
+namespace ASU2019_NetworkedGameWorkshop.model.ui {
     /// <summary>
     /// <para>A class that displays an ordered list of health bars from a given list of players to the right of the screen.
     /// incase of 2 or more players having the same healthpoints then the local player will be the first on the leaderboard.</para>
     /// 
     /// <para>This class only uses the health property of the Player so an incomplete player can be passed as long as the health is correct.</para>
     /// </summary>
-    public class PlayersLeaderBoard : GraphicsObject
-    {
+    public class PlayersLeaderBoard : GraphicsObject {
         private const int X = 30,
             Y_START = 100, CIRCLE_DIM = 50, ENTRY_PADDING = 10;
 
@@ -19,22 +17,19 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui
 
         private readonly List<Player> players;
 
-        static PlayersLeaderBoard()
-        {
+        static PlayersLeaderBoard() {
             FONT = new Font("Roboto", 12, FontStyle.Bold);
             PEN_DARK_RED = Pens.DarkRed.Clone() as Pen;
             PEN_DARK_RED.Width = 4;
         }
 
-        public PlayersLeaderBoard(List<Player> players)
-        {
+        public PlayersLeaderBoard(List<Player> players) {
             this.players = players;
 
             update();
         }
 
-        public PlayersLeaderBoard(params Player[] players)
-        {
+        public PlayersLeaderBoard(params Player[] players) {
             this.players = new List<Player>(players);
 
             update();
@@ -44,8 +39,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui
         /// Add Players to the leaderboard
         /// </summary>
         /// <param name="players">players to add</param>
-        public void addPlayers(params Player[] players)
-        {
+        public void addPlayers(params Player[] players) {
             this.players.AddRange(players);
         }
 
@@ -53,10 +47,8 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui
         /// remove Players to the leaderboard
         /// </summary>
         /// <param name="players">players to remove</param>
-        public void removePlayers(params Player[] players)
-        {
-            foreach (Player player in players)
-            {
+        public void removePlayers(params Player[] players) {
+            foreach (Player player in players) {
                 this.players.Remove(player);
             }
         }
@@ -65,13 +57,10 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui
         /// <para>Resort the list of players based on health</para>
         /// <para>should be called after a change to players' health was made </para>
         /// </summary>
-        public void update()
-        {
-            players.Sort((p1, p2) =>
-            {
+        public void update() {
+            players.Sort((p1, p2) => {
                 int diff = p2.Health - p1.Health;
-                if (diff == 0)
-                {
+                if (diff == 0) {
                     return (p1.Local) ? -1 : 1;
                 }
                 return diff;
@@ -82,10 +71,8 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui
         /// Draws the player name, Health points, and a circle indicating the health points around the HP label
         /// </summary>
         /// <param name="graphics">graphics object to draw on</param>
-        public override void draw(Graphics graphics)
-        {
-            for (int i = 0; i < players.Count; i++)
-            {
+        public override void draw(Graphics graphics) {
+            for (int i = 0; i < players.Count; i++) {
                 int y = Y_START + (CIRCLE_DIM + ENTRY_PADDING) * i;
                 Brush fontBrush = players[i].Local ? Brushes.Gold : Brushes.DarkRed;
                 graphics.DrawString(players[i].Health.ToString(), FONT, fontBrush, X, y);
@@ -94,8 +81,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui
             }
         }
 
-        public override void drawDebug(Graphics graphics)
-        {
+        public override void drawDebug(Graphics graphics) {
         }
     }
 }

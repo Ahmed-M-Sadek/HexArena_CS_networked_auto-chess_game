@@ -1,12 +1,7 @@
 ﻿using ASU2019_NetworkedGameWorkshop.controller;
 using ASU2019_NetworkedGameWorkshop.model.character;
 using ASU2019_NetworkedGameWorkshop.model.spell;
-using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ASU2019_NetworkedGameWorkshop.model.Shop {
@@ -15,13 +10,15 @@ namespace ASU2019_NetworkedGameWorkshop.model.Shop {
         private readonly Button btn_upgradeSkill;
         private readonly Button btn_buySkill;
         private readonly GameManager manager;
+        private readonly Shop shop;
 
         private Label lbl_spellStats;
         private bool isNewSpell;
 
         private Character character;
         private Spells spell;
-        public SpellShopPopUP(GameForm gameForm,GameManager gameManager) {
+        public SpellShopPopUP(GameForm gameForm, GameManager gameManager,Shop shop) {
+            this.shop = shop;
             lbl_spellStats = new Label();
             lbl_spellStats.Dock = DockStyle.Top;
             manager = gameManager;
@@ -59,17 +56,14 @@ namespace ASU2019_NetworkedGameWorkshop.model.Shop {
         private void buySkill_click(object sender, MouseEventArgs e) {
             if (isNewSpell) {
                 character.learnSpell(spell);
-                Shop.HideShop();
                 this.Visible = false;
-                manager.deselectSelectedTile();
+                Shop.spellShopView.ShowSpells(manager.SelectedTile.CurrentCharacter);
             }
         }
 
         private void upgradeSpell_click(object sender, MouseEventArgs e) {
             if (!isNewSpell) {
                 this.Visible = false;
-                Shop.HideShop();
-                manager.deselectSelectedTile();
             }
         }
 
