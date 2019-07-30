@@ -109,19 +109,6 @@ namespace ASU2019_NetworkedGameWorkshop.controller
                 Interval = GAMELOOP_INTERVAL //Arbitrary: 20 ticks per sec
             };
             timer.Tick += new EventHandler(gameLoop);
-
-
-            //Debugging 
-            //Character blue = new Character(grid, grid.Tiles[0, 0], Character.Teams.Blue, CharacterTypePhysical.Archer, this);
-            //blue.learnSpell(Spells.AwesomeFireballAOE[0]);
-            //blue.learnSpell(Spells.Execute[0]);
-            //blue.learnSpell(Spells.Heal[0]);
-            //blue.learnSpell(Spells.AwesomeFireballRandom[0]);
-            //TeamBlue.Add(blue);
-
-            //TeamBlue.Add(new Character(grid, grid.Tiles[1, 0], Character.Teams.Blue, CharacterTypePhysical.Warrior, this));
-            //TeamRed.Add(new Character(grid, grid.Tiles[6, 5], Character.Teams.Red, CharacterTypePhysical.Warrior, this));
-            //TeamRed.Add(new Character(grid, grid.Tiles[5, 5], Character.Teams.Red, CharacterTypePhysical.Archer, this));
         }
 
         public void addRangeToForm(params Control[] controls)
@@ -179,10 +166,14 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             }
             else
             {
-                swapCharacters(tile, SelectedTile);
-                gameNetworkManager.enqueueMsg(NetworkMsgPrefix.CharacterSwap,
-                                              GameNetworkUtilities.serializeCharacterSwap(tile, SelectedTile));
-                deselectSelectedTile();
+                if ((tile.CurrentCharacter == null || tile.CurrentCharacter.team != Character.Teams.Red)
+                    && (SelectedTile.CurrentCharacter == null || SelectedTile.CurrentCharacter.team != Character.Teams.Red))
+                {
+                    swapCharacters(tile, SelectedTile);
+                    gameNetworkManager.enqueueMsg(NetworkMsgPrefix.CharacterSwap,
+                                                  GameNetworkUtilities.serializeCharacterSwap(tile, SelectedTile));
+                    deselectSelectedTile();
+                }
             }
         }
 
