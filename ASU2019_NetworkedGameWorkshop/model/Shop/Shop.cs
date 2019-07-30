@@ -73,6 +73,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.Shop {
             skillShop.Controls.Add(btn_hideSkillShop);
 
             SelectedCharacterView.Visible = false;
+            spellShopView.Visible = false;
 
         }
 
@@ -89,7 +90,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.Shop {
             manager.TeamBlue.Remove(selectedCharacter);
             selectedCharacter.CurrentTile.CurrentCharacter = null;
 
-            manager.Player.Gold += 10;//todo change this
+            manager.Player.Gold += 10;//todo change this plz
             manager.deselectSelectedTile();
         }
 
