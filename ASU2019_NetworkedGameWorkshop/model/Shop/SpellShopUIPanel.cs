@@ -19,6 +19,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.Shop {
             this.Visible = true;
             this.Padding = new Padding(10, 10, 10, 10);
             this.FlowDirection = FlowDirection.TopDown;
+            this.AutoScroll = true;
 
             btn_hide = new Button();
             btn_hide.Size = new Size(20, 20);
@@ -30,7 +31,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.Shop {
 
         private void hideBtn_click(object sender, MouseEventArgs e) {
             this.Visible = false;
-            Shop.selectedCharacterView.Visible = true;
+            Shop.SelectedCharacterView.Visible = true;
         }
 
         public void ShowSpells(Character selectedChar) {
@@ -38,7 +39,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.Shop {
             this.Controls.Add(btn_hide);
             foreach (Spells spell in Spells.Values) {
                 if (selectedChar.spells.Contains(spell)) {
-                    spell.lbl_spell.ForeColor = Color.BlueViolet;
+                    spell.lbl_spell.ForeColor = Color.MediumSeaGreen;
                 } else {
                     spell.lbl_spell.ForeColor = Color.OrangeRed;
                 }
