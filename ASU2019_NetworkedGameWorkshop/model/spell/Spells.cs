@@ -18,7 +18,13 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell
                 200,
                 new Target(false, CastTarget.CurrentTarget),
                 SpellType.Damage,
-                Resources.fireball_red_2)
+                Resources.fireball_red_2),
+            new Spells(
+                300,
+                new Target(false, CastTarget.CurrentTarget),
+                SpellType.Damage,
+                Resources.fireball_red_3)
+            
             };
 
         public static readonly Spells[] AwesomeFireballAOE = new Spells[]{

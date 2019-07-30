@@ -26,12 +26,12 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
         private readonly Dictionary<StatusType, float> statsMultiplier;
         private readonly List<Spells> learnedSpells;
 
-
+        private Dictionary<Spells[], int> spellLevel;
         private bool spellsUIVisible = false;
         private List<StatusEffect> statusEffects;
         private long nextAtttackTime;
 
-        public Spells DefaultSkill { get; set;}
+        public Spells DefaultSkill { get; set; }
         public ChooseSpell ChooseSpell { get; set; }
         public InactiveSpell InactiveSpell { get; set; }
         public List<Spells> ActiveSpells { get; set; }
@@ -74,6 +74,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
             ActiveSpells = new List<Spells>();
             InactiveSpells = new List<Spells>();
             learnedSpells = new List<Spells>();
+            spellLevel = new Dictionary<Spells[], int>();
             brush = (team == Teams.Blue) ? Brushes.BlueViolet : Brushes.Red;
             statusEffects = new List<StatusEffect>();
             IsDead = false;
@@ -108,12 +109,34 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
                                                         Stats[StatusType.HealthPointsMax]);
         }
 
-        public void learnSpell(Spells spell)
+        public void learnSpell(Spells[] spell)
         {
-            learnedSpells.Add(spell);
-            InactiveSpells.Add(spell);
+            spellLevel.Add(spell,0);
+            learnedSpells.Add(spell[0]);
+            InactiveSpells.Add(spell[0]);
         }
+        public void upgradeSpell(Spells spell)
+        {
+            int index = learnedSpells.IndexOf(spell);
+            Spells[] spells = spellLevel.Keys.ElementAt(index);
+            spellLevel[spells] += 1;
+            if(spellLevel[spells] < spells.Count())
+            {
+                Spells upgradedSpell = (spells[spellLevel[spells]]);
+                learnedSpells[index] = upgradedSpell;
+                for (int i = 0; i<ActiveSpells.Count; i++)
+                {
+                    if(ActiveSpells[i] == spell)
+                        ActiveSpells[i] = upgradedSpell;
 
+                }
+                for (int i = 0; i < InactiveSpells.Count; i++)
+                {
+                    if (InactiveSpells[i] == spell)
+                        InactiveSpells[i] = upgradedSpell;
+                }
+            }
+        }
         /// <summary>
         /// Decreases the character's Health Points by healValue after applying modifiers.
         /// </summary>

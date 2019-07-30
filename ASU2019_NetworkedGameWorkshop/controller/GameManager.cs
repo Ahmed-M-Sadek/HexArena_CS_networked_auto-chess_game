@@ -103,14 +103,13 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             //Debugging 
             Character blue = new Character(grid, grid.Tiles[1, 0], Character.Teams.Blue, CharacterTypePhysical.Warrior, this);
             Character blue1 = new Character(grid, grid.Tiles[0, 0], Character.Teams.Blue, CharacterTypePhysical.Archer, this);
-            blue.learnSpell(Spells.AwesomeFireballAOE[0]);
-            blue.learnSpell(Spells.Execute[0]);
-            blue.learnSpell(Spells.Heal[0]);
-            blue.learnSpell(Spells.AwesomeFireballRandom[0]);
-            blue.learnSpell(Spells.AwesomeFireball[0]);
-            blue.learnSpell(Spells.AwesomeFireball[1]);
-            blue.learnSpell(Spells.VeigarDebug[0]);
-            blue1.learnSpell(Spells.AwesomeFireball[0]);
+            blue.learnSpell(Spells.AwesomeFireballAOE);
+            blue.learnSpell(Spells.Execute);
+            blue.learnSpell(Spells.Heal);
+            blue.learnSpell(Spells.AwesomeFireballRandom);
+            blue.learnSpell(Spells.AwesomeFireball);
+            blue.learnSpell(Spells.VeigarDebug);
+            blue1.learnSpell(Spells.AwesomeFireball);
             TeamBlue.Add(blue);
             TeamBlue.Add(blue1);
             TeamRed.Add(new Character(grid, grid.Tiles[6, 5], Character.Teams.Red, CharacterTypePhysical.Warrior, this));

@@ -73,16 +73,17 @@ namespace ASU2019_NetworkedGameWorkshop.model
                     }
                     if( character.Stats[StatusType.Charge]/character.Stats[StatusType.ChargeMax] < 0.9)
                     {
-                        character.DefaultSkill = spells[k];
-                        Spells temp;
-                        temp = character.ActiveSpells[0];
-                        character.ActiveSpells[0] = character.ActiveSpells[k];
-                        character.ActiveSpells[k] = temp;
+                        //character.DefaultSkill = spells[k];
+                        //Spells temp;
+                        //temp = character.ActiveSpells[0];
+                        //character.ActiveSpells[0] = character.ActiveSpells[k];
+                        //character.ActiveSpells[k] = temp;
+                        //if (character.gameManager.CurrentGameStage == StageManager.GameStage.Fight && e.Button == MouseButtons.Left)
+                        //    character.hideSpellUI();
+                        character.upgradeSpell(spells[k]);
                         character.gameManager.removeRangeFromForm(this);
                         character.ChooseSpell = new ChooseSpell(character, character.ActiveSpells);
                         character.gameManager.addRangeToForm(character.ChooseSpell);
-                        if(character.gameManager.CurrentGameStage == StageManager.GameStage.Fight && e.Button == MouseButtons.Left)
-                        character.hideSpellUI();
                     }
                 }
 
