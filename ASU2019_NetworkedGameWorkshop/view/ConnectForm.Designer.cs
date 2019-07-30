@@ -150,7 +150,7 @@
             // 
             this.txt_hostGameName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txt_hostGameName.Location = new System.Drawing.Point(165, 163);
-            this.txt_hostGameName.MaxLength = 5;
+            this.txt_hostGameName.MaxLength = 128;
             this.txt_hostGameName.Name = "txt_hostGameName";
             this.txt_hostGameName.Size = new System.Drawing.Size(280, 26);
             this.txt_hostGameName.TabIndex = 13;
