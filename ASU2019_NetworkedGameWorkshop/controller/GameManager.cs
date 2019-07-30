@@ -1,4 +1,6 @@
-﻿using ASU2019_NetworkedGameWorkshop.model;
+﻿using ASU2019_NetworkedGameWorkshop.controller.networking;
+using ASU2019_NetworkedGameWorkshop.controller.networking.game;
+using ASU2019_NetworkedGameWorkshop.model;
 using ASU2019_NetworkedGameWorkshop.model.character;
 using ASU2019_NetworkedGameWorkshop.model.character.types;
 using ASU2019_NetworkedGameWorkshop.model.grid;
@@ -30,6 +32,9 @@ namespace ASU2019_NetworkedGameWorkshop.controller
         private readonly StageManager stageManager;
         private readonly PlayersLeaderBoard playersLeaderBoard;
         private readonly CharShop charShop;
+        private readonly GameNetworkManager gameNetworkManager;
+        private readonly bool isHost;
+
         private long nextTickTime;
         private bool updateCanvas;
 
@@ -49,8 +54,20 @@ namespace ASU2019_NetworkedGameWorkshop.controller
                 return stageManager.CurrentGameStage;
             }
         }
+        public GameManager(GameForm gameForm, int port) : this(gameForm)
+        {
+            gameNetworkManager = new GameServer(port);
+            isHost = true;
+        }
 
-        public GameManager(GameForm gameForm)
+        public GameManager(GameForm gameForm, string ip, int port) : this(gameForm)
+        {
+
+            gameNetworkManager = new GameClient(ip, port);
+            isHost = false;
+        }
+
+        private GameManager(GameForm gameForm)
         {
             this.gameForm = gameForm;
             grid = new Grid(GRID_WIDTH, GRID_HEIGHT,
@@ -108,8 +125,8 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             blue.learnSpell(Spells.AwesomeFireballRandom[0]);
             TeamBlue.Add(blue);
 
-            string test = NetworkManager.serializeCharacter(blue);
-            NetworkManager.CharStat chSt = NetworkManager.parseCharacter(test);
+            string test = GameNetworkUtilities.serializeCharacter(blue);
+            GameNetworkUtilities.CharStat chSt = GameNetworkUtilities.parseCharacter(test);
             Character blueTest = new Character(grid, grid.Tiles[chSt.X, chSt.Y + 1], Character.Teams.Blue, chSt.charType, this);
             //blueTest.learnSpell(Spells.Heal[0]);
             foreach (var (spell, spellLevel) in chSt.SpellList)
@@ -135,8 +152,10 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             }
         }
 
-        public void startTimer()
+        public void startGame()
         {
+            gameNetworkManager.start();
+
             gameStart();
             timer.Start();
         }
@@ -308,5 +327,4 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             }
         }
     }
-
 }

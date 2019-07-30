@@ -7,14 +7,23 @@ namespace ASU2019_NetworkedGameWorkshop
     {
         private readonly GameManager gameManager;
 
+        public GameForm(int connectedPort) : this()
+        {
+            gameManager = new GameManager(this, connectedPort);
+            gameManager.startGame();
+        }
+
+        public GameForm(string connectedIP, int connectedPort) : this()
+        {
+            gameManager = new GameManager(this, connectedIP, connectedPort);
+            gameManager.startGame();
+        }
+
         public GameForm()
         {
             InitializeComponent();
 
             DoubleBuffered = true;
-
-            gameManager = new GameManager(this);
-            gameManager.startTimer();
         }
 
         private void GameForm_Paint(object sender, PaintEventArgs e)

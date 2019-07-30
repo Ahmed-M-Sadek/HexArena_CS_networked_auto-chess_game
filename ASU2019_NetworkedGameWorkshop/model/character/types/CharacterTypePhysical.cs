@@ -230,7 +230,6 @@ namespace ASU2019_NetworkedGameWorkshop.model.character.types
                     charTypeLevel.Id = ID;
                 }
                 charactersList[ID++] = charType;
-                System.Console.WriteLine(charactersList[ID - 1][0].Name);
             }
         }
 

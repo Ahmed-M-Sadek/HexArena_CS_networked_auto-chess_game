@@ -9,9 +9,9 @@ using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Threading;
 
-namespace ASU2019_NetworkedGameWorkshop.controller
+namespace ASU2019_NetworkedGameWorkshop.controller.networking
 {
-    public class NetworkManager
+    public class GameNetworkUtilities
     {
         public const int DEFAULT_PORT = 47999;
 
@@ -22,7 +22,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
         public static List<string> LocalIP { get; private set; }
         public static List<string> LocalIPBase { get; private set; }
 
-        static NetworkManager()
+        static GameNetworkUtilities()
         {
             LocalIP = new List<string>();
             LocalIPBase = new List<string>();
@@ -41,7 +41,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
         public static Tuple<string, long, string>[] getServersInNetwork(int port)
         {
             ConcurrentBag<Tuple<string, long, string>> activeIPs = new ConcurrentBag<Tuple<string, long, string>>();
-            CountdownEvent countdownEvent = new CountdownEvent((254 * LocalIPBase.Count) + 1);
+            CountdownEvent countdownEvent = new CountdownEvent(254 * LocalIPBase.Count + 1);
             new Thread(new ThreadStart(() =>
             {
                 foreach (string ipBase in LocalIPBase)
@@ -49,7 +49,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
                     for (int i = 1; i < 255; i++)
                     {
                         Ping p = new Ping();
-                        p.PingCompleted += new PingCompletedEventHandler((object sender, PingCompletedEventArgs e) =>
+                        p.PingCompleted += new PingCompletedEventHandler((sender, e) =>
                         {
                             if (e.Reply != null && e.Reply.Status == IPStatus.Success)
                             {
@@ -94,7 +94,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
         /// <returns></returns>
         public static CharStat parseCharacter(string character)
         {
-            String[] tokens = character.Split('#');
+            string[] tokens = character.Split('#');
 
             List<(Spells[], int)> spellList = new List<(Spells[], int)>();
             int spellNum = Convert.ToInt32(tokens[4]);

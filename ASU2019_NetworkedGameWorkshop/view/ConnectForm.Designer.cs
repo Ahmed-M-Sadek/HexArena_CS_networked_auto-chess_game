@@ -285,6 +285,7 @@
             // 
             // btn_lobbyStartGame
             // 
+            this.btn_lobbyStartGame.Enabled = false;
             this.btn_lobbyStartGame.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_lobbyStartGame.Location = new System.Drawing.Point(8, 195);
             this.btn_lobbyStartGame.Name = "btn_lobbyStartGame";
@@ -292,6 +293,7 @@
             this.btn_lobbyStartGame.TabIndex = 13;
             this.btn_lobbyStartGame.Text = "Start Game";
             this.btn_lobbyStartGame.UseVisualStyleBackColor = true;
+            this.btn_lobbyStartGame.Click += new System.EventHandler(this.Btn_lobbyStartGame_Click);
             // 
             // lbx_lobbyPlayerList
             // 

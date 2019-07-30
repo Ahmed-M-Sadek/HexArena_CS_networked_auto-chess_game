@@ -1,5 +1,5 @@
-﻿using ASU2019_NetworkedGameWorkshop.controller;
-using ASU2019_NetworkedGameWorkshop.controller.networking;
+﻿using ASU2019_NetworkedGameWorkshop.controller.networking;
+using ASU2019_NetworkedGameWorkshop.controller.networking.lobby;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -12,12 +12,17 @@ namespace ASU2019_NetworkedGameWorkshop.view
     {
         private readonly List<Tuple<string, long, string>> ips;
 
-        private bool connectedToServer;
+        private bool isConnectedToServer;
         private int lastPortScanned;
 
         public ConcurrentQueue<string> LobbyMembers { get; private set; }
+        public bool StartGame { get; set; }
 
         private Timer timer;
+        private LobbyClient lobbyClient;
+        private LobbyServer lobbyServer;
+        private string connectedIP;
+        private int connectedPort;
 
         public ConnectForm()
         {
@@ -28,9 +33,9 @@ namespace ASU2019_NetworkedGameWorkshop.view
 
         private void ConnectForm_Load(object sender, EventArgs e)
         {
-            txt_connectPort.Text = txt_hostPort.Text = NetworkManager.DEFAULT_PORT.ToString();
-            txt_hostIP.Lines = NetworkManager.LocalIP.ToArray();
-            txt_connectIP.Text = NetworkManager.LocalIPBase[NetworkManager.LocalIPBase.Count - 1];
+            txt_connectPort.Text = txt_hostPort.Text = GameNetworkUtilities.DEFAULT_PORT.ToString();
+            txt_hostIP.Lines = GameNetworkUtilities.LocalIP.ToArray();
+            txt_connectIP.Text = GameNetworkUtilities.LocalIPBase[GameNetworkUtilities.LocalIPBase.Count - 1];
 
             LobbyMembers = new ConcurrentQueue<string>();
 
@@ -50,6 +55,11 @@ namespace ASU2019_NetworkedGameWorkshop.view
                     LobbyMembers.TryDequeue(out string result);
                     lbx_lobbyPlayerList.Items.Add(result);
                 }
+            }
+            //temp
+            if (StartGame)
+            {
+                startGame();
             }
         }
 
@@ -99,7 +109,7 @@ namespace ASU2019_NetworkedGameWorkshop.view
             lbl_connectStatus.Refresh();
 
             lastPortScanned = int.Parse(txt_connectPort.Text);
-            Tuple<string, long, string>[] tuple = NetworkManager.getServersInNetwork(lastPortScanned);
+            Tuple<string, long, string>[] tuple = GameNetworkUtilities.getServersInNetwork(lastPortScanned);
             ips.AddRange(tuple);
             foreach (var (ip, ping, gameName) in tuple)
             {
@@ -122,18 +132,21 @@ namespace ASU2019_NetworkedGameWorkshop.view
 
         private void Btn_host_Click(object sender, EventArgs e)
         {
-            if (!connectedToServer)
-            {
-                connectedToServer = true;
-                tabControl.SelectedTab = tabControl.TabPages[2];
-                disableNewServerOptions();
+            isConnectedToServer = true;
+            tabControl.SelectedTab = tabControl.TabPages[2];
+            disableNewServerOptions();
+            btn_lobbyStartGame.Enabled = true;
 
-                lbx_lobbyPlayerList.Items.Add("Local Player\t(HOST)");
-                setLobbyGameName(txt_hostGameName.Text);
+            connectedIP = null;
+            connectedPort = int.Parse(txt_hostPort.Text);
 
-                new LobbyServer(txt_hostGameName.Text, int.Parse(txt_hostPort.Text), this).startServer();
-                timer.Start();
-            }
+            lbx_lobbyPlayerList.Items.Add("Local Player\t(HOST)");
+            setLobbyGameName(txt_hostGameName.Text);
+
+            lobbyServer = new LobbyServer(txt_hostGameName.Text, connectedPort, this);
+            lobbyServer.startServer();
+            timer.Start();
+
         }
 
         private void disableNewServerOptions()
@@ -145,7 +158,7 @@ namespace ASU2019_NetworkedGameWorkshop.view
 
         private void TabControl_Selecting(object sender, TabControlCancelEventArgs e)
         {
-            if (e.TabPageIndex == 2 && !connectedToServer)
+            if (e.TabPageIndex == 2 && !isConnectedToServer)
             {
                 e.Cancel = true;
                 MessageBox.Show("Please host or join a Lobby first.", "Can't Show Lobby", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -156,21 +169,48 @@ namespace ASU2019_NetworkedGameWorkshop.view
         {
             if (lbx_connectList.SelectedIndex != -1)
             {
-                connectedToServer = true;
+                isConnectedToServer = true;
                 tabControl.SelectedTab = tabControl.TabPages[2];
                 disableNewServerOptions();
 
                 (string ip, _, string gameName) = ips[lbx_connectList.SelectedIndex];
+                connectedIP = ip;
+                connectedPort = lastPortScanned;
                 lbx_lobbyPlayerList.Items.Add("Local Player\t(Local)");
                 setLobbyGameName(gameName);
-                new LobbyClient(ip, lastPortScanned, this).connectToServer();
+                lobbyClient = new LobbyClient(connectedIP, connectedPort, this);
+                lobbyClient.connectToServer();
                 timer.Start();
             }
         }
 
         private void setLobbyGameName(string gameName)
         {
-            lbl_lobbyGameName.Text = "Game Name: " + txt_hostGameName.Text;
+            lbl_lobbyGameName.Text = "Game Name: " + gameName;
+        }
+
+        private void Btn_lobbyStartGame_Click(object sender, EventArgs e)
+        {
+            StartGame = true;
+        }
+
+        private void startGame()
+        {
+            GameForm gameForm;
+            if (lobbyClient == null)
+            {
+                lobbyServer.terminateConnection();
+                gameForm = new GameForm(connectedPort);
+            }
+            else
+            {
+                lobbyClient.terminateConnection();
+                gameForm = new GameForm(connectedIP, connectedPort);
+            }
+            gameForm.FormClosed += (s, args) => Close();
+            gameForm.Show();
+            Hide();
+            timer.Stop();
         }
     }
 }
