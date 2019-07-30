@@ -211,7 +211,7 @@ namespace ASU2019_NetworkedGameWorkshop.view
         private void Btn_manualConnect_Click(object sender, EventArgs e)
         {
             connected();
-            
+
             connectedIP = txt_connectIP.Text;
             connectedPort = int.Parse(txt_connectPort.Text);
             lbx_lobbyPlayerList.Items.Add("Local Player\t(Local)");

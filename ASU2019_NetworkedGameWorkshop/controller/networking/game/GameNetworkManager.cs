@@ -5,7 +5,7 @@ using System.Threading;
 
 namespace ASU2019_NetworkedGameWorkshop.controller.networking.game
 {
-    internal abstract class GameNetworkManager
+    public abstract class GameNetworkManager
     {
         public const char NETWORK_MSG_SEPARATOR = '#';
 

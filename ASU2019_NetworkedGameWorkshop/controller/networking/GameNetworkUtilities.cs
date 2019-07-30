@@ -1,4 +1,5 @@
-﻿using ASU2019_NetworkedGameWorkshop.model.character.types;
+﻿using ASU2019_NetworkedGameWorkshop.model;
+using ASU2019_NetworkedGameWorkshop.model.character.types;
 using ASU2019_NetworkedGameWorkshop.model.spell;
 using System;
 using System.Collections.Concurrent;
@@ -143,6 +144,11 @@ namespace ASU2019_NetworkedGameWorkshop.controller.networking
                 Y = y;
                 SpellList = spellList;
             }
+        }
+
+        internal static string serializePlayerHP(Player player)
+        {
+            return $"{player.Name}#{player.Health}";
         }
 
         public static string serializeCharacterSwap(model.grid.Tile tile, model.grid.Tile selectedTile)

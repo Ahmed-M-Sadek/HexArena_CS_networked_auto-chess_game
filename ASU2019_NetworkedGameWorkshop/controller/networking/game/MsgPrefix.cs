@@ -8,6 +8,10 @@ namespace ASU2019_NetworkedGameWorkshop.controller.networking.game
         NewCharacter,
         [Prefix("SChar")]
         CharacterSwap,
+        [Prefix("PlayerHP")]
+        PlayerHealthUpdate,
+        [Prefix("NPlayer")]
+        NewPlayer,
     }
 
     public static class NetworkMsgPrefixExtensions

@@ -1,4 +1,5 @@
-﻿using ASU2019_NetworkedGameWorkshop.model;
+﻿using ASU2019_NetworkedGameWorkshop.controller.networking.game;
+using ASU2019_NetworkedGameWorkshop.model;
 using ASU2019_NetworkedGameWorkshop.model.character;
 using ASU2019_NetworkedGameWorkshop.model.grid;
 using ASU2019_NetworkedGameWorkshop.model.ui;
@@ -26,6 +27,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
 
         public GameStage CurrentGameStage { get; private set; }
         public int CurrentRound { get; set; }
+        public GameNetworkManager GameNetworkManager { get; set; }
 
         public StageManager(StageTimer stageTimer,
                             List<Character> teamBlue,
@@ -49,6 +51,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             CurrentGameStage = GameStage.Buy;
             CurrentRound = 1;
         }
+
 
         public void switchStage()
         {
@@ -151,6 +154,8 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             }
 
             playersLeaderBoard.update();
+            GameNetworkManager.enqueueMsg(networking.game.NetworkMsgPrefix.PlayerHealthUpdate,
+                                          networking.GameNetworkUtilities.serializePlayerHP(player));
         }
     }
 }
