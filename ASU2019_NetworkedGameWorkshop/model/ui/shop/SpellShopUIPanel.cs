@@ -78,6 +78,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui.shop
                                                                     ClientSize.Width - Shop.BORDER_THICKNESS,
                                                                     ClientSize.Height - Shop.BORDER_THICKNESS));
         }
+
         protected override void OnSizeChanged(EventArgs e)
         {
             base.OnSizeChanged(e);

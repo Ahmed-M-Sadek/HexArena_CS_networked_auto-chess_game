@@ -8,32 +8,33 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui.shop
 {
     class SpellShopPopUP : Panel
     {
-
         private readonly Button btn_upgradeSkill;
         private readonly Button btn_buySkill;
         private readonly GameManager manager;
         private readonly Shop shop;
+        private readonly Label lbl_spellStats;
 
-        private Label lbl_spellStats;
         private bool isNewSpell;
-
         private Character character;
         private Spells spell;
+
         public SpellShopPopUP(GameForm gameForm, GameManager gameManager, Shop shop)
         {
             this.shop = shop;
-            lbl_spellStats = new Label();
-            lbl_spellStats.Dock = DockStyle.Top;
+            lbl_spellStats = new Label
+            {
+                Dock = DockStyle.Top
+            };
             manager = gameManager;
 
             Size = new Size(270, 300);
             Location = new Point((int)(gameForm.Width * 0.55), (int)(gameForm.Height * 0.09));
-            BackColor = Color.White;
             Visible = false;
             Padding = new Padding(10, 10, 10, 10);
             BorderStyle = BorderStyle.FixedSingle;
 
-            BackColor = Color.Gold;
+            BackColor = Color.FromArgb(100, 255, 255, 255);
+            DoubleBuffered = true;
 
             btn_upgradeSkill = new Button
             {
@@ -80,37 +81,24 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui.shop
         {
             lbl_spellStats.Text = spell.ToString();
             lbl_spellStats.AutoSize = true;
+            lbl_spellStats.BackColor = Color.Transparent;
 
             Controls.Add(lbl_spellStats);
         }
+
         public void setParameters(Character selectedCharacter, Spells selectedSpell)
         {
             character = selectedCharacter;
             spell = selectedSpell;
-            if (character.spells.Contains(spell))
-            {
-                isNewSpell = false;
-            }
-            else
-            {
-                isNewSpell = true;
-            }
+            isNewSpell = !character.spells.Contains(spell);
             setButton();
         }
+
         public void setButton()
         {
             showSpellStats(spell);
-            if (isNewSpell)
-            {
-                btn_upgradeSkill.Visible = false;
-                btn_buySkill.Visible = true;
-            }
-            else
-            {
-                btn_buySkill.Visible = false;
-                btn_upgradeSkill.Visible = true;
-            }
-
+            btn_upgradeSkill.Visible = !isNewSpell;
+            btn_buySkill.Visible = isNewSpell;
         }
     }
 }
