@@ -9,6 +9,11 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui.shop
 {
     class Shop
     {
+        public const int BORDER_THICKNESS = 1,
+                         BORDER_HALF_THICKNESS = BORDER_THICKNESS / 2;
+
+        public static readonly Pen BORDER_PEN = new Pen(Color.Black, BORDER_THICKNESS);
+
         private static SpellShopPopUP skillShop;
         private static Button btn_hideSkillShop;
         private static Character selectedCharacter;

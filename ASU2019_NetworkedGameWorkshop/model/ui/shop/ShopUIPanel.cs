@@ -1,6 +1,7 @@
 ﻿using ASU2019_NetworkedGameWorkshop.controller;
 using ASU2019_NetworkedGameWorkshop.model.character;
 using ASU2019_NetworkedGameWorkshop.model.character.types;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -20,9 +21,10 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui.shop
         {
             manager = gameManager;
 
+            DoubleBuffered = true;
             Size = new Size(270, 300);
             Location = new Point((int)(gameForm.Width * 0.78), (int)(gameForm.Height * 0.05));
-            BackColor = Color.White;
+            BackColor = Color.Transparent;
             Visible = true;
             Padding = new Padding(10, 10, 10, 10);
 
@@ -93,6 +95,19 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui.shop
                 string changesResist = selected.Stats[StatusType.MagicResist] != nextLevel[StatusType.MagicResist] ? $"--> {nextLevel[StatusType.MagicResist]}\n" : "\n";
                 lbl_statsChanges.Text = "\n" + changesHP + changesRange + changesDmg + changesSpd + changesArmour + changesResist;
             }
+        }
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+            e.Graphics.DrawRectangle(Shop.BORDER_PEN, new Rectangle(Shop.BORDER_HALF_THICKNESS,
+                                                                    Shop.BORDER_HALF_THICKNESS,
+                                                                    ClientSize.Width - Shop.BORDER_THICKNESS,
+                                                                    ClientSize.Height - Shop.BORDER_THICKNESS));
+        }
+        protected override void OnSizeChanged(EventArgs e)
+        {
+            base.OnSizeChanged(e);
+            Invalidate();
         }
     }
 }

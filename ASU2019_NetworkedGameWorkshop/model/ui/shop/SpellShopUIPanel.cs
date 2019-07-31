@@ -1,5 +1,6 @@
 ﻿using ASU2019_NetworkedGameWorkshop.model.character;
 using ASU2019_NetworkedGameWorkshop.model.spell;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
@@ -16,7 +17,8 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui.shop
         {
             Size = new Size(270, 300);
             Location = new Point((int)(gameForm.Width * 0.78), (int)(gameForm.Height * 0.05));
-            BackColor = Color.White;
+            BackColor = Color.Transparent;
+            DoubleBuffered = true;
             Visible = true;
             Padding = new Padding(10, 10, 10, 10);
             FlowDirection = FlowDirection.TopDown;
@@ -66,6 +68,20 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui.shop
                 Controls.Add(spellLabels[spell]);
             }
             Visible = true;
+        }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+            e.Graphics.DrawRectangle(Shop.BORDER_PEN, new Rectangle(Shop.BORDER_HALF_THICKNESS,
+                                                                    Shop.BORDER_HALF_THICKNESS,
+                                                                    ClientSize.Width - Shop.BORDER_THICKNESS,
+                                                                    ClientSize.Height - Shop.BORDER_THICKNESS));
+        }
+        protected override void OnSizeChanged(EventArgs e)
+        {
+            base.OnSizeChanged(e);
+            Invalidate();
         }
     }
 }
