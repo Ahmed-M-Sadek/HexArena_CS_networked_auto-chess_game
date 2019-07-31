@@ -1,8 +1,10 @@
 ﻿using ASU2019_NetworkedGameWorkshop.model.grid;
 using System.Collections.Generic;
 
-namespace ASU2019_NetworkedGameWorkshop.model.character.types {
-    public abstract class CharacterType {
+namespace ASU2019_NetworkedGameWorkshop.model.character.types
+{
+    public abstract class CharacterType
+    {
         public const float HEIGHT = Tile.HEIGHT / 2f,
             WIDTH = HEIGHT,
             HEIGHT_HALF = HEIGHT / 2f,
@@ -24,16 +26,19 @@ namespace ASU2019_NetworkedGameWorkshop.model.character.types {
                  charge, chargeMax,
                  range,
                  attackDamage, attackSpeed,
-                 armor, magicResist) { }
+                 armor, magicResist)
+        { }
 
         public CharacterType(string name,
             int healthPoints, int healthPointsMax,
             int charge, int chargeMax,
             int range,
             int attackDamage, float attackSpeed,
-            int armor, int magicResist) {
+            int armor, int magicResist)
+        {
             Name = name;
-            stats = new Dictionary<StatusType, int> {
+            stats = new Dictionary<StatusType, int>
+            {
                 [StatusType.Armor] = armor,
                 [StatusType.AttackDamage] = attackDamage,
                 [StatusType.AttackSpeed] = (int)(1000 / attackSpeed),
@@ -46,20 +51,24 @@ namespace ASU2019_NetworkedGameWorkshop.model.character.types {
             };
         }
 
-        public int this[StatusType index] {
+        public int this[StatusType index]
+        {
             get { return stats[index]; }
         }
 
 
-        public Dictionary<StatusType, int> statsCopy() {
+        public Dictionary<StatusType, int> statsCopy()
+        {
             return new Dictionary<StatusType, int>(stats);
         }
 
         /// <summary>
         /// the Values (IEnumerable) of the Classes that inherit from CharacterType.
         /// </summary>
-        public static IEnumerable<IEnumerable<CharacterType[]>> Values {
-            get {
+        public static IEnumerable<IEnumerable<CharacterType[]>> Values
+        {
+            get
+            {
                 yield return CharacterTypePhysical.Values;
                 yield return CharacterTypeMagical.Values;
             }
@@ -69,7 +78,8 @@ namespace ASU2019_NetworkedGameWorkshop.model.character.types {
         /// String representation of the instance
         /// </summary>
         /// <returns>Character's name</returns>
-        public override string ToString() {
+        public override string ToString()
+        {
             return Name;
         }
     }

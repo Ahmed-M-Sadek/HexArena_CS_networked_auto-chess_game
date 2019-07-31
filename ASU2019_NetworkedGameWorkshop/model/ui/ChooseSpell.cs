@@ -5,8 +5,10 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace ASU2019_NetworkedGameWorkshop.model {
-    public class ChooseSpell : Panel {
+namespace ASU2019_NetworkedGameWorkshop.model
+{
+    public class ChooseSpell : Panel
+    {
         private const float WIDTH = Tile.WIDTH - 30 * 2,
             WIDTH_HALF = WIDTH / 2f,
             height = 8;
@@ -23,15 +25,18 @@ namespace ASU2019_NetworkedGameWorkshop.model {
         private readonly float offsetY;
         private readonly float backOffsetY;
 
-        public ChooseSpell(Character character, List<Spells> spells) {
+        public ChooseSpell(Character character, List<Spells> spells)
+        {
             BackColor = Color.White;
             this.character = character;
             offsetY = -Tile.HALF_HEIGHT - 1 * BACK_HEIGHT + HEX_OFFSET_Y;
             backOffsetY = offsetY - (BACK_OFFSET_Y / 2f);
             Size = new Size((int)BACK_WIDTH, (int)BACK_HEIGHT);
             Location = new Point((int)(character.CurrentTile.centerX - BACK_OFFSET_X), (int)(character.CurrentTile.centerY + backOffsetY));
-            for (int i = 0; i < spells.Count; i++) {
-                PictureBox pics = new PictureBox {
+            for (int i = 0; i < spells.Count; i++)
+            {
+                PictureBox pics = new PictureBox
+                {
                     Image = spells[i].Image,
                     Size = new Size(IMAGE_SIZE, IMAGE_SIZE),
                     SizeMode = PictureBoxSizeMode.StretchImage,
@@ -43,8 +48,10 @@ namespace ASU2019_NetworkedGameWorkshop.model {
             }
         }
 
-        private MouseEventHandler mouseEvent(List<Spells> spells, int k) {
-            return (sender, e) => {
+        private MouseEventHandler mouseEvent(List<Spells> spells, int k)
+        {
+            return (sender, e) =>
+            {
                 character.gameManager.removeRangeFromForm(this);
                 character.SpellReady = false;
                 character.resetMana();

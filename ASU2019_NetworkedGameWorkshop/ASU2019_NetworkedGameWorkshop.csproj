@@ -66,14 +66,14 @@
     <Compile Include="model\grid\Grid.cs" />
     <Compile Include="model\grid\Tile.cs" />
     <Compile Include="model\Player.cs" />
-    <Compile Include="model\Shop\Shop.cs" />
-    <Compile Include="model\Shop\ShopUIPanel.cs">
+    <Compile Include="model\ui\shop\Shop.cs" />
+    <Compile Include="model\ui\shop\ShopUIPanel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="model\Shop\SpellShopPopUP.cs">
+    <Compile Include="model\ui\shop\SpellShopPopUP.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="model\Shop\SpellShopUIPanel.cs">
+    <Compile Include="model\ui\shop\SpellShopUIPanel.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="model\spell\Spells.cs" />
@@ -84,9 +84,9 @@
     <Compile Include="model\ui\ChooseSpell.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="model\ui\shop\CharShop.cs" />
+    <Compile Include="model\ui\shop\charactershop\CharShop.cs" />
     <Compile Include="model\ui\PlayersLeaderBoard.cs" />
-    <Compile Include="model\ui\shop\ShopButton.cs">
+    <Compile Include="model\ui\shop\charactershop\ShopButton.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="model\ui\StageTimer.cs" />

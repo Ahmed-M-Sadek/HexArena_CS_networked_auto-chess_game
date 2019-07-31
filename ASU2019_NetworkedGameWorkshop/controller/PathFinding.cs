@@ -7,8 +7,10 @@ using System.Linq;
 using System.Runtime.Serialization;
 
 
-namespace ASU2019_NetworkedGameWorkshop.controller {
-    public class PathFinding {
+namespace ASU2019_NetworkedGameWorkshop.controller
+{
+    public class PathFinding
+    {
 
         private PathFinding() { }
 
@@ -20,87 +22,109 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
         /// <param name="grid"></param>
         /// <returns></returns>
         /// <exception cref="PathNotFoundException">if a path to a target was not found.</exception>
-        internal static Tuple<List<Tile>, Character> findPathToClosestEnemy(Tile currentTile, Character.Teams team, Grid grid, GameManager gameManager) {
+        internal static Tuple<List<Tile>, Character> findPathToClosestEnemy(Tile currentTile, Character.Teams team, Grid grid, GameManager gameManager)
+        {
             List<Character> enemyList = (team == Character.Teams.Red) ? gameManager.TeamBlue : gameManager.TeamRed;
             Character closestEnemy = null;
             List<Tile> shortestPath = null;
 
             Tile[,] tilesClone = (Tile[,])grid.Tiles.Clone();
 
-            foreach (Character enemy in enemyList.Where(en => !en.IsDead)) {
+            foreach (Character enemy in enemyList.Where(en => !en.IsDead))
+            {
                 List<Tile> path;
 
-                try {
+                try
+                {
                     path = findPath(currentTile, enemy.CurrentTile, grid, tilesClone);
-                } catch (PathNotFoundException) {
+                }
+                catch (PathNotFoundException)
+                {
                     continue;
                 }
 
-                if (shortestPath == null) {
+                if (shortestPath == null)
+                {
                     shortestPath = path;
                     closestEnemy = enemy;
-                } else {
+                }
+                else
+                {
                     (closestEnemy, shortestPath) = shortestPath.Count <= path.Count ? (closestEnemy, shortestPath) : (enemy, path);
                 }
             }
 
-            if (shortestPath == null) {
+            if (shortestPath == null)
+            {
                 throw new PathNotFoundException();
             }
             return Tuple.Create(shortestPath, closestEnemy);
         }
 
 
-        internal static Character findClosestEnemy(Tile currentTile, List<Character> team, Grid grid, int range, GameManager gameManager) {
+        internal static Character findClosestEnemy(Tile currentTile, List<Character> team, Grid grid, int range, GameManager gameManager)
+        {
             List<Character> enemyList = team;
             Character closestEnemy = null;
             int? shortestDist = null;
 
-            foreach (Character enemy in enemyList.Where(en => !en.IsDead)) {
-                if (enemy.CurrentTile == currentTile) {
+            foreach (Character enemy in enemyList.Where(en => !en.IsDead))
+            {
+                if (enemy.CurrentTile == currentTile)
+                {
                     continue;
                 }
                 if (getDistance(currentTile, enemy.CurrentTile) > range) continue;
                 int dist;
 
-                try {
+                try
+                {
                     dist = getDistance(currentTile, enemy.CurrentTile);
-                } catch (PathNotFoundException) {
+                }
+                catch (PathNotFoundException)
+                {
                     continue;
                 }
 
-                if (shortestDist == null) {
+                if (shortestDist == null)
+                {
                     shortestDist = dist;
                     closestEnemy = enemy;
                 }
             }
 
 
-            if (shortestDist == null) {
+            if (shortestDist == null)
+            {
                 throw new PathNotFoundException();
             }
             return closestEnemy;
         }
 
         /// <exception cref="PathNotFoundException">if a path to a target was not found.</exception>
-        public static List<Tile> findPath(Tile startTile, Tile endTile, Grid grid, Tile[,] tilesClone) {
+        public static List<Tile> findPath(Tile startTile, Tile endTile, Grid grid, Tile[,] tilesClone)
+        {
             Heap<Tile> openSet = new Heap<Tile>(grid.MaxSize);
             HashSet<Tile> closedSet = new HashSet<Tile>();
             openSet.Add(tilesClone[startTile.X, startTile.Y]);
 
-            while (openSet.Count > 0) {
+            while (openSet.Count > 0)
+            {
                 Tile currentTile = openSet.RemoveFirst();
 
                 closedSet.Add(currentTile);
-                if (currentTile.Equals(endTile)) {
+                if (currentTile.Equals(endTile))
+                {
                     return retracePath(startTile, currentTile, grid);
                 }
-                foreach (Tile neighbour in grid.getNeighbours(currentTile, tilesClone)) {
+                foreach (Tile neighbour in grid.getNeighbours(currentTile, tilesClone))
+                {
                     if (closedSet.Contains(neighbour) || !(neighbour.Walkable || neighbour.Equals(endTile)))
                         continue;
 
                     int newNeighbourCost = currentTile.Gcost + getDistance(currentTile, neighbour);
-                    if (newNeighbourCost < neighbour.Gcost || !openSet.Contains(neighbour)) {
+                    if (newNeighbourCost < neighbour.Gcost || !openSet.Contains(neighbour))
+                    {
                         neighbour.Gcost = newNeighbourCost;
                         neighbour.Hcost = getDistance(neighbour, endTile);
                         neighbour.Parent = currentTile;
@@ -115,11 +139,13 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
             throw new PathNotFoundException();
         }
 
-        private static List<Tile> retracePath(Tile startTile, Tile endTile, Grid grid) {
+        private static List<Tile> retracePath(Tile startTile, Tile endTile, Grid grid)
+        {
             List<Tile> path = new List<Tile>();
             Tile currentTile = endTile;
 
-            while (!currentTile.Equals(startTile)) {
+            while (!currentTile.Equals(startTile))
+            {
                 Tile currentGridTile = grid.Tiles[currentTile.X, currentTile.Y];
                 currentGridTile.InPath = true;
                 path.Add(currentGridTile);
@@ -130,7 +156,8 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
             return path;
         }
 
-        public static int getDistance(Tile start, Tile dest) {
+        public static int getDistance(Tile start, Tile dest)
+        {
             Cube startCube = oddrToCube(start);
             Cube destCube = oddrToCube(dest);
             return Math.Max(Math.Abs(startCube.X - destCube.X),
@@ -138,7 +165,8 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
                                      Math.Abs(startCube.Z - destCube.Z)));
         }
 
-        private static Cube oddrToCube(Tile tile) {
+        private static Cube oddrToCube(Tile tile)
+        {
             var x = tile.X - (tile.Y - (tile.Y & 1)) / 2;
             var z = tile.Y;
             var y = -x - z;
@@ -146,12 +174,14 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
         }
 
 
-        private struct Cube {
+        private struct Cube
+        {
             public int X;
             public int Y;
             public int Z;
 
-            public Cube(int x, int y, int z) {
+            public Cube(int x, int y, int z)
+            {
                 X = x;
                 Y = y;
                 Z = z;
@@ -159,7 +189,8 @@ namespace ASU2019_NetworkedGameWorkshop.controller {
         }
 
         [Serializable]
-        public class PathNotFoundException : Exception {
+        public class PathNotFoundException : Exception
+        {
             public PathNotFoundException() { }
             public PathNotFoundException(string message) : base(message) { }
             public PathNotFoundException(string message, Exception innerException) : base(message, innerException) { }
