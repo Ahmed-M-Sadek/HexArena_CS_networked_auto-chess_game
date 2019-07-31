@@ -64,7 +64,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui.shop
             {
                 character.learnSpell(spell);
                 Visible = false;
-                Shop.spellShopView.ShowSpells(manager.SelectedTile.CurrentCharacter);
+                shop.spellShopView.ShowSpells(manager.SelectedTile.CurrentCharacter);
             }
         }
 

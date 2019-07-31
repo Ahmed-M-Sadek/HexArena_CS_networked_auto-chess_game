@@ -1,11 +1,9 @@
 ﻿using ASU2019_NetworkedGameWorkshop.model.character;
 using ASU2019_NetworkedGameWorkshop.model.spell.types;
-using ASU2019_NetworkedGameWorkshop.model.ui.shop;
 using ASU2019_NetworkedGameWorkshop.Properties;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Windows.Forms;
 
 namespace ASU2019_NetworkedGameWorkshop.model.spell
 {
@@ -58,8 +56,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell
         public Target Target { get; private set; }
         public SpellType SpellType { get; private set; }
         public Image Image { get; private set; }
-        public string name { get; private set; }
-        public Label lbl_spell { get; private set; }
+        public string Name { get; private set; }
 
         public Spells(int abilityValue, Target target, SpellType spellType, Image image, string spellName)
         {
@@ -67,19 +64,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell
             Target = target;
             SpellType = spellType;
             Image = image;
-            name = spellName;
-
-            lbl_spell = new Label();
-            lbl_spell.Text = name;
-            lbl_spell.AutoSize = true;
-            lbl_spell.Font = new Font("Arial", 10, FontStyle.Bold);
-            lbl_spell.MouseClick += buySpell_click;
-        }
-
-        private void buySpell_click(object sender, MouseEventArgs e)
-        {
-            Shop.selectedSpell = this;
-            Shop.viewSkillShop();
+            Name = spellName;
         }
 
         private List<Character> specifyTargets(Character caster)
@@ -94,7 +79,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell
         }
         public override String ToString()
         {
-            return $"{name}\nType -> {SpellType.Name} : {AbilityValue}";
+            return $"{Name}\nType -> {SpellType.Name} : {AbilityValue}";
         }
     }
 }

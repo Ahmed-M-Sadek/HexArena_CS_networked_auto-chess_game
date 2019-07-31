@@ -63,6 +63,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             TeamRed = new List<Character>();
 
             Player = new Player("Local", true);
+            Player.Gold += 50;
             //Debugging
             Player playertemp1 = new Player("NoobMaster 1")
             {

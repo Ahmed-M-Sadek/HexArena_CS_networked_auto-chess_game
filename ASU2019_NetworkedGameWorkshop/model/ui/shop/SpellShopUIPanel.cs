@@ -1,5 +1,6 @@
 ﻿using ASU2019_NetworkedGameWorkshop.model.character;
 using ASU2019_NetworkedGameWorkshop.model.spell;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -8,7 +9,10 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui.shop
     class SpellShopUIPanel : FlowLayoutPanel
     {
         private readonly Button btn_hide;
-        public SpellShopUIPanel(GameForm gameForm)
+        private readonly Dictionary<Spells, Label> spellLabels;
+        private readonly Shop shop;
+
+        public SpellShopUIPanel(GameForm gameForm, Shop shop)
         {
             Size = new Size(270, 300);
             Location = new Point((int)(gameForm.Width * 0.78), (int)(gameForm.Height * 0.05));
@@ -18,18 +22,38 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui.shop
             FlowDirection = FlowDirection.TopDown;
             AutoScroll = true;
 
-            btn_hide = new Button();
-            btn_hide.Size = new Size(20, 20);
-            btn_hide.Text = "X";
+            btn_hide = new Button
+            {
+                Text = "Back"
+            };
             btn_hide.MouseClick += hideBtn_click;
 
             gameForm.Controls.Add(this);
+
+            spellLabels = new Dictionary<Spells, Label>();
+            foreach (Spells spell in Spells.Values)
+            {
+                Label label = new Label
+                {
+                    Text = spell.Name,
+                    AutoSize = true,
+                    Font = new Font("Arial", 10, FontStyle.Bold)
+                };
+                label.MouseClick += (sender, e) =>
+                {
+                    shop.SelectedSpell = spell;
+                    shop.viewSkillShop();
+                };
+                spellLabels.Add(spell, label);
+            }
+
+            this.shop = shop;
         }
 
         private void hideBtn_click(object sender, MouseEventArgs e)
         {
             Visible = false;
-            Shop.SelectedCharacterView.Visible = true;
+            shop.SelectedCharacterView.Visible = true;
         }
 
         public void ShowSpells(Character selectedChar)
@@ -38,15 +62,8 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui.shop
             Controls.Add(btn_hide);
             foreach (Spells spell in Spells.Values)
             {
-                if (selectedChar.spells.Contains(spell))
-                {
-                    spell.lbl_spell.ForeColor = Color.MediumSeaGreen;
-                }
-                else
-                {
-                    spell.lbl_spell.ForeColor = Color.OrangeRed;
-                }
-                Controls.Add(spell.lbl_spell);
+                spellLabels[spell].ForeColor = selectedChar.spells.Contains(spell) ? Color.MediumSeaGreen : Color.OrangeRed;
+                Controls.Add(spellLabels[spell]);
             }
             Visible = true;
         }
