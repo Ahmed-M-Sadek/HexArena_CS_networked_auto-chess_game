@@ -23,6 +23,7 @@ namespace ASU2019_NetworkedGameWorkshop.view
         private LobbyServer lobbyServer;
         private string connectedIP;
         private int connectedPort;
+        private string playerName;
 
         public ConnectForm()
         {
@@ -139,10 +140,11 @@ namespace ASU2019_NetworkedGameWorkshop.view
             connectedIP = null;
             connectedPort = int.Parse(txt_hostPort.Text);
 
-            lbx_lobbyPlayerList.Items.Add($"{txt_hostPlayerName.Text}\t\t(HOST)");
+            playerName = txt_hostPlayerName.Text;
+            lbx_lobbyPlayerList.Items.Add($"{playerName}\t\t(HOST)");
             setLobbyGameName(txt_hostGameName.Text);
 
-            lobbyServer = new LobbyServer(txt_hostGameName.Text, connectedPort, this, txt_hostPlayerName.Text);
+            lobbyServer = new LobbyServer(txt_hostGameName.Text, connectedPort, this, playerName);
             lobbyServer.startServer();
 
         }
@@ -175,9 +177,10 @@ namespace ASU2019_NetworkedGameWorkshop.view
                 GameNetworkUtilities.ServerStats serverStats = ips[lbx_connectList.SelectedIndex];
                 connectedIP = serverStats.Ip;
                 connectedPort = lastPortScanned;
-                lbx_lobbyPlayerList.Items.Add($"{txt_connectPlayerName.Text}\t\t(Local)");
+                playerName = txt_connectPlayerName.Text;
+                lbx_lobbyPlayerList.Items.Add($"{playerName}\t\t(Local)");
                 setLobbyGameName(serverStats.GameName);
-                lobbyClient = new LobbyClient(connectedIP, connectedPort, this, txt_connectPlayerName.Text);
+                lobbyClient = new LobbyClient(connectedIP, connectedPort, this, playerName);
                 lobbyClient.connectToServer();
             }
         }
@@ -198,12 +201,12 @@ namespace ASU2019_NetworkedGameWorkshop.view
             if (lobbyClient == null)
             {
                 lobbyServer.terminateConnection();
-                gameForm = new GameForm(connectedPort);
+                gameForm = new GameForm(playerName, connectedPort);
             }
             else
             {
                 lobbyClient.terminateConnection();
-                gameForm = new GameForm(connectedIP, connectedPort);
+                gameForm = new GameForm(playerName, connectedIP, connectedPort);
             }
             gameForm.FormClosed += (s, args) => Close();
             gameForm.Show();
@@ -227,9 +230,10 @@ namespace ASU2019_NetworkedGameWorkshop.view
             else
             {
                 connected();
-                lbx_lobbyPlayerList.Items.Add($"{txt_connectPlayerName.Text}\t\t(Local)");
+                playerName = txt_connectPlayerName.Text;
+                lbx_lobbyPlayerList.Items.Add($"{playerName}\t\t(Local)");
                 setLobbyGameName(serverStats.GameName);
-                lobbyClient = new LobbyClient(connectedIP, connectedPort, this, txt_connectPlayerName.Text);
+                lobbyClient = new LobbyClient(connectedIP, connectedPort, this, playerName);
                 lobbyClient.connectToServer();
             }
 

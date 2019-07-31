@@ -56,7 +56,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
 
         public bool IsHost { get; }
 
-        public GameManager(GameForm gameForm, int port) : this(gameForm)
+        public GameManager(GameForm gameForm, string playerName, int port) : this(gameForm, playerName)
         {
             gameNetworkManager = new GameServer(port);
             IsHost = true;
@@ -64,7 +64,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             stageManager.GameNetworkManager = gameNetworkManager;
         }
 
-        public GameManager(GameForm gameForm, string ip, int port) : this(gameForm)
+        public GameManager(GameForm gameForm, string playerName, string ip, int port) : this(gameForm, playerName)
         {
 
             gameNetworkManager = new GameClient(ip, port);
@@ -73,7 +73,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             stageManager.GameNetworkManager = gameNetworkManager;
         }
 
-        private GameManager(GameForm gameForm)
+        private GameManager(GameForm gameForm, string playerName)
         {
             this.gameForm = gameForm;
             grid = new Grid(GRID_WIDTH, GRID_HEIGHT,
@@ -84,7 +84,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             TeamBlue = new List<Character>();
             TeamRed = new List<Character>();
 
-            Player = new Player(GameNetworkUtilities.LocalIP[0], true);
+            Player = new Player(playerName, true);
             Player.Gold = 50;//debugging
 
             otherPlayers = new List<Player>();
