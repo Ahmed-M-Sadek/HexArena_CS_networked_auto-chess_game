@@ -18,6 +18,8 @@ namespace ASU2019_NetworkedGameWorkshop.controller.networking
 
         private const int PING_TIMEOUT = 999;
 
+        public static readonly ServerStats INVALID_SERVER = new ServerStats("INVALID_SERVER", -1, "INVALID_SERVER", "INVALID_SERVER");
+
         private static readonly TimeSpan PORT_CHECK_TIMEOUT = TimeSpan.FromSeconds(1);
 
         public static List<string> LocalIP { get; private set; }
@@ -39,9 +41,9 @@ namespace ASU2019_NetworkedGameWorkshop.controller.networking
             }
         }
 
-        public static Tuple<string, long, string>[] getServersInNetwork(int port)
+        public static ServerStats[] getServersInNetwork(int port)
         {
-            ConcurrentBag<Tuple<string, long, string>> activeIPs = new ConcurrentBag<Tuple<string, long, string>>();
+            ConcurrentBag<ServerStats> activeIPs = new ConcurrentBag<ServerStats>();
             CountdownEvent countdownEvent = new CountdownEvent(254 * LocalIPBase.Count + 1);
             new Thread(new ThreadStart(() =>
             {
@@ -66,7 +68,8 @@ namespace ASU2019_NetworkedGameWorkshop.controller.networking
                                             {
                                                 streamWriter.WriteLine("PING");
                                                 streamWriter.Flush();
-                                                activeIPs.Add(Tuple.Create((string)e.UserState, e.Reply.RoundtripTime, streamReader.ReadLine()));
+                                                string[] serverReply = streamReader.ReadLine().Split(game.GameNetworkManager.NETWORK_MSG_SEPARATOR);
+                                                activeIPs.Add(new ServerStats((string)e.UserState, e.Reply.RoundtripTime, serverReply[0], serverReply[1]));
                                                 client.EndConnect(asyncResult);
                                             }
                                         }
@@ -84,6 +87,46 @@ namespace ASU2019_NetworkedGameWorkshop.controller.networking
             countdownEvent.Signal();
             countdownEvent.Wait();
             return activeIPs.ToArray();
+        }
+        /// <summary>
+        /// Attempts to ping a given ip on a given port.
+        /// <para>returns GameNetworkUtilities.INVALID_SERVER incase of failure.</para>
+        /// </summary>
+        /// <param name="ip">IP to ping.</param>
+        /// <param name="port">the ip's open port to ping.</param>
+        /// <returns>ServerStats of the server or GameNetworkUtilities.INVALID_SERVER incase of failure.</returns>
+        public static ServerStats pingIP(string ip, int port)
+        {
+            ServerStats serverStats = INVALID_SERVER;
+
+            using (Ping ping = new Ping())
+            {
+                PingReply pingReply = ping.Send(ip, PING_TIMEOUT);
+                if (pingReply != null && pingReply.Status == IPStatus.Success)
+                {
+                    try
+                    {
+                        using (var client = new TcpClient())
+                        {
+                            IAsyncResult asyncResult = client.BeginConnect(ip, port, null, null);
+                            if (asyncResult.AsyncWaitHandle.WaitOne(PORT_CHECK_TIMEOUT))
+                            {
+                                using (StreamWriter streamWriter = new StreamWriter(client.GetStream()))
+                                using (StreamReader streamReader = new StreamReader(client.GetStream()))
+                                {
+                                    streamWriter.WriteLine("PING");
+                                    streamWriter.Flush();
+                                    string[] serverReply = streamReader.ReadLine().Split(game.GameNetworkManager.NETWORK_MSG_SEPARATOR);
+                                    client.EndConnect(asyncResult);
+                                    serverStats = new ServerStats(ip, pingReply.RoundtripTime, serverReply[0], serverReply[1]);
+                                }
+                            }
+                        }
+                    }
+                    catch (SocketException) { }
+                }
+            }
+            return serverStats;
         }
 
         /// <summary>
@@ -160,6 +203,22 @@ namespace ASU2019_NetworkedGameWorkshop.controller.networking
         {
             return Tuple.Create(grid.Tiles[int.Parse(msg[1]), int.Parse(msg[2])],
                 grid.Tiles[int.Parse(msg[3]), int.Parse(msg[4])]);
+        }
+
+        public struct ServerStats
+        {
+            public ServerStats(string ip, long ping, string gameName, string hostPlayerName)
+            {
+                Ping = ping;
+                GameName = gameName;
+                Ip = ip;
+                HostPlayerName = hostPlayerName;
+            }
+
+            public long Ping { get; set; }
+            public string GameName { get; set; }
+            public string Ip { get; set; }
+            public string HostPlayerName { get; set; }
         }
     }
 }

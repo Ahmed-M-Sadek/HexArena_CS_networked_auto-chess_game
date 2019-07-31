@@ -12,16 +12,18 @@ namespace ASU2019_NetworkedGameWorkshop.controller.networking.lobby
         private readonly string ip;
         private readonly int port;
         private readonly ConnectForm connectForm;
+        private readonly string playerName;
         private readonly List<Thread> threads;
 
         private TcpClient tcpClient;
         private bool terminated;
 
-        public LobbyClient(string ip, int port, ConnectForm connectForm)
+        public LobbyClient(string ip, int port, ConnectForm connectForm, string playerName)
         {
             this.ip = ip;
             this.port = port;
             this.connectForm = connectForm;
+            this.playerName = playerName;
             terminated = false;
             threads = new List<Thread>();
         }
@@ -43,21 +45,22 @@ namespace ASU2019_NetworkedGameWorkshop.controller.networking.lobby
             using (StreamWriter streamWriter = new StreamWriter(tcpClient.GetStream()))
             {
                 streamWriter.WriteLine("LOBBY");
+                streamWriter.WriteLine(playerName);
                 streamWriter.Flush();
 
                 string clientIP = ((IPEndPoint)tcpClient.Client.RemoteEndPoint).Address.ToString();
                 clientIP = clientIP.Substring(clientIP.LastIndexOf(':') + 1);
-                connectForm.LobbyMembers.Enqueue($"{clientIP}\t(HOST)");
+                connectForm.LobbyMembers.Enqueue($"{streamReader.ReadLine()}\t({clientIP})\t(HOST)");
 
                 while (!terminated)
                 {
                     string fullMsg = streamReader.ReadLine();
                     if (fullMsg != null)
                     {
-                        string[] msg = fullMsg.Split('#');
+                        string[] msg = fullMsg.Split(game.GameNetworkManager.NETWORK_MSG_SEPARATOR);
                         if (msg[0].Equals("MEMBER"))
                         {
-                            connectForm.LobbyMembers.Enqueue(msg[1]);
+                            connectForm.LobbyMembers.Enqueue($"{msg[2]}\t({msg[1]})");
                         }
                         else if (msg[0].Equals("STARTGAME"))
                         {

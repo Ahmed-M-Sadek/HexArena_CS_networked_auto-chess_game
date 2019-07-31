@@ -12,6 +12,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller.networking.lobby
         private readonly string gameName;
         private readonly int port;
         private readonly ConnectForm connectForm;
+        private readonly string playerName;
         private readonly List<Thread> threads;
 
         private bool terminated;
@@ -20,12 +21,12 @@ namespace ASU2019_NetworkedGameWorkshop.controller.networking.lobby
 
         public List<string> ConnectedIPs { get; }
 
-        public LobbyServer(string gameName, int port, ConnectForm connectForm)
+        public LobbyServer(string gameName, int port, ConnectForm connectForm, string playerName)
         {
             this.gameName = gameName;
             this.port = port;
             this.connectForm = connectForm;
-
+            this.playerName = playerName;
             ConnectedIPs = new List<string>();
             threads = new List<Thread>();
             terminated = false;
@@ -73,16 +74,19 @@ namespace ASU2019_NetworkedGameWorkshop.controller.networking.lobby
                 using (StreamWriter streamWriter = new StreamWriter(tcpClient.GetStream()))
                 using (StreamReader streamReader = new StreamReader(tcpClient.GetStream()))
                 {
-                    if (streamReader.ReadLine().Equals("PING"))
+                    string connectionType = streamReader.ReadLine();
+                    if (connectionType.Equals("PING"))
                     {
-                        streamWriter.WriteLine(gameName);
+                        streamWriter.WriteLine(gameName + game.GameNetworkManager.NETWORK_MSG_SEPARATOR + playerName);
                         streamWriter.Flush();
                     }
-                    else
+                    else if (connectionType.Equals("LOBBY"))
                     {
+                        streamWriter.WriteLine(playerName);
                         string clientIP = ((IPEndPoint)tcpClient.Client.RemoteEndPoint).Address.ToString();
                         clientIP = clientIP.Substring(clientIP.LastIndexOf(':') + 1);
-                        connectForm.LobbyMembers.Enqueue(clientIP);
+                        string remotePlayerName = streamReader.ReadLine();
+                        connectForm.LobbyMembers.Enqueue($"{remotePlayerName}\t({clientIP})");
 
                         foreach (string ip in ConnectedIPs)
                         {
@@ -92,7 +96,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller.networking.lobby
 
                         lock (lockObject)
                         {
-                            ConnectedIPs.Add(clientIP);
+                            ConnectedIPs.Add(clientIP + game.GameNetworkManager.NETWORK_MSG_SEPARATOR + remotePlayerName);
                         }
 
                         int currentDevicesCount = ConnectedIPs.Count;

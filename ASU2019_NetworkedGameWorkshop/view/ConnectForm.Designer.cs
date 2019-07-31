@@ -31,6 +31,8 @@
             this.btn_connect = new System.Windows.Forms.Button();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPageHost = new System.Windows.Forms.TabPage();
+            this.txt_hostPlayerName = new System.Windows.Forms.TextBox();
+            this.lbl_hostPlayerName = new System.Windows.Forms.Label();
             this.txt_hostGameName = new System.Windows.Forms.TextBox();
             this.lbl_hostGameName = new System.Windows.Forms.Label();
             this.txt_hostIP = new System.Windows.Forms.TextBox();
@@ -45,6 +47,8 @@
             this.lbl_lobbyGameName = new System.Windows.Forms.Label();
             this.btn_lobbyStartGame = new System.Windows.Forms.Button();
             this.lbx_lobbyPlayerList = new System.Windows.Forms.ListBox();
+            this.txt_connectPlayerName = new System.Windows.Forms.TextBox();
+            this.lbl_connectPlayerName = new System.Windows.Forms.Label();
             this.tabControl.SuspendLayout();
             this.tabPageHost.SuspendLayout();
             this.tabPageConnect.SuspendLayout();
@@ -75,7 +79,7 @@
             // btn_host
             // 
             this.btn_host.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_host.Location = new System.Drawing.Point(165, 195);
+            this.btn_host.Location = new System.Drawing.Point(165, 160);
             this.btn_host.Name = "btn_host";
             this.btn_host.Size = new System.Drawing.Size(280, 28);
             this.btn_host.TabIndex = 3;
@@ -131,6 +135,8 @@
             // 
             // tabPageHost
             // 
+            this.tabPageHost.Controls.Add(this.txt_hostPlayerName);
+            this.tabPageHost.Controls.Add(this.lbl_hostPlayerName);
             this.tabPageHost.Controls.Add(this.txt_hostGameName);
             this.tabPageHost.Controls.Add(this.lbl_hostGameName);
             this.tabPageHost.Controls.Add(this.txt_hostIP);
@@ -146,10 +152,30 @@
             this.tabPageHost.Text = "Host";
             this.tabPageHost.UseVisualStyleBackColor = true;
             // 
+            // txt_hostPlayerName
+            // 
+            this.txt_hostPlayerName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txt_hostPlayerName.Location = new System.Drawing.Point(167, 197);
+            this.txt_hostPlayerName.MaxLength = 128;
+            this.txt_hostPlayerName.Name = "txt_hostPlayerName";
+            this.txt_hostPlayerName.Size = new System.Drawing.Size(280, 26);
+            this.txt_hostPlayerName.TabIndex = 15;
+            this.txt_hostPlayerName.Text = "Player";
+            // 
+            // lbl_hostPlayerName
+            // 
+            this.lbl_hostPlayerName.AutoSize = true;
+            this.lbl_hostPlayerName.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_hostPlayerName.Location = new System.Drawing.Point(10, 197);
+            this.lbl_hostPlayerName.Name = "lbl_hostPlayerName";
+            this.lbl_hostPlayerName.Size = new System.Drawing.Size(128, 24);
+            this.lbl_hostPlayerName.TabIndex = 14;
+            this.lbl_hostPlayerName.Text = "Player Name: ";
+            // 
             // txt_hostGameName
             // 
             this.txt_hostGameName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txt_hostGameName.Location = new System.Drawing.Point(165, 163);
+            this.txt_hostGameName.Location = new System.Drawing.Point(165, 128);
             this.txt_hostGameName.MaxLength = 128;
             this.txt_hostGameName.Name = "txt_hostGameName";
             this.txt_hostGameName.Size = new System.Drawing.Size(280, 26);
@@ -160,7 +186,7 @@
             // 
             this.lbl_hostGameName.AutoSize = true;
             this.lbl_hostGameName.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_hostGameName.Location = new System.Drawing.Point(8, 163);
+            this.lbl_hostGameName.Location = new System.Drawing.Point(8, 128);
             this.lbl_hostGameName.Name = "lbl_hostGameName";
             this.lbl_hostGameName.Size = new System.Drawing.Size(119, 24);
             this.lbl_hostGameName.TabIndex = 12;
@@ -175,7 +201,7 @@
             this.txt_hostIP.Name = "txt_hostIP";
             this.txt_hostIP.ReadOnly = true;
             this.txt_hostIP.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txt_hostIP.Size = new System.Drawing.Size(280, 113);
+            this.txt_hostIP.Size = new System.Drawing.Size(280, 78);
             this.txt_hostIP.TabIndex = 11;
             this.txt_hostIP.TabStop = false;
             this.txt_hostIP.Text = "192.168.XXX.XXX";
@@ -183,7 +209,7 @@
             // txt_hostPort
             // 
             this.txt_hostPort.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txt_hostPort.Location = new System.Drawing.Point(165, 131);
+            this.txt_hostPort.Location = new System.Drawing.Point(165, 96);
             this.txt_hostPort.MaxLength = 5;
             this.txt_hostPort.Name = "txt_hostPort";
             this.txt_hostPort.Size = new System.Drawing.Size(280, 26);
@@ -195,7 +221,7 @@
             // 
             this.lbl_hostPort.AutoSize = true;
             this.lbl_hostPort.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_hostPort.Location = new System.Drawing.Point(8, 131);
+            this.lbl_hostPort.Location = new System.Drawing.Point(8, 96);
             this.lbl_hostPort.Name = "lbl_hostPort";
             this.lbl_hostPort.Size = new System.Drawing.Size(53, 24);
             this.lbl_hostPort.TabIndex = 8;
@@ -213,6 +239,8 @@
             // 
             // tabPageConnect
             // 
+            this.tabPageConnect.Controls.Add(this.txt_connectPlayerName);
+            this.tabPageConnect.Controls.Add(this.lbl_connectPlayerName);
             this.tabPageConnect.Controls.Add(this.lbl_connectStatus);
             this.tabPageConnect.Controls.Add(this.txt_connectPort);
             this.tabPageConnect.Controls.Add(this.lbl_connectPort);
@@ -306,6 +334,26 @@
             this.lbx_lobbyPlayerList.Size = new System.Drawing.Size(439, 144);
             this.lbx_lobbyPlayerList.TabIndex = 0;
             // 
+            // txt_connectPlayerName
+            // 
+            this.txt_connectPlayerName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txt_connectPlayerName.Location = new System.Drawing.Point(165, 168);
+            this.txt_connectPlayerName.MaxLength = 128;
+            this.txt_connectPlayerName.Name = "txt_connectPlayerName";
+            this.txt_connectPlayerName.Size = new System.Drawing.Size(280, 26);
+            this.txt_connectPlayerName.TabIndex = 17;
+            this.txt_connectPlayerName.Text = "Player";
+            // 
+            // lbl_connectPlayerName
+            // 
+            this.lbl_connectPlayerName.AutoSize = true;
+            this.lbl_connectPlayerName.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_connectPlayerName.Location = new System.Drawing.Point(8, 168);
+            this.lbl_connectPlayerName.Name = "lbl_connectPlayerName";
+            this.lbl_connectPlayerName.Size = new System.Drawing.Size(128, 24);
+            this.lbl_connectPlayerName.TabIndex = 16;
+            this.lbl_connectPlayerName.Text = "Player Name: ";
+            // 
             // ConnectForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -350,5 +398,9 @@
         private System.Windows.Forms.Label lbl_lobbyGameName;
         private System.Windows.Forms.Button btn_lobbyStartGame;
         private System.Windows.Forms.ListBox lbx_lobbyPlayerList;
+        private System.Windows.Forms.TextBox txt_hostPlayerName;
+        private System.Windows.Forms.Label lbl_hostPlayerName;
+        private System.Windows.Forms.TextBox txt_connectPlayerName;
+        private System.Windows.Forms.Label lbl_connectPlayerName;
     }
 }

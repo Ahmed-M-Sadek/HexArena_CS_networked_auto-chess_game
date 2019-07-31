@@ -10,7 +10,7 @@ namespace ASU2019_NetworkedGameWorkshop.view
 {
     public partial class ConnectForm : Form
     {
-        private readonly List<Tuple<string, long, string>> ips;
+        private readonly List<GameNetworkUtilities.ServerStats> ips;
 
         private bool isConnectedToServer;
         private int lastPortScanned;
@@ -28,7 +28,7 @@ namespace ASU2019_NetworkedGameWorkshop.view
         {
             InitializeComponent();
 
-            ips = new List<Tuple<string, long, string>>();
+            ips = new List<GameNetworkUtilities.ServerStats>();
         }
 
         private void ConnectForm_Load(object sender, EventArgs e)
@@ -109,11 +109,11 @@ namespace ASU2019_NetworkedGameWorkshop.view
             lbl_connectStatus.Refresh();
 
             lastPortScanned = int.Parse(txt_connectPort.Text);
-            Tuple<string, long, string>[] tuple = GameNetworkUtilities.getServersInNetwork(lastPortScanned);
-            ips.AddRange(tuple);
-            foreach (var (ip, ping, gameName) in tuple)
+            GameNetworkUtilities.ServerStats[] serversStats = GameNetworkUtilities.getServersInNetwork(lastPortScanned);
+            ips.AddRange(serversStats);
+            foreach (GameNetworkUtilities.ServerStats serverStats in serversStats)
             {
-                lbx_connectList.Items.Add($"{gameName}\t{ip}\t{ping}ms");
+                lbx_connectList.Items.Add($"{serverStats.GameName}\t{serverStats.HostPlayerName}({serverStats.Ip})\t{serverStats.Ping}ms");
             }
 
             lbl_connectStatus.Visible = false;
@@ -139,10 +139,10 @@ namespace ASU2019_NetworkedGameWorkshop.view
             connectedIP = null;
             connectedPort = int.Parse(txt_hostPort.Text);
 
-            lbx_lobbyPlayerList.Items.Add("Local Player\t(HOST)");
+            lbx_lobbyPlayerList.Items.Add($"{txt_hostPlayerName.Text}\t\t(HOST)");
             setLobbyGameName(txt_hostGameName.Text);
 
-            lobbyServer = new LobbyServer(txt_hostGameName.Text, connectedPort, this);
+            lobbyServer = new LobbyServer(txt_hostGameName.Text, connectedPort, this, txt_hostPlayerName.Text);
             lobbyServer.startServer();
 
         }
@@ -153,6 +153,8 @@ namespace ASU2019_NetworkedGameWorkshop.view
             btn_connect.Enabled = false;
             btn_manualConnect.Enabled = false;
             btn_refresh.Enabled = false;
+            txt_connectPlayerName.Enabled = false;
+            txt_hostPlayerName.Enabled = false;
         }
 
         private void TabControl_Selecting(object sender, TabControlCancelEventArgs e)
@@ -170,12 +172,12 @@ namespace ASU2019_NetworkedGameWorkshop.view
             {
                 connected();
 
-                (string ip, _, string gameName) = ips[lbx_connectList.SelectedIndex];
-                connectedIP = ip;
+                GameNetworkUtilities.ServerStats serverStats = ips[lbx_connectList.SelectedIndex];
+                connectedIP = serverStats.Ip;
                 connectedPort = lastPortScanned;
-                lbx_lobbyPlayerList.Items.Add("Local Player\t(Local)");
-                setLobbyGameName(gameName);
-                lobbyClient = new LobbyClient(connectedIP, connectedPort, this);
+                lbx_lobbyPlayerList.Items.Add($"{txt_connectPlayerName.Text}\t\t(Local)");
+                setLobbyGameName(serverStats.GameName);
+                lobbyClient = new LobbyClient(connectedIP, connectedPort, this, txt_connectPlayerName.Text);
                 lobbyClient.connectToServer();
             }
         }
@@ -211,13 +213,26 @@ namespace ASU2019_NetworkedGameWorkshop.view
 
         private void Btn_manualConnect_Click(object sender, EventArgs e)
         {
-            connected();
 
             connectedIP = txt_connectIP.Text;
             connectedPort = int.Parse(txt_connectPort.Text);
-            lbx_lobbyPlayerList.Items.Add("Local Player\t(Local)");
-            lobbyClient = new LobbyClient(connectedIP, connectedPort, this);
-            lobbyClient.connectToServer();
+            GameNetworkUtilities.ServerStats serverStats = GameNetworkUtilities.pingIP(connectedIP, connectedPort);
+            if (serverStats.Equals(GameNetworkUtilities.INVALID_SERVER))
+            {
+                MessageBox.Show($"Could NOT Ping {connectedIP}:{connectedPort}",
+                "Could NOT Ping",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error);
+            }
+            else
+            {
+                connected();
+                lbx_lobbyPlayerList.Items.Add($"{txt_connectPlayerName.Text}\t\t(Local)");
+                setLobbyGameName(serverStats.GameName);
+                lobbyClient = new LobbyClient(connectedIP, connectedPort, this, txt_connectPlayerName.Text);
+                lobbyClient.connectToServer();
+            }
+
         }
 
         private void connected()//rename
