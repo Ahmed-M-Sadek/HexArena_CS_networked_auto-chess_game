@@ -24,18 +24,18 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
         private readonly CharacterType[] characterType;
         private readonly Dictionary<StatusType, int> statsAdder;
         private readonly Dictionary<StatusType, float> statsMultiplier;
-        private readonly List<Spells> learnedSpells;
+        private readonly List<Spells[]> learnedSpells;
 
-        private Dictionary<Spells[], int> spellLevel;
         private bool spellsUIVisibleBuy = false;
         private List<StatusEffect> statusEffects;
         private long nextAtttackTime;
 
-        public Spells DefaultSkill { get; set; }
+        public Dictionary<Spells[], int> SpellLevel { get; set; }
+        public Spells[] DefaultSkill { get; set; }
         public ChooseSpell ChooseSpell { get; set; }
         public InactiveSpell InactiveSpell { get; set; }
-        public List<Spells> ActiveSpells { get; set; }
-        public List<Spells> InactiveSpells { get; set; }
+        public List<Spells[]> ActiveSpells { get; set; }
+        public List<Spells[]> InactiveSpells { get; set; }
         public bool SpellReady { get; set; }
 
 
@@ -73,10 +73,10 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
             InactiveSpell = new InactiveSpell(this, InactiveSpells);
 
             Stats = CharacterType.statsCopy();
-            ActiveSpells = new List<Spells>();
-            InactiveSpells = new List<Spells>();
-            learnedSpells = new List<Spells>();
-            spellLevel = new Dictionary<Spells[], int>();
+            ActiveSpells = new List<Spells[]>();
+            InactiveSpells = new List<Spells[]>();
+            learnedSpells = new List<Spells[]>();
+            SpellLevel = new Dictionary<Spells[], int>();
             brush = (team == Teams.Blue) ? Brushes.BlueViolet : Brushes.Red;
             statusEffects = new List<StatusEffect>();
             IsDead = false;
@@ -113,31 +113,14 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
 
         public void learnSpell(Spells[] spell)
         {
-            spellLevel.Add(spell,0);
-            learnedSpells.Add(spell[0]);
-            InactiveSpells.Add(spell[0]);
+            SpellLevel.Add(spell,0);
+            learnedSpells.Add(spell);
+            InactiveSpells.Add(spell);
         }
-        public void upgradeSpell(Spells spell)
+        public void upgradeSpell(Spells[] spell)
         {
-            int index = learnedSpells.IndexOf(spell);
-            Spells[] spells = spellLevel.Keys.ElementAt(index);
-            spellLevel[spells] += 1;
-            if(spellLevel[spells] < spells.Count())
-            {
-                Spells upgradedSpell = (spells[spellLevel[spells]]);
-                learnedSpells[index] = upgradedSpell;
-                for (int i = 0; i<ActiveSpells.Count; i++)
-                {
-                    if(ActiveSpells[i] == spell)
-                        ActiveSpells[i] = upgradedSpell;
-
-                }
-                for (int i = 0; i < InactiveSpells.Count; i++)
-                {
-                    if (InactiveSpells[i] == spell)
-                        InactiveSpells[i] = upgradedSpell;
-                }
-            }
+            if(SpellLevel[spell]<spell.Count()-1)
+                SpellLevel[spell] += 1;
         }
         /// <summary>
         /// Decreases the character's Health Points by healValue after applying modifiers.
@@ -218,6 +201,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
         }
         public void showChooseSpell()
         {
+            ChooseSpell.refreshLocation(this);
             gameManager.addRangeToForm(ChooseSpell);
             SpellReady = true ;
         }
@@ -282,11 +266,11 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
             if(Stats[StatusType.Charge] == Stats[StatusType.ChargeMax]
                 && ActiveSpells.Count != 0)
             {
-                if(DefaultSkill == null)
+                if (DefaultSkill == null)
                 {
                     DefaultSkill = ActiveSpells[0];
                 }
-                DefaultSkill.castSpell(this);
+                DefaultSkill[SpellLevel[DefaultSkill]].castSpell(this);
                 hideSpellUI();
                 resetMana();
             }

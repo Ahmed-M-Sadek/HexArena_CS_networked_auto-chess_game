@@ -27,7 +27,7 @@ namespace ASU2019_NetworkedGameWorkshop.model
         private readonly float offsetY;
         private readonly float backOffsetY;
 
-        public InactiveSpell(Character character, List<Spells> spells)
+        public InactiveSpell(Character character, List<Spells[]> spells)
         {
             BackColor = Color.White;
             this.character = character;
@@ -37,7 +37,7 @@ namespace ASU2019_NetworkedGameWorkshop.model
             
             
         }
-        public void refreshPanel(List<Spells> spells)
+        public void refreshPanel(List<Spells[]> spells)
         {
             if (spells == null)
             {
@@ -48,10 +48,11 @@ namespace ASU2019_NetworkedGameWorkshop.model
             Controls.Clear();
             for (int i = 0; i < spells.Count; i++)
             {
+
                 PictureBox pics = new PictureBox
                 {
 
-                    Image = spells[i].Image,
+                    Image = spells[i][character.SpellLevel[spells[i]]].Image,
                     Size = new Size(IMAGE_SIZE, IMAGE_SIZE),
                     SizeMode = PictureBoxSizeMode.StretchImage,
                     Location = new Point(i % 3 * IMAGE_SIZE + IMAGE_PADDING_X * (i % 3 + 1), IMAGE_PADDING_Y + (20) * (int)(i / 3))
@@ -63,7 +64,7 @@ namespace ASU2019_NetworkedGameWorkshop.model
             }
         }
 
-        private MouseEventHandler mouseEvent(List<Spells> spells, int k,PictureBox pic)
+        private MouseEventHandler mouseEvent(List<Spells[]> spells, int k,PictureBox pic)
         {
             return (sender, e) =>
             {
