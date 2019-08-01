@@ -27,7 +27,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
         private readonly List<Spells> learnedSpells;
 
         private Dictionary<Spells[], int> spellLevel;
-        private bool spellsUIVisible = false;
+        private bool spellsUIVisibleBuy = false;
         private List<StatusEffect> statusEffects;
         private long nextAtttackTime;
 
@@ -69,6 +69,8 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
             SpellReady = false;
             this.characterType = characterType;
             this.gameManager = gameManager;
+            ChooseSpell = new ChooseSpell(this, ActiveSpells);
+            InactiveSpell = new InactiveSpell(this, InactiveSpells);
 
             Stats = CharacterType.statsCopy();
             ActiveSpells = new List<Spells>();
@@ -174,11 +176,6 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
 
         }
 
-        public void hideSpellUI()
-        {
-            gameManager.removeRangeFromForm(ChooseSpell);
-            SpellReady = false;
-        }
 
         public void reset()
         {
@@ -213,8 +210,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
                 ToMoveTo = null;
                 if (SpellReady)
                 {
-                    hideSpellUI();
-                    showChooseSpell();
+                    ChooseSpell.refreshLocation(this);
                 }
                 return true;
             }
@@ -222,35 +218,40 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
         }
         public void showChooseSpell()
         {
-            ChooseSpell = new ChooseSpell(this, ActiveSpells);
             gameManager.addRangeToForm(ChooseSpell);
             SpellReady = true ;
         }
+        public void hideSpellUI()
+        {
+            gameManager.removeRangeFromForm(ChooseSpell);
+            SpellReady = false;
+        }
+
         
         public bool updateBuy()
         {
-            if (gameManager.CurrentGameStage == StageManager.GameStage.Buy && !spellsUIVisible && this.CurrentTile == gameManager.SelectedTile && learnedSpells.Count !=0)
+            if (!spellsUIVisibleBuy && this.CurrentTile == gameManager.SelectedTile && learnedSpells.Count !=0)
             {
-                InactiveSpell = new InactiveSpell(this, InactiveSpells);
-                ChooseSpell = new ChooseSpell(this, ActiveSpells);
+                ChooseSpell.refreshPanel(this,ActiveSpells);
+                InactiveSpell.refreshPanel(InactiveSpells);
                 gameManager.addRangeToForm(InactiveSpell, ChooseSpell);
-                spellsUIVisible = true;
+                spellsUIVisibleBuy = true;
                 return true;
             }
             else if(this.CurrentTile != gameManager.SelectedTile)
             {
                 gameManager.removeRangeFromForm(InactiveSpell, ChooseSpell);
-                spellsUIVisible = false;
+                spellsUIVisibleBuy = false;
                 return true;
             }
             return false;
         }
         public bool update()
         {
-            if (gameManager.CurrentGameStage != StageManager.GameStage.Buy && spellsUIVisible)
+            if (spellsUIVisibleBuy)
             {
                 gameManager.removeRangeFromForm(InactiveSpell, ChooseSpell);
-                spellsUIVisible = false;
+                spellsUIVisibleBuy = false;
                 return true;
             }
             statusEffects = statusEffects.Where(effect =>

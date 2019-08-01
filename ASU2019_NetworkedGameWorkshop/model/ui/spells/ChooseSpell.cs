@@ -25,15 +25,28 @@ namespace ASU2019_NetworkedGameWorkshop.model
         private Character character;
         private readonly float offsetY;
         private readonly float backOffsetY;
-
+        private List<Spells> spells;
         public ChooseSpell(Character character, List<Spells> spells)
         {
-            BackColor = Color.White;
+            this.spells = spells;
             this.character = character;
+            BackColor = Color.White;
             offsetY = -Tile.HALF_HEIGHT - 1 * BACK_HEIGHT + HEX_OFFSET_Y;
             backOffsetY = offsetY - (BACK_OFFSET_Y / 2f);
             Size = new Size((int)BACK_WIDTH, (int)BACK_HEIGHT);
             Location = new Point((int)(character.CurrentTile.centerX - BACK_OFFSET_X), (int)(character.CurrentTile.centerY + backOffsetY));
+            refreshPanel(character,spells);
+
+
+        }
+        public void refreshPanel(Character character,List<Spells> spells) 
+        {
+            if(spells == null)
+            {
+                return;
+            }
+            Controls.Clear();
+            refreshLocation(character);
             for (int i = 0; i < spells.Count; i++)
             {
                 PictureBox pics = new PictureBox
@@ -48,19 +61,21 @@ namespace ASU2019_NetworkedGameWorkshop.model
                 Controls.Add(pics);
             }
         }
+        public void refreshLocation(Character character)
+        {
+            Location = new Point((int)(character.CurrentTile.centerX - BACK_OFFSET_X), (int)(character.CurrentTile.centerY + backOffsetY));
+        }
 
-        private MouseEventHandler mouseEvent(List<Spells> spells, int k)
+        private MouseEventHandler mouseEvent(List<Spells> actives, int k)
         {
             return (sender, e) =>
             {
                 if(character.gameManager.CurrentGameStage == StageManager.GameStage.Buy && e.Button == MouseButtons.Right)
                 {
-                    character.InactiveSpells.Add(spells[k]);
-                    character.ActiveSpells.Remove(spells[k]);
-                    character.gameManager.removeRangeFromForm(this,character.InactiveSpell);
-                    character.ChooseSpell = new ChooseSpell(character, character.ActiveSpells);
-                    character.InactiveSpell = new InactiveSpell(character, character.InactiveSpells);
-                    character.gameManager.addRangeToForm(character.ChooseSpell,character.InactiveSpell);
+                    character.InactiveSpells.Add(actives[k]);
+                    character.ActiveSpells.Remove(actives[k]);
+                    refreshPanel(character,character.ActiveSpells);
+                    character.InactiveSpell.refreshPanel(character.InactiveSpells);
                 }
                 if(e.Button == MouseButtons.Left)
                 {
@@ -69,25 +84,19 @@ namespace ASU2019_NetworkedGameWorkshop.model
                         character.gameManager.removeRangeFromForm(this);
                         character.SpellReady = false;
                         character.resetMana();
-                        spells[k].castSpell(character);
+                        actives[k].castSpell(character);
                     }
                     if( character.Stats[StatusType.Charge]/character.Stats[StatusType.ChargeMax] < 0.9)
                     {
-                        //character.DefaultSkill = spells[k];
-                        //Spells temp;
-                        //temp = character.ActiveSpells[0];
-                        //character.ActiveSpells[0] = character.ActiveSpells[k];
-                        //character.ActiveSpells[k] = temp;
-                        //if (character.gameManager.CurrentGameStage == StageManager.GameStage.Fight && e.Button == MouseButtons.Left)
-                        //    character.hideSpellUI();
-                        character.upgradeSpell(spells[k]);
-                        character.gameManager.removeRangeFromForm(this);
-                        character.ChooseSpell = new ChooseSpell(character, character.ActiveSpells);
-                        character.gameManager.addRangeToForm(character.ChooseSpell);
+                        character.DefaultSkill = actives[k];
+                        Spells temp = character.ActiveSpells[0];
+                        character.ActiveSpells[0] = character.ActiveSpells[k];
+                        character.ActiveSpells[k] = temp;
+                        refreshPanel(character,character.ActiveSpells);
+                        if(character.gameManager.CurrentGameStage == StageManager.GameStage.Fight && e.Button == MouseButtons.Left)
+                            character.hideSpellUI();
                     }
                 }
-
-
             }
             ;
         }

@@ -80,7 +80,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell
         public SpellType SpellType { get; private set; }
         public Image Image { get; private set; }
 
-        public Spells(int abilityValue, Target target, SpellType spellType, Image image)
+        private Spells(int abilityValue, Target target, SpellType spellType, Image image)
         {
             AbilityValue = abilityValue;
             Target = target;
