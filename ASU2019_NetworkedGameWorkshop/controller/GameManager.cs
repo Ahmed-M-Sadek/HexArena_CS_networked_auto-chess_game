@@ -64,6 +64,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
 
             if (isHost)
             {
+                IsHost = isHost;
                 gameNetworkManager = new GameServer(port);
             }
             else
@@ -346,7 +347,10 @@ namespace ASU2019_NetworkedGameWorkshop.controller
 
         private bool stageUpdateFight()
         {
-            if (TeamBlue.Count(e => !e.IsDead) == 0 || TeamRed.Count(e => !e.IsDead) == 0)
+            List<Character> Team1 = IsHost ? TeamBlue : TeamRed;
+            List<Character> Team2 = IsHost ? TeamRed : TeamBlue;
+
+            if (Team1.Count(e => !e.IsDead) == 0 || Team2.Count(e => !e.IsDead) == 0)
             {
                 stageTimer.endTimer();
                 return true;
@@ -354,12 +358,12 @@ namespace ASU2019_NetworkedGameWorkshop.controller
 
             bool updateCanvas = false;
 
-            foreach (Character character in TeamBlue.Where(e => !e.IsDead))
+            foreach (Character character in Team1.Where(e => !e.IsDead))
             {
                 updateCanvas = character.update() || updateCanvas;
             }
 
-            foreach (Character character in TeamRed.Where(e => !e.IsDead))
+            foreach (Character character in Team2.Where(e => !e.IsDead))
             {
                 updateCanvas = character.update() || updateCanvas;
             }
@@ -368,11 +372,11 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             if (nextTickTime < ElapsedTime)
             {
                 nextTickTime = ElapsedTime + TICK_INTERVAL;
-                foreach (Character character in TeamBlue.Where(e => !e.IsDead))
+                foreach (Character character in Team1.Where(e => !e.IsDead))
                 {
                     updateCanvas = character.tick() || updateCanvas;
                 }
-                foreach (Character character in TeamRed.Where(e => !e.IsDead))
+                foreach (Character character in Team2.Where(e => !e.IsDead))
                 {
                     updateCanvas = character.tick() || updateCanvas;
                 }
