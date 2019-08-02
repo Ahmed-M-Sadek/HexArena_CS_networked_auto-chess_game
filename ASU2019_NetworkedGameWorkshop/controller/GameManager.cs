@@ -321,9 +321,15 @@ namespace ASU2019_NetworkedGameWorkshop.controller
                 Tile tile = grid.Tiles[int.Parse(msg[1]), int.Parse(msg[2])];
                 TeamRed.Remove(tile.CurrentCharacter);
                 tile.CurrentCharacter = null;
+                spellShop.updateShop();
+            }
+            else if (msg[0].Equals(NetworkMsgPrefix.LevelUpCharacter.getPrefix()))
+            {
+                grid.Tiles[int.Parse(msg[1]), int.Parse(msg[2])].CurrentCharacter.levelUp();
+                spellShop.updateShop();
             }
 
-            return updateLeaderBoard;
+                return updateLeaderBoard;
         }
 
         private bool stageUpdateBuy()

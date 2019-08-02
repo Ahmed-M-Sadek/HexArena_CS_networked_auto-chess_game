@@ -14,6 +14,8 @@ namespace ASU2019_NetworkedGameWorkshop.controller.networking.game
         NewPlayer,
         [Prefix("SLChar")]
         SellCharacter,
+        [Prefix("LUChar")]
+        LevelUpCharacter,
     }
 
     public static class NetworkMsgPrefixExtensions

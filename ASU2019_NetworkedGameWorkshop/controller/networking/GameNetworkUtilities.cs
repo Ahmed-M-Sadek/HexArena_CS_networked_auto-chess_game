@@ -1,6 +1,7 @@
 ﻿using ASU2019_NetworkedGameWorkshop.model;
 using ASU2019_NetworkedGameWorkshop.model.character;
 using ASU2019_NetworkedGameWorkshop.model.character.types;
+using ASU2019_NetworkedGameWorkshop.model.grid;
 using ASU2019_NetworkedGameWorkshop.model.spell;
 using System;
 using System.Collections.Concurrent;
@@ -158,7 +159,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller.networking
         /// </summary>
         /// <param name="character"></param>
         /// <returns></returns>
-        public static string serializeCharacter(model.character.Character character)
+        public static string serializeCharacter(Character character)
         {
             string spells = "";
             foreach (Spells[] spell in character.LearnedSpells)
@@ -195,17 +196,17 @@ namespace ASU2019_NetworkedGameWorkshop.controller.networking
             return $"{player.Name}#{player.Health}";
         }
 
-        internal static string serializeSellCharacter(Character character)
+        internal static string serializeTile(Tile tile)
         {
-            return $"{character.CurrentTile.X}#{character.CurrentTile.Y}";
+            return $"{tile.X}#{tile.Y}";
         }
 
-        public static string serializeCharacterSwap(model.grid.Tile tile, model.grid.Tile selectedTile)
+        public static string serializeCharacterSwap(Tile tile, Tile selectedTile)
         {
             return $"{tile.X}#{tile.Y}#{selectedTile.X}#{selectedTile.Y}";
         }
 
-        public static Tuple<model.grid.Tile, model.grid.Tile> parseCharacterSwap(string[] msg, model.grid.Grid grid)
+        public static Tuple<Tile, Tile> parseCharacterSwap(string[] msg, model.grid.Grid grid)
         {
             return Tuple.Create(grid.Tiles[int.Parse(msg[1]), int.Parse(msg[2])],
                 grid.Tiles[int.Parse(msg[3]), int.Parse(msg[4])]);

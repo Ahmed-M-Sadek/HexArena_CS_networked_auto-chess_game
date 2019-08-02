@@ -96,8 +96,8 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui.shop
         {
             gameManager.TeamBlue.Remove(selectedCharacter);
             selectedCharacter.CurrentTile.CurrentCharacter = null;
-            GameNetworkManager.enqueueMsg(controller.networking.game.NetworkMsgPrefix.SellCharacter,
-                                          GameNetworkUtilities.serializeSellCharacter(selectedCharacter));
+            GameNetworkManager.enqueueMsg(NetworkMsgPrefix.SellCharacter,
+                                          GameNetworkUtilities.serializeTile(selectedCharacter.CurrentTile));
 
             gameManager.Player.Gold += 10;//todo change this plz
             gameManager.deselectSelectedTile();
@@ -111,6 +111,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui.shop
             }
             gameManager.Player.Gold -= selectedCharacter.CurrentLevel * 5;
             selectedCharacter.levelUp();
+            GameNetworkManager.enqueueMsg(NetworkMsgPrefix.LevelUpCharacter, GameNetworkUtilities.serializeTile(selectedCharacter.CurrentTile));
             viewCharStats();
             if (!(selectedCharacter.CurrentLevel < CharacterType.MAX_CHAR_LVL - 1))
             {
