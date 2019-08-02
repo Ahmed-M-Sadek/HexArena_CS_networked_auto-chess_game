@@ -1,4 +1,6 @@
 ﻿using ASU2019_NetworkedGameWorkshop.controller;
+using ASU2019_NetworkedGameWorkshop.controller.networking;
+using ASU2019_NetworkedGameWorkshop.controller.networking.game;
 using ASU2019_NetworkedGameWorkshop.model.character;
 using ASU2019_NetworkedGameWorkshop.model.grid;
 using ASU2019_NetworkedGameWorkshop.model.spell;
@@ -10,6 +12,7 @@ namespace ASU2019_NetworkedGameWorkshop.model
 {
     public class ChooseSpell : Panel
     {
+        private readonly GameNetworkManager gameNetworkManager;
         private const float WIDTH = Tile.WIDTH - 30 * 2,
             WIDTH_HALF = WIDTH / 2f,
             height = 8;
@@ -25,8 +28,9 @@ namespace ASU2019_NetworkedGameWorkshop.model
         private Character character;
         private readonly float offsetY;
         private readonly float backOffsetY;
-        public ChooseSpell(Character character, List<Spells[]> spells)
+        public ChooseSpell(Character character, List<Spells[]> spells,GameNetworkManager gameNetworkManager)
         {
+            this.gameNetworkManager = gameNetworkManager;
             this.character = character;
             BackColor = Color.White;
             offsetY = -Tile.HALF_HEIGHT - 1 * BACK_HEIGHT + HEX_OFFSET_Y;
@@ -55,7 +59,8 @@ namespace ASU2019_NetworkedGameWorkshop.model
                     SizeMode = PictureBoxSizeMode.StretchImage,
                     Location = new Point(i * IMAGE_SIZE + IMAGE_PADDING_X * (i + 1), IMAGE_PADDING_Y)
                 };
-                pics.MouseClick += new MouseEventHandler(mouseEvent(spells, i));
+                if (character.team == Character.Teams.Blue)
+                    pics.MouseClick += new MouseEventHandler(mouseEvent(spells, i));
 
                 Controls.Add(pics);
             }
@@ -74,6 +79,7 @@ namespace ASU2019_NetworkedGameWorkshop.model
                 {
                     character.InactiveSpells.Add(currentSpell);
                     character.ActiveSpells.Remove(currentSpell);
+                    gameNetworkManager.enqueueMsg(NetworkMsgPrefix.RemActiveSpells, GameNetworkUtilities.serializeSpellAction(currentSpell, character.CurrentTile));
                     refreshPanel(character, character.ActiveSpells);
                     character.InactiveSpell.refreshPanel(character.InactiveSpells);
                 }
@@ -89,15 +95,22 @@ namespace ASU2019_NetworkedGameWorkshop.model
                     if (character.Stats[StatusType.Charge] / character.Stats[StatusType.ChargeMax] < 0.9)
                     {
                         character.DefaultSkill = currentSpell;
-                        Spells[] temp = character.ActiveSpells[0];
-                        character.ActiveSpells[0] = character.ActiveSpells[k];
-                        character.ActiveSpells[k] = temp;
+                        gameNetworkManager.enqueueMsg(NetworkMsgPrefix.DefaultSkill, GameNetworkUtilities.serializeSpellAction(currentSpell,character.CurrentTile));
+                        spellSwap(k);
+                        gameNetworkManager.enqueueMsg(NetworkMsgPrefix.ExchActiveSpells, GameNetworkUtilities.serializeSpellSwap(k, character.CurrentTile));
                         if (character.gameManager.CurrentGameStage == StageManager.GameStage.Fight && e.Button == MouseButtons.Left)
                             character.hideSpellUI();
                         refreshPanel(character, character.ActiveSpells);
                     }
                 }
             };
+        }
+        public void spellSwap(int k)
+        {
+            Spells[] temp = character.ActiveSpells[0];
+            character.ActiveSpells[0] = character.ActiveSpells[k];
+            character.ActiveSpells[k] = temp;
+
         }
     }
 }

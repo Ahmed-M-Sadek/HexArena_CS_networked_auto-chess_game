@@ -20,6 +20,14 @@ namespace ASU2019_NetworkedGameWorkshop.controller.networking.game
         LevelUpSpell,
         [Prefix("LSpell")]
         LearnSpell,
+        [Prefix("DefSkill")]
+        DefaultSkill,
+        [Prefix("AddActSkill")]
+        AddActiveSpells,
+        [Prefix("RemActSkill")]
+        RemActiveSpells,
+        [Prefix("ExchActSkill")]
+        ExchActiveSpells
     }
 
     public static class NetworkMsgPrefixExtensions

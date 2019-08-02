@@ -326,7 +326,29 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             {
                 grid.Tiles[int.Parse(msg[1]), int.Parse(msg[2])].CurrentCharacter.learnSpell(Spells.getSpell(int.Parse(msg[3])));
             }
+            else if (msg[0].Equals(NetworkMsgPrefix.DefaultSkill.getPrefix()))
+            {
+                grid.Tiles[int.Parse(msg[1]), int.Parse(msg[2])].CurrentCharacter.DefaultSkill=Spells.getSpell(int.Parse(msg[3]));
+            }
+            else if (msg[0].Equals(NetworkMsgPrefix.AddActiveSpells.getPrefix()))
+            {
+                Character character = grid.Tiles[int.Parse(msg[1]), int.Parse(msg[2])].CurrentCharacter;
+                character.ActiveSpells.Add(Spells.getSpell(int.Parse(msg[3])));
+                character.ChooseSpell.refreshPanel(character, character.ActiveSpells);
+            }
+            else if (msg[0].Equals(NetworkMsgPrefix.RemActiveSpells.getPrefix()))
+            {
+                Character character = grid.Tiles[int.Parse(msg[1]), int.Parse(msg[2])].CurrentCharacter;
+                character.ActiveSpells.Remove(Spells.getSpell(int.Parse(msg[3])));
+                character.ChooseSpell.refreshPanel(character, character.ActiveSpells);
 
+            }
+            else if (msg[0].Equals(NetworkMsgPrefix.ExchActiveSpells.getPrefix()))
+            {
+                Character character = grid.Tiles[int.Parse(msg[1]), int.Parse(msg[2])].CurrentCharacter;
+                character.ChooseSpell.spellSwap(int.Parse(msg[3]));
+                character.ChooseSpell.refreshPanel(character, character.ActiveSpells);
+            }
             return updateLeaderBoard;
         }
 
@@ -389,7 +411,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
                 {
                     if (grid.Tiles[i, j].CurrentCharacter == null)
                     {
-                        Character item = new Character(grid, grid.Tiles[i, j], Character.Teams.Blue, characterType, this);
+                        Character item = new Character(grid, grid.Tiles[i, j], Character.Teams.Blue, characterType, this,gameNetworkManager);
                         TeamBlue.Add(item);
                         gameNetworkManager.enqueueMsg(NetworkMsgPrefix.NewCharacter, GameNetworkUtilities.serializeCharacter(item));
                         return;
@@ -402,7 +424,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
         private Character CharStatToCharacter(GameNetworkUtilities.CharStat charStat)//should be in charstat
         {
             //no spells 
-            return new Character(grid, grid.Tiles[charStat.X, charStat.Y], Character.Teams.Red, charStat.charType, this);
+            return new Character(grid, grid.Tiles[charStat.X, charStat.Y], Character.Teams.Red, charStat.charType, this,gameNetworkManager);
         }
     }
 }

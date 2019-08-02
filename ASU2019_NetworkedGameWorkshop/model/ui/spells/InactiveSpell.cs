@@ -1,14 +1,17 @@
 ﻿using ASU2019_NetworkedGameWorkshop.model.character;
+using ASU2019_NetworkedGameWorkshop.controller.networking.game;
 using ASU2019_NetworkedGameWorkshop.model.grid;
 using ASU2019_NetworkedGameWorkshop.model.spell;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using ASU2019_NetworkedGameWorkshop.controller.networking;
 
 namespace ASU2019_NetworkedGameWorkshop.model
 {
     public class InactiveSpell : Panel
     {
+        private readonly GameNetworkManager gameNetworkManager;
         private const float WIDTH = Tile.WIDTH - 30 * 2,
             WIDTH_HALF = WIDTH / 2f,
             height = 8;
@@ -27,8 +30,9 @@ namespace ASU2019_NetworkedGameWorkshop.model
         private readonly float offsetY;
         private readonly float backOffsetY;
 
-        public InactiveSpell(Character character, List<Spells[]> spells)
+        public InactiveSpell(Character character, List<Spells[]> spells,GameNetworkManager gameNetworkManager)
         {
+            this.gameNetworkManager = gameNetworkManager;
             BackColor = Color.White;
             this.character = character;
             offsetY = -Tile.HALF_HEIGHT - 1 * BACK_HEIGHT + HEX_OFFSET_Y;
@@ -68,12 +72,17 @@ namespace ASU2019_NetworkedGameWorkshop.model
         {
             return (sender, e) =>
             {
-                character.ActiveSpells.Add(spells[k]);
-                character.InactiveSpells.Remove(spells[k]);
-                character.gameManager.removeRangeFromForm(this, character.ChooseSpell);
-                character.InactiveSpell = new InactiveSpell(character, character.InactiveSpells);
-                character.ChooseSpell = new ChooseSpell(character, character.ActiveSpells);
-                character.gameManager.addRangeToForm(character.InactiveSpell, character.ChooseSpell);
+                Spells[] currentSpell = spells[k];
+                if (character.ActiveSpells.Count == 0)
+                {
+                    character.DefaultSkill = currentSpell;
+                    gameNetworkManager.enqueueMsg(NetworkMsgPrefix.DefaultSkill, GameNetworkUtilities.serializeSpellAction(currentSpell, character.CurrentTile));
+                }
+                character.ActiveSpells.Add(currentSpell);
+                gameNetworkManager.enqueueMsg(NetworkMsgPrefix.AddActiveSpells, GameNetworkUtilities.serializeSpellAction(currentSpell, character.CurrentTile));
+                character.InactiveSpells.Remove(currentSpell);
+                refreshPanel(character.InactiveSpells);
+                character.ChooseSpell.refreshPanel(character, character.ActiveSpells);
             };
         }
     }

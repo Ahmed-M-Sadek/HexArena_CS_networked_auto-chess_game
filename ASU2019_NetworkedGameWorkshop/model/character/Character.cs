@@ -1,4 +1,6 @@
 using ASU2019_NetworkedGameWorkshop.controller;
+using ASU2019_NetworkedGameWorkshop.controller.networking;
+using ASU2019_NetworkedGameWorkshop.controller.networking.game;
 using ASU2019_NetworkedGameWorkshop.model.character.types;
 using ASU2019_NetworkedGameWorkshop.model.grid;
 using ASU2019_NetworkedGameWorkshop.model.spell;
@@ -17,6 +19,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
 
         public readonly Teams team;
         public readonly GameManager gameManager;
+        public readonly GameNetworkManager gameNetworkManager;
         public readonly Grid grid;
 
         private readonly StatBar hpBar, charageBar;
@@ -62,7 +65,8 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
                          Tile currentTile,
                          Teams team,
                          CharacterType[] characterType,
-                         GameManager gameManager)
+                         GameManager gameManager,
+                         GameNetworkManager gameNetworkManager)
         {
             this.grid = grid;
             currentTile.CurrentCharacter = this;
@@ -70,8 +74,9 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
             SpellReady = false;
             this.characterType = characterType;
             this.gameManager = gameManager;
-            ChooseSpell = new ChooseSpell(this, ActiveSpells);
-            InactiveSpell = new InactiveSpell(this, InactiveSpells);
+            this.gameNetworkManager = gameNetworkManager;
+            ChooseSpell = new ChooseSpell(this, ActiveSpells,gameNetworkManager);
+            InactiveSpell = new InactiveSpell(this, InactiveSpells,gameNetworkManager);
 
             Stats = CharacterType.statsCopy();
             ActiveSpells = new List<Spells[]>();
@@ -220,7 +225,11 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
             {
                 ChooseSpell.refreshPanel(this, ActiveSpells);
                 InactiveSpell.refreshPanel(InactiveSpells);
-                gameManager.addRangeToForm(InactiveSpell, ChooseSpell);
+                gameManager.addRangeToForm(ChooseSpell);
+                if (team == Teams.Blue)
+                {
+                    gameManager.addRangeToForm(InactiveSpell);
+                }
                 spellsUIVisibleBuy = true;
                 return true;
             }
@@ -271,6 +280,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
                 if (DefaultSkill == null)
                 {
                     DefaultSkill = ActiveSpells[0];
+                    gameNetworkManager.enqueueMsg(NetworkMsgPrefix.DefaultSkill, GameNetworkUtilities.serializeSpellAction(ActiveSpells[0],CurrentTile));
                 }
                 DefaultSkill[SpellLevel[DefaultSkill]].castSpell(this);
                 hideSpellUI();
