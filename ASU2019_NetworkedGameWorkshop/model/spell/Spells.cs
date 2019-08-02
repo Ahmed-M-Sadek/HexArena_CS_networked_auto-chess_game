@@ -88,15 +88,12 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell
             Image = image;
         }
 
-        private List<Character> specifyTargets(Character caster)
-        {
-            Target.Caster = caster;
-            return Target.getTargets();
-        }
-
         public void castSpell(Character caster)
         {
-            SpellType.cast(specifyTargets(caster), AbilityValue);
+
+            Target.SpellType = SpellType;
+            Target.Caster = caster;
+            Target.getTargetAndCast(AbilityValue);
         }
 
     }

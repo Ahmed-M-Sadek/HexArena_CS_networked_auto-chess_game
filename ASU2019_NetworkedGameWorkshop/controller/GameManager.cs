@@ -103,17 +103,28 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             //Debugging 
             Character blue = new Character(grid, grid.Tiles[1, 0], Character.Teams.Blue, CharacterTypePhysical.Warrior, this);
             Character blue1 = new Character(grid, grid.Tiles[0, 0], Character.Teams.Blue, CharacterTypePhysical.Archer, this);
+            Character blue2 = new Character(grid, grid.Tiles[2, 0], Character.Teams.Blue, CharacterTypePhysical.Archer, this);
+            Character blue3 = new Character(grid, grid.Tiles[3, 0], Character.Teams.Blue, CharacterTypePhysical.Archer, this);
+            Character red = new Character(grid, grid.Tiles[6, 5], Character.Teams.Red, CharacterTypePhysical.Warrior, this);
+            Character red1 = new Character(grid, grid.Tiles[5, 5], Character.Teams.Red, CharacterTypePhysical.Warrior, this);
+            Character red2 = new Character(grid, grid.Tiles[4, 5], Character.Teams.Red, CharacterTypePhysical.Warrior, this);
+            Character red3 = new Character(grid, grid.Tiles[3, 5], Character.Teams.Red, CharacterTypePhysical.Warrior, this);
             blue.learnSpell(Spells.AwesomeFireballAOE);
-            blue.learnSpell(Spells.Execute);
-            blue.learnSpell(Spells.Heal);
-            blue.learnSpell(Spells.AwesomeFireballRandom);
-            blue.learnSpell(Spells.AwesomeFireball);
-            blue.learnSpell(Spells.VeigarDebug);
+            blue2.learnSpell(Spells.AwesomeFireballAOE);
+            blue3.learnSpell(Spells.AwesomeFireballAOE);
             blue1.learnSpell(Spells.AwesomeFireball);
+            red.learnSpell(Spells.AwesomeFireballAOE);
+            red1.learnSpell(Spells.AwesomeFireballAOE);
+            red2.learnSpell(Spells.AwesomeFireballAOE);
+            red3.learnSpell(Spells.AwesomeFireballAOE);
             TeamBlue.Add(blue);
             TeamBlue.Add(blue1);
-            TeamRed.Add(new Character(grid, grid.Tiles[6, 5], Character.Teams.Red, CharacterTypePhysical.Warrior, this));
-            TeamRed.Add(new Character(grid, grid.Tiles[5, 5], Character.Teams.Red, CharacterTypePhysical.Archer, this));
+            TeamBlue.Add(blue2);
+            TeamBlue.Add(blue3);
+            TeamRed.Add(red);
+            TeamRed.Add(red1);
+            TeamRed.Add(red2);
+            TeamRed.Add(red3);
         }
 
         public void addRangeToForm(params Control[] controls)

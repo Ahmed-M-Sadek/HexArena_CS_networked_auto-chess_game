@@ -10,11 +10,12 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell.types
     {
         private readonly Random random;
 
+        public SpellType SpellType { get; set; }
         public Character Caster { get; set; }
-        public List<Character> Recievers { get; set; }
         public bool MultiTargeted { get; private set; }
         public int NumberOfTargets { get; private set; }
         public bool TargetAlly { get; private set; }
+
         public CastTarget CastTarget { get; private set; }
 
         public Target(bool TargetAlly, CastTarget castTarget) : this(TargetAlly, false, 1, castTarget)
@@ -22,14 +23,13 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell.types
 
         public Target(bool TargetAlly, bool aOE, int numberOfTargets, CastTarget castTarget)
         {
-            Recievers = new List<Character>();
             this.TargetAlly = TargetAlly;
             MultiTargeted = aOE;
             NumberOfTargets = numberOfTargets;
             CastTarget = castTarget;
             random = new Random();
         }
-        public List<Character> getTargets()
+        public void getTargetAndCast(int abliltyValue)
         {
             List<Character> desiredTeam = TargetAlly ? charactersInRange((Caster.team == Character.Teams.Red) ? Caster.gameManager.TeamRed : Caster.gameManager.TeamBlue, Caster)
                 : charactersInRange((Caster.team == Character.Teams.Red) ? Caster.gameManager.TeamBlue : Caster.gameManager.TeamRed, Caster);
@@ -37,7 +37,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell.types
             switch (CastTarget)
             {
                 case CastTarget.Self:
-                    Recievers.Add(Caster);
+                    SpellType.apply(Caster,abliltyValue);
                     break;
                 case CastTarget.CurrentTarget:
                     for (int i = 0; i < NumberOfTargets && desiredTeam.Count != 0; i++)
@@ -47,14 +47,14 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell.types
                                                                            Caster.grid,
                                                                            Caster.CharacterType[StatusType.Range],
                                                                            Caster.gameManager);
-                        Recievers.Add(newTarget);
+                        SpellType.apply(newTarget, abliltyValue);
                         desiredTeam.Remove(newTarget);
                     }
                     break;
                 case CastTarget.Random:
                     for (int i = 0; i < NumberOfTargets; i++)
                     {
-                        Recievers.Add(desiredTeam[random.Next(desiredTeam.Count)]);
+                        SpellType.apply(desiredTeam[random.Next(desiredTeam.Count)], abliltyValue);
                     }
                     break;
                 case CastTarget.LowHealth:
@@ -71,13 +71,12 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell.types
                                     lowChar = character;
                                 }
                             }
-                            Recievers.Add(lowChar);
+                            SpellType.apply(lowChar,abliltyValue);
                             desiredTeam.Remove(lowChar);
                         }
                     }
                     break;
             }
-            return Recievers;
         }
 
         public List<Character> charactersInRange(List<Character> team, Character caster)
