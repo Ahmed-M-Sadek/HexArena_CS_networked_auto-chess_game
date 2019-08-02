@@ -65,6 +65,8 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui.shop
             character.learnSpell(spell);
             Visible = false;
             shop.SpellShopView.ShowSpells(manager.SelectedTile.CurrentCharacter);
+            character.ChooseSpell.refreshPanel(character, character.ActiveSpells);
+            character.InactiveSpell.refreshPanel(character.InactiveSpells);
         }
 
         private void upgradeSpell_click(object sender, MouseEventArgs e)
