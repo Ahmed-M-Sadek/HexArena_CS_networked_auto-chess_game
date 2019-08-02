@@ -12,6 +12,8 @@ namespace ASU2019_NetworkedGameWorkshop.controller.networking.game
         PlayerHealthUpdate,
         [Prefix("NPlayer")]
         NewPlayer,
+        [Prefix("SLChar")]
+        SellCharacter,
     }
 
     public static class NetworkMsgPrefixExtensions

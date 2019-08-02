@@ -1,4 +1,6 @@
 ﻿using ASU2019_NetworkedGameWorkshop.controller;
+using ASU2019_NetworkedGameWorkshop.controller.networking;
+using ASU2019_NetworkedGameWorkshop.controller.networking.game;
 using ASU2019_NetworkedGameWorkshop.model.character;
 using ASU2019_NetworkedGameWorkshop.model.character.types;
 using ASU2019_NetworkedGameWorkshop.model.spell;
@@ -26,6 +28,8 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui.shop
 
         public SpellShopUIPanel SpellShopView { get; private set; }
         public ShopUIPanel SelectedCharacterView { get; private set; }
+
+        public GameNetworkManager GameNetworkManager { get; set; }
 
         public Shop(GameForm gameForm, GameManager gameManager)
         {
@@ -92,6 +96,8 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui.shop
         {
             gameManager.TeamBlue.Remove(selectedCharacter);
             selectedCharacter.CurrentTile.CurrentCharacter = null;
+            GameNetworkManager.enqueueMsg(controller.networking.game.NetworkMsgPrefix.SellCharacter,
+                                          GameNetworkUtilities.serializeSellCharacter(selectedCharacter));
 
             gameManager.Player.Gold += 10;//todo change this plz
             gameManager.deselectSelectedTile();
@@ -134,7 +140,18 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui.shop
                     SelectedCharacterView.Visible = true;
                     viewCharStats();
                     SelectedCharacterView.Invalidate();
-                    btn_levelUp.Enabled = selectedCharacter.CurrentLevel < CharacterType.MAX_CHAR_LVL - 1;
+                    if (selectedCharacter.team == Character.Teams.Red)
+                    {
+                        btn_levelUp.Enabled = false;
+                        btn_sellChar.Enabled = false;
+                        btn_showSpells.Enabled = false;
+                    }
+                    else
+                    {
+                        btn_sellChar.Enabled = true;
+                        btn_showSpells.Enabled = true;
+                        btn_levelUp.Enabled = selectedCharacter.CurrentLevel < CharacterType.MAX_CHAR_LVL - 1;
+                    }
                 }
                 else
                 {

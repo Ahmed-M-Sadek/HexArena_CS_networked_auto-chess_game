@@ -62,7 +62,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             gameNetworkManager = new GameServer(port);
             IsHost = true;
 
-            stageManager.GameNetworkManager = gameNetworkManager;
+            asssignNetworkManagerToComponents();
         }
 
         public GameManager(GameForm gameForm, string playerName, string ip, int port) : this(gameForm, playerName)
@@ -71,7 +71,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             gameNetworkManager = new GameClient(ip, port);
             IsHost = false;
 
-            stageManager.GameNetworkManager = gameNetworkManager;
+            asssignNetworkManagerToComponents();
         }
 
         private GameManager(GameForm gameForm, string playerName)
@@ -111,6 +111,12 @@ namespace ASU2019_NetworkedGameWorkshop.controller
                 Interval = GAMELOOP_INTERVAL //Arbitrary: 20 ticks per sec
             };
             timer.Tick += new EventHandler(gameLoop);
+        }
+
+        private void asssignNetworkManagerToComponents()
+        {
+            stageManager.GameNetworkManager = gameNetworkManager;
+            spellShop.GameNetworkManager = gameNetworkManager;
         }
 
         public void addRangeToForm(params Control[] controls)
@@ -271,40 +277,53 @@ namespace ASU2019_NetworkedGameWorkshop.controller
                 bool updateLeaderBoard = false;
                 while (gameNetworkManager.DataReceived.Count > 0)
                 {
-                    gameNetworkManager.DataReceived.TryDequeue(out string result);
-                    Console.WriteLine("parsing " + result);//debugging
-                    string[] msg = result.Split(GameNetworkManager.NETWORK_MSG_SEPARATOR);
-
-                    if (msg[0].Equals(NetworkMsgPrefix.CharacterSwap.getPrefix()))
-                    {
-                        (Tile tile, Tile selectedTile) = GameNetworkUtilities.parseCharacterSwap(msg, grid);
-                        swapCharacters(tile, selectedTile);
-                    }
-                    else if (msg[0].Equals(NetworkMsgPrefix.NewCharacter.getPrefix()))
-                    {
-                        TeamRed.Add(CharStatToCharacter(GameNetworkUtilities.parseCharacter(msg)));
-                    }
-                    else if (msg[0].Equals(NetworkMsgPrefix.PlayerHealthUpdate.getPrefix()))
-                    {
-                        otherPlayers.Find(player => player.Name.Equals(msg[1])).Health = int.Parse(msg[2]);
-                        updateLeaderBoard = true;
-                    }
-                    else if (msg[0].Equals(NetworkMsgPrefix.NewPlayer.getPrefix()))
-                    {
-                        Player player = new Player(msg[1])
-                        {
-                            Health = int.Parse(msg[2])
-                        };
-                        otherPlayers.Add(player);
-                        playersLeaderBoard.addPlayers(player);
-                        updateLeaderBoard = true;
-                    }
+                    updateLeaderBoard = applyNetworkMsg() || updateLeaderBoard;
                 }
                 if (updateLeaderBoard)
                 {
                     playersLeaderBoard.update();
                 }
             }
+        }
+
+        private bool applyNetworkMsg()
+        {
+            bool updateLeaderBoard = false;
+            gameNetworkManager.DataReceived.TryDequeue(out string result);
+            Console.WriteLine("parsing " + result);//debugging
+            string[] msg = result.Split(GameNetworkManager.NETWORK_MSG_SEPARATOR);
+
+            if (msg[0].Equals(NetworkMsgPrefix.CharacterSwap.getPrefix()))
+            {
+                (Tile tile, Tile selectedTile) = GameNetworkUtilities.parseCharacterSwap(msg, grid);
+                swapCharacters(tile, selectedTile);
+            }
+            else if (msg[0].Equals(NetworkMsgPrefix.NewCharacter.getPrefix()))
+            {
+                TeamRed.Add(CharStatToCharacter(GameNetworkUtilities.parseCharacter(msg)));
+            }
+            else if (msg[0].Equals(NetworkMsgPrefix.PlayerHealthUpdate.getPrefix()))
+            {
+                otherPlayers.Find(player => player.Name.Equals(msg[1])).Health = int.Parse(msg[2]);
+                updateLeaderBoard = true;
+            }
+            else if (msg[0].Equals(NetworkMsgPrefix.NewPlayer.getPrefix()))
+            {
+                Player player = new Player(msg[1])
+                {
+                    Health = int.Parse(msg[2])
+                };
+                otherPlayers.Add(player);
+                playersLeaderBoard.addPlayers(player);
+                updateLeaderBoard = true;
+            }else if (msg[0].Equals(NetworkMsgPrefix.SellCharacter.getPrefix()))
+            {
+                Tile tile = grid.Tiles[int.Parse(msg[1]), int.Parse(msg[2])];
+                TeamRed.Remove(tile.CurrentCharacter);
+                tile.CurrentCharacter = null;
+            }
+
+            return updateLeaderBoard;
         }
 
         private bool stageUpdateBuy()
