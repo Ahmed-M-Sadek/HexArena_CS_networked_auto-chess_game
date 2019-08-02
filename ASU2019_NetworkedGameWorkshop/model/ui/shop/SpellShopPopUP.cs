@@ -1,4 +1,6 @@
 ﻿using ASU2019_NetworkedGameWorkshop.controller;
+using ASU2019_NetworkedGameWorkshop.controller.networking;
+using ASU2019_NetworkedGameWorkshop.controller.networking.game;
 using ASU2019_NetworkedGameWorkshop.model.character;
 using ASU2019_NetworkedGameWorkshop.model.spell;
 using System.Drawing;
@@ -12,6 +14,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui.shop
         private readonly Button btn_buySkill;
         private readonly GameManager manager;
         private readonly Shop shop;
+        private readonly GameNetworkManager gameNetworkManager;
         private readonly Label lbl_spellStats;
 
         private bool isNewSpell;
@@ -19,9 +22,10 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui.shop
         private Character character;
         private Spells[] spell;
 
-        public SpellShopPopUP(GameForm gameForm, GameManager gameManager, Shop shop)
+        public SpellShopPopUP(GameForm gameForm, GameManager gameManager, Shop shop, GameNetworkManager gameNetworkManager)
         {
             this.shop = shop;
+            this.gameNetworkManager = gameNetworkManager;
             lbl_spellStats = new Label
             {
                 Dock = DockStyle.Top
@@ -64,6 +68,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui.shop
         {
             character.learnSpell(spell);
             Visible = false;
+            gameNetworkManager.enqueueMsg(NetworkMsgPrefix.LearnSpell, GameNetworkUtilities.serializeSpellAction(spell, character.CurrentTile));
             shop.SpellShopView.ShowSpells(manager.SelectedTile.CurrentCharacter);
             character.ChooseSpell.refreshPanel(character, character.ActiveSpells);
             character.InactiveSpell.refreshPanel(character.InactiveSpells);
@@ -73,6 +78,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui.shop
         {
             character.upgradeSpell(spell);
             Visible = false;
+            gameNetworkManager.enqueueMsg(NetworkMsgPrefix.LevelUpSpell, GameNetworkUtilities.serializeSpellAction(spell, character.CurrentTile));
             shop.SpellShopView.ShowSpells(manager.SelectedTile.CurrentCharacter);
         }
 

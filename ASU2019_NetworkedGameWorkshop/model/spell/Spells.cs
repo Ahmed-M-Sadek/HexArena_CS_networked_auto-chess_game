@@ -9,15 +9,28 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell
     public class Spells
     {
         private readonly static Dictionary<int, Spells[]> spellsList;
-        public int Id { get; set; }
 
-        public static int ID = 0;
+        public int Id { get; private set; }
+
+        private static int ID = 0;
 
         public static Spells[] getSpell(int id)
         {
             return spellsList[id];
         }
 
+        static Spells()
+        {
+            spellsList = new Dictionary<int, Spells[]>();
+            foreach (Spells[] spell in Values)
+            {
+                foreach (Spells spellLevel in spell)
+                {
+                    spellLevel.Id = ID;
+                }
+                spellsList[ID++] = spell;
+            }
+        }
 
         public static readonly Spells[] AwesomeFireball = new Spells[]{
             new Spells(
@@ -107,6 +120,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell
             Image = image;
             Name = spellName;
         }
+
         public void castSpell(Character caster)
         {
             Target.SpellType = SpellType;

@@ -4,6 +4,7 @@ using ASU2019_NetworkedGameWorkshop.model;
 using ASU2019_NetworkedGameWorkshop.model.character;
 using ASU2019_NetworkedGameWorkshop.model.character.types;
 using ASU2019_NetworkedGameWorkshop.model.grid;
+using ASU2019_NetworkedGameWorkshop.model.spell;
 using ASU2019_NetworkedGameWorkshop.model.ui;
 using ASU2019_NetworkedGameWorkshop.model.ui.shop;
 using ASU2019_NetworkedGameWorkshop.model.ui.shop.charactershop;
@@ -28,12 +29,12 @@ namespace ASU2019_NetworkedGameWorkshop.controller
         private readonly Timer timer;
         private readonly StageTimer stageTimer;
         private readonly Stopwatch stopwatch;
-        private readonly StageManager stageManager;
         private readonly PlayersLeaderBoard playersLeaderBoard;
         private readonly CharShop charShop;
         private readonly GameNetworkManager gameNetworkManager;
         private readonly List<Player> otherPlayers;
 
+        private StageManager stageManager;
         private Shop spellShop;
         private long nextTickTime;
         private bool updateCanvas;
@@ -57,26 +58,19 @@ namespace ASU2019_NetworkedGameWorkshop.controller
 
         public bool IsHost { get; }
 
-        public GameManager(GameForm gameForm, string playerName, int port) : this(gameForm, playerName)
-        {
-            gameNetworkManager = new GameServer(port);
-            IsHost = true;
-
-            asssignNetworkManagerToComponents();
-        }
-
-        public GameManager(GameForm gameForm, string playerName, string ip, int port) : this(gameForm, playerName)
-        {
-
-            gameNetworkManager = new GameClient(ip, port);
-            IsHost = false;
-
-            asssignNetworkManagerToComponents();
-        }
-
-        private GameManager(GameForm gameForm, string playerName)
+        public GameManager(GameForm gameForm, string playerName, bool isHost, string ip, int port)
         {
             this.gameForm = gameForm;
+
+            if (isHost)
+            {
+                gameNetworkManager = new GameServer(port);
+            }
+            else
+            {
+                gameNetworkManager = new GameClient(ip, port);
+            }
+
             grid = new Grid(GRID_WIDTH, GRID_HEIGHT,
                 (int)((gameForm.Width - (Tile.WIDTH * GRID_WIDTH)) / 3),
                 (int)((gameForm.Height - (Tile.HEIGHT * GRID_HEIGHT)) / 3) + 30,
@@ -92,7 +86,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             playersLeaderBoard = new PlayersLeaderBoard(Player);
 
             charShop = new CharShop(gameForm, this);
-            spellShop = new Shop(gameForm, this);
+            spellShop = new Shop(gameForm, this, gameNetworkManager);
 
             stageTimer = new StageTimer(this);
             stageManager = new StageManager(stageTimer,
@@ -102,7 +96,8 @@ namespace ASU2019_NetworkedGameWorkshop.controller
                                             Player,
                                             playersLeaderBoard,
                                             charShop,
-                                            this);
+                                            this,
+                                            gameNetworkManager);
             stageTimer.switchStageEvent += stageManager.switchStage;
 
             stopwatch = new Stopwatch();
@@ -111,12 +106,6 @@ namespace ASU2019_NetworkedGameWorkshop.controller
                 Interval = GAMELOOP_INTERVAL //Arbitrary: 20 ticks per sec
             };
             timer.Tick += new EventHandler(gameLoop);
-        }
-
-        private void asssignNetworkManagerToComponents()
-        {
-            stageManager.GameNetworkManager = gameNetworkManager;
-            spellShop.GameNetworkManager = gameNetworkManager;
         }
 
         public void addRangeToForm(params Control[] controls)
@@ -316,7 +305,8 @@ namespace ASU2019_NetworkedGameWorkshop.controller
                 otherPlayers.Add(player);
                 playersLeaderBoard.addPlayers(player);
                 updateLeaderBoard = true;
-            }else if (msg[0].Equals(NetworkMsgPrefix.SellCharacter.getPrefix()))
+            }
+            else if (msg[0].Equals(NetworkMsgPrefix.SellCharacter.getPrefix()))
             {
                 Tile tile = grid.Tiles[int.Parse(msg[1]), int.Parse(msg[2])];
                 TeamRed.Remove(tile.CurrentCharacter);
@@ -328,8 +318,16 @@ namespace ASU2019_NetworkedGameWorkshop.controller
                 grid.Tiles[int.Parse(msg[1]), int.Parse(msg[2])].CurrentCharacter.levelUp();
                 spellShop.updateShop();
             }
+            else if (msg[0].Equals(NetworkMsgPrefix.LevelUpSpell.getPrefix()))
+            {
+                grid.Tiles[int.Parse(msg[1]), int.Parse(msg[2])].CurrentCharacter.upgradeSpell(Spells.getSpell(int.Parse(msg[3])));
+            }
+            else if (msg[0].Equals(NetworkMsgPrefix.LearnSpell.getPrefix()))
+            {
+                grid.Tiles[int.Parse(msg[1]), int.Parse(msg[2])].CurrentCharacter.learnSpell(Spells.getSpell(int.Parse(msg[3])));
+            }
 
-                return updateLeaderBoard;
+            return updateLeaderBoard;
         }
 
         private bool stageUpdateBuy()

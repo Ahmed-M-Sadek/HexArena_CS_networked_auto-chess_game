@@ -19,7 +19,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui.shop
         private static SpellShopPopUP skillShop;
         private static Button btn_hideSkillShop;
         private static Character selectedCharacter;
-
+        private GameNetworkManager gameNetworkManager;
         private readonly Button btn_showSpells;
         private readonly Button btn_levelUp;
         private readonly Button btn_sellChar;
@@ -29,16 +29,15 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui.shop
         public SpellShopUIPanel SpellShopView { get; private set; }
         public ShopUIPanel SelectedCharacterView { get; private set; }
 
-        public GameNetworkManager GameNetworkManager { get; set; }
-
-        public Shop(GameForm gameForm, GameManager gameManager)
+        public Shop(GameForm gameForm, GameManager gameManager, GameNetworkManager gameNetworkManager)
         {
             this.gameManager = gameManager;
+            this.gameNetworkManager = gameNetworkManager;
             SelectedCharacterView = new ShopUIPanel(gameForm, gameManager)
             {
                 Visible = false
             };
-            skillShop = new SpellShopPopUP(gameForm, gameManager, this);
+            skillShop = new SpellShopPopUP(gameForm, gameManager, this, gameNetworkManager);
             SpellShopView = new SpellShopUIPanel(gameForm, this)
             {
                 Visible = false
@@ -96,7 +95,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui.shop
         {
             gameManager.TeamBlue.Remove(selectedCharacter);
             selectedCharacter.CurrentTile.CurrentCharacter = null;
-            GameNetworkManager.enqueueMsg(NetworkMsgPrefix.SellCharacter,
+            gameNetworkManager.enqueueMsg(NetworkMsgPrefix.SellCharacter,
                                           GameNetworkUtilities.serializeTile(selectedCharacter.CurrentTile));
 
             gameManager.Player.Gold += 10;//todo change this plz
@@ -111,7 +110,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui.shop
             }
             gameManager.Player.Gold -= selectedCharacter.CurrentLevel * 5;
             selectedCharacter.levelUp();
-            GameNetworkManager.enqueueMsg(NetworkMsgPrefix.LevelUpCharacter, GameNetworkUtilities.serializeTile(selectedCharacter.CurrentTile));
+            gameNetworkManager.enqueueMsg(NetworkMsgPrefix.LevelUpCharacter, GameNetworkUtilities.serializeTile(selectedCharacter.CurrentTile));
             viewCharStats();
             if (!(selectedCharacter.CurrentLevel < CharacterType.MAX_CHAR_LVL - 1))
             {

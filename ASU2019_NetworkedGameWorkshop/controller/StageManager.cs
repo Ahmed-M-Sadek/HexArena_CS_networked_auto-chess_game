@@ -21,13 +21,13 @@ namespace ASU2019_NetworkedGameWorkshop.controller
         private readonly Grid grid;
         private readonly Dictionary<Character, Tile> charactersPrevPos;
         private readonly GameManager gameManager;
+        private readonly GameNetworkManager gameNetworkManager;
         private readonly PlayersLeaderBoard playersLeaderBoard;
         private readonly CharShop charShop;
         private readonly Player player;
 
         public GameStage CurrentGameStage { get; private set; }
         public int CurrentRound { get; set; }
-        public GameNetworkManager GameNetworkManager { get; set; }
 
         public StageManager(StageTimer stageTimer,
                             List<Character> teamBlue,
@@ -36,7 +36,8 @@ namespace ASU2019_NetworkedGameWorkshop.controller
                             Player player,
                             PlayersLeaderBoard playersLeaderBoard,
                             CharShop charShop,
-                            GameManager gameManager)
+                            GameManager gameManager,
+                            GameNetworkManager gameNetworkManager)
         {
             this.stageTimer = stageTimer;
             this.teamBlue = teamBlue;
@@ -46,7 +47,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             this.playersLeaderBoard = playersLeaderBoard;
             this.charShop = charShop;
             this.gameManager = gameManager;
-
+            this.gameNetworkManager = gameNetworkManager;
             charactersPrevPos = new Dictionary<Character, Tile>();
             CurrentGameStage = GameStage.Buy;
             CurrentRound = 1;
@@ -154,7 +155,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             }
 
             playersLeaderBoard.update();
-            GameNetworkManager.enqueueMsg(networking.game.NetworkMsgPrefix.PlayerHealthUpdate,
+            gameNetworkManager.enqueueMsg(networking.game.NetworkMsgPrefix.PlayerHealthUpdate,
                                           networking.GameNetworkUtilities.serializePlayerHP(player));
         }
     }

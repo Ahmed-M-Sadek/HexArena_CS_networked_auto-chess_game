@@ -97,8 +97,7 @@ namespace ASU2019_NetworkedGameWorkshop.model
                         refreshPanel(character, character.ActiveSpells);
                     }
                 }
-            }
-            ;
+            };
         }
     }
 }

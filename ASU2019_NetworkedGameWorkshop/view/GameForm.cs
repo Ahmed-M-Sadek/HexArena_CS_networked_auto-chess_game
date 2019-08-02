@@ -9,13 +9,13 @@ namespace ASU2019_NetworkedGameWorkshop
 
         public GameForm(string playername, int connectedPort) : this()
         {
-            gameManager = new GameManager(this, playername, connectedPort);
+            gameManager = new GameManager(this, playername, true, null, connectedPort);
             gameManager.startGame();
         }
 
         public GameForm(string playername, string connectedIP, int connectedPort) : this()
         {
-            gameManager = new GameManager(this, playername, connectedIP, connectedPort);
+            gameManager = new GameManager(this, playername, false, connectedIP, connectedPort);
             gameManager.startGame();
         }
 
