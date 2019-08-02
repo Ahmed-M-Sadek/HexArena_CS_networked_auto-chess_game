@@ -101,18 +101,6 @@ namespace ASU2019_NetworkedGameWorkshop.controller
                 Interval = GAMELOOP_INTERVAL //Arbitrary: 20 ticks per sec
             };
             timer.Tick += new EventHandler(gameLoop);
-
-
-            //Debugging 
-            Character blue = new Character(grid, grid.Tiles[0, 0], Character.Teams.Blue, CharacterTypePhysical.Archer, this);
-            blue.learnSpell(Spells.AwesomeFireballAOE);
-            blue.learnSpell(Spells.Execute);
-            blue.learnSpell(Spells.Heal);
-            blue.learnSpell(Spells.AwesomeFireballRandom);
-            TeamBlue.Add(blue);
-            TeamBlue.Add(new Character(grid, grid.Tiles[1, 0], Character.Teams.Blue, CharacterTypePhysical.Warrior, this));
-            TeamRed.Add(new Character(grid, grid.Tiles[6, 5], Character.Teams.Red, CharacterTypePhysical.Warrior, this));
-            TeamRed.Add(new Character(grid, grid.Tiles[5, 5], Character.Teams.Red, CharacterTypePhysical.Archer, this));
         }
 
         public void addRangeToForm(params Control[] controls)
@@ -140,6 +128,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
                 if (e.Button == MouseButtons.Right)
                 {
                     deselectSelectedTile();
+
                 }
                 else if (e.Button == MouseButtons.Left)
                 {
@@ -150,8 +139,20 @@ namespace ASU2019_NetworkedGameWorkshop.controller
                     }
                 }
             }
+            else if(stageManager.CurrentGameStage == GameStage.Fight)
+            {
+                Tile tile = grid.getSelectedHexagon(e.X, e.Y);
+                if (tile != null && tile.CurrentCharacter != null)
+                {
+                    if (tile.CurrentCharacter.ActiveSpells.Count > 0 && tile.CurrentCharacter.SpellReady == false)
+                    {
+                        tile.CurrentCharacter.showChooseSpell();
+                    }
+                }
+            }
         }
 
+        
         private void selectTile(Tile tile)
         {
             if (SelectedTile == tile)
@@ -238,7 +239,15 @@ namespace ASU2019_NetworkedGameWorkshop.controller
 
         private bool stageUpdateBuy()
         {
-            bool updateCanvas = false;
+            foreach (Character character in TeamBlue.Where(e => !e.IsDead))
+            {
+                updateCanvas = character.updateBuy() || updateCanvas;
+            }
+
+            foreach (Character character in TeamRed.Where(e => !e.IsDead))
+            {
+                updateCanvas = character.updateBuy() || updateCanvas;
+            }
             return updateCanvas;
         }
 

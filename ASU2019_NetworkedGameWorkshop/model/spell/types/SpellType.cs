@@ -26,16 +26,9 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell.types
         public SpellType(string name) => Name = name;
         public SpellType(StatusEffect status) => this.status = status;
 
-        public void cast(List<Character> recievers, int abilityValue)
+        public void apply(Character castee, int abilityValue)
         {
-            foreach (var castee in recievers)
-            {
-                apply(castee, abilityValue);
-            }
-        }
 
-        private void apply(Character castee, int abilityValue)
-        {
             if (this == Damage)
             {
                 castee.takeDamage(abilityValue, DamageType.MagicDamage);

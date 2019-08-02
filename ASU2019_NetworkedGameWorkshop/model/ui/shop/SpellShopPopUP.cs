@@ -15,8 +15,9 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui.shop
         private readonly Label lbl_spellStats;
 
         private bool isNewSpell;
+        private int spellNewLevel;
         private Character character;
-        private Spells spell;
+        private Spells[] spell;
 
         public SpellShopPopUP(GameForm gameForm, GameManager gameManager, Shop shop)
         {
@@ -61,36 +62,33 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui.shop
 
         private void buySkill_click(object sender, MouseEventArgs e)
         {
-            if (isNewSpell)
-            {
-                character.learnSpell(spell);
-                Visible = false;
-                shop.spellShopView.ShowSpells(manager.SelectedTile.CurrentCharacter);
-            }
+            character.learnSpell(spell);
+            Visible = false;
+            shop.SpellShopView.ShowSpells(manager.SelectedTile.CurrentCharacter);
         }
 
         private void upgradeSpell_click(object sender, MouseEventArgs e)
         {
-            if (!isNewSpell)
-            {
-                Visible = false;
-            }
+            character.upgradeSpell(spell);
+            Visible = false;
+            shop.SpellShopView.ShowSpells(manager.SelectedTile.CurrentCharacter);
         }
 
-        public void showSpellStats(Spells spell)
+        public void showSpellStats(Spells[] spell)
         {
-            lbl_spellStats.Text = spell.ToString();
+            lbl_spellStats.Text = spell[spellNewLevel].ToString();
             lbl_spellStats.AutoSize = true;
             lbl_spellStats.BackColor = Color.Transparent;
 
             Controls.Add(lbl_spellStats);
         }
 
-        public void setParameters(Character selectedCharacter, Spells selectedSpell)
+        public void setParameters(Character selectedCharacter, Spells[] selectedSpell, int spellNewLevel)
         {
             character = selectedCharacter;
             spell = selectedSpell;
-            isNewSpell = !character.spells.Contains(spell);
+            isNewSpell = spellNewLevel == 0;
+            this.spellNewLevel = spellNewLevel;
             setButton();
         }
 

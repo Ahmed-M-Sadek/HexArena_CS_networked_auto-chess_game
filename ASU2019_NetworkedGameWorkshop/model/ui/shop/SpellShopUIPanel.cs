@@ -1,7 +1,6 @@
 ﻿using ASU2019_NetworkedGameWorkshop.model.character;
 using ASU2019_NetworkedGameWorkshop.model.spell;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -10,11 +9,12 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui.shop
     class SpellShopUIPanel : FlowLayoutPanel
     {
         private readonly Button btn_hide;
-        private readonly Dictionary<Spells, Label> spellLabels;
         private readonly Shop shop;
 
         public SpellShopUIPanel(GameForm gameForm, Shop shop)
         {
+            this.shop = shop;
+
             Size = new Size(270, 300);
             Location = new Point((int)(gameForm.Width * 0.78), (int)(gameForm.Height * 0.05));
             BackColor = Color.Transparent;
@@ -31,25 +31,6 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui.shop
             btn_hide.MouseClick += hideBtn_click;
 
             gameForm.Controls.Add(this);
-
-            spellLabels = new Dictionary<Spells, Label>();
-            foreach (Spells spell in Spells.Values)
-            {
-                Label label = new Label
-                {
-                    Text = spell.Name,
-                    AutoSize = true,
-                    Font = new Font("Arial", 10, FontStyle.Bold)
-                };
-                label.MouseClick += (sender, e) =>
-                {
-                    shop.SelectedSpell = spell;
-                    shop.viewSkillShop();
-                };
-                spellLabels.Add(spell, label);
-            }
-
-            this.shop = shop;
         }
 
         private void hideBtn_click(object sender, MouseEventArgs e)
@@ -62,10 +43,34 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui.shop
         {
             Controls.Clear();
             Controls.Add(btn_hide);
-            foreach (Spells spell in Spells.Values)
+            foreach (Spells[] spell in Spells.Values)
             {
-                spellLabels[spell].ForeColor = selectedChar.spells.Contains(spell) ? Color.MediumSeaGreen : Color.OrangeRed;
-                Controls.Add(spellLabels[spell]);
+                Label label = new Label
+                {
+                    AutoSize = true,
+                    Font = new Font("Arial", 10, FontStyle.Bold),
+                };
+                if (selectedChar.LearnedSpells.Contains(spell))
+                {
+                    if (selectedChar.SpellLevel[spell] != spell.Length - 1)
+                    {
+                        label.Text = $"{spell[selectedChar.SpellLevel[spell]].Name}({selectedChar.SpellLevel[spell] + 1})";
+                        label.ForeColor = Color.MediumSeaGreen;
+                        label.MouseClick += (sender, e) => shop.viewSkillShop(spell, selectedChar.SpellLevel[spell] + 1);
+                    }
+                    else
+                    {
+                        label.Text = $"{spell[selectedChar.SpellLevel[spell]].Name}({selectedChar.SpellLevel[spell] + 1})-Max-";
+                        label.ForeColor = Color.MediumVioletRed;
+                    }
+                }
+                else
+                {
+                    label.Text = $"{spell[0].Name}(1)";
+                    label.ForeColor = Color.OrangeRed;
+                    label.MouseClick += (sender, e) => shop.viewSkillShop(spell, 0);
+                }
+                Controls.Add(label);
             }
             Visible = true;
         }

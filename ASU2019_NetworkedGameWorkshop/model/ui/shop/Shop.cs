@@ -24,10 +24,8 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui.shop
         private readonly FlowLayoutPanel mainButtonPanel;
         private readonly GameManager gameManager;
 
-        public SpellShopUIPanel spellShopView { get; private set; }
+        public SpellShopUIPanel SpellShopView { get; private set; }
         public ShopUIPanel SelectedCharacterView { get; private set; }
-
-        public Spells SelectedSpell { get; set; }
 
         public Shop(GameForm gameForm, GameManager gameManager)
         {
@@ -37,7 +35,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui.shop
                 Visible = false
             };
             skillShop = new SpellShopPopUP(gameForm, gameManager, this);
-            spellShopView = new SpellShopUIPanel(gameForm, this)
+            SpellShopView = new SpellShopUIPanel(gameForm, this)
             {
                 Visible = false
             };
@@ -123,7 +121,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui.shop
         private void showSpells_click(object sender, MouseEventArgs e)
         {
             SelectedCharacterView.Visible = false;
-            spellShopView.ShowSpells(selectedCharacter);
+            SpellShopView.ShowSpells(selectedCharacter);
         }
 
         public void updateShop()
@@ -153,7 +151,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui.shop
         {
             SelectedCharacterView.Visible = false;
             skillShop.Visible = false;
-            spellShopView.Visible = false;
+            SpellShopView.Visible = false;
         }
 
         private void viewCharStats()
@@ -164,9 +162,9 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui.shop
             }
         }
 
-        public void viewSkillShop()
+        public void viewSkillShop(Spells[] SelectedSpell, int spellLevel)
         {
-            skillShop.setParameters(selectedCharacter, SelectedSpell);
+            skillShop.setParameters(selectedCharacter, SelectedSpell, spellLevel);
             skillShop.Visible = true;
         }
     }

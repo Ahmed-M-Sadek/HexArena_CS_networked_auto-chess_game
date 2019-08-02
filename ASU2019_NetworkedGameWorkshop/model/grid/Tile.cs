@@ -78,7 +78,6 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid
             Walkable = true;
         }
 
-
         /// <summary>
         /// Draws a string containing the tile's coordinates on the tile.
         /// </summary>

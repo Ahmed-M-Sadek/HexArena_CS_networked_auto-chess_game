@@ -1,7 +1,6 @@
 ﻿using ASU2019_NetworkedGameWorkshop.model.character;
 using ASU2019_NetworkedGameWorkshop.model.spell.types;
 using ASU2019_NetworkedGameWorkshop.Properties;
-using System;
 using System.Collections.Generic;
 using System.Drawing;
 
@@ -9,37 +8,68 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell
 {
     public class Spells
     {
-        public static readonly Spells AwesomeFireball = new Spells(200,
-            new Target(false, CastTarget.CurrentTarget),
-            SpellType.Damage,
-            Resources.fireball_red_1, "AwesomeFireball");
+        public static readonly Spells[] AwesomeFireball = new Spells[]{
+            new Spells(
+                100,
+                new Target(false, CastTarget.CurrentTarget),
+                SpellType.Damage,
+                Resources.fireball_red_1,
+                "AwesomeFireball"),
+            new Spells(
+                200,
+                new Target(false, CastTarget.CurrentTarget),
+                SpellType.Damage,
+                Resources.fireball_red_2,
+                "AwesomeFireball"),
+            new Spells(
+                300,
+                new Target(false, CastTarget.CurrentTarget),
+                SpellType.Damage,
+                Resources.fireball_red_3,
+                "AwesomeFireball")
+            };
 
-        public static readonly Spells AwesomeFireballAOE = new Spells(200,
-            new Target(false, true, 3, CastTarget.CurrentTarget),
-            SpellType.Damage,
-            Resources.fireball_acid_3, "AwesomeFireballAOE");
+        public static readonly Spells[] AwesomeFireballAOE = new Spells[]{
+            new Spells(
+                200,
+                new Target(false, true, 3, CastTarget.CurrentTarget),
+                SpellType.Damage,
+                Resources.fireball_acid_3,
+                "AwesomeFireballAOE") };
 
-        public static readonly Spells AwesomeFireballRandom = new Spells(200,
-            new Target(false, CastTarget.Random),
-            SpellType.Damage,
-            Resources.fireball_sky_1, "AwesomeFireballRandom");
+        public static readonly Spells[] AwesomeFireballRandom = new Spells[]{
+            new Spells(
+                200,
+                new Target(false, CastTarget.Random),
+                SpellType.Damage,
+                Resources.fireball_eerie_2,
+                "AwesomeFireballRandom") };
 
-        public static readonly Spells Heal = new Spells(1000,
-            new Target(false, CastTarget.Self),
-            SpellType.Heal,
-            Resources.heal_jade_1, "Heal");
+        public static readonly Spells[] Heal = new Spells[]{
+            new Spells(
+                1000,
+                new Target(false, CastTarget.Self),
+                SpellType.Heal,
+                Resources.heal_jade_1,
+                "Heal") };
 
-        public static readonly Spells VeigarDebug = new Spells(0,
-            new Target(false, CastTarget.Self),
-            new SpellType(new StatusEffect(StatusType.HealthPoints, 1.2f, 1100, StatusEffect.StatusEffectType.Multiplier)),
-            Resources.fireball_sky_1, "VeigarDebug");
+        public static readonly Spells[] VeigarDebug = new Spells[]{
+            new Spells(
+                0,
+                new Target(false, CastTarget.Self),
+                new SpellType(new StatusEffect(StatusType.HealthPoints, 1.2f, 1100, StatusEffect.StatusEffectType.Multiplier)),
+                Resources.fireball_sky_1,
+                "VeigarDebug") };
 
-        public static readonly Spells Execute = new Spells(200,
-            new Target(false, CastTarget.LowHealth),
-            SpellType.Damage,
-            Resources.fireball_red_1, "Execute");
+        public static readonly Spells[] Execute = new Spells[]{
+            new Spells(
+                200,
+                new Target(false, CastTarget.LowHealth),
+                SpellType.Damage,
+                Resources.enchant_acid_1,
+                "Execute") };
 
-        public static IEnumerable<Spells> Values
+        public static IEnumerable<Spells[]> Values
         {
             get
             {
@@ -66,18 +96,14 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell
             Image = image;
             Name = spellName;
         }
-
-        private List<Character> specifyTargets(Character caster)
-        {
-            Target.Caster = caster;
-            return Target.getTargets();
-        }
-
         public void castSpell(Character caster)
         {
-            SpellType.cast(specifyTargets(caster), AbilityValue);
+            Target.SpellType = SpellType;
+            Target.Caster = caster;
+            Target.getTargetAndCast(AbilityValue);
         }
-        public override String ToString()
+
+        public override string ToString()
         {
             return $"{Name}\nType -> {SpellType.Name} : {AbilityValue}";
         }
