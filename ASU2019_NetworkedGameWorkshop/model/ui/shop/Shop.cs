@@ -151,6 +151,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui.shop
                         btn_sellChar.Enabled = true;
                         btn_showSpells.Enabled = true;
                         btn_levelUp.Enabled = selectedCharacter.CurrentLevel < CharacterType.MAX_CHAR_LVL - 1;
+                        btn_levelUp.Text = btn_levelUp.Enabled ? "Level UP" : "Max Level";
                     }
                 }
                 else
