@@ -3,7 +3,7 @@ using ASU2019_NetworkedGameWorkshop.model;
 using ASU2019_NetworkedGameWorkshop.model.character;
 using ASU2019_NetworkedGameWorkshop.model.grid;
 using ASU2019_NetworkedGameWorkshop.model.ui;
-using ASU2019_NetworkedGameWorkshop.model.ui.shop;
+using ASU2019_NetworkedGameWorkshop.model.ui.shop.charactershop;
 using System.Collections.Generic;
 using System.Linq;
 using static ASU2019_NetworkedGameWorkshop.model.ui.StageTimer;

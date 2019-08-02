@@ -21,21 +21,23 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
 
         private readonly StatBar hpBar, charageBar;
         private readonly Brush brush;
-        private readonly CharacterType[] characterType;
+        public CharacterType[] characterType { get; private set; }
         private readonly Dictionary<StatusType, int> statsAdder;
         private readonly Dictionary<StatusType, float> statsMultiplier;
-        public List<Spells> LearnedSpells { get; }
-
-
-        private bool spellsUIVisible = false;
+        private bool spellsUIVisibleBuy = false;
         private List<StatusEffect> statusEffects;
+
         private long nextAtttackTime;
 
+        public Dictionary<Spells[], int> SpellLevel { get; set; }
+        public Spells[] DefaultSkill { get; set; }
         public ChooseSpell ChooseSpell { get; set; }
         public InactiveSpell InactiveSpell { get; set; }
-        public List<Spells> ActiveSpells { get; set; }
-        public List<Spells> InactiveSpells { get; set; }
+        public List<Spells[]> ActiveSpells { get; set; }
+        public List<Spells[]> InactiveSpells { get; set; }
         public bool SpellReady { get; set; }
+
+
         public Dictionary<StatusType, int> Stats { get; private set; }
         public Tile CurrentTile { get; set; }//public set ?
         public Character CurrentTarget { get; private set; }
@@ -54,6 +56,8 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
         public int CurrentLevel { get; private set; }
         public Tile ToMoveTo { get; private set; }
 
+        public List<Spells[]> LearnedSpells { get; }
+
         public Character(Grid grid,
                          Tile currentTile,
                          Teams team,
@@ -66,13 +70,17 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
             SpellReady = false;
             this.characterType = characterType;
             this.gameManager = gameManager;
+            ChooseSpell = new ChooseSpell(this, ActiveSpells);
+            InactiveSpell = new InactiveSpell(this, InactiveSpells);
 
             Stats = CharacterType.statsCopy();
-            ActiveSpells = new List<Spells>();
-            InactiveSpells = new List<Spells>();
-            LearnedSpells = new List<Spells>();
+            ActiveSpells = new List<Spells[]>();
+            InactiveSpells = new List<Spells[]>();
+            LearnedSpells = new List<Spells[]>();
+            SpellLevel = new Dictionary<Spells[], int>();
             brush = (team == Teams.Blue) ? Brushes.BlueViolet : Brushes.Red;
             statusEffects = new List<StatusEffect>();
+
             IsDead = false;
 
             statsMultiplier = new Dictionary<StatusType, float>();
@@ -105,10 +113,16 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
                                                         Stats[StatusType.HealthPointsMax]);
         }
 
-        public void learnSpell(Spells spell)
+        public void learnSpell(Spells[] spell)
         {
+            SpellLevel.Add(spell,0);
             LearnedSpells.Add(spell);
             InactiveSpells.Add(spell);
+        }
+        public void upgradeSpell(Spells[] spell)
+        {
+            if(SpellLevel[spell]<spell.Count()-1)
+                SpellLevel[spell] += 1;
         }
 
         /// <summary>
@@ -148,12 +162,6 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
 
         }
 
-        private void hideSpellUI()
-        {
-            gameManager.removeRangeFromForm(ChooseSpell);
-            SpellReady = false;
-        }
-
         public void reset()
         {
             Stats = CharacterType.statsCopy();
@@ -171,7 +179,6 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
             statusEffects.Add(statusEffect);
         }
 
-
         public void resetMana()
         {
             Stats[StatusType.Charge] = 0;
@@ -185,39 +192,52 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
                 CurrentTile.Walkable = true;
                 ToMoveTo.CurrentCharacter = this;
                 ToMoveTo = null;
-
+                if (SpellReady)
+                {
+                    ChooseSpell.refreshLocation(this);
+                }
                 return true;
             }
             return false;
         }
+
+        public void showChooseSpell()
+        {
+            ChooseSpell.refreshLocation(this);
+            gameManager.addRangeToForm(ChooseSpell);
+            SpellReady = true;
+        }
+
+        public void hideSpellUI()
+        {
+            gameManager.removeRangeFromForm(ChooseSpell);
+            SpellReady = false;
+        }
+        
         public bool updateBuy()
         {
-            if (gameManager.CurrentGameStage == StageManager.GameStage.Buy && !spellsUIVisible && this.CurrentTile == gameManager.SelectedTile)
+            if (!spellsUIVisibleBuy && this.CurrentTile == gameManager.SelectedTile && LearnedSpells.Count !=0)
             {
-                InactiveSpell = new InactiveSpell(this, InactiveSpells);
-                ChooseSpell = new ChooseSpell(this, ActiveSpells);
+                ChooseSpell.refreshPanel(this, ActiveSpells);
+                InactiveSpell.refreshPanel(InactiveSpells);
                 gameManager.addRangeToForm(InactiveSpell, ChooseSpell);
-                spellsUIVisible = true;
+                spellsUIVisibleBuy = true;
                 return true;
             }
             else if (this.CurrentTile != gameManager.SelectedTile)
             {
                 gameManager.removeRangeFromForm(InactiveSpell, ChooseSpell);
-                foreach (Spells spell in ActiveSpells)
-                {
-                    InactiveSpells.Remove(spell);
-                }
-                spellsUIVisible = false;
+                spellsUIVisibleBuy = false;
                 return true;
             }
             return false;
         }
         public bool update()
         {
-            if (gameManager.CurrentGameStage != StageManager.GameStage.Buy && spellsUIVisible)
+            if (spellsUIVisibleBuy)
             {
                 gameManager.removeRangeFromForm(InactiveSpell, ChooseSpell);
-                spellsUIVisible = false;
+                spellsUIVisibleBuy = false;
                 return true;
             }
             statusEffects = statusEffects.Where(effect =>
@@ -244,13 +264,17 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
                 return true;
             }).ToList();
 
-            if (Stats[StatusType.Charge] == Stats[StatusType.ChargeMax]
-                && ActiveSpells.Count != 0
-                && !SpellReady)
+            
+            if(Stats[StatusType.Charge] == Stats[StatusType.ChargeMax]
+                && ActiveSpells.Count != 0)
             {
-                ChooseSpell = new ChooseSpell(this, ActiveSpells);
-                SpellReady = true;
-                gameManager.addRangeToForm(ChooseSpell);
+                if (DefaultSkill == null)
+                {
+                    DefaultSkill = ActiveSpells[0];
+                }
+                DefaultSkill[SpellLevel[DefaultSkill]].castSpell(this);
+                hideSpellUI();
+                resetMana();
             }
 
             if (ToMoveTo == null)
@@ -288,14 +312,15 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
             return false;
         }
 
-        private void levelUp()
+        public void levelUp()
         {
-            if (CurrentLevel < CharacterType.MAX_CHAR_LVL)
+            if (CurrentLevel < CharacterType.MAX_CHAR_LVL - 1)
             {
                 CurrentLevel++;
                 Stats = CharacterType.statsCopy();
             }
         }
+
         private void applyStatusEffect(StatusEffect statusEffect)
         {
             if (statusEffect.Type == StatusEffectType.Adder)
@@ -305,6 +330,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
             }
             else
             {
+
                 statsMultiplier[statusEffect.StatusType] *= statusEffect.Value;
 
                 Stats[statusEffect.StatusType] = (int)Math.Round(Stats[statusEffect.StatusType] * statusEffect.Value);

@@ -3,7 +3,7 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace ASU2019_NetworkedGameWorkshop.model.ui.shop
+namespace ASU2019_NetworkedGameWorkshop.model.ui.shop.charactershop
 {
     class ShopButton : Button
     {
@@ -33,6 +33,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui.shop
             MouseEnter += ShopButton_MouseHover;
             MouseLeave += ShopButton_MouseLeave;
         }
+        
 
         private void ShopButton_MouseHover(object sender, EventArgs e) => MouseHovered = true;
         private void ShopButton_MouseLeave(object sender, EventArgs e) => MouseHovered = false;

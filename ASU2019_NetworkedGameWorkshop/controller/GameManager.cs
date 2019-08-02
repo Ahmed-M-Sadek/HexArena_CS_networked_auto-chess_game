@@ -6,6 +6,7 @@ using ASU2019_NetworkedGameWorkshop.model.character.types;
 using ASU2019_NetworkedGameWorkshop.model.grid;
 using ASU2019_NetworkedGameWorkshop.model.ui;
 using ASU2019_NetworkedGameWorkshop.model.ui.shop;
+using ASU2019_NetworkedGameWorkshop.model.ui.shop.charactershop;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -14,7 +15,6 @@ using System.Linq;
 using System.Windows.Forms;
 using static ASU2019_NetworkedGameWorkshop.controller.StageManager;
 using static ASU2019_NetworkedGameWorkshop.model.ui.StageTimer;
-
 
 namespace ASU2019_NetworkedGameWorkshop.controller
 {
@@ -34,6 +34,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
         private readonly GameNetworkManager gameNetworkManager;
         private readonly List<Player> otherPlayers;
 
+        private Shop spellShop;
         private long nextTickTime;
         private bool updateCanvas;
 
@@ -91,6 +92,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             playersLeaderBoard = new PlayersLeaderBoard(Player);
 
             charShop = new CharShop(gameForm, this);
+            spellShop = new Shop(gameForm, this);
 
             stageTimer = new StageTimer(this);
             stageManager = new StageManager(stageTimer,
@@ -140,6 +142,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
                 if (e.Button == MouseButtons.Right)
                 {
                     deselectSelectedTile();
+
                 }
                 else if (e.Button == MouseButtons.Left)
                 {
@@ -150,8 +153,20 @@ namespace ASU2019_NetworkedGameWorkshop.controller
                     }
                 }
             }
+            else if(stageManager.CurrentGameStage == GameStage.Fight)
+            {
+                Tile tile = grid.getSelectedHexagon(e.X, e.Y);
+                if (tile != null && tile.CurrentCharacter != null)
+                {
+                    if (tile.CurrentCharacter.ActiveSpells.Count > 0 && tile.CurrentCharacter.SpellReady == false)
+                    {
+                        tile.CurrentCharacter.showChooseSpell();
+                    }
+                }
+            }
         }
 
+        
         private void selectTile(Tile tile)
         {
             if (SelectedTile == tile)
@@ -163,6 +178,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
                 SelectedTile = tile;
                 SelectedTile.Selected = true;
                 updateCanvas = true;
+                spellShop.updateShop();
             }
             else
             {
@@ -191,6 +207,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
                 SelectedTile.Selected = false;
                 SelectedTile = null;
                 updateCanvas = true;
+                spellShop.updateShop();
             }
         }
 
@@ -221,8 +238,8 @@ namespace ASU2019_NetworkedGameWorkshop.controller
         private void gameStart()
         {
             stopwatch.Start();
-            //stageManager.switchStage();
-            stageTimer.resetTimer(StageTime.BUY);//Debugging
+            //stageManager.switchStage();//Debugging
+            stageTimer.resetTimer(StageTime.BUY);
         }
 
         private void gameLoop(object sender, EventArgs e)

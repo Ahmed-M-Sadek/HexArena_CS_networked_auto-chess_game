@@ -1,4 +1,5 @@
-﻿// credit to https://github.com/SebLague/Pathfinding/blob/master/Episode%2004%20-%20heap/Assets/Scripts/Heap.cs
+
+// credit to https://github.com/SebLague/Pathfinding/blob/master/Episode%2004%20-%20heap/Assets/Scripts/Heap.cs
 using System;
 
 namespace ASU2019_NetworkedGameWorkshop.model.collection

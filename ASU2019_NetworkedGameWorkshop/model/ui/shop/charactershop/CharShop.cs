@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 
-namespace ASU2019_NetworkedGameWorkshop.model.ui.shop
+namespace ASU2019_NetworkedGameWorkshop.model.ui.shop.charactershop
 {
     public class CharShop : GraphicsObject
     {

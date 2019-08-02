@@ -160,9 +160,9 @@ namespace ASU2019_NetworkedGameWorkshop.controller.networking
         public static string serializeCharacter(model.character.Character character)
         {
             string spells = "";
-            foreach (var spell in character.LearnedSpells)
+            foreach (Spells[] spell in character.LearnedSpells)
             {
-                spells += $"#{spell.Id}#{spell.Level}";
+                spells += $"#{spell[character.SpellLevel[spell]].Id}#{character.SpellLevel[spell]}";
             }
             return $"{character.CharacterType.Id}#{character.CurrentLevel}#{character.CurrentTile.X}#{character.CurrentTile.Y}#{character.LearnedSpells.Count}{spells}";
         }

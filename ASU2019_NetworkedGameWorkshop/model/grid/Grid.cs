@@ -127,6 +127,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid
                     if (gridX >= 0 && gridX < GridWidth
                         && gridY >= 0 && gridY < GridHeight)
                     {
+
                         neighbours.Add(TilesClone[gridX, gridY]);
                     }
                 }
