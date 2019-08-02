@@ -347,9 +347,11 @@ namespace ASU2019_NetworkedGameWorkshop.controller
 
         private bool stageUpdateFight()
         {
-            List<Character> Team1 = IsHost ? TeamBlue : TeamRed;
-            List<Character> Team2 = IsHost ? TeamRed : TeamBlue;
+            List<Character> Team1, Team2;
+            (Team1, Team2) = IsHost ? (TeamBlue, TeamRed) : (TeamRed, TeamBlue);
+            (Team1, Team2) = (stageManager.CurrentRound &1) == 0 ? (Team1, Team2) : (Team2, Team1);
 
+            
             if (Team1.Count(e => !e.IsDead) == 0 || Team2.Count(e => !e.IsDead) == 0)
             {
                 stageTimer.endTimer();
