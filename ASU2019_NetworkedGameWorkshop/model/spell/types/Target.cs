@@ -40,7 +40,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell.types
             switch (CastTarget)
             {
                 case CastTarget.Self:
-                    SpellType.apply(Caster,abliltyValue);
+                    SpellType.apply(Caster, abliltyValue);
                     break;
                 case CastTarget.CurrentTarget:
                     for (int i = 0; i < NumberOfTargets && desiredTeam.Count != 0; i++)
@@ -74,7 +74,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell.types
                                     lowChar = character;
                                 }
                             }
-                            SpellType.apply(lowChar,abliltyValue);
+                            SpellType.apply(lowChar, abliltyValue);
                             desiredTeam.Remove(lowChar);
                         }
                     }

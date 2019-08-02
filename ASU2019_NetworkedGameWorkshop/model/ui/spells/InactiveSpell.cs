@@ -16,8 +16,8 @@ namespace ASU2019_NetworkedGameWorkshop.model
         private const int BACK_PADDING_H = 6;
         private const float BACK_OFFSET_X = WIDTH_HALF + BACK_PADDING_H / 2f,
             BACK_OFFSET_Y = 2f;
-        private const float BACK_WIDTH = WIDTH + BACK_PADDING_H +4,
-            BACK_HEIGHT = height + BACK_OFFSET_Y+12;
+        private const float BACK_WIDTH = WIDTH + BACK_PADDING_H + 4,
+            BACK_HEIGHT = height + BACK_OFFSET_Y + 12;
 
         private const int ROW_HEIGHT = 20;
         private const int IMAGE_SIZE = 18;
@@ -34,8 +34,8 @@ namespace ASU2019_NetworkedGameWorkshop.model
             offsetY = -Tile.HALF_HEIGHT - 1 * BACK_HEIGHT + HEX_OFFSET_Y;
             backOffsetY = offsetY - (BACK_OFFSET_Y / 2f);
             refreshPanel(spells);
-            
-            
+
+
         }
         public void refreshPanel(List<Spells[]> spells)
         {
@@ -64,7 +64,7 @@ namespace ASU2019_NetworkedGameWorkshop.model
             }
         }
 
-        private MouseEventHandler mouseEvent(List<Spells[]> spells, int k,PictureBox pic)
+        private MouseEventHandler mouseEvent(List<Spells[]> spells, int k, PictureBox pic)
         {
             return (sender, e) =>
             {

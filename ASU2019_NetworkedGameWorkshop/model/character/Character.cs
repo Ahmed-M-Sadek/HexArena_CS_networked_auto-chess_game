@@ -115,13 +115,13 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
 
         public void learnSpell(Spells[] spell)
         {
-            SpellLevel.Add(spell,0);
+            SpellLevel.Add(spell, 0);
             LearnedSpells.Add(spell);
             InactiveSpells.Add(spell);
         }
         public void upgradeSpell(Spells[] spell)
         {
-            if(SpellLevel[spell]<spell.Count()-1)
+            if (SpellLevel[spell] < spell.Count() - 1)
                 SpellLevel[spell] += 1;
         }
 
@@ -213,10 +213,10 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
             gameManager.removeRangeFromForm(ChooseSpell);
             SpellReady = false;
         }
-        
+
         public bool updateBuy()
         {
-            if (!spellsUIVisibleBuy && this.CurrentTile == gameManager.SelectedTile && LearnedSpells.Count !=0)
+            if (!spellsUIVisibleBuy && this.CurrentTile == gameManager.SelectedTile && LearnedSpells.Count != 0)
             {
                 ChooseSpell.refreshPanel(this, ActiveSpells);
                 InactiveSpell.refreshPanel(InactiveSpells);
@@ -264,8 +264,8 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
                 return true;
             }).ToList();
 
-            
-            if(Stats[StatusType.Charge] == Stats[StatusType.ChargeMax]
+
+            if (Stats[StatusType.Charge] == Stats[StatusType.ChargeMax]
                 && ActiveSpells.Count != 0)
             {
                 if (DefaultSkill == null)

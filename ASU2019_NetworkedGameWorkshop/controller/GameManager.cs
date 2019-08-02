@@ -153,7 +153,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
                     }
                 }
             }
-            else if(stageManager.CurrentGameStage == GameStage.Fight)
+            else if (stageManager.CurrentGameStage == GameStage.Fight)
             {
                 Tile tile = grid.getSelectedHexagon(e.X, e.Y);
                 if (tile != null && tile.CurrentCharacter != null)
@@ -166,7 +166,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             }
         }
 
-        
+
         private void selectTile(Tile tile)
         {
             if (SelectedTile == tile)
