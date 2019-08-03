@@ -65,7 +65,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// </summary>
         public static System.IO.UnmanagedMemoryStream _10Seconds {
             get {
-                return ResourceManager.GetStream("_10Seconds", resourceCulture);
+                return ResourceManager.GetStream("10Seconds", resourceCulture);
             }
         }
         
@@ -74,7 +74,16 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// </summary>
         public static System.IO.UnmanagedMemoryStream _5SecPreFight {
             get {
-                return ResourceManager.GetStream("_5SecPreFight", resourceCulture);
+                return ResourceManager.GetStream("5SecPreFight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        public static System.IO.UnmanagedMemoryStream BuyCharacter {
+            get {
+                return ResourceManager.GetStream("BuyCharacter", resourceCulture);
             }
         }
         
@@ -621,6 +630,15 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
+        public static System.IO.UnmanagedMemoryStream learnSpell {
+            get {
+                return ResourceManager.GetStream("learnSpell", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
         public static System.IO.UnmanagedMemoryStream MatchWin {
             get {
                 return ResourceManager.GetStream("MatchWin", resourceCulture);
@@ -900,6 +918,15 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
+        public static System.IO.UnmanagedMemoryStream Rise03 {
+            get {
+                return ResourceManager.GetStream("Rise03", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
         public static System.IO.UnmanagedMemoryStream RoundLose {
             get {
                 return ResourceManager.GetStream("RoundLose", resourceCulture);
@@ -912,6 +939,15 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         public static System.IO.UnmanagedMemoryStream RoundWin {
             get {
                 return ResourceManager.GetStream("RoundWin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        public static System.IO.UnmanagedMemoryStream swapCharacter {
+            get {
+                return ResourceManager.GetStream("swapCharacter", resourceCulture);
             }
         }
         
@@ -942,6 +978,15 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
             get {
                 object obj = ResourceManager.GetObject("Tile_Transparent", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        public static System.IO.UnmanagedMemoryStream upgradeSpell {
+            get {
+                return ResourceManager.GetStream("upgradeSpell", resourceCulture);
             }
         }
     }

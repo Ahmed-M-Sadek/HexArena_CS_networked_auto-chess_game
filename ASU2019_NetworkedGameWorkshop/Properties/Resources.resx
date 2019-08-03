@@ -370,8 +370,23 @@
   <data name="Tile_Transparent" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\assets\sprites\tiles\Tile_Transparent.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="10Seconds" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sounds\10Seconds.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="5SecPreFight" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sounds\5SecPreFight.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="BuyCharacter" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sounds\BuyCharacter.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="learnSpell" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sounds\learnSpell.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="MatchWin" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\assets\sounds\MatchWin.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Rise03" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sounds\Rise03.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="RoundLose" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\assets\sounds\RoundLose.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -379,10 +394,10 @@
   <data name="RoundWin" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\assets\sounds\RoundWin.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="_10Seconds" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\assets\sounds\10Seconds.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="swapCharacter" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sounds\swapCharacter.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="_5SecPreFight" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\assets\sounds\5SecPreFight.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="upgradeSpell" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sounds\upgradeSpell.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

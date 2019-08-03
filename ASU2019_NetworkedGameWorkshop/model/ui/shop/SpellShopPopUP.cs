@@ -63,6 +63,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui.shop
         {
             if (isNewSpell)
             {
+                SoundManager.PlaySound("learnSpell.wav");
                 character.learnSpell(spell);
                 Visible = false;
                 shop.spellShopView.ShowSpells(manager.SelectedTile.CurrentCharacter);
@@ -73,6 +74,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui.shop
         {
             if (!isNewSpell)
             {
+                SoundManager.PlaySound("upgradeSpell.wav");
                 Visible = false;
             }
         }

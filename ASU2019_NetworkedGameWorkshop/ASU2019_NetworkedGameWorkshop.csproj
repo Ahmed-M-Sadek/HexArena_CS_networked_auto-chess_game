@@ -269,5 +269,32 @@
   <ItemGroup>
     <None Include="assets\sounds\10Seconds.wav" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\sounds\140382__dwoboyle__coins-01.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\sounds\176741__deleted-user-3277771__buffer-spell.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\sounds\420676__sypherzent__spell-cast-buff-high-tone.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\sounds\425699__moogy73__woosh-low-03.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\sounds\Rise03.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\sounds\BuyCharacter.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\sounds\learnSpell.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\sounds\swapCharacter.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\sounds\upgradeSpell.wav" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

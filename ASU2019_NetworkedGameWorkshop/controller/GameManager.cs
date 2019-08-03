@@ -167,6 +167,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             }
             else
             {
+                SoundManager.PlaySound("swapCharacter.wav");
                 Character temp = SelectedTile.CurrentCharacter;
                 SelectedTile.CurrentCharacter = tile.CurrentCharacter;
                 tile.CurrentCharacter = temp;

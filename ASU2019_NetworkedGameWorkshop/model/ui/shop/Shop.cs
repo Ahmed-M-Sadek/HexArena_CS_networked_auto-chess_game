@@ -95,6 +95,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui.shop
             gameManager.TeamBlue.Remove(selectedCharacter);
             selectedCharacter.CurrentTile.CurrentCharacter = null;
 
+            SoundManager.PlaySound("BuyCharacter.wav");
             gameManager.Player.Gold += 10;//todo change this plz
             gameManager.deselectSelectedTile();
         }
@@ -105,6 +106,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui.shop
             {
                 return;
             }
+            SoundManager.PlaySound("Rise03.wav");
             gameManager.Player.Gold -= selectedCharacter.CurrentLevel * 5;
             selectedCharacter.levelUp();
             viewCharStats();
