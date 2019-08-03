@@ -218,36 +218,36 @@ namespace ASU2019_NetworkedGameWorkshop.controller.networking
             return $"{tile.X}#{tile.Y}#{selectedTile.X}#{selectedTile.Y}";
         }
 
-        public static string serializeStage(StageManager.GameStage gameStage)
+        public static string serializeStage(StageManager.GameStage gameStage, bool BlueWins)
         {
             switch(gameStage)
             {
                 case StageManager.GameStage.Buy:
-                    return $"B";
+                    return $"B#{BlueWins}";
                 case StageManager.GameStage.BuyToFight:
-                    return $"BF";
+                    return $"BF#{BlueWins}";
                 case StageManager.GameStage.Fight:
-                    return $"F";
+                    return $"F#{BlueWins}";
                 case StageManager.GameStage.FightToBuy:
-                    return $"FB";
+                    return $"FB#{BlueWins}";
             }
-            return $"B";
+            return $"B#{BlueWins}";
         }
 
-        public static StageManager.GameStage parseStage (string stage)
+        public static (StageManager.GameStage, bool) parseStage (string stage, string blueWins)
         {
             switch(stage)
             {
                 case "B":
-                    return StageManager.GameStage.Buy;
+                    return (StageManager.GameStage.Buy, true);
                 case "BF":
-                    return StageManager.GameStage.BuyToFight;
+                    return (StageManager.GameStage.BuyToFight, true);
                 case "F":
-                    return StageManager.GameStage.Fight;
+                    return (StageManager.GameStage.Fight, true);
                 case "FB":
-                    return StageManager.GameStage.FightToBuy;
+                    return (StageManager.GameStage.FightToBuy, Convert.ToBoolean(blueWins));
             }
-            return StageManager.GameStage.Buy;
+            return (StageManager.GameStage.Buy, true);
         }
 
         public static Tuple<Tile, Tile> parseCharacterSwap(string[] msg, model.grid.Grid grid)

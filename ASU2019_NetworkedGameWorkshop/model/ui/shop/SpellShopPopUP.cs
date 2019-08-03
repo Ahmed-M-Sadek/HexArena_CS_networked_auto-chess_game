@@ -16,11 +16,13 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui.shop
         private readonly Shop shop;
         private readonly GameNetworkManager gameNetworkManager;
         private readonly Label lbl_spellStats;
+        private const int SPELL_PRICE = 10;
 
         private bool isNewSpell;
         private int spellNewLevel;
         private Character character;
         private Spells[] spell;
+
 
         public SpellShopPopUP(GameForm gameForm, GameManager gameManager, Shop shop, GameNetworkManager gameNetworkManager)
         {
@@ -66,6 +68,11 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui.shop
 
         private void buySkill_click(object sender, MouseEventArgs e)
         {
+            if(manager.Player.Gold < SPELL_PRICE)
+            {
+                return;
+            }
+            manager.Player.Gold -= SPELL_PRICE;
             character.learnSpell(spell);
             Visible = false;
             gameNetworkManager.enqueueMsg(NetworkMsgPrefix.LearnSpell, GameNetworkUtilities.serializeSpellAction(spell, character.CurrentTile));
