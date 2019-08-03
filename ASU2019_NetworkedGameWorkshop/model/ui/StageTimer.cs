@@ -53,7 +53,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui
                 return true;
             }
             long newTime = (timerEnd - gameManager.ElapsedTime) / 1000;
-            if (newTime == 9 && currentStageTime == StageTime.BUY && isFirstTimeSound) {
+            if (newTime == 10 && currentStageTime == StageTime.BUY && isFirstTimeSound) {
                 SoundManager.PlaySound("10Seconds.wav");
                 isFirstTimeSound = false;
             }
