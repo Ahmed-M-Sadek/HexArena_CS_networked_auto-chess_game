@@ -55,7 +55,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
                 return characterType[CurrentLevel];
             }
         }
-        public bool IsDead { get; private set; }
+        public bool IsDead { get; set; }
         public int CurrentLevel { get; private set; }
         public Tile ToMoveTo { get; private set; }
 

@@ -26,11 +26,11 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui.shop.charactershop
 
         private Rectangle rectangle;
 
-        private int CharacterPrice
+        public int CharacterPrice
         {
             get
-            {//not working as required
-                return Math.Min(40, gameManager.TeamBlue.Count * 10 - Math.Max(0, gameManager.TeamBlue.Count * 2));
+            {
+                return Math.Min(40, gameManager.TeamBlue.Count * 8);
             }
         }
 

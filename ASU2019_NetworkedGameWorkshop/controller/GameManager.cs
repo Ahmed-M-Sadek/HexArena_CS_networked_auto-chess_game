@@ -30,7 +30,6 @@ namespace ASU2019_NetworkedGameWorkshop.controller
         private readonly StageTimer stageTimer;
         private readonly Stopwatch stopwatch;
         private readonly PlayersLeaderBoard playersLeaderBoard;
-        private readonly CharShop charShop;
         private readonly GameNetworkManager gameNetworkManager;
         private readonly List<Player> otherPlayers;
 
@@ -48,6 +47,8 @@ namespace ASU2019_NetworkedGameWorkshop.controller
         public List<Character> TeamRed { get; private set; }
         public Tile SelectedTile { get; set; }
         public Player Player { get; }
+        public CharShop CharShop { get; private set; }
+
         public GameStage CurrentGameStage
         {
             get
@@ -86,7 +87,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             otherPlayers = new List<Player>();
             playersLeaderBoard = new PlayersLeaderBoard(Player);
 
-            charShop = new CharShop(gameForm, this);
+            CharShop = new CharShop(gameForm, this);
             spellShop = new Shop(gameForm, this, gameNetworkManager);
 
             stageTimer = new StageTimer(this);
@@ -96,7 +97,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
                                             grid,
                                             Player,
                                             playersLeaderBoard,
-                                            charShop,
+                                            CharShop,
                                             this,
                                             gameNetworkManager);
             stageTimer.switchStageEvent += stageManager.switchStage;
@@ -221,7 +222,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             Player.draw(e.Graphics);
             e.Graphics.DrawString("Round: " + stageManager.CurrentRound, new Font("Roboto", 12, FontStyle.Bold), Brushes.Black, 800, 15);//temp pos and font
             playersLeaderBoard.draw(e.Graphics);
-            charShop.draw(e.Graphics);
+            CharShop.draw(e.Graphics);
 
             if (true)//debugging
             {
@@ -291,8 +292,22 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             else if(msg[0].Equals(NetworkMsgPrefix.StageChange.getPrefix()))
             {
                 stageTimer.HostStageChanged = true;
-                Console.WriteLine("Set to true");
-                //stageManager.CurrentGameStage = GameNetworkUtilities.parseStage(msg[1]);
+                (GameStage gameStage, bool blueWins) = GameNetworkUtilities.parseStage(msg[1], msg[2]);
+                if (gameStage == GameStage.FightToBuy)
+                    if (blueWins)
+                    {
+                        foreach(Character character in TeamRed.Where(e => !e.IsDead))
+                        {
+                            character.IsDead = true;
+                        }
+                    }
+                    else
+                    {
+                        foreach(Character character in TeamBlue.Where(e => !e.IsDead))
+                        {
+                            character.IsDead = true;
+                        }
+                    }
             }
             else if(msg[0].Equals(NetworkMsgPrefix.NewCharacter.getPrefix()))
             {

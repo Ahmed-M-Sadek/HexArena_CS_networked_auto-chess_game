@@ -88,7 +88,19 @@ namespace ASU2019_NetworkedGameWorkshop.controller
         private void enqueueStageChangeMsg ()
         {
             if(gameManager.IsHost)
-                gameNetworkManager.enqueueMsg(NetworkMsgPrefix.StageChange, networking.GameNetworkUtilities.serializeStage(CurrentGameStage));
+                if(CurrentGameStage == GameStage.FightToBuy)
+                {
+                    if (gameManager.TeamBlue.Count > 0)
+                    {
+                       gameNetworkManager.enqueueMsg(NetworkMsgPrefix.StageChange, networking.GameNetworkUtilities.serializeStage(CurrentGameStage, true));
+                    }
+                    else
+                    {
+                        gameNetworkManager.enqueueMsg(NetworkMsgPrefix.StageChange, networking.GameNetworkUtilities.serializeStage(CurrentGameStage, false));
+                    }
+                }
+                else
+                    gameNetworkManager.enqueueMsg(NetworkMsgPrefix.StageChange, networking.GameNetworkUtilities.serializeStage(CurrentGameStage, false));
         }
 
         private void switchStageBuy()
