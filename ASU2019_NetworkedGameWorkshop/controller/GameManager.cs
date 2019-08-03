@@ -298,14 +298,14 @@ namespace ASU2019_NetworkedGameWorkshop.controller
                     {
                         foreach(Character character in TeamRed.Where(e => !e.IsDead))
                         {
-                            character.IsDead = true;
+                            character.takeDamage(10000, DamageType.PhysicalDamage);
                         }
                     }
                     else
                     {
                         foreach(Character character in TeamBlue.Where(e => !e.IsDead))
                         {
-                            character.IsDead = true;
+                            character.takeDamage(10000, DamageType.PhysicalDamage);
                         }
                     }
             }
