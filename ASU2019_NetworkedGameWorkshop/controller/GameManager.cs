@@ -64,6 +64,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
 
             if (isHost)
             {
+                IsHost = isHost;
                 gameNetworkManager = new GameServer(port);
             }
             else
@@ -368,7 +369,12 @@ namespace ASU2019_NetworkedGameWorkshop.controller
 
         private bool stageUpdateFight()
         {
-            if (TeamBlue.Count(e => !e.IsDead) == 0 || TeamRed.Count(e => !e.IsDead) == 0)
+            List<Character> Team1, Team2;
+            (Team1, Team2) = IsHost ? (TeamBlue, TeamRed) : (TeamRed, TeamBlue);
+            (Team1, Team2) = (stageManager.CurrentRound &1) == 0 ? (Team1, Team2) : (Team2, Team1);
+
+            
+            if (Team1.Count(e => !e.IsDead) == 0 || Team2.Count(e => !e.IsDead) == 0)
             {
                 stageTimer.endTimer();
                 return true;
@@ -376,12 +382,12 @@ namespace ASU2019_NetworkedGameWorkshop.controller
 
             bool updateCanvas = false;
 
-            foreach (Character character in TeamBlue.Where(e => !e.IsDead))
+            foreach (Character character in Team1.Where(e => !e.IsDead))
             {
                 updateCanvas = character.update() || updateCanvas;
             }
 
-            foreach (Character character in TeamRed.Where(e => !e.IsDead))
+            foreach (Character character in Team2.Where(e => !e.IsDead))
             {
                 updateCanvas = character.update() || updateCanvas;
             }
@@ -390,11 +396,11 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             if (nextTickTime < ElapsedTime)
             {
                 nextTickTime = ElapsedTime + TICK_INTERVAL;
-                foreach (Character character in TeamBlue.Where(e => !e.IsDead))
+                foreach (Character character in Team1.Where(e => !e.IsDead))
                 {
                     updateCanvas = character.tick() || updateCanvas;
                 }
-                foreach (Character character in TeamRed.Where(e => !e.IsDead))
+                foreach (Character character in Team2.Where(e => !e.IsDead))
                 {
                     updateCanvas = character.tick() || updateCanvas;
                 }
