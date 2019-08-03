@@ -90,7 +90,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             if(gameManager.IsHost)
                 if(CurrentGameStage == GameStage.FightToBuy)
                 {
-                    if (gameManager.TeamBlue.Count > 0)
+                    if (gameManager.TeamBlue.Count(e => !e.IsDead) > 0)
                     {
                        gameNetworkManager.enqueueMsg(NetworkMsgPrefix.StageChange, networking.GameNetworkUtilities.serializeStage(CurrentGameStage, true));
                     }
