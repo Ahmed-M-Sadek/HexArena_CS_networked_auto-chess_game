@@ -26,7 +26,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
         private readonly CharShop charShop;
         private readonly Player player;
 
-        public GameStage CurrentGameStage { get; private set; }
+        public GameStage CurrentGameStage { get; set; }
         public int CurrentRound { get; set; }
 
         public StageManager(StageTimer stageTimer,
@@ -60,24 +60,35 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             {
                 CurrentGameStage = GameStage.BuyToFight;
                 stageTimer.resetTimer(StageTime.BUY_TO_FIGHT);
+                System.Console.WriteLine("switched to " + StageTime.BUY_TO_FIGHT);
                 gameManager.deselectSelectedTile();
+                enqueueStageChangeMsg();
             }
             else if (CurrentGameStage == GameStage.Fight)
             {
                 CurrentGameStage = GameStage.FightToBuy;
                 stageTimer.resetTimer(StageTime.FIGHT_TO_BUY);
+                enqueueStageChangeMsg();
             }
             else if (CurrentGameStage == GameStage.BuyToFight)
             {
                 CurrentGameStage = GameStage.Fight;
                 switchStageFight();
+                enqueueStageChangeMsg();
             }
             else if (CurrentGameStage == GameStage.FightToBuy)
             {
                 endRound();
                 CurrentGameStage = GameStage.Buy;
                 switchStageBuy();
+                enqueueStageChangeMsg();
             }
+        }
+
+        private void enqueueStageChangeMsg ()
+        {
+            if(gameManager.IsHost)
+                gameNetworkManager.enqueueMsg(NetworkMsgPrefix.StageChange, networking.GameNetworkUtilities.serializeStage(CurrentGameStage));
         }
 
         private void switchStageBuy()

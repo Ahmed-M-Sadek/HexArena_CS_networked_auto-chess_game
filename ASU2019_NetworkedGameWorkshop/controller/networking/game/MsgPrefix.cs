@@ -27,7 +27,9 @@ namespace ASU2019_NetworkedGameWorkshop.controller.networking.game
         [Prefix("RemActSkill")]
         RemActiveSpells,
         [Prefix("ExchActSkill")]
-        ExchActiveSpells
+        ExchActiveSpells,
+        [Prefix("STC")]
+        StageChange,
     }
 
     public static class NetworkMsgPrefixExtensions

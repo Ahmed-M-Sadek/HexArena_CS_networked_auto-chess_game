@@ -215,6 +215,38 @@ namespace ASU2019_NetworkedGameWorkshop.controller.networking
             return $"{tile.X}#{tile.Y}#{selectedTile.X}#{selectedTile.Y}";
         }
 
+        public static string serializeStage(StageManager.GameStage gameStage)
+        {
+            switch(gameStage)
+            {
+                case StageManager.GameStage.Buy:
+                    return $"B";
+                case StageManager.GameStage.BuyToFight:
+                    return $"BF";
+                case StageManager.GameStage.Fight:
+                    return $"F";
+                case StageManager.GameStage.FightToBuy:
+                    return $"FB";
+            }
+            return $"B";
+        }
+
+        public static StageManager.GameStage parseStage (string stage)
+        {
+            switch(stage)
+            {
+                case "B":
+                    return StageManager.GameStage.Buy;
+                case "BF":
+                    return StageManager.GameStage.BuyToFight;
+                case "F":
+                    return StageManager.GameStage.Fight;
+                case "FB":
+                    return StageManager.GameStage.FightToBuy;
+            }
+            return StageManager.GameStage.Buy;
+        }
+
         public static Tuple<Tile, Tile> parseCharacterSwap(string[] msg, model.grid.Grid grid)
         {
             return Tuple.Create(grid.Tiles[int.Parse(msg[1]), int.Parse(msg[2])],

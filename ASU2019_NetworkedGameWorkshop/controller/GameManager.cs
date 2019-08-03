@@ -283,21 +283,27 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             Console.WriteLine("parsing " + result);//debugging
             string[] msg = result.Split(GameNetworkManager.NETWORK_MSG_SEPARATOR);
 
-            if (msg[0].Equals(NetworkMsgPrefix.CharacterSwap.getPrefix()))
+            if(msg[0].Equals(NetworkMsgPrefix.CharacterSwap.getPrefix()))
             {
                 (Tile tile, Tile selectedTile) = GameNetworkUtilities.parseCharacterSwap(msg, grid);
                 swapCharacters(tile, selectedTile);
             }
-            else if (msg[0].Equals(NetworkMsgPrefix.NewCharacter.getPrefix()))
+            else if(msg[0].Equals(NetworkMsgPrefix.StageChange.getPrefix()))
+            {
+                stageTimer.HostStageChanged = true;
+                Console.WriteLine("Set to true");
+                //stageManager.CurrentGameStage = GameNetworkUtilities.parseStage(msg[1]);
+            }
+            else if(msg[0].Equals(NetworkMsgPrefix.NewCharacter.getPrefix()))
             {
                 TeamRed.Add(CharStatToCharacter(GameNetworkUtilities.parseCharacter(msg)));
             }
-            else if (msg[0].Equals(NetworkMsgPrefix.PlayerHealthUpdate.getPrefix()))
+            else if(msg[0].Equals(NetworkMsgPrefix.PlayerHealthUpdate.getPrefix()))
             {
                 otherPlayers.Find(player => player.Name.Equals(msg[1])).Health = int.Parse(msg[2]);
                 updateLeaderBoard = true;
             }
-            else if (msg[0].Equals(NetworkMsgPrefix.NewPlayer.getPrefix()))
+            else if(msg[0].Equals(NetworkMsgPrefix.NewPlayer.getPrefix()))
             {
                 Player player = new Player(msg[1])
                 {
@@ -307,44 +313,44 @@ namespace ASU2019_NetworkedGameWorkshop.controller
                 playersLeaderBoard.addPlayers(player);
                 updateLeaderBoard = true;
             }
-            else if (msg[0].Equals(NetworkMsgPrefix.SellCharacter.getPrefix()))
+            else if(msg[0].Equals(NetworkMsgPrefix.SellCharacter.getPrefix()))
             {
                 Tile tile = grid.Tiles[int.Parse(msg[1]), int.Parse(msg[2])];
                 TeamRed.Remove(tile.CurrentCharacter);
                 tile.CurrentCharacter = null;
                 spellShop.updateShop();
             }
-            else if (msg[0].Equals(NetworkMsgPrefix.LevelUpCharacter.getPrefix()))
+            else if(msg[0].Equals(NetworkMsgPrefix.LevelUpCharacter.getPrefix()))
             {
                 grid.Tiles[int.Parse(msg[1]), int.Parse(msg[2])].CurrentCharacter.levelUp();
                 spellShop.updateShop();
             }
-            else if (msg[0].Equals(NetworkMsgPrefix.LevelUpSpell.getPrefix()))
+            else if(msg[0].Equals(NetworkMsgPrefix.LevelUpSpell.getPrefix()))
             {
                 grid.Tiles[int.Parse(msg[1]), int.Parse(msg[2])].CurrentCharacter.upgradeSpell(Spells.getSpell(int.Parse(msg[3])));
             }
-            else if (msg[0].Equals(NetworkMsgPrefix.LearnSpell.getPrefix()))
+            else if(msg[0].Equals(NetworkMsgPrefix.LearnSpell.getPrefix()))
             {
                 grid.Tiles[int.Parse(msg[1]), int.Parse(msg[2])].CurrentCharacter.learnSpell(Spells.getSpell(int.Parse(msg[3])));
             }
-            else if (msg[0].Equals(NetworkMsgPrefix.DefaultSkill.getPrefix()))
+            else if(msg[0].Equals(NetworkMsgPrefix.DefaultSkill.getPrefix()))
             {
-                grid.Tiles[int.Parse(msg[1]), int.Parse(msg[2])].CurrentCharacter.DefaultSkill=Spells.getSpell(int.Parse(msg[3]));
+                grid.Tiles[int.Parse(msg[1]), int.Parse(msg[2])].CurrentCharacter.DefaultSkill = Spells.getSpell(int.Parse(msg[3]));
             }
-            else if (msg[0].Equals(NetworkMsgPrefix.AddActiveSpells.getPrefix()))
+            else if(msg[0].Equals(NetworkMsgPrefix.AddActiveSpells.getPrefix()))
             {
                 Character character = grid.Tiles[int.Parse(msg[1]), int.Parse(msg[2])].CurrentCharacter;
                 character.ActiveSpells.Add(Spells.getSpell(int.Parse(msg[3])));
                 character.ChooseSpell.refreshPanel(character, character.ActiveSpells);
             }
-            else if (msg[0].Equals(NetworkMsgPrefix.RemActiveSpells.getPrefix()))
+            else if(msg[0].Equals(NetworkMsgPrefix.RemActiveSpells.getPrefix()))
             {
                 Character character = grid.Tiles[int.Parse(msg[1]), int.Parse(msg[2])].CurrentCharacter;
                 character.ActiveSpells.Remove(Spells.getSpell(int.Parse(msg[3])));
                 character.ChooseSpell.refreshPanel(character, character.ActiveSpells);
 
             }
-            else if (msg[0].Equals(NetworkMsgPrefix.ExchActiveSpells.getPrefix()))
+            else if(msg[0].Equals(NetworkMsgPrefix.ExchActiveSpells.getPrefix()))
             {
                 Character character = grid.Tiles[int.Parse(msg[1]), int.Parse(msg[2])].CurrentCharacter;
                 character.ChooseSpell.spellSwap(int.Parse(msg[3]));
