@@ -72,11 +72,12 @@ namespace ASU2019_NetworkedGameWorkshop.model
         {
             return (sender, e) =>
             {
+                int charIndex = character.gameManager.TeamBlue.IndexOf(character);
                 Spells[] currentSpell = spells[k];
                 if (character.ActiveSpells.Count == 0)
                 {
                     character.DefaultSkill = currentSpell;
-                    gameNetworkManager.enqueueMsg(NetworkMsgPrefix.DefaultSkill, GameNetworkUtilities.serializeSpellAction(currentSpell, character.CurrentTile));
+                    gameNetworkManager.enqueueMsg(NetworkMsgPrefix.DefaultSkill, GameNetworkUtilities.serializeSpellActionMoving(currentSpell, charIndex));
                 }
                 character.ActiveSpells.Add(currentSpell);
                 gameNetworkManager.enqueueMsg(NetworkMsgPrefix.AddActiveSpells, GameNetworkUtilities.serializeSpellAction(currentSpell, character.CurrentTile));

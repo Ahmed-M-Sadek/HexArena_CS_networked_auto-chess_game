@@ -74,6 +74,7 @@ namespace ASU2019_NetworkedGameWorkshop.model
         {
             return (sender, e) =>
             {
+                int charIndex = character.gameManager.TeamBlue.IndexOf(character);
                 Spells[] currentSpell = actives[k];
                 if (character.gameManager.CurrentGameStage == StageManager.GameStage.Buy && e.Button == MouseButtons.Right)
                 {
@@ -95,11 +96,12 @@ namespace ASU2019_NetworkedGameWorkshop.model
                     if (character.Stats[StatusType.Charge] / character.Stats[StatusType.ChargeMax] < 0.9)
                     {
                         character.DefaultSkill = currentSpell;
-                        gameNetworkManager.enqueueMsg(NetworkMsgPrefix.DefaultSkill, GameNetworkUtilities.serializeSpellAction(currentSpell,character.CurrentTile));
+                        gameNetworkManager.enqueueMsg(NetworkMsgPrefix.DefaultSkill, GameNetworkUtilities.serializeSpellActionMoving(currentSpell, charIndex));
+                        //gameNetworkManager.enqueueMsg(NetworkMsgPrefix.DefaultSkill, GameNetworkUtilities.serializeSpellAction(currentSpell,character.CurrentTile));
                         spellSwap(k);
-                        gameNetworkManager.enqueueMsg(NetworkMsgPrefix.ExchActiveSpells, GameNetworkUtilities.serializeSpellSwap(k, character.CurrentTile));
+                        gameNetworkManager.enqueueMsg(NetworkMsgPrefix.ExchActiveSpells, GameNetworkUtilities.serializeSpellSwap(k, charIndex));
                         if (character.gameManager.CurrentGameStage == StageManager.GameStage.Fight && e.Button == MouseButtons.Left)
-                            character.hideSpellUI();
+                            character.hideChooseSpellUI();
                         refreshPanel(character, character.ActiveSpells);
                     }
                 }

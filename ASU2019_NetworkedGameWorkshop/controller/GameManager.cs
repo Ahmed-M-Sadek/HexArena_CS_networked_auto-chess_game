@@ -335,7 +335,8 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             }
             else if(msg[0].Equals(NetworkMsgPrefix.DefaultSkill.getPrefix()))
             {
-                grid.Tiles[int.Parse(msg[1]), int.Parse(msg[2])].CurrentCharacter.DefaultSkill = Spells.getSpell(int.Parse(msg[3]));
+                TeamRed[int.Parse(msg[1])].DefaultSkill = Spells.getSpell(int.Parse(msg[2]));
+                //grid.Tiles[int.Parse(msg[1]), int.Parse(msg[2])].CurrentCharacter.DefaultSkill = Spells.getSpell(int.Parse(msg[3]));
             }
             else if(msg[0].Equals(NetworkMsgPrefix.AddActiveSpells.getPrefix()))
             {
@@ -352,8 +353,8 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             }
             else if(msg[0].Equals(NetworkMsgPrefix.ExchActiveSpells.getPrefix()))
             {
-                Character character = grid.Tiles[int.Parse(msg[1]), int.Parse(msg[2])].CurrentCharacter;
-                character.ChooseSpell.spellSwap(int.Parse(msg[3]));
+                Character character = TeamRed[int.Parse(msg[1])];
+                character.ChooseSpell.spellSwap(int.Parse(msg[2]));
                 character.ChooseSpell.refreshPanel(character, character.ActiveSpells);
             }
             return updateLeaderBoard;

@@ -28,6 +28,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
         private readonly Dictionary<StatusType, int> statsAdder;
         private readonly Dictionary<StatusType, float> statsMultiplier;
         private bool spellsUIVisibleBuy = false;
+        private int id;
         private List<StatusEffect> statusEffects;
 
         private long nextAtttackTime;
@@ -152,7 +153,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
 
                 if (SpellReady == true)
                 {
-                    hideSpellUI();
+                    hideChooseSpellUI();
                 }
 
                 CurrentTile.CurrentCharacter = null;
@@ -174,7 +175,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
             IsDead = false;
             CurrentTarget = null;
             ToMoveTo = null;
-            hideSpellUI();
+            hideChooseSpellUI();
         }
 
         public void addStatusEffect(StatusEffect statusEffect)
@@ -213,9 +214,14 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
             SpellReady = true;
         }
 
-        public void hideSpellUI()
+        public void hideChooseSpellUI()
         {
             gameManager.removeRangeFromForm(ChooseSpell);
+            SpellReady = false;
+        }
+        public void hideAllSpellUI()
+        {
+            gameManager.removeRangeFromForm(ChooseSpell,InactiveSpell);
             SpellReady = false;
         }
 
@@ -279,11 +285,12 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
             {
                 if (DefaultSkill == null)
                 {
+                    int charIndex = gameManager.TeamBlue.IndexOf(this);
                     DefaultSkill = ActiveSpells[0];
-                    gameNetworkManager.enqueueMsg(NetworkMsgPrefix.DefaultSkill, GameNetworkUtilities.serializeSpellAction(ActiveSpells[0],CurrentTile));
+                    gameNetworkManager.enqueueMsg(NetworkMsgPrefix.DefaultSkill, GameNetworkUtilities.serializeSpellActionMoving(ActiveSpells[0], charIndex));
                 }
                 DefaultSkill[SpellLevel[DefaultSkill]].castSpell(this);
-                hideSpellUI();
+                hideChooseSpellUI();
                 resetMana();
             }
 

@@ -200,14 +200,17 @@ namespace ASU2019_NetworkedGameWorkshop.controller.networking
         {
             return $"{tile.X}#{tile.Y}";
         }
-
+        internal static string serializeSpellActionMoving(Spells[] spell, int index)
+        {
+            return $"{index}#{spell[0].Id}";
+        }
         internal static string serializeSpellAction(Spells[] spell, Tile tile)
         {
             return $"{tile.X}#{tile.Y}#{spell[0].Id}";
         }
-        internal static string serializeSpellSwap(int index, Tile tile)
+        internal static string serializeSpellSwap(int spellIndex, int charIndex)
         {
-            return $"{tile.X}#{tile.Y}#{index}";
+            return $"{charIndex}#{spellIndex}";
         }
 
         public static string serializeCharacterSwap(Tile tile, Tile selectedTile)

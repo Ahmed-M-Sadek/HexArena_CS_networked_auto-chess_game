@@ -94,6 +94,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui.shop
         private void sellChar_click(object sender, MouseEventArgs e)
         {
             gameManager.TeamBlue.Remove(selectedCharacter);
+            selectedCharacter.hideAllSpellUI();
             selectedCharacter.CurrentTile.CurrentCharacter = null;
             gameNetworkManager.enqueueMsg(NetworkMsgPrefix.SellCharacter,
                                           GameNetworkUtilities.serializeTile(selectedCharacter.CurrentTile));
