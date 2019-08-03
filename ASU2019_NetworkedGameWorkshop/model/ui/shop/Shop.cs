@@ -133,6 +133,9 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui.shop
                 selectedCharacter = gameManager.SelectedTile.CurrentCharacter;
                 if (selectedCharacter != null)
                 {
+                    if((selectedCharacter.CurrentLevel < CharacterType.MAX_CHAR_LVL - 1)) {
+                        btn_levelUp.Text = "Level UP";
+                    }
                     SelectedCharacterView.Visible = true;
                     viewCharStats();
                     SelectedCharacterView.Invalidate();

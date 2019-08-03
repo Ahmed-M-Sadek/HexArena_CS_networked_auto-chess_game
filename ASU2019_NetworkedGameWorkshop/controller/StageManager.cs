@@ -57,11 +57,23 @@ namespace ASU2019_NetworkedGameWorkshop.controller
                 CurrentGameStage = GameStage.BuyToFight;
                 stageTimer.resetTimer(StageTime.BUY_TO_FIGHT);
                 gameManager.deselectSelectedTile();
+                SoundManager.PlaySound("5SecPreFight.wav");
             }
             else if (CurrentGameStage == GameStage.Fight)
             {
                 CurrentGameStage = GameStage.FightToBuy;
                 stageTimer.resetTimer(StageTime.FIGHT_TO_BUY);
+                bool isVictory = true;
+                foreach(Character character in teamRed) {
+                    if (!character.IsDead) {
+                        SoundManager.PlaySound("RoundLose.wav");
+                        isVictory = false;
+                        break;
+                    }
+                }
+                if (isVictory) {
+                    SoundManager.PlaySound("RoundWin.wav");
+                }
             }
             else if (CurrentGameStage == GameStage.BuyToFight)
             {
