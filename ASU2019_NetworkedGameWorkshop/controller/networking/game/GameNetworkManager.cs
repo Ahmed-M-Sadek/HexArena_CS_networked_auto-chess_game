@@ -21,7 +21,6 @@ namespace ASU2019_NetworkedGameWorkshop.controller.networking.game
         public void enqueueMsg(NetworkMsgPrefix networkMsgPrefix, string msg)
         {
             string temp = networkMsgPrefix.getPrefix() + NETWORK_MSG_SEPARATOR + msg;
-            System.Console.WriteLine("enqueue: " + temp);
             dataToSend.Enqueue(temp);
         }
 

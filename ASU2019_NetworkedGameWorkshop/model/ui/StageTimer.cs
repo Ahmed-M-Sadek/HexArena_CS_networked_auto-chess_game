@@ -1,4 +1,7 @@
 ﻿using ASU2019_NetworkedGameWorkshop.controller;
+using ASU2019_NetworkedGameWorkshop.controller.networking;
+using ASU2019_NetworkedGameWorkshop.controller.networking.game;
+using System;
 using System.Drawing;
 
 namespace ASU2019_NetworkedGameWorkshop.model.ui
@@ -19,7 +22,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui
         private static readonly Font FONT = new Font("Roboto", 14f);
 
         private readonly GameManager gameManager;
-
+        private readonly GameNetworkManager gameNetworkManager;
         private StageTime currentStageTime;
         private long timerEnd;
         private long currentTime;
@@ -29,25 +32,49 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui
         /// </summary>
         public SwitchStage switchStageEvent { get; set; }
 
-        public StageTimer(GameManager gameManager) : this(gameManager, null) { }
+        public bool CanSwitch { get; set; }
+        public long NextTimerEndSystemTime { get; set; }
 
-        public StageTimer(GameManager gameManager, SwitchStage switchStage)
+        public StageTimer(GameManager gameManager, GameNetworkManager gameNetworkManager) : this(gameManager, null, gameNetworkManager) { }
+
+        public StageTimer(GameManager gameManager, SwitchStage switchStage, GameNetworkManager gameNetworkManager)
         {
             this.gameManager = gameManager;
             this.switchStageEvent = switchStage;
+            this.gameNetworkManager = gameNetworkManager;
+        }
+
+        public void startTimer(StageTime stageTime)
+        {
+            currentStageTime = stageTime;
+            timerEnd = (int)stageTime + gameManager.ElapsedTime;
         }
 
         public void resetTimer(StageTime stageTime)
         {
             currentStageTime = stageTime;
-            timerEnd = (int)(stageTime) + gameManager.ElapsedTime;
+            if (gameManager.IsHost)
+            {
+                timerEnd = (int)stageTime + gameManager.ElapsedTime;
+                gameNetworkManager.enqueueMsg(NetworkMsgPrefix.RoundEndSync,
+                                              GameNetworkUtilities.serializeRoundEndTime(
+                                                  (int)stageTime + (DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond)));
+            }
+            else
+            {
+                timerEnd = NextTimerEndSystemTime - (DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) + gameManager.ElapsedTime;
+                CanSwitch = false;
+            }
         }
 
         public bool update()
         {
             if (timerEnd < gameManager.ElapsedTime)
             {
-                switchStageEvent();
+                if (gameManager.IsHost || CanSwitch)
+                {
+                    switchStageEvent();
+                }
                 return true;
             }
             long newTime = (timerEnd - gameManager.ElapsedTime) / 1000;
@@ -64,7 +91,14 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui
 
         public void endTimer()
         {
-            switchStageEvent();
+            while (true)
+            {
+                if (gameManager.IsHost || CanSwitch)
+                {
+                    switchStageEvent();
+                    break;
+                }
+            }
         }
 
         public override void draw(Graphics graphics)

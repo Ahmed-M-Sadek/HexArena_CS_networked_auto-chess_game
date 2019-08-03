@@ -3,6 +3,7 @@ using ASU2019_NetworkedGameWorkshop.model.character;
 using ASU2019_NetworkedGameWorkshop.model.character.types;
 using ASU2019_NetworkedGameWorkshop.model.grid;
 using ASU2019_NetworkedGameWorkshop.model.spell;
+using ASU2019_NetworkedGameWorkshop.model.ui;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -209,6 +210,16 @@ namespace ASU2019_NetworkedGameWorkshop.controller.networking
         public static string serializeCharacterSwap(Tile tile, Tile selectedTile)
         {
             return $"{tile.X}#{tile.Y}#{selectedTile.X}#{selectedTile.Y}";
+        }
+
+        public static string serializeElapsedTime(long elapsedTime)
+        {
+            return $"{DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond}#{elapsedTime}";
+        }
+
+        public static string serializeRoundEndTime(long roundEndSystemTime)
+        {
+            return $"{roundEndSystemTime}";
         }
 
         public static Tuple<Tile, Tile> parseCharacterSwap(string[] msg, model.grid.Grid grid)

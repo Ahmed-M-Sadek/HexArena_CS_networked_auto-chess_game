@@ -20,6 +20,10 @@ namespace ASU2019_NetworkedGameWorkshop.controller.networking.game
         LevelUpSpell,
         [Prefix("LSpell")]
         LearnSpell,
+        [Prefix("TC")]
+        TimeCheck,
+        [Prefix("RES")]
+        RoundEndSync,
     }
 
     public static class NetworkMsgPrefixExtensions

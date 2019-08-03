@@ -23,6 +23,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
     {
         private const int GAMELOOP_INTERVAL = 50, TICK_INTERVAL = 1000;
         private const int GRID_HEIGHT = 6, GRID_WIDTH = 7;
+        private const int TIME_CHECK_DELAY = 2100;
 
         private readonly Grid grid;
         private readonly GameForm gameForm;
@@ -33,11 +34,11 @@ namespace ASU2019_NetworkedGameWorkshop.controller
         private readonly CharShop charShop;
         private readonly GameNetworkManager gameNetworkManager;
         private readonly List<Player> otherPlayers;
-
-        private StageManager stageManager;
-        private Shop spellShop;
+        private readonly StageManager stageManager;
+        private readonly Shop spellShop;
         private long nextTickTime;
         private bool updateCanvas;
+        private long nextTimeCheckTime = 0;
 
         /// <summary>
         /// Elapsed Time in ms.
@@ -62,6 +63,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
         {
             this.gameForm = gameForm;
 
+            IsHost = isHost;
             if (isHost)
             {
                 gameNetworkManager = new GameServer(port);
@@ -88,7 +90,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             charShop = new CharShop(gameForm, this);
             spellShop = new Shop(gameForm, this, gameNetworkManager);
 
-            stageTimer = new StageTimer(this);
+            stageTimer = new StageTimer(this, gameNetworkManager);
             stageManager = new StageManager(stageTimer,
                                             TeamBlue,
                                             TeamRed,
@@ -234,12 +236,20 @@ namespace ASU2019_NetworkedGameWorkshop.controller
         {
             stopwatch.Start();
             //stageManager.switchStage();//Debugging
-            stageTimer.resetTimer(StageTime.BUY);
+            stageTimer.startTimer(StageTime.BUY);
         }
 
         private void gameLoop(object sender, EventArgs e)
         {
             checkNetworkMsgs();
+            if (IsHost)
+            {
+                if (nextTimeCheckTime < ElapsedTime)
+                {
+                    gameNetworkManager.enqueueMsg(NetworkMsgPrefix.TimeCheck, GameNetworkUtilities.serializeElapsedTime(ElapsedTime));
+                    nextTimeCheckTime = ElapsedTime + TIME_CHECK_DELAY;
+                }
+            }
 
             updateCanvas = stageTimer.update() || updateCanvas;
 
@@ -279,13 +289,21 @@ namespace ASU2019_NetworkedGameWorkshop.controller
         {
             bool updateLeaderBoard = false;
             gameNetworkManager.DataReceived.TryDequeue(out string result);
-            Console.WriteLine("parsing " + result);//debugging
             string[] msg = result.Split(GameNetworkManager.NETWORK_MSG_SEPARATOR);
 
-            if (msg[0].Equals(NetworkMsgPrefix.CharacterSwap.getPrefix()))
+            if (msg[0].Equals(NetworkMsgPrefix.TimeCheck.getPrefix()))
             {
-                (Tile tile, Tile selectedTile) = GameNetworkUtilities.parseCharacterSwap(msg, grid);
-                swapCharacters(tile, selectedTile);
+                long timeDiff = int.Parse(msg[2]) + (DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - long.Parse(msg[1]) - ElapsedTime;
+                if (timeDiff > 50 || timeDiff < -50)
+                {
+                    stopwatch.Elapsed.Add(TimeSpan.FromMilliseconds(timeDiff));
+                    Console.WriteLine("Time Desync");//debugging
+                }
+            }
+            else if (msg[0].Equals(NetworkMsgPrefix.RoundEndSync.getPrefix()))
+            {
+                stageTimer.NextTimerEndSystemTime = long.Parse(msg[1]);
+                stageTimer.CanSwitch = true;
             }
             else if (msg[0].Equals(NetworkMsgPrefix.NewCharacter.getPrefix()))
             {
@@ -295,6 +313,11 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             {
                 otherPlayers.Find(player => player.Name.Equals(msg[1])).Health = int.Parse(msg[2]);
                 updateLeaderBoard = true;
+            }
+            if (msg[0].Equals(NetworkMsgPrefix.CharacterSwap.getPrefix()))
+            {
+                (Tile tile, Tile selectedTile) = GameNetworkUtilities.parseCharacterSwap(msg, grid);
+                swapCharacters(tile, selectedTile);
             }
             else if (msg[0].Equals(NetworkMsgPrefix.NewPlayer.getPrefix()))
             {
