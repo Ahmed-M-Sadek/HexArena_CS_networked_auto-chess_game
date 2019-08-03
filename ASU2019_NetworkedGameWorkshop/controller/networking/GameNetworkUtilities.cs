@@ -234,7 +234,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller.networking
             return $"B#{BlueWins}";
         }
 
-        public static (StageManager.GameStage, bool) parseStage (string stage, string blueWins)
+        public static (StageManager.GameStage, bool) parseStage (string stage, string hostWins)
         {
             switch(stage)
             {
@@ -245,7 +245,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller.networking
                 case "F":
                     return (StageManager.GameStage.Fight, true);
                 case "FB":
-                    return (StageManager.GameStage.FightToBuy, Convert.ToBoolean(blueWins));
+                    return (StageManager.GameStage.FightToBuy, Convert.ToBoolean(hostWins));
             }
             return (StageManager.GameStage.Buy, true);
         }

@@ -292,18 +292,18 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             else if(msg[0].Equals(NetworkMsgPrefix.StageChange.getPrefix()))
             {
                 stageTimer.HostStageChanged = true;
-                (GameStage gameStage, bool blueWins) = GameNetworkUtilities.parseStage(msg[1], msg[2]);
+                (GameStage gameStage, bool HostWins) = GameNetworkUtilities.parseStage(msg[1], msg[2]);
                 if (gameStage == GameStage.FightToBuy)
-                    if (blueWins)
+                    if (HostWins)
                     {
-                        foreach(Character character in TeamRed.Where(e => !e.IsDead))
+                        foreach(Character character in TeamBlue.Where(e => !e.IsDead))
                         {
                             character.takeDamage(10000, DamageType.PhysicalDamage);
                         }
                     }
                     else
                     {
-                        foreach(Character character in TeamBlue.Where(e => !e.IsDead))
+                        foreach(Character character in TeamRed.Where(e => !e.IsDead))
                         {
                             character.takeDamage(10000, DamageType.PhysicalDamage);
                         }
