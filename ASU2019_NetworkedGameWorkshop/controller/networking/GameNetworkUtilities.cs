@@ -18,7 +18,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller.networking
     {
         public const int DEFAULT_PORT = 47999;
 
-        private const int PING_TIMEOUT = 999;
+        private const int PING_TIMEOUT = 9999;
 
         public static readonly ServerStats INVALID_SERVER = new ServerStats("INVALID_SERVER", -1, "INVALID_SERVER", "INVALID_SERVER");
 
