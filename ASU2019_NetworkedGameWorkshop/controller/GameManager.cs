@@ -437,9 +437,10 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             {
                 for (int i = grid.GridWidth - 1; i >= 0; i--)
                 {
-                    if (grid.Tiles[i, j].CurrentCharacter == null)
+                    (int ii,int jj) = IsHost ? (i, j) : (grid.GridWidth - 1 - i, grid.GridHeight - 1 - j);
+                    if(grid.Tiles[ii, jj].CurrentCharacter == null)
                     {
-                        Character item = new Character(grid, grid.Tiles[i, j], Character.Teams.Blue, characterType, this,gameNetworkManager);
+                        Character item = new Character(grid, grid.Tiles[ii, jj], Character.Teams.Blue, characterType, this, gameNetworkManager);
                         TeamBlue.Add(item);
                         gameNetworkManager.enqueueMsg(NetworkMsgPrefix.NewCharacter, GameNetworkUtilities.serializeCharacter(item));
                         return;
