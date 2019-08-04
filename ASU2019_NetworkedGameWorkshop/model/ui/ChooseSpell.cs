@@ -29,7 +29,7 @@ namespace ASU2019_NetworkedGameWorkshop.model
         {
             BackColor = Color.White;
             this.character = character;
-            offsetY = -Tile.HALF_HEIGHT - 1 * BACK_HEIGHT + HEX_OFFSET_Y;
+            offsetY = -Tile.HALF_HEIGHT - 1 * BACK_HEIGHT + HEX_OFFSET_Y - 20;
             backOffsetY = offsetY - (BACK_OFFSET_Y / 2f);
             Size = new Size((int)BACK_WIDTH, (int)BACK_HEIGHT);
             Location = new Point((int)(character.CurrentTile.centerX - BACK_OFFSET_X), (int)(character.CurrentTile.centerY + backOffsetY));

@@ -2,6 +2,7 @@ using ASU2019_NetworkedGameWorkshop.controller;
 using ASU2019_NetworkedGameWorkshop.model.character.types;
 using ASU2019_NetworkedGameWorkshop.model.grid;
 using ASU2019_NetworkedGameWorkshop.model.spell;
+using ASU2019_NetworkedGameWorkshop.Properties;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -21,6 +22,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
 
         private readonly StatBar hpBar, charageBar;
         private readonly Brush brush;
+        private readonly bool isBlue;
         public CharacterType[] characterType { get; private set; }
         private readonly Dictionary<StatusType, int> statsAdder;
         private readonly Dictionary<StatusType, float> statsMultiplier;
@@ -66,6 +68,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
             Stats = CharacterType.statsCopy();
             spells = new List<Spells>();
             brush = (team == Teams.Blue) ? Brushes.BlueViolet : Brushes.Red;
+            isBlue = (team == Teams.Blue);
             statusEffects = new List<StatusEffect>();
 
             IsDead = false;
@@ -288,10 +291,17 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
         {
             if (!IsDead)
             {
-                graphics.FillRectangle(brush,
-                    CurrentTile.centerX - CharacterType.WIDTH_HALF,
-                    CurrentTile.centerY - CharacterType.HEIGHT_HALF,
-                    CharacterType.WIDTH, CharacterType.HEIGHT);
+                //graphics.FillRectangle(brush,
+                //    CurrentTile.centerX - CharacterType.WIDTH_HALF,
+                //    CurrentTile.centerY - CharacterType.HEIGHT_HALF,
+                //    CharacterType.WIDTH, CharacterType.HEIGHT);
+                Bitmap image;
+                if (isBlue) {
+                    image = this.CharacterType.blueImage;
+                        } else {
+                    image = this.CharacterType.redImage;
+                }
+                graphics.DrawImage(image, new Point((int)(CurrentTile.centerX - image.Width/1.5),(int)(CurrentTile.centerY - image.Height/1.5)));
 
                 hpBar.updateTrackedAndDraw(graphics, Stats[StatusType.HealthPoints], Stats[StatusType.HealthPointsMax]);
                 charageBar.updateTrackedAndDraw(graphics, Stats[StatusType.Charge], Stats[StatusType.ChargeMax]);
@@ -317,5 +327,6 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
                 charageBar.drawDebug(graphics);
             }
         }
+        
     }
 }
