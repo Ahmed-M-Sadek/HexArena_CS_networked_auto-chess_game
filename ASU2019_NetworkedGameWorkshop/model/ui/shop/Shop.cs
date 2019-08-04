@@ -76,7 +76,6 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui.shop
                 Size = new Size(btn_sellChar.Width / 2 - 20, btn_sellChar.Height)
             };
             btn_levelUp.MouseClick += levelUp_click;
-            btn_levelUp.MouseClick += levelUp_click;
             btn_levelUp.MouseHover += (sender, e) => SelectedCharacterView.ShowStatsChanges();
             btn_levelUp.MouseLeave += (sender, e) => SelectedCharacterView.HideChanges();
             mainButtonPanel.Controls.Add(btn_levelUp);
