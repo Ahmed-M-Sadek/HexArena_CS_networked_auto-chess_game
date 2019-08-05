@@ -251,5 +251,15 @@ namespace ASU2019_NetworkedGameWorkshop.view
             isConnectedToServer = true;
             tabControl.SelectedTab = tabControl.TabPages[2];
         }
+
+        private void Txt_hostPlayerName_TextChanged(object sender, EventArgs e)
+        {
+            txt_connectPlayerName.Text = txt_hostPlayerName.Text;
+        }
+
+        private void Txt_connectPlayerName_TextChanged(object sender, EventArgs e)
+        {
+            txt_hostPlayerName.Text = txt_connectPlayerName.Text;
+        }
     }
 }
