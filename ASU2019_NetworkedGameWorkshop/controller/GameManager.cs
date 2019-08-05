@@ -190,7 +190,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
                 if ((tile.CurrentCharacter == null || tile.CurrentCharacter.team != Character.Teams.Red)
                     && (SelectedTile.CurrentCharacter == null || SelectedTile.CurrentCharacter.team != Character.Teams.Red))
                 {
-                    if(IsHost && SelectedTile.Y >= grid.GridHeight / 2 && tile.Y >= grid.GridHeight / 2 ||
+                    if (IsHost && SelectedTile.Y >= grid.GridHeight / 2 && tile.Y >= grid.GridHeight / 2 ||
                         !IsHost && SelectedTile.Y < grid.GridHeight / 2 && tile.Y < grid.GridHeight / 2)
                     {
                         SoundManager.PlaySound("swapCharacter.wav");
@@ -295,12 +295,12 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             gameNetworkManager.DataReceived.TryDequeue(out string result);
             string[] msg = result.Split(GameNetworkManager.NETWORK_MSG_SEPARATOR);
 
-            if(msg[0].Equals(NetworkMsgPrefix.CharacterSwap.getPrefix()))
+            if (msg[0].Equals(NetworkMsgPrefix.CharacterSwap.getPrefix()))
             {
                 (Tile tile, Tile selectedTile) = GameNetworkUtilities.parseCharacterSwap(msg, grid);
                 swapCharacters(tile, selectedTile);
             }
-            if(msg[0].Equals(NetworkMsgPrefix.SetSeed.getPrefix()))
+            if (msg[0].Equals(NetworkMsgPrefix.SetSeed.getPrefix()))
             {
                 randomSeed = Convert.ToInt32(msg[1]);
             }
@@ -385,6 +385,11 @@ namespace ASU2019_NetworkedGameWorkshop.controller
                 Character character = TeamRed[int.Parse(msg[1])];
                 character.ChooseSpell.spellSwap(int.Parse(msg[2]));
                 character.ChooseSpell.refreshPanel(character, character.ActiveSpells);
+            }
+            else if (msg[0].Equals("EXIT"))
+            {
+                MessageBox.Show("Disconnected", "Disconnected", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                gameForm.Close();
             }
             return updateLeaderBoard;
         }
