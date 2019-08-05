@@ -191,6 +191,10 @@ namespace ASU2019_NetworkedGameWorkshop.controller
                 if ((tile.CurrentCharacter == null || tile.CurrentCharacter.team != Character.Teams.Red)
                     && (SelectedTile.CurrentCharacter == null || SelectedTile.CurrentCharacter.team != Character.Teams.Red))
                 {
+                    SoundManager.PlaySound("swapCharacter.wav");
+                    // Character temp = SelectedTile.CurrentCharacter;
+                    // SelectedTile.CurrentCharacter = tile.CurrentCharacter;
+                    // tile.CurrentCharacter = temp;
                     swapCharacters(tile, SelectedTile);
                     gameNetworkManager.enqueueMsg(NetworkMsgPrefix.CharacterSwap,
                                                   GameNetworkUtilities.serializeCharacterSwap(tile, SelectedTile));

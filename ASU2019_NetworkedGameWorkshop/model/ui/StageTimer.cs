@@ -23,6 +23,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui
         private StageTime currentStageTime;
         private long timerEnd;
         private long currentTime;
+        private bool isFirstTimeSound = true;
 
         /// <summary>
         /// Method called if the timer reaches zero or ends.
@@ -56,9 +57,14 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui
             if (timerEnd < gameManager.ElapsedTime && gameManager.IsHost)
             {
                 switchStageEvent();
+                isFirstTimeSound = true;
                 return true;
             }
             long newTime = (timerEnd - gameManager.ElapsedTime) / 1000;
+            if (newTime == 10 && currentStageTime == StageTime.BUY && isFirstTimeSound) {
+                SoundManager.PlaySound("10Seconds.wav");
+                isFirstTimeSound = false;
+            }
             if (currentTime == newTime)
             {
                 return false;

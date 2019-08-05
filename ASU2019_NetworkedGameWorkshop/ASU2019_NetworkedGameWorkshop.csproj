@@ -37,6 +37,15 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.DirectX, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>dll\Microsoft.DirectX.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.DirectX.DirectSound, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>dll\Microsoft.DirectX.DirectSound.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -48,6 +57,9 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WindowsBase.4.6.1055.0\lib\WindowsBase.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="controller\GameManager.cs" />
@@ -58,6 +70,8 @@
     <Compile Include="controller\networking\lobby\LobbyClient.cs" />
     <Compile Include="controller\networking\lobby\LobbyServer.cs" />
     <Compile Include="controller\networking\GameNetworkUtilities.cs" />
+    <Compile Include="controller\NetworkManager.cs" />
+    <Compile Include="controller\SoundManager.cs" />
     <Compile Include="controller\StageManager.cs" />
     <Compile Include="model\character\Character.cs" />
     <Compile Include="model\character\StatusEffect.cs" />
@@ -101,6 +115,11 @@
     <Compile Include="model\ui\StageTimer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="view\ConnectForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -114,21 +133,17 @@
       <DependentUpon>GameForm.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <EmbeddedResource Include="view\ConnectForm.resx">
       <DependentUpon>ConnectForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="view\GameForm.resx">
       <DependentUpon>GameForm.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -230,6 +245,66 @@
     <Resource Include="assets\sprites\spells\protect-sky-3.png" />
     <Resource Include="assets\sprites\tiles\Tile.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <COMReference Include="AxWMPLib">
+      <Guid>{6BF52A50-394A-11D3-B153-00C04F79FAA6}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>aximp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+    <COMReference Include="WMPLib">
+      <Guid>{6BF52A50-394A-11D3-B153-00C04F79FAA6}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\sounds\5SecPreFight.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\sounds\MatchWin.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\sounds\RoundLose.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\sounds\RoundWin.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\sounds\10Seconds.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\sounds\140382__dwoboyle__coins-01.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\sounds\176741__deleted-user-3277771__buffer-spell.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\sounds\420676__sypherzent__spell-cast-buff-high-tone.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\sounds\425699__moogy73__woosh-low-03.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\sounds\Rise03.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\sounds\BuyCharacter.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\sounds\learnSpell.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\sounds\swapCharacter.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\sounds\upgradeSpell.wav" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
