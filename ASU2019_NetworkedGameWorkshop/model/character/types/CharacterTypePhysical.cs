@@ -199,6 +199,18 @@ namespace ASU2019_NetworkedGameWorkshop.model.character.types
                 45, 40,Resources.Warrior3Blue,Resources.Warrior3Red),
         };//high hp mid dmg, atk speed
 
+        static CharacterTypePhysical ()
+        {
+            foreach(var charType in Values)
+            {
+                foreach(var charTypeLevel in charType)
+                {
+                    charTypeLevel.Id = ID;
+                }
+                charactersList[ID++] = charType;
+            }
+        }
+
         private CharacterTypePhysical(
             string name,
             int healthPoints,
