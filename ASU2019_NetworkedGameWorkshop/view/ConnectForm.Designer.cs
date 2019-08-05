@@ -23,6 +23,7 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConnectForm));
             this.lbx_connectList = new System.Windows.Forms.ListBox();
             this.btn_refresh = new System.Windows.Forms.Button();
             this.btn_host = new System.Windows.Forms.Button();
@@ -362,8 +363,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(461, 261);
             this.Controls.Add(this.tabControl);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ConnectForm";
-            this.Text = "ConnectForm";
+            this.Text = "HexArena";
             this.Load += new System.EventHandler(this.ConnectForm_Load);
             this.tabControl.ResumeLayout(false);
             this.tabPageHost.ResumeLayout(false);
