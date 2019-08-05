@@ -1,5 +1,7 @@
 ﻿using ASU2019_NetworkedGameWorkshop.model.grid;
+using ASU2019_NetworkedGameWorkshop.Properties;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace ASU2019_NetworkedGameWorkshop.model.character.types
 {
@@ -12,6 +14,9 @@ namespace ASU2019_NetworkedGameWorkshop.model.character.types
         public const int MAX_CHAR_LVL = 3;
 
         private readonly Dictionary<StatusType, int> stats;
+        public readonly Bitmap blueImage;
+        public readonly Bitmap redImage;
+
         public string Name { get; }
         public int Id { get; set; }
 
@@ -34,13 +39,13 @@ namespace ASU2019_NetworkedGameWorkshop.model.character.types
             int charge, int chargeMax,
             int range,
             int attackDamage, float attackSpeed,
-            int armor, int magicResist)
+            int armor, int magicResist, Bitmap imageBlue, Bitmap imageRed)
             : this(name,
                   healthPointsMax, healthPointsMax,
                  charge, chargeMax,
                  range,
                  attackDamage, attackSpeed,
-                 armor, magicResist)
+                 armor, magicResist,imageBlue,imageRed)
         { }
 
         public CharacterType(string name,
@@ -48,9 +53,11 @@ namespace ASU2019_NetworkedGameWorkshop.model.character.types
             int charge, int chargeMax,
             int range,
             int attackDamage, float attackSpeed,
-            int armor, int magicResist)
+            int armor, int magicResist,Bitmap imageBlue,Bitmap imageRed)
         {
             Name = name;
+            redImage = imageRed;
+            blueImage = imageBlue;
             stats = new Dictionary<StatusType, int>
             {
                 [StatusType.Armor] = armor,

@@ -306,5 +306,61 @@
   <ItemGroup>
     <None Include="assets\sounds\upgradeSpell.wav" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\sprites\characters\Healer3Red.png" />
+    <None Include="assets\sprites\characters\Healer3Blue.png" />
+    <None Include="assets\sprites\characters\Healer2Red.png" />
+    <None Include="assets\sprites\characters\Warrior3Red.png" />
+    <None Include="assets\sprites\characters\Warrior3Blue.png" />
+    <None Include="assets\sprites\characters\Warrior2Blue.png" />
+    <None Include="assets\sprites\characters\Slime3Red.png" />
+    <None Include="assets\sprites\characters\Slime3Blue.png" />
+    <None Include="assets\sprites\characters\Slime2Red.png" />
+    <None Include="assets\sprites\characters\Slime2Blue .png" />
+    <None Include="assets\sprites\characters\Sentinal3Red.png" />
+    <None Include="assets\sprites\characters\Sentinal3Blue.png" />
+    <None Include="assets\sprites\characters\Sentinal2Red.png" />
+    <None Include="assets\sprites\characters\Sentinal2Blue.png" />
+    <None Include="assets\sprites\characters\Ranger3Red.png" />
+    <None Include="assets\sprites\characters\Ranger3Blue.png" />
+    <None Include="assets\sprites\characters\Ranger2Red.png" />
+    <None Include="assets\sprites\characters\Ranger2Blue.png" />
+    <None Include="assets\sprites\characters\Monk3Red.png" />
+    <None Include="assets\sprites\characters\Monk3Blue.png" />
+    <None Include="assets\sprites\characters\Monk2Red.png" />
+    <None Include="assets\sprites\characters\Monk2Blue.png" />
+    <None Include="assets\sprites\characters\Marksman3Red.png" />
+    <None Include="assets\sprites\characters\Marksman3Blue .png" />
+    <None Include="assets\sprites\characters\Marksman2Red.png" />
+    <None Include="assets\sprites\characters\Marksman2Blue.png" />
+    <None Include="assets\sprites\characters\Healer2Blue.png" />
+    <None Include="assets\sprites\characters\Assassin3Red.png" />
+    <None Include="assets\sprites\characters\Assassin2Red.png" />
+    <None Include="assets\sprites\characters\Archer3Red.png" />
+    <None Include="assets\sprites\characters\Archer3Blue.png" />
+    <None Include="assets\sprites\characters\Archer2Red.png" />
+    <None Include="assets\sprites\characters\Archer2Blue .png" />
+    <None Include="assets\sprites\characters\Slime1Red.png" />
+    <None Include="assets\sprites\characters\Slime1Blue.png" />
+    <None Include="assets\sprites\characters\Sentinal1Red.png" />
+    <None Include="assets\sprites\characters\Sentinal1Blue.png" />
+    <None Include="assets\sprites\characters\Ranger1Red.png" />
+    <None Include="assets\sprites\characters\Ranger1Blue.png" />
+    <None Include="assets\sprites\characters\Monk1Red.png" />
+    <None Include="assets\sprites\characters\Monk1Blue.png" />
+    <None Include="assets\sprites\characters\Marksman1Red.png" />
+    <None Include="assets\sprites\characters\Marksman1Blue.png" />
+    <None Include="assets\sprites\characters\Healer1Red.png" />
+    <None Include="assets\sprites\characters\Healer1Blue.png" />
+    <None Include="assets\sprites\characters\Assassin3Blue.png" />
+    <None Include="assets\sprites\characters\Assassin2Blue.png" />
+    <None Include="assets\sprites\characters\Assassin1Red.png" />
+    <None Include="assets\sprites\characters\Assassin1Blue.png" />
+    <None Include="assets\sprites\characters\Archer1Red.png" />
+    <None Include="assets\sprites\characters\Archer1Blue.png" />
+    <Content Include="assets\sprites\characters\Warrior1Blue.png" />
+    <None Include="assets\sprites\characters\Warrior2Red.png" />
+    <None Include="assets\sprites\characters\Warrior1Red.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
