@@ -193,6 +193,11 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             playersLeaderBoard.update();
             gameNetworkManager.enqueueMsg(networking.game.NetworkMsgPrefix.PlayerHealthUpdate,
                                           networking.GameNetworkUtilities.serializePlayerHP(player));
+
+            if (player.Health == 0)
+            {
+                gameManager.endGame("You Lose");
+            }
         }
     }
 }

@@ -80,13 +80,12 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             grid = new Grid(GRID_WIDTH, GRID_HEIGHT,
                 (int)((gameForm.Width - (Tile.WIDTH * GRID_WIDTH)) / 3),
                 (int)((gameForm.Height - (Tile.HEIGHT * GRID_HEIGHT)) / 3) + 30,
-                this);//temp values 
+                this);
 
             TeamBlue = new List<Character>();
             TeamRed = new List<Character>();
 
             Player = new Player(playerName, true);
-            //Player.Gold = 50;//debugging
 
             otherPlayers = new List<Player>();
             playersLeaderBoard = new PlayersLeaderBoard(Player);
@@ -109,7 +108,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             stopwatch = new Stopwatch();
             timer = new Timer
             {
-                Interval = GAMELOOP_INTERVAL //Arbitrary: 20 ticks per sec
+                Interval = GAMELOOP_INTERVAL
             };
             timer.Tick += new EventHandler(gameLoop);
         }
@@ -191,7 +190,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
                 if ((tile.CurrentCharacter == null || tile.CurrentCharacter.team != Character.Teams.Red)
                     && (SelectedTile.CurrentCharacter == null || SelectedTile.CurrentCharacter.team != Character.Teams.Red))
                 {
-                    if(IsHost && SelectedTile.Y >= grid.GridHeight / 2 && tile.Y >= grid.GridHeight / 2 ||
+                    if (IsHost && SelectedTile.Y >= grid.GridHeight / 2 && tile.Y >= grid.GridHeight / 2 ||
                         !IsHost && SelectedTile.Y < grid.GridHeight / 2 && tile.Y < grid.GridHeight / 2)
                     {
                         SoundManager.PlaySound("swapCharacter.wav");
@@ -203,6 +202,13 @@ namespace ASU2019_NetworkedGameWorkshop.controller
 
                 }
             }
+        }
+
+        internal void endGame(string msg)
+        {
+            timer.Stop();
+            MessageBox.Show(msg, msg, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            gameForm.Close();
         }
 
         private void swapCharacters(Tile tile, Tile selectedTile)
@@ -235,11 +241,11 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             stageTimer.draw(e.Graphics);
 
             Player.draw(e.Graphics);
-            e.Graphics.DrawString("Round: " + stageManager.CurrentRound, new Font("Roboto", 12, FontStyle.Bold), Brushes.Black, 800, 15);//temp pos and font
+            e.Graphics.DrawString("Round: " + stageManager.CurrentRound, new Font("Roboto", 12, FontStyle.Bold), Brushes.Black, 800, 15);
             playersLeaderBoard.draw(e.Graphics);
             CharShop.draw(e.Graphics);
 
-            if (false)//debugging
+            if (false)
             {
                 grid.drawDebug(e.Graphics);
                 TeamBlue.ForEach(character => character.drawDebug(e.Graphics));
@@ -250,7 +256,6 @@ namespace ASU2019_NetworkedGameWorkshop.controller
         private void gameStart()
         {
             stopwatch.Start();
-            //stageManager.switchStage();//Debugging
             stageTimer.resetTimer(StageTime.BUY);
         }
 
@@ -272,7 +277,6 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             if (updateCanvas)
             {
                 gameForm.Refresh();
-                //gameForm.Invalidate();
             }
         }
 
@@ -296,15 +300,14 @@ namespace ASU2019_NetworkedGameWorkshop.controller
         {
             bool updateLeaderBoard = false;
             gameNetworkManager.DataReceived.TryDequeue(out string result);
-            //Console.WriteLine("parsing " + result);//debugging
             string[] msg = result.Split(GameNetworkManager.NETWORK_MSG_SEPARATOR);
 
-            if(msg[0].Equals(NetworkMsgPrefix.CharacterSwap.getPrefix()))
+            if (msg[0].Equals(NetworkMsgPrefix.CharacterSwap.getPrefix()))
             {
                 (Tile tile, Tile selectedTile) = GameNetworkUtilities.parseCharacterSwap(msg, grid);
                 swapCharacters(tile, selectedTile);
             }
-            if(msg[0].Equals(NetworkMsgPrefix.SetSeed.getPrefix()))
+            if (msg[0].Equals(NetworkMsgPrefix.SetSeed.getPrefix()))
             {
                 randomSeed = Convert.ToInt32(msg[1]);
             }
@@ -334,8 +337,13 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             }
             else if (msg[0].Equals(NetworkMsgPrefix.PlayerHealthUpdate.getPrefix()))
             {
-                otherPlayers.Find(player => player.Name.Equals(msg[1])).Health = int.Parse(msg[2]);
+                Player otherPlayer = otherPlayers.Find(player => player.Name.Equals(msg[1]));
+                otherPlayer.Health = int.Parse(msg[2]);
                 updateLeaderBoard = true;
+                if (otherPlayer.Health == 0)
+                {
+                    endGame("You Win");
+                }
             }
             else if (msg[0].Equals(NetworkMsgPrefix.NewPlayer.getPrefix()))
             {
@@ -370,7 +378,6 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             else if (msg[0].Equals(NetworkMsgPrefix.DefaultSkill.getPrefix()))
             {
                 TeamRed[int.Parse(msg[1])].DefaultSkill = Spells.getSpell(int.Parse(msg[2]));
-                //grid.Tiles[int.Parse(msg[1]), int.Parse(msg[2])].CurrentCharacter.DefaultSkill = Spells.getSpell(int.Parse(msg[3]));
             }
             else if (msg[0].Equals(NetworkMsgPrefix.AddActiveSpells.getPrefix()))
             {
@@ -390,6 +397,12 @@ namespace ASU2019_NetworkedGameWorkshop.controller
                 Character character = TeamRed[int.Parse(msg[1])];
                 character.ChooseSpell.spellSwap(int.Parse(msg[2]));
                 character.ChooseSpell.refreshPanel(character, character.ActiveSpells);
+            }
+            else if (msg[0].Equals("EXIT"))
+            {
+                timer.Stop();
+                MessageBox.Show("Disconnected", "Disconnected", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                gameForm.Close();
             }
             return updateLeaderBoard;
         }
@@ -468,10 +481,8 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             }
         }
 
-        [Obsolete()]
-        private Character CharStatToCharacter(GameNetworkUtilities.CharStat charStat)//should be in charstat
+        private Character CharStatToCharacter(GameNetworkUtilities.CharStat charStat)
         {
-            //no spells 
             return new Character(grid, grid.Tiles[charStat.X, charStat.Y], Character.Teams.Red, charStat.charType, this, gameNetworkManager);
         }
     }

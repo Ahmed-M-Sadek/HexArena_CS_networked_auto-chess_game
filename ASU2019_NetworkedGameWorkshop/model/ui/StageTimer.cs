@@ -77,7 +77,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui
         public override void draw(Graphics graphics)
         {
             graphics.DrawString(currentStageTime + " - Time Left: " + currentTime, FONT,
-                Brushes.Black, 500, 15);//temp
+                Brushes.Black, 500, 15);
         }
 
         public override void drawDebug(Graphics graphics)

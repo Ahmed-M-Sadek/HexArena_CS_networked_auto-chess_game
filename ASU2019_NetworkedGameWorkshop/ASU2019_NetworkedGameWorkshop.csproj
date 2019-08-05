@@ -6,7 +6,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{50D7236F-86B2-4E81-8DFF-1135BE91B285}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <RootNamespace>ASU2019_NetworkedGameWorkshop</RootNamespace>
     <AssemblyName>ASU2019_NetworkedGameWorkshop</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>

@@ -16,7 +16,6 @@ namespace ASU2019_NetworkedGameWorkshop.controller.networking.game
             TcpListener tcpListener = TcpListener.Create(port);
             tcpListener.Start();
 
-            //1vs1
             TcpClient tcpClient = tcpListener.AcceptTcpClient();
             startThreads(tcpClient);
         }

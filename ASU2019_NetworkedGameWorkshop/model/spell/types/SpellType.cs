@@ -35,7 +35,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell.types
             }
             else if (this == Heal)
             {
-                castee.healHealthPoints(abilityValue);//temp
+                castee.healHealthPoints(abilityValue);
             }
             else
             {
