@@ -9,7 +9,7 @@ namespace ASU2019_NetworkedGameWorkshop.model
         private const float WIDTH = Tile.WIDTH - 30 * 2,
             WIDTH_HALF = WIDTH / 2f,
             Height = 8;
-        private const float HEX_OFFSET_Y = Tile.HEIGHT * 0.2f;
+        private const float HEX_OFFSET_Y = Tile.HEIGHT * 0.2f - 20;
         private const int BACK_PADDING_H = 6;
         private const float BACK_OFFSET_X = WIDTH_HALF + BACK_PADDING_H / 2f,
             BACK_OFFSET_Y = 2f;
@@ -67,7 +67,7 @@ namespace ASU2019_NetworkedGameWorkshop.model
         /// <param name="trackedStat">updated value of trackedStat.</param>
         /// <param name="trackedStatMax">updated value of trackedStatMax.</param>
         public void updateTrackedAndDraw(Graphics graphics, int trackedStat, int trackedStatMax)
-        {//this is stupid
+        {
             this.trackedStat = trackedStat;
             this.trackedStatMax = trackedStatMax;
             draw(graphics);

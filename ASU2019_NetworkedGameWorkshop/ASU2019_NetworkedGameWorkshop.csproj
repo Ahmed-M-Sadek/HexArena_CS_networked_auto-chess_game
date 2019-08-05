@@ -6,7 +6,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{50D7236F-86B2-4E81-8DFF-1135BE91B285}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <RootNamespace>ASU2019_NetworkedGameWorkshop</RootNamespace>
     <AssemblyName>ASU2019_NetworkedGameWorkshop</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
@@ -37,6 +37,15 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.DirectX, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>dll\Microsoft.DirectX.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.DirectX.DirectSound, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>dll\Microsoft.DirectX.DirectSound.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -48,6 +57,9 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WindowsBase.4.6.1055.0\lib\WindowsBase.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="controller\GameManager.cs" />
@@ -58,6 +70,7 @@
     <Compile Include="controller\networking\lobby\LobbyClient.cs" />
     <Compile Include="controller\networking\lobby\LobbyServer.cs" />
     <Compile Include="controller\networking\GameNetworkUtilities.cs" />
+    <Compile Include="controller\SoundManager.cs" />
     <Compile Include="controller\StageManager.cs" />
     <Compile Include="model\character\Character.cs" />
     <Compile Include="model\character\StatusEffect.cs" />
@@ -101,6 +114,11 @@
     <Compile Include="model\ui\StageTimer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="view\ConnectForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -114,21 +132,17 @@
       <DependentUpon>GameForm.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <EmbeddedResource Include="view\ConnectForm.resx">
       <DependentUpon>ConnectForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="view\GameForm.resx">
       <DependentUpon>GameForm.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -230,6 +244,122 @@
     <Resource Include="assets\sprites\spells\protect-sky-3.png" />
     <Resource Include="assets\sprites\tiles\Tile.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <COMReference Include="AxWMPLib">
+      <Guid>{6BF52A50-394A-11D3-B153-00C04F79FAA6}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>aximp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+    <COMReference Include="WMPLib">
+      <Guid>{6BF52A50-394A-11D3-B153-00C04F79FAA6}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\sounds\5SecPreFight.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\sounds\MatchWin.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\sounds\RoundLose.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\sounds\RoundWin.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\sounds\10Seconds.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\sounds\140382__dwoboyle__coins-01.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\sounds\176741__deleted-user-3277771__buffer-spell.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\sounds\420676__sypherzent__spell-cast-buff-high-tone.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\sounds\425699__moogy73__woosh-low-03.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\sounds\Rise03.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\sounds\BuyCharacter.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\sounds\learnSpell.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\sounds\swapCharacter.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\sounds\upgradeSpell.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\sprites\characters\Healer3Red.png" />
+    <None Include="assets\sprites\characters\Healer3Blue.png" />
+    <None Include="assets\sprites\characters\Healer2Red.png" />
+    <None Include="assets\sprites\characters\Warrior3Red.png" />
+    <None Include="assets\sprites\characters\Warrior3Blue.png" />
+    <None Include="assets\sprites\characters\Warrior2Blue.png" />
+    <None Include="assets\sprites\characters\Slime3Red.png" />
+    <None Include="assets\sprites\characters\Slime3Blue.png" />
+    <None Include="assets\sprites\characters\Slime2Red.png" />
+    <None Include="assets\sprites\characters\Slime2Blue .png" />
+    <None Include="assets\sprites\characters\Sentinal3Red.png" />
+    <None Include="assets\sprites\characters\Sentinal3Blue.png" />
+    <None Include="assets\sprites\characters\Sentinal2Red.png" />
+    <None Include="assets\sprites\characters\Sentinal2Blue.png" />
+    <None Include="assets\sprites\characters\Ranger3Red.png" />
+    <None Include="assets\sprites\characters\Ranger3Blue.png" />
+    <None Include="assets\sprites\characters\Ranger2Red.png" />
+    <None Include="assets\sprites\characters\Ranger2Blue.png" />
+    <None Include="assets\sprites\characters\Monk3Red.png" />
+    <None Include="assets\sprites\characters\Monk3Blue.png" />
+    <None Include="assets\sprites\characters\Monk2Red.png" />
+    <None Include="assets\sprites\characters\Monk2Blue.png" />
+    <None Include="assets\sprites\characters\Marksman3Red.png" />
+    <None Include="assets\sprites\characters\Marksman3Blue .png" />
+    <None Include="assets\sprites\characters\Marksman2Red.png" />
+    <None Include="assets\sprites\characters\Marksman2Blue.png" />
+    <None Include="assets\sprites\characters\Healer2Blue.png" />
+    <None Include="assets\sprites\characters\Assassin3Red.png" />
+    <None Include="assets\sprites\characters\Assassin2Red.png" />
+    <None Include="assets\sprites\characters\Archer3Red.png" />
+    <None Include="assets\sprites\characters\Archer3Blue.png" />
+    <None Include="assets\sprites\characters\Archer2Red.png" />
+    <None Include="assets\sprites\characters\Archer2Blue .png" />
+    <None Include="assets\sprites\characters\Slime1Red.png" />
+    <None Include="assets\sprites\characters\Slime1Blue.png" />
+    <None Include="assets\sprites\characters\Sentinal1Red.png" />
+    <None Include="assets\sprites\characters\Sentinal1Blue.png" />
+    <None Include="assets\sprites\characters\Ranger1Red.png" />
+    <None Include="assets\sprites\characters\Ranger1Blue.png" />
+    <None Include="assets\sprites\characters\Monk1Red.png" />
+    <None Include="assets\sprites\characters\Monk1Blue.png" />
+    <None Include="assets\sprites\characters\Marksman1Red.png" />
+    <None Include="assets\sprites\characters\Marksman1Blue.png" />
+    <None Include="assets\sprites\characters\Healer1Red.png" />
+    <None Include="assets\sprites\characters\Healer1Blue.png" />
+    <None Include="assets\sprites\characters\Assassin3Blue.png" />
+    <None Include="assets\sprites\characters\Assassin2Blue.png" />
+    <None Include="assets\sprites\characters\Assassin1Red.png" />
+    <None Include="assets\sprites\characters\Assassin1Blue.png" />
+    <None Include="assets\sprites\characters\Archer1Red.png" />
+    <None Include="assets\sprites\characters\Archer1Blue.png" />
+    <Content Include="assets\sprites\characters\Warrior1Blue.png" />
+    <None Include="assets\sprites\characters\Warrior2Red.png" />
+    <None Include="assets\sprites\characters\Warrior1Red.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

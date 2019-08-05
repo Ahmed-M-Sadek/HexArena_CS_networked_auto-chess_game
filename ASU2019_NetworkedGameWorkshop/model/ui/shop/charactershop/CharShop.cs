@@ -1,4 +1,5 @@
-﻿using ASU2019_NetworkedGameWorkshop.model.character;
+﻿using ASU2019_NetworkedGameWorkshop.controller;
+using ASU2019_NetworkedGameWorkshop.model.character;
 using ASU2019_NetworkedGameWorkshop.model.character.types;
 using System;
 using System.Collections.Generic;
@@ -71,6 +72,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui.shop.charactershop
                 || gameManager.CurrentGameStage != controller.StageManager.GameStage.Buy)
                 return;
 
+            SoundManager.PlaySound("BuyCharacter.wav");
             gameManager.Player.Gold -= CharacterPrice;
             gameManager.AddCharacter(characterType);
         }

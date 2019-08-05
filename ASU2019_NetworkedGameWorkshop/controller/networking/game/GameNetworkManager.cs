@@ -10,6 +10,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller.networking.game
         public const char NETWORK_MSG_SEPARATOR = '#';
 
         private ConcurrentQueue<string> dataToSend;
+
         public ConcurrentQueue<string> DataReceived { get; }
 
         public GameNetworkManager()
@@ -20,9 +21,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller.networking.game
 
         public void enqueueMsg(NetworkMsgPrefix networkMsgPrefix, string msg)
         {
-            string temp = networkMsgPrefix.getPrefix() + NETWORK_MSG_SEPARATOR + msg;
-            System.Console.WriteLine("enqueue: " + temp);
-            dataToSend.Enqueue(temp);
+            dataToSend.Enqueue(networkMsgPrefix.getPrefix() + NETWORK_MSG_SEPARATOR + msg);
         }
 
         public abstract void start();
@@ -36,9 +35,13 @@ namespace ASU2019_NetworkedGameWorkshop.controller.networking.game
                     while (true)
                     {
                         DataReceived.Enqueue(streamReader.ReadLine());
-                        Thread.Sleep(50);//??
+                        Thread.Sleep(50);
                     }
                 }
+            }
+            catch(IOException)
+            {
+                DataReceived.Enqueue("EXIT");
             }
             finally
             {
@@ -65,9 +68,13 @@ namespace ASU2019_NetworkedGameWorkshop.controller.networking.game
                             streamWriter.Flush();
                         }
 
-                        Thread.Sleep(50);//??
+                        Thread.Sleep(50);
                     }
                 }
+            }
+            catch (IOException)
+            {
+                DataReceived.Enqueue("EXIT");
             }
             finally
             {
