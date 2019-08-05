@@ -29,7 +29,6 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui
         /// Method called if the timer reaches zero or ends.
         /// </summary>
         public SwitchStage switchStageEvent { get; set; }
-        public bool HostStageChanged { get; set; }
 
         public StageTimer(GameManager gameManager) : this(gameManager, null) { }
 
@@ -47,13 +46,6 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui
 
         public bool update()
         {
-            if (HostStageChanged)
-            {
-                System.Console.WriteLine("host stage change spplied here ");
-                switchStageEvent();
-                HostStageChanged = false;
-                return true;
-            }
             if (timerEnd < gameManager.ElapsedTime && gameManager.IsHost)
             {
                 switchStageEvent();

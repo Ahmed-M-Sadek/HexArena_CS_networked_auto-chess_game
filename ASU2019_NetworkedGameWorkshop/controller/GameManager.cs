@@ -192,9 +192,6 @@ namespace ASU2019_NetworkedGameWorkshop.controller
                     && (SelectedTile.CurrentCharacter == null || SelectedTile.CurrentCharacter.team != Character.Teams.Red))
                 {
                     SoundManager.PlaySound("swapCharacter.wav");
-                    // Character temp = SelectedTile.CurrentCharacter;
-                    // SelectedTile.CurrentCharacter = tile.CurrentCharacter;
-                    // tile.CurrentCharacter = temp;
                     swapCharacters(tile, SelectedTile);
                     gameNetworkManager.enqueueMsg(NetworkMsgPrefix.CharacterSwap,
                                                   GameNetworkUtilities.serializeCharacterSwap(tile, SelectedTile));
@@ -308,8 +305,8 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             }
             else if (msg[0].Equals(NetworkMsgPrefix.StageChange.getPrefix()))
             {
-                stageTimer.HostStageChanged = true;
                 (GameStage gameStage, bool HostWins) = GameNetworkUtilities.parseStage(msg[1], msg[2]);
+                stageTimer.switchStageEvent();
                 if (gameStage == GameStage.FightToBuy)
                     if (HostWins)
                     {

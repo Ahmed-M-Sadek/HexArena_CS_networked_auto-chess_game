@@ -60,7 +60,6 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             {
                 CurrentGameStage = GameStage.BuyToFight;
                 stageTimer.resetTimer(StageTime.BUY_TO_FIGHT);
-                System.Console.WriteLine("switched to " + StageTime.BUY_TO_FIGHT);
                 gameManager.deselectSelectedTile();
                 enqueueStageChangeMsg();
                 SoundManager.PlaySound("5SecPreFight.wav");
