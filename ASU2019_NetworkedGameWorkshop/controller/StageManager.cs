@@ -152,6 +152,8 @@ namespace ASU2019_NetworkedGameWorkshop.controller
 
             grid.Transparent = true;
 
+            gameManager.resetTickTimeForRoundStart();
+
             stageTimer.resetTimer(StageTime.FIGHT);
         }
 

@@ -110,6 +110,11 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             timer.Tick += new EventHandler(gameLoop);
         }
 
+        internal void resetTickTimeForRoundStart()
+        {
+            nextTickTime = ((ElapsedTime / TICK_INTERVAL) + 2) * TICK_INTERVAL;
+        }
+
         public void addRangeToForm(params Control[] controls)
         {
             gameForm.Controls.AddRange(controls);
@@ -417,7 +422,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
 
             if (nextTickTime < ElapsedTime)
             {
-                nextTickTime = ElapsedTime + TICK_INTERVAL;
+                nextTickTime = ((ElapsedTime / TICK_INTERVAL) + 1) * TICK_INTERVAL;
                 foreach (Character character in Team1.Where(e => !e.IsDead))
                 {
                     updateCanvas = character.tick() || updateCanvas;
