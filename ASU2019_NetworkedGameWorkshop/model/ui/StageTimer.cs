@@ -7,11 +7,11 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui
     {
         public enum StageTime
         {
-            FIGHT = 41 * 1000,
-            BUY = 31 * 1000,
+            FIGHT = 31 * 1000,
+            BUY = 41 * 1000,
             DEBUGGING = 6 * 1000,
             FIGHT_TO_BUY = 6 * 1000,
-            BUY_TO_FIGHT = 6 * 1000,
+            BUY_TO_FIGHT = 5 * 1000
         }
 
         public delegate void SwitchStage();
@@ -28,6 +28,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui
         /// Method called if the timer reaches zero or ends.
         /// </summary>
         public SwitchStage switchStageEvent { get; set; }
+        public bool HostStageChanged { get; set; }
 
         public StageTimer(GameManager gameManager) : this(gameManager, null) { }
 
@@ -45,7 +46,14 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui
 
         public bool update()
         {
-            if (timerEnd < gameManager.ElapsedTime)
+            if(HostStageChanged)
+            {
+                System.Console.WriteLine("host stage change spplied here ");
+                switchStageEvent();
+                HostStageChanged = false;
+                return true;
+            }
+            if (timerEnd < gameManager.ElapsedTime && gameManager.IsHost)
             {
                 switchStageEvent();
                 return true;
@@ -64,6 +72,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui
 
         public void endTimer()
         {
+            if(gameManager.IsHost)
             switchStageEvent();
         }
 

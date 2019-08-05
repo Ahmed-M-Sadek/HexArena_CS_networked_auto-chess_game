@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 
-namespace ASU2019_NetworkedGameWorkshop.model.ui.shop
+namespace ASU2019_NetworkedGameWorkshop.model.ui.shop.charactershop
 {
     public class CharShop : GraphicsObject
     {
@@ -26,11 +26,11 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui.shop
 
         private Rectangle rectangle;
 
-        private int CharacterPrice
+        public int CharacterPrice
         {
             get
-            {//not working as required
-                return Math.Min(40, gameManager.TeamBlue.Count * 10 - Math.Max(0, gameManager.TeamBlue.Count * 2));
+            {
+                return Math.Min(40, gameManager.TeamBlue.Count * 8);
             }
         }
 
@@ -98,7 +98,8 @@ Magic Resist:",
                     FONT_INFO,
                     Brushes.Black,
                     rect_info,
-                    new StringFormat {
+                    new StringFormat
+                    {
                         Alignment = StringAlignment.Near
                     });
 
@@ -113,7 +114,8 @@ Magic Resist:",
                                     FONT_INFO,
                                     Brushes.Black,
                                     rect_info,
-                                    new StringFormat {
+                                    new StringFormat
+                                    {
                                         Alignment = StringAlignment.Far
                                     });
 

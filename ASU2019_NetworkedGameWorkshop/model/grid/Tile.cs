@@ -111,6 +111,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid
             return -compare;
         }
 
+
         /// <summary>
         /// MemberwiseClone
         /// </summary>

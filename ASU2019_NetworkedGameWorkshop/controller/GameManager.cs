@@ -1,10 +1,13 @@
-﻿using ASU2019_NetworkedGameWorkshop.model;
+﻿using ASU2019_NetworkedGameWorkshop.controller.networking;
+using ASU2019_NetworkedGameWorkshop.controller.networking.game;
+using ASU2019_NetworkedGameWorkshop.model;
 using ASU2019_NetworkedGameWorkshop.model.character;
 using ASU2019_NetworkedGameWorkshop.model.character.types;
 using ASU2019_NetworkedGameWorkshop.model.grid;
 using ASU2019_NetworkedGameWorkshop.model.spell;
 using ASU2019_NetworkedGameWorkshop.model.ui;
 using ASU2019_NetworkedGameWorkshop.model.ui.shop;
+using ASU2019_NetworkedGameWorkshop.model.ui.shop.charactershop;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,6 +15,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using static ASU2019_NetworkedGameWorkshop.controller.StageManager;
+using static ASU2019_NetworkedGameWorkshop.model.ui.StageTimer;
 
 namespace ASU2019_NetworkedGameWorkshop.controller
 {
@@ -25,9 +29,12 @@ namespace ASU2019_NetworkedGameWorkshop.controller
         private readonly Timer timer;
         private readonly StageTimer stageTimer;
         private readonly Stopwatch stopwatch;
-        private readonly StageManager stageManager;
         private readonly PlayersLeaderBoard playersLeaderBoard;
-        private readonly CharShop charShop;
+        private readonly GameNetworkManager gameNetworkManager;
+        private readonly List<Player> otherPlayers;
+
+        private StageManager stageManager;
+        private Shop spellShop;
         private long nextTickTime;
         private bool updateCanvas;
 
@@ -40,6 +47,8 @@ namespace ASU2019_NetworkedGameWorkshop.controller
         public List<Character> TeamRed { get; private set; }
         public Tile SelectedTile { get; set; }
         public Player Player { get; }
+        public CharShop CharShop { get; private set; }
+
         public GameStage CurrentGameStage
         {
             get
@@ -48,9 +57,22 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             }
         }
 
-        public GameManager(GameForm gameForm)
+        public bool IsHost { get; }
+
+        public GameManager(GameForm gameForm, string playerName, bool isHost, string ip, int port)
         {
             this.gameForm = gameForm;
+
+            if (isHost)
+            {
+                IsHost = isHost;
+                gameNetworkManager = new GameServer(port);
+            }
+            else
+            {
+                gameNetworkManager = new GameClient(ip, port);
+            }
+
             grid = new Grid(GRID_WIDTH, GRID_HEIGHT,
                 (int)((gameForm.Width - (Tile.WIDTH * GRID_WIDTH)) / 3),
                 (int)((gameForm.Height - (Tile.HEIGHT * GRID_HEIGHT)) / 3) + 30,
@@ -59,35 +81,25 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             TeamBlue = new List<Character>();
             TeamRed = new List<Character>();
 
-            Player = new Player("Local", true);
-            //Debugging
-            Player playertemp1 = new Player("NoobMaster 1")
-            {
-                Health = 99
-            };
-            Player playertemp2 = new Player("NoobMaster 2")
-            {
-                Health = 10
-            };
-            Player playertemp3 = new Player("NoobMaster 3")
-            {
-                Health = 33
-            };
-            Player playertemp4 = new Player("NoobMaster 4");
-            //end Debugging
+            Player = new Player(playerName, true);
+            Player.Gold = 50;//debugging
 
-            playersLeaderBoard = new PlayersLeaderBoard(
-                Player,
-                playertemp1,
-                playertemp2,
-                playertemp3,
-                playertemp4
-            );
+            otherPlayers = new List<Player>();
+            playersLeaderBoard = new PlayersLeaderBoard(Player);
 
-            charShop = new CharShop(gameForm, this);
+            CharShop = new CharShop(gameForm, this);
+            spellShop = new Shop(gameForm, this, gameNetworkManager);
 
             stageTimer = new StageTimer(this);
-            stageManager = new StageManager(stageTimer, TeamBlue, TeamRed, grid, Player, playersLeaderBoard, charShop, this);
+            stageManager = new StageManager(stageTimer,
+                                            TeamBlue,
+                                            TeamRed,
+                                            grid,
+                                            Player,
+                                            playersLeaderBoard,
+                                            CharShop,
+                                            this,
+                                            gameNetworkManager);
             stageTimer.switchStageEvent += stageManager.switchStage;
 
             stopwatch = new Stopwatch();
@@ -96,17 +108,6 @@ namespace ASU2019_NetworkedGameWorkshop.controller
                 Interval = GAMELOOP_INTERVAL //Arbitrary: 20 ticks per sec
             };
             timer.Tick += new EventHandler(gameLoop);
-
-
-            //Debugging 
-            Character blue = new Character(grid, grid.Tiles[0, 0], Character.Teams.Blue, CharacterTypePhysical.Archer, this);
-            blue.learnSpell(Spells.AwesomeFireballAOE);
-            blue.learnSpell(Spells.Execute);
-            blue.learnSpell(Spells.Heal);
-            TeamBlue.Add(blue);
-            TeamBlue.Add(new Character(grid, grid.Tiles[1, 0], Character.Teams.Blue, CharacterTypePhysical.Warrior, this));
-            TeamRed.Add(new Character(grid, grid.Tiles[6, 5], Character.Teams.Red, CharacterTypePhysical.Warrior, this));
-            TeamRed.Add(new Character(grid, grid.Tiles[5, 5], Character.Teams.Red, CharacterTypePhysical.Archer, this));
         }
 
         public void addRangeToForm(params Control[] controls)
@@ -121,8 +122,12 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             }
         }
 
-        public void startTimer()
+        public void startGame()
         {
+            gameNetworkManager.start();
+
+            gameNetworkManager.enqueueMsg(NetworkMsgPrefix.NewPlayer, GameNetworkUtilities.serializePlayerHP(Player));
+
             gameStart();
             timer.Start();
         }
@@ -134,6 +139,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
                 if (e.Button == MouseButtons.Right)
                 {
                     deselectSelectedTile();
+
                 }
                 else if (e.Button == MouseButtons.Left)
                 {
@@ -144,7 +150,19 @@ namespace ASU2019_NetworkedGameWorkshop.controller
                     }
                 }
             }
+            else if (stageManager.CurrentGameStage == GameStage.Fight)
+            {
+                Tile tile = grid.getSelectedHexagon(e.X, e.Y);
+                if (tile != null && tile.CurrentCharacter != null)
+                {
+                    if (tile.CurrentCharacter.ActiveSpells.Count > 0 && tile.CurrentCharacter.SpellReady == false)
+                    {
+                        tile.CurrentCharacter.showChooseSpell();
+                    }
+                }
+            }
         }
+
 
         private void selectTile(Tile tile)
         {
@@ -157,14 +175,26 @@ namespace ASU2019_NetworkedGameWorkshop.controller
                 SelectedTile = tile;
                 SelectedTile.Selected = true;
                 updateCanvas = true;
+                spellShop.updateShop();
             }
             else
             {
-                Character temp = SelectedTile.CurrentCharacter;
-                SelectedTile.CurrentCharacter = tile.CurrentCharacter;
-                tile.CurrentCharacter = temp;
-                deselectSelectedTile();
+                if ((tile.CurrentCharacter == null || tile.CurrentCharacter.team != Character.Teams.Red)
+                    && (SelectedTile.CurrentCharacter == null || SelectedTile.CurrentCharacter.team != Character.Teams.Red))
+                {
+                    swapCharacters(tile, SelectedTile);
+                    gameNetworkManager.enqueueMsg(NetworkMsgPrefix.CharacterSwap,
+                                                  GameNetworkUtilities.serializeCharacterSwap(tile, SelectedTile));
+                    deselectSelectedTile();
+                }
             }
+        }
+
+        private void swapCharacters(Tile tile, Tile selectedTile)
+        {
+            Character temp = selectedTile.CurrentCharacter;
+            selectedTile.CurrentCharacter = tile.CurrentCharacter;
+            tile.CurrentCharacter = temp;
         }
 
         public void deselectSelectedTile()
@@ -174,6 +204,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
                 SelectedTile.Selected = false;
                 SelectedTile = null;
                 updateCanvas = true;
+                spellShop.updateShop();
             }
         }
 
@@ -191,7 +222,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             Player.draw(e.Graphics);
             e.Graphics.DrawString("Round: " + stageManager.CurrentRound, new Font("Roboto", 12, FontStyle.Bold), Brushes.Black, 800, 15);//temp pos and font
             playersLeaderBoard.draw(e.Graphics);
-            charShop.draw(e.Graphics);
+            CharShop.draw(e.Graphics);
 
             if (true)//debugging
             {
@@ -204,12 +235,14 @@ namespace ASU2019_NetworkedGameWorkshop.controller
         private void gameStart()
         {
             stopwatch.Start();
-            stageManager.switchStage();//Debugging
-            //stageTimer.resetTimer(StageTime.BUY_TIME);
+            //stageManager.switchStage();//Debugging
+            stageTimer.resetTimer(StageTime.BUY);
         }
 
         private void gameLoop(object sender, EventArgs e)
         {
+            checkNetworkMsgs();
+
             updateCanvas = stageTimer.update() || updateCanvas;
 
             if (stageManager.CurrentGameStage == GameStage.Buy)
@@ -228,15 +261,142 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             }
         }
 
+        private void checkNetworkMsgs()
+        {
+            if (gameNetworkManager.DataReceived.Count > 0)
+            {
+                bool updateLeaderBoard = false;
+                while (gameNetworkManager.DataReceived.Count > 0)
+                {
+                    updateLeaderBoard = applyNetworkMsg() || updateLeaderBoard;
+                }
+                if (updateLeaderBoard)
+                {
+                    playersLeaderBoard.update();
+                }
+            }
+        }
+
+        private bool applyNetworkMsg()
+        {
+            bool updateLeaderBoard = false;
+            gameNetworkManager.DataReceived.TryDequeue(out string result);
+            Console.WriteLine("parsing " + result);//debugging
+            string[] msg = result.Split(GameNetworkManager.NETWORK_MSG_SEPARATOR);
+
+            if(msg[0].Equals(NetworkMsgPrefix.CharacterSwap.getPrefix()))
+            {
+                (Tile tile, Tile selectedTile) = GameNetworkUtilities.parseCharacterSwap(msg, grid);
+                swapCharacters(tile, selectedTile);
+            }
+            else if(msg[0].Equals(NetworkMsgPrefix.StageChange.getPrefix()))
+            {
+                stageTimer.HostStageChanged = true;
+                (GameStage gameStage, bool HostWins) = GameNetworkUtilities.parseStage(msg[1], msg[2]);
+                if (gameStage == GameStage.FightToBuy)
+                    if (HostWins)
+                    {
+                        foreach(Character character in TeamBlue.Where(e => !e.IsDead))
+                        {
+                            character.takeDamage(10000, DamageType.PhysicalDamage);
+                        }
+                    }
+                    else
+                    {
+                        foreach(Character character in TeamRed.Where(e => !e.IsDead))
+                        {
+                            character.takeDamage(10000, DamageType.PhysicalDamage);
+                        }
+                    }
+            }
+            else if(msg[0].Equals(NetworkMsgPrefix.NewCharacter.getPrefix()))
+            {
+                TeamRed.Add(CharStatToCharacter(GameNetworkUtilities.parseCharacter(msg)));
+            }
+            else if(msg[0].Equals(NetworkMsgPrefix.PlayerHealthUpdate.getPrefix()))
+            {
+                otherPlayers.Find(player => player.Name.Equals(msg[1])).Health = int.Parse(msg[2]);
+                updateLeaderBoard = true;
+            }
+            else if(msg[0].Equals(NetworkMsgPrefix.NewPlayer.getPrefix()))
+            {
+                Player player = new Player(msg[1])
+                {
+                    Health = int.Parse(msg[2])
+                };
+                otherPlayers.Add(player);
+                playersLeaderBoard.addPlayers(player);
+                updateLeaderBoard = true;
+            }
+            else if(msg[0].Equals(NetworkMsgPrefix.SellCharacter.getPrefix()))
+            {
+                Tile tile = grid.Tiles[int.Parse(msg[1]), int.Parse(msg[2])];
+                TeamRed.Remove(tile.CurrentCharacter);
+                tile.CurrentCharacter = null;
+                spellShop.updateShop();
+            }
+            else if(msg[0].Equals(NetworkMsgPrefix.LevelUpCharacter.getPrefix()))
+            {
+                grid.Tiles[int.Parse(msg[1]), int.Parse(msg[2])].CurrentCharacter.levelUp();
+                spellShop.updateShop();
+            }
+            else if(msg[0].Equals(NetworkMsgPrefix.LevelUpSpell.getPrefix()))
+            {
+                grid.Tiles[int.Parse(msg[1]), int.Parse(msg[2])].CurrentCharacter.upgradeSpell(Spells.getSpell(int.Parse(msg[3])));
+            }
+            else if(msg[0].Equals(NetworkMsgPrefix.LearnSpell.getPrefix()))
+            {
+                grid.Tiles[int.Parse(msg[1]), int.Parse(msg[2])].CurrentCharacter.learnSpell(Spells.getSpell(int.Parse(msg[3])));
+            }
+            else if(msg[0].Equals(NetworkMsgPrefix.DefaultSkill.getPrefix()))
+            {
+                TeamRed[int.Parse(msg[1])].DefaultSkill = Spells.getSpell(int.Parse(msg[2]));
+                //grid.Tiles[int.Parse(msg[1]), int.Parse(msg[2])].CurrentCharacter.DefaultSkill = Spells.getSpell(int.Parse(msg[3]));
+            }
+            else if(msg[0].Equals(NetworkMsgPrefix.AddActiveSpells.getPrefix()))
+            {
+                Character character = grid.Tiles[int.Parse(msg[1]), int.Parse(msg[2])].CurrentCharacter;
+                character.ActiveSpells.Add(Spells.getSpell(int.Parse(msg[3])));
+                character.ChooseSpell.refreshPanel(character, character.ActiveSpells);
+            }
+            else if(msg[0].Equals(NetworkMsgPrefix.RemActiveSpells.getPrefix()))
+            {
+                Character character = grid.Tiles[int.Parse(msg[1]), int.Parse(msg[2])].CurrentCharacter;
+                character.ActiveSpells.Remove(Spells.getSpell(int.Parse(msg[3])));
+                character.ChooseSpell.refreshPanel(character, character.ActiveSpells);
+
+            }
+            else if(msg[0].Equals(NetworkMsgPrefix.ExchActiveSpells.getPrefix()))
+            {
+                Character character = TeamRed[int.Parse(msg[1])];
+                character.ChooseSpell.spellSwap(int.Parse(msg[2]));
+                character.ChooseSpell.refreshPanel(character, character.ActiveSpells);
+            }
+            return updateLeaderBoard;
+        }
+
         private bool stageUpdateBuy()
         {
-            bool updateCanvas = false;
+            foreach (Character character in TeamBlue.Where(e => !e.IsDead))
+            {
+                updateCanvas = character.updateBuy() || updateCanvas;
+            }
+
+            foreach (Character character in TeamRed.Where(e => !e.IsDead))
+            {
+                updateCanvas = character.updateBuy() || updateCanvas;
+            }
             return updateCanvas;
         }
 
         private bool stageUpdateFight()
         {
-            if (TeamBlue.Count(e => !e.IsDead) == 0 || TeamRed.Count(e => !e.IsDead) == 0)
+            List<Character> Team1, Team2;
+            (Team1, Team2) = IsHost ? (TeamBlue, TeamRed) : (TeamRed, TeamBlue);
+            (Team1, Team2) = (stageManager.CurrentRound &1) == 0 ? (Team1, Team2) : (Team2, Team1);
+
+            
+            if (Team1.Count(e => !e.IsDead) == 0 || Team2.Count(e => !e.IsDead) == 0)
             {
                 stageTimer.endTimer();
                 return true;
@@ -244,12 +404,12 @@ namespace ASU2019_NetworkedGameWorkshop.controller
 
             bool updateCanvas = false;
 
-            foreach (Character character in TeamBlue.Where(e => !e.IsDead))
+            foreach (Character character in Team1.Where(e => !e.IsDead))
             {
                 updateCanvas = character.update() || updateCanvas;
             }
 
-            foreach (Character character in TeamRed.Where(e => !e.IsDead))
+            foreach (Character character in Team2.Where(e => !e.IsDead))
             {
                 updateCanvas = character.update() || updateCanvas;
             }
@@ -258,11 +418,11 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             if (nextTickTime < ElapsedTime)
             {
                 nextTickTime = ElapsedTime + TICK_INTERVAL;
-                foreach (Character character in TeamBlue.Where(e => !e.IsDead))
+                foreach (Character character in Team1.Where(e => !e.IsDead))
                 {
                     updateCanvas = character.tick() || updateCanvas;
                 }
-                foreach (Character character in TeamRed.Where(e => !e.IsDead))
+                foreach (Character character in Team2.Where(e => !e.IsDead))
                 {
                     updateCanvas = character.tick() || updateCanvas;
                 }
@@ -270,21 +430,30 @@ namespace ASU2019_NetworkedGameWorkshop.controller
 
             return updateCanvas;
         }
+
         public void AddCharacter(CharacterType[] characterType)
         {
-
             for (int j = grid.GridHeight - 1; j > (grid.GridHeight - 1) / 2; j--)
             {
                 for (int i = grid.GridWidth - 1; i >= 0; i--)
                 {
-                    if (grid.Tiles[i, j].CurrentCharacter == null)
+                    (int ii,int jj) = IsHost ? (i, j) : (grid.GridWidth - 1 - i, grid.GridHeight - 1 - j);
+                    if(grid.Tiles[ii, jj].CurrentCharacter == null)
                     {
-                        TeamBlue.Add(new Character(grid, grid.Tiles[i, j], Character.Teams.Blue, characterType, this));
+                        Character item = new Character(grid, grid.Tiles[ii, jj], Character.Teams.Blue, characterType, this, gameNetworkManager);
+                        TeamBlue.Add(item);
+                        gameNetworkManager.enqueueMsg(NetworkMsgPrefix.NewCharacter, GameNetworkUtilities.serializeCharacter(item));
                         return;
                     }
                 }
             }
         }
-    }
 
+        [Obsolete()]
+        private Character CharStatToCharacter(GameNetworkUtilities.CharStat charStat)//should be in charstat
+        {
+            //no spells 
+            return new Character(grid, grid.Tiles[charStat.X, charStat.Y], Character.Teams.Red, charStat.charType, this,gameNetworkManager);
+        }
+    }
 }

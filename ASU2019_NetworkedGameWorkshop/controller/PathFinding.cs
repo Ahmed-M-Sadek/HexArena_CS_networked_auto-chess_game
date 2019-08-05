@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 
+
 namespace ASU2019_NetworkedGameWorkshop.controller
 {
     public class PathFinding
@@ -60,6 +61,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             return Tuple.Create(shortestPath, closestEnemy);
         }
 
+
         internal static Character findClosestEnemy(Tile currentTile, List<Character> team, Grid grid, int range, GameManager gameManager)
         {
             List<Character> enemyList = team;
@@ -91,6 +93,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
                 }
             }
 
+
             if (shortestDist == null)
             {
                 throw new PathNotFoundException();
@@ -111,7 +114,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
 
                 closedSet.Add(currentTile);
                 if (currentTile.Equals(endTile))
-                { 
+                {
                     return retracePath(startTile, currentTile, grid);
                 }
                 foreach (Tile neighbour in grid.getNeighbours(currentTile, tilesClone))
@@ -169,6 +172,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             var y = -x - z;
             return new Cube(x, y, z);
         }
+
 
         private struct Cube
         {

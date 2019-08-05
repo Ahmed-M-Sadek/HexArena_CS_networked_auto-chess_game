@@ -1,8 +1,9 @@
-﻿using ASU2019_NetworkedGameWorkshop.model;
+﻿using ASU2019_NetworkedGameWorkshop.controller.networking.game;
+using ASU2019_NetworkedGameWorkshop.model;
 using ASU2019_NetworkedGameWorkshop.model.character;
 using ASU2019_NetworkedGameWorkshop.model.grid;
 using ASU2019_NetworkedGameWorkshop.model.ui;
-using ASU2019_NetworkedGameWorkshop.model.ui.shop;
+using ASU2019_NetworkedGameWorkshop.model.ui.shop.charactershop;
 using System.Collections.Generic;
 using System.Linq;
 using static ASU2019_NetworkedGameWorkshop.model.ui.StageTimer;
@@ -20,11 +21,12 @@ namespace ASU2019_NetworkedGameWorkshop.controller
         private readonly Grid grid;
         private readonly Dictionary<Character, Tile> charactersPrevPos;
         private readonly GameManager gameManager;
+        private readonly GameNetworkManager gameNetworkManager;
         private readonly PlayersLeaderBoard playersLeaderBoard;
         private readonly CharShop charShop;
         private readonly Player player;
 
-        public GameStage CurrentGameStage { get; private set; }
+        public GameStage CurrentGameStage { get; set; }
         public int CurrentRound { get; set; }
 
         public StageManager(StageTimer stageTimer,
@@ -34,7 +36,8 @@ namespace ASU2019_NetworkedGameWorkshop.controller
                             Player player,
                             PlayersLeaderBoard playersLeaderBoard,
                             CharShop charShop,
-                            GameManager gameManager)
+                            GameManager gameManager,
+                            GameNetworkManager gameNetworkManager)
         {
             this.stageTimer = stageTimer;
             this.teamBlue = teamBlue;
@@ -44,11 +47,12 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             this.playersLeaderBoard = playersLeaderBoard;
             this.charShop = charShop;
             this.gameManager = gameManager;
-
+            this.gameNetworkManager = gameNetworkManager;
             charactersPrevPos = new Dictionary<Character, Tile>();
             CurrentGameStage = GameStage.Buy;
             CurrentRound = 1;
         }
+
 
         public void switchStage()
         {
@@ -56,24 +60,47 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             {
                 CurrentGameStage = GameStage.BuyToFight;
                 stageTimer.resetTimer(StageTime.BUY_TO_FIGHT);
+                System.Console.WriteLine("switched to " + StageTime.BUY_TO_FIGHT);
                 gameManager.deselectSelectedTile();
+                enqueueStageChangeMsg();
             }
             else if (CurrentGameStage == GameStage.Fight)
             {
                 CurrentGameStage = GameStage.FightToBuy;
                 stageTimer.resetTimer(StageTime.FIGHT_TO_BUY);
+                enqueueStageChangeMsg();
             }
             else if (CurrentGameStage == GameStage.BuyToFight)
             {
                 CurrentGameStage = GameStage.Fight;
                 switchStageFight();
+                enqueueStageChangeMsg();
             }
             else if (CurrentGameStage == GameStage.FightToBuy)
             {
                 endRound();
                 CurrentGameStage = GameStage.Buy;
                 switchStageBuy();
+                enqueueStageChangeMsg();
             }
+        }
+
+        private void enqueueStageChangeMsg ()
+        {
+            if(gameManager.IsHost)
+                if(CurrentGameStage == GameStage.FightToBuy)
+                {
+                    if (gameManager.TeamBlue.Count(e => !e.IsDead) > 0)
+                    {
+                       gameNetworkManager.enqueueMsg(NetworkMsgPrefix.StageChange, networking.GameNetworkUtilities.serializeStage(CurrentGameStage, true));
+                    }
+                    else
+                    {
+                        gameNetworkManager.enqueueMsg(NetworkMsgPrefix.StageChange, networking.GameNetworkUtilities.serializeStage(CurrentGameStage, false));
+                    }
+                }
+                else
+                    gameNetworkManager.enqueueMsg(NetworkMsgPrefix.StageChange, networking.GameNetworkUtilities.serializeStage(CurrentGameStage, false));
         }
 
         private void switchStageBuy()
@@ -151,6 +178,8 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             }
 
             playersLeaderBoard.update();
+            gameNetworkManager.enqueueMsg(networking.game.NetworkMsgPrefix.PlayerHealthUpdate,
+                                          networking.GameNetworkUtilities.serializePlayerHP(player));
         }
     }
 }

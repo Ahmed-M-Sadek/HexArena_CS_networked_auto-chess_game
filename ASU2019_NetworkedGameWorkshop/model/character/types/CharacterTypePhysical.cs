@@ -221,6 +221,18 @@ namespace ASU2019_NetworkedGameWorkshop.model.character.types
                 25, 20),
         };
 
+        static CharacterTypePhysical()
+        {
+            foreach (var charType in Values)
+            {
+                foreach (var charTypeLevel in charType)
+                {
+                    charTypeLevel.Id = ID;
+                }
+                charactersList[ID++] = charType;
+            }
+        }
+
         private CharacterTypePhysical(
             string name,
             int healthPoints,
@@ -228,8 +240,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character.types
             int range,
             int attackDamage, float attackSpeed,
             int armor, int magicResist)
-            : base(name, healthPoints, charge, chargeMax, range, attackDamage, attackSpeed, armor, magicResist)
-        { }
+            : base(name, healthPoints, charge, chargeMax, range, attackDamage, attackSpeed, armor, magicResist) { }
 
         /// <summary>
         /// All of the static instances of CharacterTypePhysical

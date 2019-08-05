@@ -12,8 +12,22 @@ namespace ASU2019_NetworkedGameWorkshop.model.character.types
         public const int MAX_CHAR_LVL = 3;
 
         private readonly Dictionary<StatusType, int> stats;
-
         public string Name { get; }
+        public int Id { get; set; }
+
+        public static int ID = 0;
+
+        protected readonly static Dictionary<int, CharacterType[]> charactersList;
+        public static CharacterType[] getCharacterType(int id)
+        {
+            return charactersList[id];
+        }
+
+
+        static CharacterType()
+        {
+            charactersList = new Dictionary<int, CharacterType[]>();
+        }
 
         public CharacterType(string name,
             int healthPointsMax,
