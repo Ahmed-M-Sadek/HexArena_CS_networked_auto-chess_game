@@ -68,7 +68,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui.shop
 
         private void buySkill_click(object sender, MouseEventArgs e)
         {
-            if(manager.Player.Gold < SPELL_PRICE)
+            if (manager.Player.Gold < SPELL_PRICE)
             {
                 return;
             }

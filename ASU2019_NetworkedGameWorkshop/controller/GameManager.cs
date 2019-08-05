@@ -32,6 +32,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
         private readonly PlayersLeaderBoard playersLeaderBoard;
         private readonly GameNetworkManager gameNetworkManager;
         private readonly List<Player> otherPlayers;
+        public static int randomSeed;
 
         private StageManager stageManager;
         private Shop spellShop;
@@ -67,6 +68,9 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             {
                 IsHost = isHost;
                 gameNetworkManager = new GameServer(port);
+                randomSeed = (int)DateTime.Now.Ticks;
+                gameNetworkManager.enqueueMsg(NetworkMsgPrefix.SetSeed,
+                              GameNetworkUtilities.serializeRandomSeed(randomSeed));
             }
             else
             {
@@ -108,6 +112,11 @@ namespace ASU2019_NetworkedGameWorkshop.controller
                 Interval = GAMELOOP_INTERVAL //Arbitrary: 20 ticks per sec
             };
             timer.Tick += new EventHandler(gameLoop);
+        }
+
+        internal void resetTickTimeForRoundStart()
+        {
+            nextTickTime = ((ElapsedTime / TICK_INTERVAL) + 2) * TICK_INTERVAL;
         }
 
         public void addRangeToForm(params Control[] controls)
@@ -289,36 +298,40 @@ namespace ASU2019_NetworkedGameWorkshop.controller
                 (Tile tile, Tile selectedTile) = GameNetworkUtilities.parseCharacterSwap(msg, grid);
                 swapCharacters(tile, selectedTile);
             }
-            else if(msg[0].Equals(NetworkMsgPrefix.StageChange.getPrefix()))
+            if(msg[0].Equals(NetworkMsgPrefix.SetSeed.getPrefix()))
+            {
+                randomSeed = Convert.ToInt32(msg[1]);
+            }
+            else if (msg[0].Equals(NetworkMsgPrefix.StageChange.getPrefix()))
             {
                 stageTimer.HostStageChanged = true;
                 (GameStage gameStage, bool HostWins) = GameNetworkUtilities.parseStage(msg[1], msg[2]);
                 if (gameStage == GameStage.FightToBuy)
                     if (HostWins)
                     {
-                        foreach(Character character in TeamBlue.Where(e => !e.IsDead))
+                        foreach (Character character in TeamBlue.Where(e => !e.IsDead))
                         {
                             character.takeDamage(10000, DamageType.PhysicalDamage);
                         }
                     }
                     else
                     {
-                        foreach(Character character in TeamRed.Where(e => !e.IsDead))
+                        foreach (Character character in TeamRed.Where(e => !e.IsDead))
                         {
                             character.takeDamage(10000, DamageType.PhysicalDamage);
                         }
                     }
             }
-            else if(msg[0].Equals(NetworkMsgPrefix.NewCharacter.getPrefix()))
+            else if (msg[0].Equals(NetworkMsgPrefix.NewCharacter.getPrefix()))
             {
                 TeamRed.Add(CharStatToCharacter(GameNetworkUtilities.parseCharacter(msg)));
             }
-            else if(msg[0].Equals(NetworkMsgPrefix.PlayerHealthUpdate.getPrefix()))
+            else if (msg[0].Equals(NetworkMsgPrefix.PlayerHealthUpdate.getPrefix()))
             {
                 otherPlayers.Find(player => player.Name.Equals(msg[1])).Health = int.Parse(msg[2]);
                 updateLeaderBoard = true;
             }
-            else if(msg[0].Equals(NetworkMsgPrefix.NewPlayer.getPrefix()))
+            else if (msg[0].Equals(NetworkMsgPrefix.NewPlayer.getPrefix()))
             {
                 Player player = new Player(msg[1])
                 {
@@ -328,45 +341,45 @@ namespace ASU2019_NetworkedGameWorkshop.controller
                 playersLeaderBoard.addPlayers(player);
                 updateLeaderBoard = true;
             }
-            else if(msg[0].Equals(NetworkMsgPrefix.SellCharacter.getPrefix()))
+            else if (msg[0].Equals(NetworkMsgPrefix.SellCharacter.getPrefix()))
             {
                 Tile tile = grid.Tiles[int.Parse(msg[1]), int.Parse(msg[2])];
                 TeamRed.Remove(tile.CurrentCharacter);
                 tile.CurrentCharacter = null;
                 spellShop.updateShop();
             }
-            else if(msg[0].Equals(NetworkMsgPrefix.LevelUpCharacter.getPrefix()))
+            else if (msg[0].Equals(NetworkMsgPrefix.LevelUpCharacter.getPrefix()))
             {
                 grid.Tiles[int.Parse(msg[1]), int.Parse(msg[2])].CurrentCharacter.levelUp();
                 spellShop.updateShop();
             }
-            else if(msg[0].Equals(NetworkMsgPrefix.LevelUpSpell.getPrefix()))
+            else if (msg[0].Equals(NetworkMsgPrefix.LevelUpSpell.getPrefix()))
             {
                 grid.Tiles[int.Parse(msg[1]), int.Parse(msg[2])].CurrentCharacter.upgradeSpell(Spells.getSpell(int.Parse(msg[3])));
             }
-            else if(msg[0].Equals(NetworkMsgPrefix.LearnSpell.getPrefix()))
+            else if (msg[0].Equals(NetworkMsgPrefix.LearnSpell.getPrefix()))
             {
                 grid.Tiles[int.Parse(msg[1]), int.Parse(msg[2])].CurrentCharacter.learnSpell(Spells.getSpell(int.Parse(msg[3])));
             }
-            else if(msg[0].Equals(NetworkMsgPrefix.DefaultSkill.getPrefix()))
+            else if (msg[0].Equals(NetworkMsgPrefix.DefaultSkill.getPrefix()))
             {
                 TeamRed[int.Parse(msg[1])].DefaultSkill = Spells.getSpell(int.Parse(msg[2]));
                 //grid.Tiles[int.Parse(msg[1]), int.Parse(msg[2])].CurrentCharacter.DefaultSkill = Spells.getSpell(int.Parse(msg[3]));
             }
-            else if(msg[0].Equals(NetworkMsgPrefix.AddActiveSpells.getPrefix()))
+            else if (msg[0].Equals(NetworkMsgPrefix.AddActiveSpells.getPrefix()))
             {
                 Character character = grid.Tiles[int.Parse(msg[1]), int.Parse(msg[2])].CurrentCharacter;
                 character.ActiveSpells.Add(Spells.getSpell(int.Parse(msg[3])));
                 character.ChooseSpell.refreshPanel(character, character.ActiveSpells);
             }
-            else if(msg[0].Equals(NetworkMsgPrefix.RemActiveSpells.getPrefix()))
+            else if (msg[0].Equals(NetworkMsgPrefix.RemActiveSpells.getPrefix()))
             {
                 Character character = grid.Tiles[int.Parse(msg[1]), int.Parse(msg[2])].CurrentCharacter;
                 character.ActiveSpells.Remove(Spells.getSpell(int.Parse(msg[3])));
                 character.ChooseSpell.refreshPanel(character, character.ActiveSpells);
 
             }
-            else if(msg[0].Equals(NetworkMsgPrefix.ExchActiveSpells.getPrefix()))
+            else if (msg[0].Equals(NetworkMsgPrefix.ExchActiveSpells.getPrefix()))
             {
                 Character character = TeamRed[int.Parse(msg[1])];
                 character.ChooseSpell.spellSwap(int.Parse(msg[2]));
@@ -393,9 +406,9 @@ namespace ASU2019_NetworkedGameWorkshop.controller
         {
             List<Character> Team1, Team2;
             (Team1, Team2) = IsHost ? (TeamBlue, TeamRed) : (TeamRed, TeamBlue);
-            (Team1, Team2) = (stageManager.CurrentRound &1) == 0 ? (Team1, Team2) : (Team2, Team1);
+            (Team1, Team2) = (stageManager.CurrentRound & 1) == 0 ? (Team1, Team2) : (Team2, Team1);
 
-            
+
             if (Team1.Count(e => !e.IsDead) == 0 || Team2.Count(e => !e.IsDead) == 0)
             {
                 stageTimer.endTimer();
@@ -417,7 +430,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
 
             if (nextTickTime < ElapsedTime)
             {
-                nextTickTime = ElapsedTime + TICK_INTERVAL;
+                nextTickTime = ((ElapsedTime / TICK_INTERVAL) + 1) * TICK_INTERVAL;
                 foreach (Character character in Team1.Where(e => !e.IsDead))
                 {
                     updateCanvas = character.tick() || updateCanvas;
@@ -437,8 +450,8 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             {
                 for (int i = grid.GridWidth - 1; i >= 0; i--)
                 {
-                    (int ii,int jj) = IsHost ? (i, j) : (grid.GridWidth - 1 - i, grid.GridHeight - 1 - j);
-                    if(grid.Tiles[ii, jj].CurrentCharacter == null)
+                    (int ii, int jj) = IsHost ? (i, j) : (grid.GridWidth - 1 - i, grid.GridHeight - 1 - j);
+                    if (grid.Tiles[ii, jj].CurrentCharacter == null)
                     {
                         Character item = new Character(grid, grid.Tiles[ii, jj], Character.Teams.Blue, characterType, this, gameNetworkManager);
                         TeamBlue.Add(item);
@@ -453,7 +466,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
         private Character CharStatToCharacter(GameNetworkUtilities.CharStat charStat)//should be in charstat
         {
             //no spells 
-            return new Character(grid, grid.Tiles[charStat.X, charStat.Y], Character.Teams.Red, charStat.charType, this,gameNetworkManager);
+            return new Character(grid, grid.Tiles[charStat.X, charStat.Y], Character.Teams.Red, charStat.charType, this, gameNetworkManager);
         }
     }
 }

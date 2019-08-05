@@ -85,14 +85,14 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             }
         }
 
-        private void enqueueStageChangeMsg ()
+        private void enqueueStageChangeMsg()
         {
-            if(gameManager.IsHost)
-                if(CurrentGameStage == GameStage.FightToBuy)
+            if (gameManager.IsHost)
+                if (CurrentGameStage == GameStage.FightToBuy)
                 {
                     if (gameManager.TeamBlue.Count(e => !e.IsDead) > 0)
                     {
-                       gameNetworkManager.enqueueMsg(NetworkMsgPrefix.StageChange, networking.GameNetworkUtilities.serializeStage(CurrentGameStage, true));
+                        gameNetworkManager.enqueueMsg(NetworkMsgPrefix.StageChange, networking.GameNetworkUtilities.serializeStage(CurrentGameStage, true));
                     }
                     else
                     {
@@ -151,6 +151,8 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             teamBlue.ForEach(character => charactersPrevPos.Add(character, character.CurrentTile));
 
             grid.Transparent = true;
+
+            gameManager.resetTickTimeForRoundStart();
 
             stageTimer.resetTimer(StageTime.FIGHT);
         }

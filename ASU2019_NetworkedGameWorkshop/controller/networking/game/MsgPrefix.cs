@@ -4,6 +4,8 @@ namespace ASU2019_NetworkedGameWorkshop.controller.networking.game
 {
     public enum NetworkMsgPrefix
     {
+        [Prefix("SS")]
+        SetSeed,
         [Prefix("NChar")]
         NewCharacter,
         [Prefix("SChar")]

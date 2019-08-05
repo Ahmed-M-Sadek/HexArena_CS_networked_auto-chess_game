@@ -4,7 +4,6 @@ using ASU2019_NetworkedGameWorkshop.controller.networking.game;
 using ASU2019_NetworkedGameWorkshop.model.character;
 using ASU2019_NetworkedGameWorkshop.model.grid;
 using ASU2019_NetworkedGameWorkshop.model.spell;
-using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
@@ -29,7 +28,7 @@ namespace ASU2019_NetworkedGameWorkshop.model
         private Character character;
         private readonly float offsetY;
         private readonly float backOffsetY;
-        public ChooseSpell(Character character, List<Spells[]> spells,GameNetworkManager gameNetworkManager)
+        public ChooseSpell(Character character, List<Spells[]> spells, GameNetworkManager gameNetworkManager)
         {
             this.gameNetworkManager = gameNetworkManager;
             this.character = character;
@@ -68,9 +67,9 @@ namespace ASU2019_NetworkedGameWorkshop.model
         }
         public void refreshLocation(Character character)
         {
-            if(!character.IsDead)
+            if (!character.IsDead)
                 Location = new Point((int)(character.CurrentTile.centerX - BACK_OFFSET_X), (int)(character.CurrentTile.centerY + backOffsetY));
-              
+
         }
 
         private MouseEventHandler mouseEvent(List<Spells[]> actives, int k)

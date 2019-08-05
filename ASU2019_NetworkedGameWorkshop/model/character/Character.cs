@@ -76,8 +76,8 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
             this.characterType = characterType;
             this.gameManager = gameManager;
             this.gameNetworkManager = gameNetworkManager;
-            ChooseSpell = new ChooseSpell(this, ActiveSpells,gameNetworkManager);
-            InactiveSpell = new InactiveSpell(this, InactiveSpells,gameNetworkManager);
+            ChooseSpell = new ChooseSpell(this, ActiveSpells, gameNetworkManager);
+            InactiveSpell = new InactiveSpell(this, InactiveSpells, gameNetworkManager);
 
             Stats = CharacterType.statsCopy();
             ActiveSpells = new List<Spells[]>();
@@ -221,7 +221,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
         }
         public void hideAllSpellUI()
         {
-            gameManager.removeRangeFromForm(ChooseSpell,InactiveSpell);
+            gameManager.removeRangeFromForm(ChooseSpell, InactiveSpell);
             SpellReady = false;
         }
 
