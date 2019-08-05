@@ -86,7 +86,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             TeamRed = new List<Character>();
 
             Player = new Player(playerName, true);
-            Player.Gold = 50;//debugging
+            //Player.Gold = 50;//debugging
 
             otherPlayers = new List<Player>();
             playersLeaderBoard = new PlayersLeaderBoard(Player);
@@ -239,7 +239,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             playersLeaderBoard.draw(e.Graphics);
             CharShop.draw(e.Graphics);
 
-            if (true)//debugging
+            if (false)//debugging
             {
                 grid.drawDebug(e.Graphics);
                 TeamBlue.ForEach(character => character.drawDebug(e.Graphics));
@@ -296,7 +296,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
         {
             bool updateLeaderBoard = false;
             gameNetworkManager.DataReceived.TryDequeue(out string result);
-            Console.WriteLine("parsing " + result);//debugging
+            //Console.WriteLine("parsing " + result);//debugging
             string[] msg = result.Split(GameNetworkManager.NETWORK_MSG_SEPARATOR);
 
             if(msg[0].Equals(NetworkMsgPrefix.CharacterSwap.getPrefix()))
