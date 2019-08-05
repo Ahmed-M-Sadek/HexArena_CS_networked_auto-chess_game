@@ -191,11 +191,16 @@ namespace ASU2019_NetworkedGameWorkshop.controller
                 if ((tile.CurrentCharacter == null || tile.CurrentCharacter.team != Character.Teams.Red)
                     && (SelectedTile.CurrentCharacter == null || SelectedTile.CurrentCharacter.team != Character.Teams.Red))
                 {
-                    SoundManager.PlaySound("swapCharacter.wav");
-                    swapCharacters(tile, SelectedTile);
-                    gameNetworkManager.enqueueMsg(NetworkMsgPrefix.CharacterSwap,
-                                                  GameNetworkUtilities.serializeCharacterSwap(tile, SelectedTile));
-                    deselectSelectedTile();
+                    if(IsHost && SelectedTile.Y >= grid.GridHeight / 2 && tile.Y >= grid.GridHeight / 2 ||
+                        !IsHost && SelectedTile.Y < grid.GridHeight / 2 && tile.Y < grid.GridHeight / 2)
+                    {
+                        SoundManager.PlaySound("swapCharacter.wav");
+                        swapCharacters(tile, SelectedTile);
+                        gameNetworkManager.enqueueMsg(NetworkMsgPrefix.CharacterSwap,
+                                                      GameNetworkUtilities.serializeCharacterSwap(tile, SelectedTile));
+                        deselectSelectedTile();
+                    }
+
                 }
             }
         }
