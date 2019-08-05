@@ -1,11 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.Net.Compilers.3.1.1\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.3.1.1\build\Microsoft.Net.Compilers.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{50D7236F-86B2-4E81-8DFF-1135BE91B285}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <RootNamespace>ASU2019_NetworkedGameWorkshop</RootNamespace>
     <AssemblyName>ASU2019_NetworkedGameWorkshop</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
@@ -32,6 +33,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -46,14 +50,69 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.cs">
-      <SubType>Form</SubType>
+    <Compile Include="controller\GameManager.cs" />
+    <Compile Include="controller\networking\game\GameClient.cs" />
+    <Compile Include="controller\networking\game\GameNetworkManager.cs" />
+    <Compile Include="controller\networking\game\GameServer.cs" />
+    <Compile Include="controller\networking\game\MsgPrefix.cs" />
+    <Compile Include="controller\networking\lobby\LobbyClient.cs" />
+    <Compile Include="controller\networking\lobby\LobbyServer.cs" />
+    <Compile Include="controller\networking\GameNetworkUtilities.cs" />
+    <Compile Include="controller\StageManager.cs" />
+    <Compile Include="model\character\Character.cs" />
+    <Compile Include="model\character\StatusEffect.cs" />
+    <Compile Include="model\character\types\CharacterTypeMagical.cs" />
+    <Compile Include="model\DamageType.cs" />
+    <Compile Include="model\character\StatusType.cs" />
+    <Compile Include="model\character\types\CharacterTypePhysical.cs" />
+    <Compile Include="model\character\types\CharacterType.cs" />
+    <Compile Include="model\collection\Heap.cs" />
+    <Compile Include="model\GraphicsObject.cs" />
+    <Compile Include="controller\PathFinding.cs" />
+    <Compile Include="model\grid\Grid.cs" />
+    <Compile Include="model\grid\Tile.cs" />
+    <Compile Include="model\Player.cs" />
+    <Compile Include="model\ui\shop\Shop.cs" />
+    <Compile Include="model\ui\shop\ShopUIPanel.cs">
+      <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="model\ui\shop\SpellShopPopUP.cs">
+      <SubType>Component</SubType>
     </Compile>
+    <Compile Include="model\ui\shop\SpellShopUIPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="model\spell\Spells.cs" />
+    <Compile Include="model\spell\types\CastTarget.cs" />
+    <Compile Include="model\spell\types\SpellType.cs" />
+    <Compile Include="model\spell\types\Target.cs" />
+    <Compile Include="model\StatBar.cs" />
+    <Compile Include="model\ui\spells\InactiveSpell.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="model\ui\spells\ChooseSpell.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="model\ui\shop\charactershop\CharShop.cs" />
+    <Compile Include="model\ui\PlayersLeaderBoard.cs" />
+    <Compile Include="model\ui\shop\charactershop\ShopButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="model\ui\StageTimer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="view\ConnectForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="view\ConnectForm.Designer.cs">
+      <DependentUpon>ConnectForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="view\GameForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="view\GameForm.Designer.cs">
+      <DependentUpon>GameForm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -62,7 +121,14 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="view\ConnectForm.resx">
+      <DependentUpon>ConnectForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="view\GameForm.resx">
+      <DependentUpon>GameForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -76,5 +142,94 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="assets\sprites\tiles\Tile_Transparent.png" />
+    <Resource Include="assets\sprites\tiles\Tile_Selected.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="assets\sprites\spells\enchant-acid-1.png" />
+    <Resource Include="assets\sprites\spells\enchant-acid-2.png" />
+    <Resource Include="assets\sprites\spells\enchant-acid-3.png" />
+    <Resource Include="assets\sprites\spells\enchant-blue-1.png" />
+    <Resource Include="assets\sprites\spells\enchant-blue-2.png" />
+    <Resource Include="assets\sprites\spells\enchant-blue-3.png" />
+    <Resource Include="assets\sprites\spells\enchant-eerie-1.png" />
+    <Resource Include="assets\sprites\spells\enchant-eerie-2.png" />
+    <Resource Include="assets\sprites\spells\enchant-eerie-3.png" />
+    <Resource Include="assets\sprites\spells\enchant-jade-1.png" />
+    <Resource Include="assets\sprites\spells\enchant-jade-2.png" />
+    <Resource Include="assets\sprites\spells\enchant-jade-3.png" />
+    <Resource Include="assets\sprites\spells\enchant-magenta-1.png" />
+    <Resource Include="assets\sprites\spells\enchant-magenta-2.png" />
+    <Resource Include="assets\sprites\spells\enchant-magenta-3.png" />
+    <Resource Include="assets\sprites\spells\enchant-orange-1.png" />
+    <Resource Include="assets\sprites\spells\enchant-orange-2.png" />
+    <Resource Include="assets\sprites\spells\enchant-orange-3.png" />
+    <Resource Include="assets\sprites\spells\enchant-red-1.png" />
+    <Resource Include="assets\sprites\spells\enchant-red-2.png" />
+    <Resource Include="assets\sprites\spells\enchant-red-3.png" />
+    <Resource Include="assets\sprites\spells\enchant-royal-1.png" />
+    <Resource Include="assets\sprites\spells\enchant-royal-2.png" />
+    <Resource Include="assets\sprites\spells\enchant-royal-3.png" />
+    <Resource Include="assets\sprites\spells\enchant-sky-1.png" />
+    <Resource Include="assets\sprites\spells\enchant-sky-2.png" />
+    <Resource Include="assets\sprites\spells\enchant-sky-3.png" />
+    <Resource Include="assets\sprites\spells\evil-eye-eerie-1.png" />
+    <Resource Include="assets\sprites\spells\evil-eye-eerie-2.png" />
+    <Resource Include="assets\sprites\spells\evil-eye-eerie-3.png" />
+    <Resource Include="assets\sprites\spells\evil-eye-red-1.png" />
+    <Resource Include="assets\sprites\spells\evil-eye-red-2.png" />
+    <Resource Include="assets\sprites\spells\evil-eye-red-3.png" />
+    <Resource Include="assets\sprites\spells\fireball-acid-1.png" />
+    <Resource Include="assets\sprites\spells\fireball-acid-2.png" />
+    <Resource Include="assets\sprites\spells\fireball-acid-3.png" />
+    <Resource Include="assets\sprites\spells\fireball-eerie-1.png" />
+    <Resource Include="assets\sprites\spells\fireball-eerie-2.png" />
+    <Resource Include="assets\sprites\spells\fireball-eerie-3.png" />
+    <Resource Include="assets\sprites\spells\fireball-red-1.png" />
+    <Resource Include="assets\sprites\spells\fireball-red-2.png" />
+    <Resource Include="assets\sprites\spells\fireball-red-3.png" />
+    <Resource Include="assets\sprites\spells\fireball-sky-1.png" />
+    <Resource Include="assets\sprites\spells\fireball-sky-2.png" />
+    <Resource Include="assets\sprites\spells\fireball-sky-3.png" />
+    <Resource Include="assets\sprites\spells\heal-jade-1.png" />
+    <Resource Include="assets\sprites\spells\heal-jade-2.png" />
+    <Resource Include="assets\sprites\spells\heal-jade-3.png" />
+    <Resource Include="assets\sprites\spells\heal-royal-1.png" />
+    <Resource Include="assets\sprites\spells\heal-royal-2.png" />
+    <Resource Include="assets\sprites\spells\heal-royal-3.png" />
+    <Resource Include="assets\sprites\spells\heal-sky-1.png" />
+    <Resource Include="assets\sprites\spells\heal-sky-2.png" />
+    <Resource Include="assets\sprites\spells\heal-sky-3.png" />
+    <Resource Include="assets\sprites\spells\protect-acid-1.png" />
+    <Resource Include="assets\sprites\spells\protect-acid-2.png" />
+    <Resource Include="assets\sprites\spells\protect-acid-3.png" />
+    <Resource Include="assets\sprites\spells\protect-blue-1.png" />
+    <Resource Include="assets\sprites\spells\protect-blue-2.png" />
+    <Resource Include="assets\sprites\spells\protect-blue-3.png" />
+    <Resource Include="assets\sprites\spells\protect-eerie-1.png" />
+    <Resource Include="assets\sprites\spells\protect-eerie-2.png" />
+    <Resource Include="assets\sprites\spells\protect-eerie-3.png" />
+    <Resource Include="assets\sprites\spells\protect-jade-1.png" />
+    <Resource Include="assets\sprites\spells\protect-jade-2.png" />
+    <Resource Include="assets\sprites\spells\protect-jade-3.png" />
+    <Resource Include="assets\sprites\spells\protect-magenta-1.png" />
+    <Resource Include="assets\sprites\spells\protect-magenta-2.png" />
+    <Resource Include="assets\sprites\spells\protect-magenta-3.png" />
+    <Resource Include="assets\sprites\spells\protect-orange-1.png" />
+    <Resource Include="assets\sprites\spells\protect-orange-2.png" />
+    <Resource Include="assets\sprites\spells\protect-orange-3.png" />
+    <Resource Include="assets\sprites\spells\protect-red-1.png" />
+    <Resource Include="assets\sprites\spells\protect-red-2.png" />
+    <Resource Include="assets\sprites\spells\protect-red-3.png" />
+    <Resource Include="assets\sprites\spells\protect-royal-1.png" />
+    <Resource Include="assets\sprites\spells\protect-royal-2.png" />
+    <Resource Include="assets\sprites\spells\protect-royal-3.png" />
+    <Resource Include="assets\sprites\spells\protect-sky-1.png" />
+    <Resource Include="assets\sprites\spells\protect-sky-2.png" />
+    <Resource Include="assets\sprites\spells\protect-sky-3.png" />
+    <Resource Include="assets\sprites\tiles\Tile.png" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
