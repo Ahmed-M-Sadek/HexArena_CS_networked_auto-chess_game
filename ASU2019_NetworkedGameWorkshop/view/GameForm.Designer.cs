@@ -32,6 +32,7 @@
             this.ClientSize = new System.Drawing.Size(1348, 761);
             this.Name = "GameForm";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.GameForm_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.GameForm_Paint);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.GameForm_MouseDown);
             this.ResumeLayout(false);

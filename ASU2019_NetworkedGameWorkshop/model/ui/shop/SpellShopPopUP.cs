@@ -72,6 +72,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui.shop
             {
                 return;
             }
+            SoundManager.PlaySound("learnSpell.wav");
             manager.Player.Gold -= SPELL_PRICE;
             character.learnSpell(spell);
             Visible = false;
@@ -87,6 +88,11 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui.shop
             Visible = false;
             gameNetworkManager.enqueueMsg(NetworkMsgPrefix.LevelUpSpell, GameNetworkUtilities.serializeSpellAction(spell, character.CurrentTile));
             shop.SpellShopView.ShowSpells(manager.SelectedTile.CurrentCharacter);
+            if (!isNewSpell)
+            {
+                SoundManager.PlaySound("upgradeSpell.wav");
+                Visible = false;
+            }
         }
 
         public void showSpellStats(Spells[] spell)

@@ -22,7 +22,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ASU2019_NetworkedGameWorkshop.Properties.Resources", typeof(Resources).Assembly);
@@ -51,7 +51,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,9 +61,156 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        public static System.IO.UnmanagedMemoryStream _10Seconds {
+            get {
+                return ResourceManager.GetStream("10Seconds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        public static System.IO.UnmanagedMemoryStream _5SecPreFight {
+            get {
+                return ResourceManager.GetStream("5SecPreFight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap enchant_acid_1 {
+        public static System.Drawing.Bitmap Archer1Blue {
+            get {
+                object obj = ResourceManager.GetObject("Archer1Blue", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Archer1Red {
+            get {
+                object obj = ResourceManager.GetObject("Archer1Red", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Archer2Blue {
+            get {
+                object obj = ResourceManager.GetObject("Archer2Blue", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Archer2Red {
+            get {
+                object obj = ResourceManager.GetObject("Archer2Red", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Archer3Blue {
+            get {
+                object obj = ResourceManager.GetObject("Archer3Blue", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Archer3Red {
+            get {
+                object obj = ResourceManager.GetObject("Archer3Red", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Assassin1Blue {
+            get {
+                object obj = ResourceManager.GetObject("Assassin1Blue", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Assassin1Red {
+            get {
+                object obj = ResourceManager.GetObject("Assassin1Red", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Assassin2Blue {
+            get {
+                object obj = ResourceManager.GetObject("Assassin2Blue", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Assassin2Red {
+            get {
+                object obj = ResourceManager.GetObject("Assassin2Red", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Assassin3Blue {
+            get {
+                object obj = ResourceManager.GetObject("Assassin3Blue", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Assassin3Red {
+            get {
+                object obj = ResourceManager.GetObject("Assassin3Red", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        public static System.IO.UnmanagedMemoryStream BuyCharacter {
+            get {
+                return ResourceManager.GetStream("BuyCharacter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap enchant_acid_1 {
             get {
                 object obj = ResourceManager.GetObject("enchant_acid_1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -73,7 +220,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap enchant_acid_2 {
+        public static System.Drawing.Bitmap enchant_acid_2 {
             get {
                 object obj = ResourceManager.GetObject("enchant_acid_2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -83,7 +230,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap enchant_acid_3 {
+        public static System.Drawing.Bitmap enchant_acid_3 {
             get {
                 object obj = ResourceManager.GetObject("enchant_acid_3", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -93,7 +240,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap enchant_blue_1 {
+        public static System.Drawing.Bitmap enchant_blue_1 {
             get {
                 object obj = ResourceManager.GetObject("enchant_blue_1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -103,7 +250,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap enchant_blue_2 {
+        public static System.Drawing.Bitmap enchant_blue_2 {
             get {
                 object obj = ResourceManager.GetObject("enchant_blue_2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -113,7 +260,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap enchant_blue_3 {
+        public static System.Drawing.Bitmap enchant_blue_3 {
             get {
                 object obj = ResourceManager.GetObject("enchant_blue_3", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -123,7 +270,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap enchant_eerie_1 {
+        public static System.Drawing.Bitmap enchant_eerie_1 {
             get {
                 object obj = ResourceManager.GetObject("enchant_eerie_1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -133,7 +280,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap enchant_eerie_2 {
+        public static System.Drawing.Bitmap enchant_eerie_2 {
             get {
                 object obj = ResourceManager.GetObject("enchant_eerie_2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -143,7 +290,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap enchant_eerie_3 {
+        public static System.Drawing.Bitmap enchant_eerie_3 {
             get {
                 object obj = ResourceManager.GetObject("enchant_eerie_3", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -153,7 +300,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap enchant_jade_1 {
+        public static System.Drawing.Bitmap enchant_jade_1 {
             get {
                 object obj = ResourceManager.GetObject("enchant_jade_1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -163,7 +310,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap enchant_jade_2 {
+        public static System.Drawing.Bitmap enchant_jade_2 {
             get {
                 object obj = ResourceManager.GetObject("enchant_jade_2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -173,7 +320,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap enchant_jade_3 {
+        public static System.Drawing.Bitmap enchant_jade_3 {
             get {
                 object obj = ResourceManager.GetObject("enchant_jade_3", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -183,7 +330,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap enchant_magenta_1 {
+        public static System.Drawing.Bitmap enchant_magenta_1 {
             get {
                 object obj = ResourceManager.GetObject("enchant_magenta_1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -193,7 +340,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap enchant_magenta_2 {
+        public static System.Drawing.Bitmap enchant_magenta_2 {
             get {
                 object obj = ResourceManager.GetObject("enchant_magenta_2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -203,7 +350,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap enchant_magenta_3 {
+        public static System.Drawing.Bitmap enchant_magenta_3 {
             get {
                 object obj = ResourceManager.GetObject("enchant_magenta_3", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -213,7 +360,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap enchant_orange_1 {
+        public static System.Drawing.Bitmap enchant_orange_1 {
             get {
                 object obj = ResourceManager.GetObject("enchant_orange_1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -223,7 +370,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap enchant_orange_2 {
+        public static System.Drawing.Bitmap enchant_orange_2 {
             get {
                 object obj = ResourceManager.GetObject("enchant_orange_2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -233,7 +380,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap enchant_orange_3 {
+        public static System.Drawing.Bitmap enchant_orange_3 {
             get {
                 object obj = ResourceManager.GetObject("enchant_orange_3", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -243,7 +390,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap enchant_red_1 {
+        public static System.Drawing.Bitmap enchant_red_1 {
             get {
                 object obj = ResourceManager.GetObject("enchant_red_1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -253,7 +400,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap enchant_red_2 {
+        public static System.Drawing.Bitmap enchant_red_2 {
             get {
                 object obj = ResourceManager.GetObject("enchant_red_2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -263,7 +410,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap enchant_red_3 {
+        public static System.Drawing.Bitmap enchant_red_3 {
             get {
                 object obj = ResourceManager.GetObject("enchant_red_3", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -273,7 +420,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap enchant_royal_1 {
+        public static System.Drawing.Bitmap enchant_royal_1 {
             get {
                 object obj = ResourceManager.GetObject("enchant_royal_1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -283,7 +430,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap enchant_royal_2 {
+        public static System.Drawing.Bitmap enchant_royal_2 {
             get {
                 object obj = ResourceManager.GetObject("enchant_royal_2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -293,7 +440,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap enchant_royal_3 {
+        public static System.Drawing.Bitmap enchant_royal_3 {
             get {
                 object obj = ResourceManager.GetObject("enchant_royal_3", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -303,7 +450,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap enchant_sky_1 {
+        public static System.Drawing.Bitmap enchant_sky_1 {
             get {
                 object obj = ResourceManager.GetObject("enchant_sky_1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -313,7 +460,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap enchant_sky_2 {
+        public static System.Drawing.Bitmap enchant_sky_2 {
             get {
                 object obj = ResourceManager.GetObject("enchant_sky_2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -323,7 +470,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap enchant_sky_3 {
+        public static System.Drawing.Bitmap enchant_sky_3 {
             get {
                 object obj = ResourceManager.GetObject("enchant_sky_3", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -333,7 +480,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap evil_eye_eerie_1 {
+        public static System.Drawing.Bitmap evil_eye_eerie_1 {
             get {
                 object obj = ResourceManager.GetObject("evil_eye_eerie_1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -343,7 +490,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap evil_eye_eerie_2 {
+        public static System.Drawing.Bitmap evil_eye_eerie_2 {
             get {
                 object obj = ResourceManager.GetObject("evil_eye_eerie_2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -353,7 +500,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap evil_eye_eerie_3 {
+        public static System.Drawing.Bitmap evil_eye_eerie_3 {
             get {
                 object obj = ResourceManager.GetObject("evil_eye_eerie_3", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -363,7 +510,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap evil_eye_red_1 {
+        public static System.Drawing.Bitmap evil_eye_red_1 {
             get {
                 object obj = ResourceManager.GetObject("evil_eye_red_1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -373,7 +520,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap evil_eye_red_2 {
+        public static System.Drawing.Bitmap evil_eye_red_2 {
             get {
                 object obj = ResourceManager.GetObject("evil_eye_red_2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -383,7 +530,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap evil_eye_red_3 {
+        public static System.Drawing.Bitmap evil_eye_red_3 {
             get {
                 object obj = ResourceManager.GetObject("evil_eye_red_3", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -393,7 +540,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap fireball_acid_1 {
+        public static System.Drawing.Bitmap fireball_acid_1 {
             get {
                 object obj = ResourceManager.GetObject("fireball_acid_1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -403,7 +550,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap fireball_acid_2 {
+        public static System.Drawing.Bitmap fireball_acid_2 {
             get {
                 object obj = ResourceManager.GetObject("fireball_acid_2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -413,7 +560,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap fireball_acid_3 {
+        public static System.Drawing.Bitmap fireball_acid_3 {
             get {
                 object obj = ResourceManager.GetObject("fireball_acid_3", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -423,7 +570,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap fireball_eerie_1 {
+        public static System.Drawing.Bitmap fireball_eerie_1 {
             get {
                 object obj = ResourceManager.GetObject("fireball_eerie_1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -433,7 +580,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap fireball_eerie_2 {
+        public static System.Drawing.Bitmap fireball_eerie_2 {
             get {
                 object obj = ResourceManager.GetObject("fireball_eerie_2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -443,7 +590,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap fireball_eerie_3 {
+        public static System.Drawing.Bitmap fireball_eerie_3 {
             get {
                 object obj = ResourceManager.GetObject("fireball_eerie_3", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -453,7 +600,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap fireball_red_1 {
+        public static System.Drawing.Bitmap fireball_red_1 {
             get {
                 object obj = ResourceManager.GetObject("fireball_red_1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -463,7 +610,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap fireball_red_2 {
+        public static System.Drawing.Bitmap fireball_red_2 {
             get {
                 object obj = ResourceManager.GetObject("fireball_red_2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -473,7 +620,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap fireball_red_3 {
+        public static System.Drawing.Bitmap fireball_red_3 {
             get {
                 object obj = ResourceManager.GetObject("fireball_red_3", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -483,7 +630,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap fireball_sky_1 {
+        public static System.Drawing.Bitmap fireball_sky_1 {
             get {
                 object obj = ResourceManager.GetObject("fireball_sky_1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -493,7 +640,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap fireball_sky_2 {
+        public static System.Drawing.Bitmap fireball_sky_2 {
             get {
                 object obj = ResourceManager.GetObject("fireball_sky_2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -503,7 +650,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap fireball_sky_3 {
+        public static System.Drawing.Bitmap fireball_sky_3 {
             get {
                 object obj = ResourceManager.GetObject("fireball_sky_3", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -513,7 +660,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap heal_jade_1 {
+        public static System.Drawing.Bitmap heal_jade_1 {
             get {
                 object obj = ResourceManager.GetObject("heal_jade_1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -523,7 +670,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap heal_jade_2 {
+        public static System.Drawing.Bitmap heal_jade_2 {
             get {
                 object obj = ResourceManager.GetObject("heal_jade_2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -533,7 +680,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap heal_jade_3 {
+        public static System.Drawing.Bitmap heal_jade_3 {
             get {
                 object obj = ResourceManager.GetObject("heal_jade_3", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -543,7 +690,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap heal_royal_1 {
+        public static System.Drawing.Bitmap heal_royal_1 {
             get {
                 object obj = ResourceManager.GetObject("heal_royal_1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -553,7 +700,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap heal_royal_2 {
+        public static System.Drawing.Bitmap heal_royal_2 {
             get {
                 object obj = ResourceManager.GetObject("heal_royal_2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -563,7 +710,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap heal_royal_3 {
+        public static System.Drawing.Bitmap heal_royal_3 {
             get {
                 object obj = ResourceManager.GetObject("heal_royal_3", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -573,7 +720,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap heal_sky_1 {
+        public static System.Drawing.Bitmap heal_sky_1 {
             get {
                 object obj = ResourceManager.GetObject("heal_sky_1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -583,7 +730,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap heal_sky_2 {
+        public static System.Drawing.Bitmap heal_sky_2 {
             get {
                 object obj = ResourceManager.GetObject("heal_sky_2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -593,7 +740,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap heal_sky_3 {
+        public static System.Drawing.Bitmap heal_sky_3 {
             get {
                 object obj = ResourceManager.GetObject("heal_sky_3", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -603,7 +750,205 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap protect_acid_1 {
+        public static System.Drawing.Bitmap Healer1Blue {
+            get {
+                object obj = ResourceManager.GetObject("Healer1Blue", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Healer1Red {
+            get {
+                object obj = ResourceManager.GetObject("Healer1Red", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Healer2Blue {
+            get {
+                object obj = ResourceManager.GetObject("Healer2Blue", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Healer2Red {
+            get {
+                object obj = ResourceManager.GetObject("Healer2Red", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Healer3Blue {
+            get {
+                object obj = ResourceManager.GetObject("Healer3Blue", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Healer3Red {
+            get {
+                object obj = ResourceManager.GetObject("Healer3Red", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        public static System.IO.UnmanagedMemoryStream learnSpell {
+            get {
+                return ResourceManager.GetStream("learnSpell", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Marksman1Blue {
+            get {
+                object obj = ResourceManager.GetObject("Marksman1Blue", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Marksman1Red {
+            get {
+                object obj = ResourceManager.GetObject("Marksman1Red", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Marksman2Blue {
+            get {
+                object obj = ResourceManager.GetObject("Marksman2Blue", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Marksman2Red {
+            get {
+                object obj = ResourceManager.GetObject("Marksman2Red", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Marksman3Blue {
+            get {
+                object obj = ResourceManager.GetObject("Marksman3Blue", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Marksman3Red {
+            get {
+                object obj = ResourceManager.GetObject("Marksman3Red", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        public static System.IO.UnmanagedMemoryStream MatchWin {
+            get {
+                return ResourceManager.GetStream("MatchWin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Monk1Blue {
+            get {
+                object obj = ResourceManager.GetObject("Monk1Blue", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Monk1Red {
+            get {
+                object obj = ResourceManager.GetObject("Monk1Red", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Monk2Blue {
+            get {
+                object obj = ResourceManager.GetObject("Monk2Blue", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Monk2Red {
+            get {
+                object obj = ResourceManager.GetObject("Monk2Red", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Monk3Blue {
+            get {
+                object obj = ResourceManager.GetObject("Monk3Blue", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Monk3Red {
+            get {
+                object obj = ResourceManager.GetObject("Monk3Red", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap protect_acid_1 {
             get {
                 object obj = ResourceManager.GetObject("protect_acid_1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -613,7 +958,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap protect_acid_2 {
+        public static System.Drawing.Bitmap protect_acid_2 {
             get {
                 object obj = ResourceManager.GetObject("protect_acid_2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -623,7 +968,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap protect_acid_3 {
+        public static System.Drawing.Bitmap protect_acid_3 {
             get {
                 object obj = ResourceManager.GetObject("protect_acid_3", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -633,7 +978,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap protect_blue_1 {
+        public static System.Drawing.Bitmap protect_blue_1 {
             get {
                 object obj = ResourceManager.GetObject("protect_blue_1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -643,7 +988,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap protect_blue_2 {
+        public static System.Drawing.Bitmap protect_blue_2 {
             get {
                 object obj = ResourceManager.GetObject("protect_blue_2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -653,7 +998,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap protect_blue_3 {
+        public static System.Drawing.Bitmap protect_blue_3 {
             get {
                 object obj = ResourceManager.GetObject("protect_blue_3", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -663,7 +1008,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap protect_eerie_1 {
+        public static System.Drawing.Bitmap protect_eerie_1 {
             get {
                 object obj = ResourceManager.GetObject("protect_eerie_1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -673,7 +1018,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap protect_eerie_2 {
+        public static System.Drawing.Bitmap protect_eerie_2 {
             get {
                 object obj = ResourceManager.GetObject("protect_eerie_2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -683,7 +1028,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap protect_eerie_3 {
+        public static System.Drawing.Bitmap protect_eerie_3 {
             get {
                 object obj = ResourceManager.GetObject("protect_eerie_3", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -693,7 +1038,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap protect_jade_1 {
+        public static System.Drawing.Bitmap protect_jade_1 {
             get {
                 object obj = ResourceManager.GetObject("protect_jade_1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -703,7 +1048,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap protect_jade_2 {
+        public static System.Drawing.Bitmap protect_jade_2 {
             get {
                 object obj = ResourceManager.GetObject("protect_jade_2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -713,7 +1058,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap protect_jade_3 {
+        public static System.Drawing.Bitmap protect_jade_3 {
             get {
                 object obj = ResourceManager.GetObject("protect_jade_3", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -723,7 +1068,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap protect_magenta_1 {
+        public static System.Drawing.Bitmap protect_magenta_1 {
             get {
                 object obj = ResourceManager.GetObject("protect_magenta_1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -733,7 +1078,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap protect_magenta_2 {
+        public static System.Drawing.Bitmap protect_magenta_2 {
             get {
                 object obj = ResourceManager.GetObject("protect_magenta_2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -743,7 +1088,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap protect_magenta_3 {
+        public static System.Drawing.Bitmap protect_magenta_3 {
             get {
                 object obj = ResourceManager.GetObject("protect_magenta_3", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -753,7 +1098,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap protect_orange_1 {
+        public static System.Drawing.Bitmap protect_orange_1 {
             get {
                 object obj = ResourceManager.GetObject("protect_orange_1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -763,7 +1108,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap protect_orange_2 {
+        public static System.Drawing.Bitmap protect_orange_2 {
             get {
                 object obj = ResourceManager.GetObject("protect_orange_2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -773,7 +1118,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap protect_orange_3 {
+        public static System.Drawing.Bitmap protect_orange_3 {
             get {
                 object obj = ResourceManager.GetObject("protect_orange_3", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -783,7 +1128,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap protect_red_1 {
+        public static System.Drawing.Bitmap protect_red_1 {
             get {
                 object obj = ResourceManager.GetObject("protect_red_1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -793,7 +1138,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap protect_red_2 {
+        public static System.Drawing.Bitmap protect_red_2 {
             get {
                 object obj = ResourceManager.GetObject("protect_red_2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -803,7 +1148,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap protect_red_3 {
+        public static System.Drawing.Bitmap protect_red_3 {
             get {
                 object obj = ResourceManager.GetObject("protect_red_3", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -813,7 +1158,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap protect_royal_1 {
+        public static System.Drawing.Bitmap protect_royal_1 {
             get {
                 object obj = ResourceManager.GetObject("protect_royal_1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -823,7 +1168,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap protect_royal_2 {
+        public static System.Drawing.Bitmap protect_royal_2 {
             get {
                 object obj = ResourceManager.GetObject("protect_royal_2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -833,7 +1178,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap protect_royal_3 {
+        public static System.Drawing.Bitmap protect_royal_3 {
             get {
                 object obj = ResourceManager.GetObject("protect_royal_3", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -843,7 +1188,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap protect_sky_1 {
+        public static System.Drawing.Bitmap protect_sky_1 {
             get {
                 object obj = ResourceManager.GetObject("protect_sky_1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -853,7 +1198,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap protect_sky_2 {
+        public static System.Drawing.Bitmap protect_sky_2 {
             get {
                 object obj = ResourceManager.GetObject("protect_sky_2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -863,7 +1208,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap protect_sky_3 {
+        public static System.Drawing.Bitmap protect_sky_3 {
             get {
                 object obj = ResourceManager.GetObject("protect_sky_3", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -873,7 +1218,223 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Tile {
+        public static System.Drawing.Bitmap Ranger1Blue {
+            get {
+                object obj = ResourceManager.GetObject("Ranger1Blue", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Ranger1Red {
+            get {
+                object obj = ResourceManager.GetObject("Ranger1Red", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Ranger2Blue {
+            get {
+                object obj = ResourceManager.GetObject("Ranger2Blue", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Ranger2Red {
+            get {
+                object obj = ResourceManager.GetObject("Ranger2Red", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Ranger3Blue {
+            get {
+                object obj = ResourceManager.GetObject("Ranger3Blue", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Ranger3Red {
+            get {
+                object obj = ResourceManager.GetObject("Ranger3Red", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        public static System.IO.UnmanagedMemoryStream Rise03 {
+            get {
+                return ResourceManager.GetStream("Rise03", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        public static System.IO.UnmanagedMemoryStream RoundLose {
+            get {
+                return ResourceManager.GetStream("RoundLose", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        public static System.IO.UnmanagedMemoryStream RoundWin {
+            get {
+                return ResourceManager.GetStream("RoundWin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Sentinal1Blue {
+            get {
+                object obj = ResourceManager.GetObject("Sentinal1Blue", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Sentinal1Red {
+            get {
+                object obj = ResourceManager.GetObject("Sentinal1Red", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Sentinal2Blue {
+            get {
+                object obj = ResourceManager.GetObject("Sentinal2Blue", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Sentinal2Red {
+            get {
+                object obj = ResourceManager.GetObject("Sentinal2Red", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Sentinal3Blue {
+            get {
+                object obj = ResourceManager.GetObject("Sentinal3Blue", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Sentinal3Red {
+            get {
+                object obj = ResourceManager.GetObject("Sentinal3Red", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Slime1Blue {
+            get {
+                object obj = ResourceManager.GetObject("Slime1Blue", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Slime1Red {
+            get {
+                object obj = ResourceManager.GetObject("Slime1Red", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Slime2Blue {
+            get {
+                object obj = ResourceManager.GetObject("Slime2Blue", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Slime2Red {
+            get {
+                object obj = ResourceManager.GetObject("Slime2Red", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Slime3Blue {
+            get {
+                object obj = ResourceManager.GetObject("Slime3Blue", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Slime3Red {
+            get {
+                object obj = ResourceManager.GetObject("Slime3Red", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        public static System.IO.UnmanagedMemoryStream swapCharacter {
+            get {
+                return ResourceManager.GetStream("swapCharacter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Tile {
             get {
                 object obj = ResourceManager.GetObject("Tile", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -883,7 +1444,7 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Tile_Selected {
+        public static System.Drawing.Bitmap Tile_Selected {
             get {
                 object obj = ResourceManager.GetObject("Tile_Selected", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -893,9 +1454,78 @@ namespace ASU2019_NetworkedGameWorkshop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Tile_Transparent {
+        public static System.Drawing.Bitmap Tile_Transparent {
             get {
                 object obj = ResourceManager.GetObject("Tile_Transparent", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        public static System.IO.UnmanagedMemoryStream upgradeSpell {
+            get {
+                return ResourceManager.GetStream("upgradeSpell", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Warrior1Blue {
+            get {
+                object obj = ResourceManager.GetObject("Warrior1Blue", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Warrior1Red {
+            get {
+                object obj = ResourceManager.GetObject("Warrior1Red", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Warrior2Blue {
+            get {
+                object obj = ResourceManager.GetObject("Warrior2Blue", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Warrior2Red {
+            get {
+                object obj = ResourceManager.GetObject("Warrior2Red", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Warrior3Blue {
+            get {
+                object obj = ResourceManager.GetObject("Warrior3Blue", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Warrior3Red {
+            get {
+                object obj = ResourceManager.GetObject("Warrior3Red", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

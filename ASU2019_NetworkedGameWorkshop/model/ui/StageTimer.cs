@@ -23,12 +23,12 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui
         private StageTime currentStageTime;
         private long timerEnd;
         private long currentTime;
+        private bool isFirstTimeSound = true;
 
         /// <summary>
         /// Method called if the timer reaches zero or ends.
         /// </summary>
         public SwitchStage switchStageEvent { get; set; }
-        public bool HostStageChanged { get; set; }
 
         public StageTimer(GameManager gameManager) : this(gameManager, null) { }
 
@@ -46,19 +46,17 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui
 
         public bool update()
         {
-            if (HostStageChanged)
-            {
-                System.Console.WriteLine("host stage change spplied here ");
-                switchStageEvent();
-                HostStageChanged = false;
-                return true;
-            }
             if (timerEnd < gameManager.ElapsedTime && gameManager.IsHost)
             {
                 switchStageEvent();
+                isFirstTimeSound = true;
                 return true;
             }
             long newTime = (timerEnd - gameManager.ElapsedTime) / 1000;
+            if (newTime == 9 && currentStageTime == StageTime.BUY && isFirstTimeSound) {
+                SoundManager.PlaySound("10Seconds.wav");
+                isFirstTimeSound = false;
+            }
             if (currentTime == newTime)
             {
                 return false;

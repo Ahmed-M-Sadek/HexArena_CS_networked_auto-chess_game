@@ -86,7 +86,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             TeamRed = new List<Character>();
 
             Player = new Player(playerName, true);
-            Player.Gold = 50;//debugging
+            //Player.Gold = 50;//debugging
 
             otherPlayers = new List<Player>();
             playersLeaderBoard = new PlayersLeaderBoard(Player);
@@ -191,10 +191,16 @@ namespace ASU2019_NetworkedGameWorkshop.controller
                 if ((tile.CurrentCharacter == null || tile.CurrentCharacter.team != Character.Teams.Red)
                     && (SelectedTile.CurrentCharacter == null || SelectedTile.CurrentCharacter.team != Character.Teams.Red))
                 {
-                    swapCharacters(tile, SelectedTile);
-                    gameNetworkManager.enqueueMsg(NetworkMsgPrefix.CharacterSwap,
-                                                  GameNetworkUtilities.serializeCharacterSwap(tile, SelectedTile));
-                    deselectSelectedTile();
+                    if(IsHost && SelectedTile.Y >= grid.GridHeight / 2 && tile.Y >= grid.GridHeight / 2 ||
+                        !IsHost && SelectedTile.Y < grid.GridHeight / 2 && tile.Y < grid.GridHeight / 2)
+                    {
+                        SoundManager.PlaySound("swapCharacter.wav");
+                        swapCharacters(tile, SelectedTile);
+                        gameNetworkManager.enqueueMsg(NetworkMsgPrefix.CharacterSwap,
+                                                      GameNetworkUtilities.serializeCharacterSwap(tile, SelectedTile));
+                        deselectSelectedTile();
+                    }
+
                 }
             }
         }
@@ -233,7 +239,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             playersLeaderBoard.draw(e.Graphics);
             CharShop.draw(e.Graphics);
 
-            if (true)//debugging
+            if (false)//debugging
             {
                 grid.drawDebug(e.Graphics);
                 TeamBlue.ForEach(character => character.drawDebug(e.Graphics));
@@ -290,7 +296,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
         {
             bool updateLeaderBoard = false;
             gameNetworkManager.DataReceived.TryDequeue(out string result);
-            Console.WriteLine("parsing " + result);//debugging
+            //Console.WriteLine("parsing " + result);//debugging
             string[] msg = result.Split(GameNetworkManager.NETWORK_MSG_SEPARATOR);
 
             if(msg[0].Equals(NetworkMsgPrefix.CharacterSwap.getPrefix()))
@@ -304,8 +310,8 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             }
             else if (msg[0].Equals(NetworkMsgPrefix.StageChange.getPrefix()))
             {
-                stageTimer.HostStageChanged = true;
                 (GameStage gameStage, bool HostWins) = GameNetworkUtilities.parseStage(msg[1], msg[2]);
+                stageTimer.switchStageEvent();
                 if (gameStage == GameStage.FightToBuy)
                     if (HostWins)
                     {

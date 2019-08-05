@@ -370,4 +370,196 @@
   <data name="Tile_Transparent" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\assets\sprites\tiles\Tile_Transparent.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="10Seconds" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sounds\10Seconds.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="5SecPreFight" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sounds\5SecPreFight.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="BuyCharacter" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sounds\BuyCharacter.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="learnSpell" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sounds\learnSpell.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="MatchWin" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sounds\MatchWin.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Rise03" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sounds\Rise03.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="RoundLose" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sounds\RoundLose.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="RoundWin" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sounds\RoundWin.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="swapCharacter" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sounds\swapCharacter.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="upgradeSpell" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sounds\upgradeSpell.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Archer1Blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\characters\Archer1Blue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Archer1Red" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\characters\Archer1Red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Archer2Blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\characters\Archer2Blue .png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Archer2Red" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\characters\Archer2Red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Archer3Blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\characters\Archer3Blue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Archer3Red" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\characters\Archer3Red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Assassin1Blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\characters\Assassin1Blue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Assassin1Red" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\characters\Assassin1Red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Assassin2Blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\characters\Assassin2Blue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Assassin2Red" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\characters\Assassin2Red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Assassin3Blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\characters\Assassin3Blue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Assassin3Red" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\characters\Assassin3Red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Healer1Blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\characters\Healer1Blue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Healer1Red" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\characters\Healer1Red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Healer2Blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\characters\Healer2Blue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Healer2Red" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\characters\Healer2Red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Healer3Blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\characters\Healer3Blue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Healer3Red" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\characters\Healer3Red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Marksman1Blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\characters\Marksman1Blue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Marksman1Red" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\characters\Marksman1Red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Marksman2Blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\characters\Marksman2Blue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Marksman2Red" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\characters\Marksman2Red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Marksman3Blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\characters\Marksman3Blue .png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Marksman3Red" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\characters\Marksman3Red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Monk1Blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\characters\Monk1Blue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Monk1Red" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\characters\Monk1Red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Monk2Blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\characters\Monk2Blue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Monk2Red" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\characters\Monk2Red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Monk3Blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\characters\Monk3Blue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Monk3Red" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\characters\Monk3Red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Ranger1Blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\characters\Ranger1Blue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Ranger1Red" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\characters\Ranger1Red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Ranger2Blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\characters\Ranger2Blue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Ranger2Red" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\characters\Ranger2Red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Ranger3Blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\characters\Ranger3Blue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Ranger3Red" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\characters\Ranger3Red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Sentinal1Blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\characters\Sentinal1Blue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Sentinal1Red" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\characters\Sentinal1Red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Sentinal2Blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\characters\Sentinal2Blue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Sentinal2Red" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\characters\Sentinal2Red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Sentinal3Blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\characters\Sentinal3Blue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Sentinal3Red" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\characters\Sentinal3Red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Slime1Blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\characters\Slime1Blue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Slime1Red" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\characters\Slime1Red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Slime2Blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\characters\Slime2Blue .png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Slime2Red" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\characters\Slime2Red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Slime3Blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\characters\Slime3Blue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Slime3Red" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\characters\Slime3Red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Warrior1Blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\characters\Warrior1Blue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Warrior1Red" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\characters\Warrior1Red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Warrior2Blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\characters\Warrior2Blue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Warrior2Red" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\characters\Warrior2Red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Warrior3Blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\characters\Warrior3Blue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Warrior3Red" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\assets\sprites\characters\Warrior3Red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

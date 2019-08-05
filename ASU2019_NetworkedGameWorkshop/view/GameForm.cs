@@ -35,5 +35,9 @@ namespace ASU2019_NetworkedGameWorkshop
         {
             gameManager.mouseClick(e);
         }
+
+        private void GameForm_Load(object sender, System.EventArgs e) {
+
+        }
     }
 }
