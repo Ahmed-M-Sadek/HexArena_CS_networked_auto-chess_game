@@ -1,11 +1,11 @@
-﻿using ASU2019_NetworkedGameWorkshop.model.character;
+﻿using ASU2019_NetworkedGameWorkshop.controller.networking;
 using ASU2019_NetworkedGameWorkshop.controller.networking.game;
+using ASU2019_NetworkedGameWorkshop.model.character;
 using ASU2019_NetworkedGameWorkshop.model.grid;
 using ASU2019_NetworkedGameWorkshop.model.spell;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using ASU2019_NetworkedGameWorkshop.controller.networking;
 
 namespace ASU2019_NetworkedGameWorkshop.model
 {
@@ -30,7 +30,7 @@ namespace ASU2019_NetworkedGameWorkshop.model
         private readonly float offsetY;
         private readonly float backOffsetY;
 
-        public InactiveSpell(Character character, List<Spells[]> spells,GameNetworkManager gameNetworkManager)
+        public InactiveSpell(Character character, List<Spells[]> spells, GameNetworkManager gameNetworkManager)
         {
             this.gameNetworkManager = gameNetworkManager;
             BackColor = Color.White;

@@ -46,7 +46,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui
 
         public bool update()
         {
-            if(HostStageChanged)
+            if (HostStageChanged)
             {
                 System.Console.WriteLine("host stage change spplied here ");
                 switchStageEvent();
@@ -72,8 +72,8 @@ namespace ASU2019_NetworkedGameWorkshop.model.ui
 
         public void endTimer()
         {
-            if(gameManager.IsHost)
-            switchStageEvent();
+            if (gameManager.IsHost)
+                switchStageEvent();
         }
 
         public override void draw(Graphics graphics)

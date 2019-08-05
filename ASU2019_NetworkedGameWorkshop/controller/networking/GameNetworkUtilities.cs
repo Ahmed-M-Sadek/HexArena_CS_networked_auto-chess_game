@@ -220,7 +220,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller.networking
 
         public static string serializeStage(StageManager.GameStage gameStage, bool BlueWins)
         {
-            switch(gameStage)
+            switch (gameStage)
             {
                 case StageManager.GameStage.Buy:
                     return $"B#{BlueWins}";
@@ -234,9 +234,9 @@ namespace ASU2019_NetworkedGameWorkshop.controller.networking
             return $"B#{BlueWins}";
         }
 
-        public static (StageManager.GameStage, bool) parseStage (string stage, string hostWins)
+        public static (StageManager.GameStage, bool) parseStage(string stage, string hostWins)
         {
-            switch(stage)
+            switch (stage)
             {
                 case "B":
                     return (StageManager.GameStage.Buy, true);
