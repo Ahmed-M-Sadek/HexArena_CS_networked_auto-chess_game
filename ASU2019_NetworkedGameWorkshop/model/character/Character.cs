@@ -166,7 +166,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
             }
             else
             {
-                Stats[StatusType.Charge] = Math.Min(Stats[StatusType.Charge] + 10, Stats[StatusType.ChargeMax]);//temp value
+                Stats[StatusType.Charge] = Math.Min(Stats[StatusType.Charge] + 8, Stats[StatusType.ChargeMax]);//temp value
             }
 
         }
@@ -325,6 +325,8 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
                     {
                         nextAtttackTime = gameManager.ElapsedTime + Stats[StatusType.AttackSpeed];
                         CurrentTarget.takeDamage(Stats[StatusType.AttackDamage], DamageType.PhysicalDamage);//temp DamageType?
+                        Stats[StatusType.Charge] = Math.Min(Stats[StatusType.Charge] + 4, Stats[StatusType.ChargeMax]);//temp value
+
                         return true;
                     }
                 }
