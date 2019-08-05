@@ -204,6 +204,13 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             }
         }
 
+        internal void endGame(string msg)
+        {
+            timer.Stop();
+            MessageBox.Show(msg, msg, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            gameForm.Close();
+        }
+
         private void swapCharacters(Tile tile, Tile selectedTile)
         {
             Character temp = selectedTile.CurrentCharacter;
@@ -330,8 +337,13 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             }
             else if (msg[0].Equals(NetworkMsgPrefix.PlayerHealthUpdate.getPrefix()))
             {
-                otherPlayers.Find(player => player.Name.Equals(msg[1])).Health = int.Parse(msg[2]);
+                Player otherPlayer = otherPlayers.Find(player => player.Name.Equals(msg[1]));
+                otherPlayer.Health = int.Parse(msg[2]);
                 updateLeaderBoard = true;
+                if (otherPlayer.Health == 0)
+                {
+                    endGame("You Win");
+                }
             }
             else if (msg[0].Equals(NetworkMsgPrefix.NewPlayer.getPrefix()))
             {
@@ -388,6 +400,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             }
             else if (msg[0].Equals("EXIT"))
             {
+                timer.Stop();
                 MessageBox.Show("Disconnected", "Disconnected", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 gameForm.Close();
             }
