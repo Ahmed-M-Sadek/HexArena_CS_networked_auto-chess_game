@@ -70,7 +70,6 @@
     <Compile Include="controller\networking\lobby\LobbyClient.cs" />
     <Compile Include="controller\networking\lobby\LobbyServer.cs" />
     <Compile Include="controller\networking\GameNetworkUtilities.cs" />
-    <Compile Include="controller\NetworkManager.cs" />
     <Compile Include="controller\SoundManager.cs" />
     <Compile Include="controller\StageManager.cs" />
     <Compile Include="model\character\Character.cs" />
