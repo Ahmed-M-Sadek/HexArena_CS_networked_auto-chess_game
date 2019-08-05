@@ -12,7 +12,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.spell.types
 
         static Target()
         {
-            random = new Random();
+            random = new Random(GameManager.randomSeed);
         }
 
         public SpellType SpellType { get; set; }

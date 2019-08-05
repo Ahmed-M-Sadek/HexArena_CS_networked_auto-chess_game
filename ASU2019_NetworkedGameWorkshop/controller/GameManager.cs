@@ -32,6 +32,7 @@ namespace ASU2019_NetworkedGameWorkshop.controller
         private readonly PlayersLeaderBoard playersLeaderBoard;
         private readonly GameNetworkManager gameNetworkManager;
         private readonly List<Player> otherPlayers;
+        public static int randomSeed;
 
         private StageManager stageManager;
         private Shop spellShop;
@@ -67,6 +68,9 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             {
                 IsHost = isHost;
                 gameNetworkManager = new GameServer(port);
+                randomSeed = (int)DateTime.Now.Ticks;
+                gameNetworkManager.enqueueMsg(NetworkMsgPrefix.SetSeed,
+                              GameNetworkUtilities.serializeRandomSeed(randomSeed));
             }
             else
             {
@@ -289,10 +293,14 @@ namespace ASU2019_NetworkedGameWorkshop.controller
             Console.WriteLine("parsing " + result);//debugging
             string[] msg = result.Split(GameNetworkManager.NETWORK_MSG_SEPARATOR);
 
-            if (msg[0].Equals(NetworkMsgPrefix.CharacterSwap.getPrefix()))
+            if(msg[0].Equals(NetworkMsgPrefix.CharacterSwap.getPrefix()))
             {
                 (Tile tile, Tile selectedTile) = GameNetworkUtilities.parseCharacterSwap(msg, grid);
                 swapCharacters(tile, selectedTile);
+            }
+            if(msg[0].Equals(NetworkMsgPrefix.SetSeed.getPrefix()))
+            {
+                randomSeed = Convert.ToInt32(msg[1]);
             }
             else if (msg[0].Equals(NetworkMsgPrefix.StageChange.getPrefix()))
             {
