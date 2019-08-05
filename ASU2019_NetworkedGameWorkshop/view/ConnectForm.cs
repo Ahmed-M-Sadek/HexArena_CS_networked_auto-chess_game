@@ -57,7 +57,6 @@ namespace ASU2019_NetworkedGameWorkshop.view
                     lbx_lobbyPlayerList.Items.Add(result);
                 }
             }
-            //temp
             if (StartGame)
             {
                 startGame();
@@ -239,7 +238,7 @@ namespace ASU2019_NetworkedGameWorkshop.view
 
         }
 
-        private void connected()//rename
+        private void connected()
         {
             switchToLobby();
             disableNewServerOptions();

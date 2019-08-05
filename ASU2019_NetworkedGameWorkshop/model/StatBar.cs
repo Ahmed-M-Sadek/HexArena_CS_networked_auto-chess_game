@@ -67,7 +67,7 @@ namespace ASU2019_NetworkedGameWorkshop.model
         /// <param name="trackedStat">updated value of trackedStat.</param>
         /// <param name="trackedStatMax">updated value of trackedStatMax.</param>
         public void updateTrackedAndDraw(Graphics graphics, int trackedStat, int trackedStatMax)
-        {//this is stupid
+        {
             this.trackedStat = trackedStat;
             this.trackedStatMax = trackedStatMax;
             draw(graphics);
