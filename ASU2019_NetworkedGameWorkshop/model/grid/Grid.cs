@@ -13,7 +13,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.grid
         private readonly Bitmap tilesBitmap;
         private readonly Bitmap tilesTransparentBitmap;
 
-        public Tile[,] Tiles { get; }//temp public
+        public Tile[,] Tiles { get; }
 
         public int MaxSize => GridHeight * GridWidth;
 

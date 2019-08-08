@@ -2,6 +2,10 @@
 
 ## Credits
 
+### Logo
+
+- [Sword and Staff in logo](https://0x72.itch.io/dungeontileset-ii)
+
 ### Sounds
 
 - [Learn Spell](https://freesound.org/people/deleted_user_3277771/sounds/176741/)

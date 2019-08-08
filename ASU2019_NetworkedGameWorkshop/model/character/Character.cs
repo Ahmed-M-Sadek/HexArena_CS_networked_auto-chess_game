@@ -45,7 +45,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
 
 
         public Dictionary<StatusType, int> Stats { get; private set; }
-        public Tile CurrentTile { get; set; }//public set ?
+        public Tile CurrentTile { get; set; }
         public Character CurrentTarget { get; private set; }
 
         /// <summary>
@@ -160,13 +160,13 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
                 }
 
                 CurrentTile.CurrentCharacter = null;
-                CurrentTile = null; //why?
+                CurrentTile = null;
                 if (ToMoveTo != null)
                     ToMoveTo.Walkable = true;
             }
             else
             {
-                Stats[StatusType.Charge] = Math.Min(Stats[StatusType.Charge] + 8, Stats[StatusType.ChargeMax]);//temp value
+                Stats[StatusType.Charge] = Math.Min(Stats[StatusType.Charge] + 8, Stats[StatusType.ChargeMax]);
             }
 
         }
@@ -306,7 +306,7 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
                     List<Tile> path = null;
                     try
                     {
-                        (path, CurrentTarget) = PathFinding.findPathToClosestEnemy(CurrentTile, team, grid, gameManager);//temp
+                        (path, CurrentTarget) = PathFinding.findPathToClosestEnemy(CurrentTile, team, grid, gameManager);
 
                     }
                     catch (PathFinding.PathNotFoundException)
@@ -324,8 +324,8 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
                     if (gameManager.ElapsedTime > nextAtttackTime)
                     {
                         nextAtttackTime = gameManager.ElapsedTime + Stats[StatusType.AttackSpeed];
-                        CurrentTarget.takeDamage(Stats[StatusType.AttackDamage], DamageType.PhysicalDamage);//temp DamageType?
-                        Stats[StatusType.Charge] = Math.Min(Stats[StatusType.Charge] + 4, Stats[StatusType.ChargeMax]);//temp value
+                        CurrentTarget.takeDamage(Stats[StatusType.AttackDamage], DamageType.PhysicalDamage);
+                        Stats[StatusType.Charge] = Math.Min(Stats[StatusType.Charge] + 4, Stats[StatusType.ChargeMax]);
 
                         return true;
                     }
@@ -364,17 +364,16 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
 
             if (!IsDead)
             {
-                //graphics.FillRectangle(brush,
-                //    CurrentTile.centerX - CharacterType.WIDTH_HALF,
-                //    CurrentTile.centerY - CharacterType.HEIGHT_HALF,
-                //    CharacterType.WIDTH, CharacterType.HEIGHT);
                 Bitmap image;
-                if (isBlue) {
+                if (isBlue)
+                {
                     image = this.CharacterType.blueImage;
-                        } else {
+                }
+                else
+                {
                     image = this.CharacterType.redImage;
                 }
-                graphics.DrawImage(image, new Point((int)(CurrentTile.centerX - image.Width/1.5),(int)(CurrentTile.centerY - image.Height/1.5)));
+                graphics.DrawImage(image, new Point((int)(CurrentTile.centerX - image.Width / 1.5), (int)(CurrentTile.centerY - image.Height / 1.5)));
 
                 hpBar.updateTrackedAndDraw(graphics, Stats[StatusType.HealthPoints], Stats[StatusType.HealthPointsMax]);
                 charageBar.updateTrackedAndDraw(graphics, Stats[StatusType.Charge], Stats[StatusType.ChargeMax]);
@@ -400,6 +399,6 @@ namespace ASU2019_NetworkedGameWorkshop.model.character
                 charageBar.drawDebug(graphics);
             }
         }
-        
+
     }
 }

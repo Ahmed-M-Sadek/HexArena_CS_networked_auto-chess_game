@@ -98,9 +98,9 @@ namespace ASU2019_NetworkedGameWorkshop.model
         /// <param name="graphics">graphics object to draw on</param>
         public override void draw(Graphics graphics)
         {
-            graphics.DrawString("Gold: " + Gold, FONT, Brushes.DarkGoldenrod, 260, 15);//temp pos
+            graphics.DrawString("Gold: " + Gold, FONT, Brushes.DarkGoldenrod, 260, 15);
             graphics.DrawString("Streak: " + streak, FONT,
-                streakStatus == RoundEndStatus.WIN ? Brushes.OrangeRed : Brushes.SteelBlue, 350, 15);//temp pos
+                streakStatus == RoundEndStatus.WIN ? Brushes.OrangeRed : Brushes.SteelBlue, 350, 15);
         }
 
         public override void drawDebug(Graphics graphics)
