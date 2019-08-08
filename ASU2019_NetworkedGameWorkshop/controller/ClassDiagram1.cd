@@ -1,0 +1,531 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="ASU2019_NetworkedGameWorkshop.model.character.Character">
+    <Position X="22.25" Y="2" Width="1.5" />
+    <Members>
+      <Field Name="brush" Hidden="true" />
+      <Property Name="characterType" Hidden="true" />
+      <Property Name="ChooseSpell" Hidden="true" />
+      <Property Name="CurrentLevel" Hidden="true" />
+      <Field Name="DEBUG_FONT" Hidden="true" />
+      <Method Name="draw" Hidden="true" />
+      <Method Name="drawDebug" Hidden="true" />
+      <Field Name="gameManager" Hidden="true" />
+      <Field Name="gameNetworkManager" Hidden="true" />
+      <Field Name="grid" Hidden="true" />
+      <Method Name="healHealthPoints" Hidden="true" />
+      <Method Name="hideAllSpellUI" Hidden="true" />
+      <Method Name="hideChooseSpellUI" Hidden="true" />
+      <Property Name="InactiveSpell" Hidden="true" />
+      <Property Name="InactiveSpells" Hidden="true" />
+      <Field Name="isBlue" Hidden="true" />
+      <Property Name="IsDead" Hidden="true" />
+      <Field Name="nextAtttackTime" Hidden="true" />
+      <Method Name="reset" Hidden="true" />
+      <Method Name="resetMana" Hidden="true" />
+      <Method Name="showChooseSpell" Hidden="true" />
+      <Property Name="SpellReady" Hidden="true" />
+      <Field Name="spellsUIVisibleBuy" Hidden="true" />
+      <Field Name="statsAdder" Hidden="true" />
+      <Field Name="statsMultiplier" Hidden="true" />
+      <Field Name="statusEffects" Hidden="true" />
+    </Members>
+    <NestedTypes>
+      <Enum Name="ASU2019_NetworkedGameWorkshop.model.character.Character.Teams" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>model\character\Character.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>ANFEAiAERkMAAAIAAAIAEBACBIAVAYCAAwAAQBcUIgA=</HashCode>
+      <FileName>model\character\Character.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ASU2019_NetworkedGameWorkshop.model.character.types.CharacterType" Collapsed="true">
+    <Position X="34.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAASgAAAgACECAAAAgQAAIQAAAAAAgAgAEBAAAA=</HashCode>
+      <FileName>model\character\types\CharacterType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ASU2019_NetworkedGameWorkshop.model.character.types.CharacterTypeMagical">
+    <Position X="32.75" Y="5.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAQ=</HashCode>
+      <FileName>model\character\types\CharacterTypeMagical.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ASU2019_NetworkedGameWorkshop.model.character.types.CharacterTypePhysical">
+    <Position X="35" Y="5.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>ACAABAAAIIAACAAAAAAAABgAAAAAAAAAAAAgAAACAAA=</HashCode>
+      <FileName>model\character\types\CharacterTypePhysical.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ASU2019_NetworkedGameWorkshop.model.grid.Grid">
+    <Position X="16.5" Y="4.75" Width="1.75" />
+    <Members>
+      <Method Name="draw" Hidden="true" />
+      <Method Name="drawDebug" Hidden="true" />
+      <Field Name="gameManager" Hidden="true" />
+      <Method Name="Grid" Hidden="true" />
+      <Field Name="startingX" Hidden="true" />
+      <Field Name="startingY" Hidden="true" />
+      <Field Name="tilesTransparentBitmap" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AEAQAEAABgAIAAAQAAIAAAAAAAAAAAIAQgAKAAAIAAA=</HashCode>
+      <FileName>model\grid\Grid.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ASU2019_NetworkedGameWorkshop.model.grid.Tile">
+    <Position X="14.75" Y="2" Width="1.5" />
+    <Members>
+      <Field Name="centerX" Hidden="true" />
+      <Field Name="centerY" Hidden="true" />
+      <Method Name="Clone" Hidden="true" />
+      <Method Name="CompareTo" Hidden="true" />
+      <Field Name="DEBUG_FONT" Hidden="true" />
+      <Method Name="draw" Hidden="true" />
+      <Method Name="drawDebug" Hidden="true" />
+      <Method Name="Equals" Hidden="true" />
+      <Field Name="HALF_HEIGHT" Hidden="true" />
+      <Field Name="HALF_WIDTH" Hidden="true" />
+      <Property Name="HeapIndex" Hidden="true" />
+      <Field Name="HEIGHT" Hidden="true" />
+      <Field Name="HEX_C" Hidden="true" />
+      <Field Name="HEX_HEIGHT" Hidden="true" />
+      <Field Name="HEX_M" Hidden="true" />
+      <Field Name="InPath" Hidden="true" />
+      <Property Name="Parent" Hidden="true" />
+      <Method Name="Tile" Hidden="true" />
+      <Method Name="ToString" Hidden="true" />
+      <Property Name="Transparent" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAACEAAJAAAAEQEgAIAQBgJBAQAAAAAQQgAwAFgYBI=</HashCode>
+      <FileName>model\grid\Tile.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ASU2019_NetworkedGameWorkshop.model.spell.Spells">
+    <Position X="8.75" Y="2.75" Width="1.5" />
+    <Members>
+      <Property Name="Image" Hidden="true" />
+      <Property Name="Name" Hidden="true" />
+      <Method Name="Spells" Hidden="true" />
+      <Method Name="ToString" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AJACAAAAAQgIgASEAAAAQCQAAAAAABAABAAkAAACAAA=</HashCode>
+      <FileName>model\spell\Spells.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ASU2019_NetworkedGameWorkshop.model.spell.types.SpellType">
+    <Position X="10.5" Y="2.75" Width="1.5" />
+    <Members>
+      <Method Name="SpellType" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAQAEACAAAAAgACAAAAAAAQAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>model\spell\types\SpellType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ASU2019_NetworkedGameWorkshop.model.spell.types.Target">
+    <Position X="12.25" Y="2.75" Width="1.5" />
+    <Members>
+      <Field Name="random" Hidden="true" />
+      <Method Name="Target" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>gAAAAAACgQAAAAAAAAAAAAAAAAAAAAAABAQAAACAIAQ=</HashCode>
+      <FileName>model\spell\types\Target.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ASU2019_NetworkedGameWorkshop.model.GraphicsObject" Collapsed="true">
+    <Position X="16.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>model\GraphicsObject.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ASU2019_NetworkedGameWorkshop.model.Player">
+    <Position X="18.5" Y="2" Width="1.5" />
+    <Members>
+      <Method Name="drawDebug" Hidden="true" />
+      <Property Name="Local" Hidden="true" />
+    </Members>
+    <NestedTypes>
+      <Enum Name="ASU2019_NetworkedGameWorkshop.model.Player.RoundEndStatus" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>model\Player.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAACAAABAAAAAAAAAIAAAQAAABAAAAgCACAAAEgAAk=</HashCode>
+      <FileName>model\Player.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ASU2019_NetworkedGameWorkshop.model.StatBar">
+    <Position X="16.75" Y="2" Width="1.5" />
+    <Members>
+      <Field Name="BACK_BRUSH" Hidden="true" />
+      <Field Name="BACK_HEIGHT" Hidden="true" />
+      <Field Name="BACK_OFFSET_X" Hidden="true" />
+      <Field Name="BACK_OFFSET_Y" Hidden="true" />
+      <Field Name="BACK_PADDING_H" Hidden="true" />
+      <Field Name="BACK_WIDTH" Hidden="true" />
+      <Field Name="backOffsetY" Hidden="true" />
+      <Field Name="brush" Hidden="true" />
+      <Field Name="DEBUG_FONT" Hidden="true" />
+      <Field Name="HEX_OFFSET_Y" Hidden="true" />
+      <Field Name="offsetY" Hidden="true" />
+      <Method Name="StatBar" Hidden="true" />
+      <Method Name="updateTrackedAndDraw" Hidden="true" />
+      <Field Name="WIDTH" Hidden="true" />
+      <Field Name="WIDTH_HALF" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAIABgABmAiAABBAAIAAAAABBUAgAAAggAAAAAAAAA=</HashCode>
+      <FileName>model\StatBar.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ASU2019_NetworkedGameWorkshop.model.ui.shop.charactershop.CharShop">
+    <Position X="24.25" Y="2" Width="1.5" />
+    <Members>
+      <Method Name="draw" Hidden="true" />
+      <Method Name="drawDebug" Hidden="true" />
+      <Field Name="drawInShopX" Hidden="true" />
+      <Field Name="FONT_INFO" Hidden="true" />
+      <Field Name="gameManager" Hidden="true" />
+      <Field Name="OFFERED_CHARACTERS_COUNT" Hidden="true" />
+      <Field Name="offeredCharacters" Hidden="true" />
+      <Field Name="PADDING_X" Hidden="true" />
+      <Field Name="PADDING_Y" Hidden="true" />
+      <Field Name="random" Hidden="true" />
+      <Field Name="rectangle" Hidden="true" />
+      <Field Name="stringFormat" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AEAAAAAEBAgAEAFAAAIAASEAAAAAAAAAEQQAACAAgAA=</HashCode>
+      <FileName>model\ui\shop\charactershop\CharShop.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ASU2019_NetworkedGameWorkshop.model.ui.shop.charactershop.ShopButton" Collapsed="true">
+    <Position X="26.25" Y="3" Width="1.75" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <NestedTypes>
+      <Delegate Name="ASU2019_NetworkedGameWorkshop.model.ui.shop.charactershop.ShopButton.PurchaseEvent" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>model\ui\shop\charactershop\ShopButton.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AACEABAAAAAAAAQAAAAAAAAAAAAAAAAAAhAAAAIAQAA=</HashCode>
+      <FileName>model\ui\shop\charactershop\ShopButton.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ASU2019_NetworkedGameWorkshop.model.ui.shop.Shop" Collapsed="true">
+    <Position X="26.25" Y="2" Width="1.75" />
+    <Members>
+      <Field Name="BORDER_HALF_THICKNESS" Hidden="true" />
+      <Field Name="BORDER_PEN" Hidden="true" />
+      <Field Name="BORDER_THICKNESS" Hidden="true" />
+      <Field Name="btn_hideSkillShop" Hidden="true" />
+      <Field Name="btn_levelUp" Hidden="true" />
+      <Field Name="btn_sellChar" Hidden="true" />
+      <Field Name="btn_showSpells" Hidden="true" />
+      <Field Name="gameManager" Hidden="true" />
+      <Field Name="gameNetworkManager" Hidden="true" />
+      <Method Name="Shop" Hidden="true" />
+      <Method Name="updateShop" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>QEAAMAAICAAEAAAgAAAAAAIAhAIAIQgAgAAEAAAKAAA=</HashCode>
+      <FileName>model\ui\shop\Shop.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ASU2019_NetworkedGameWorkshop.model.ui.shop.ShopUIPanel" Collapsed="true">
+    <Position X="28.25" Y="3" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAABCQAFAAAAAAAUAAAAAAAAAAhAAgCAAAA=</HashCode>
+      <FileName>model\ui\shop\ShopUIPanel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ASU2019_NetworkedGameWorkshop.model.ui.shop.SpellShopPopUP" Collapsed="true">
+    <Position X="26.25" Y="4" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>BAAIAAAQIAAAAIIAAAEAQAAEAAAAgQQQgACIAAAAAAA=</HashCode>
+      <FileName>model\ui\shop\SpellShopPopUP.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ASU2019_NetworkedGameWorkshop.model.ui.shop.SpellShopUIPanel" Collapsed="true">
+    <Position X="28.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACCAgAAAAABAAAAAAEAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
+      <FileName>model\ui\shop\SpellShopUIPanel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ASU2019_NetworkedGameWorkshop.model.ui.PlayersLeaderBoard">
+    <Position X="20.25" Y="2" Width="1.5" />
+    <Members>
+      <Field Name="CIRCLE_DIM" Hidden="true" />
+      <Method Name="drawDebug" Hidden="true" />
+      <Field Name="FONT" Hidden="true" />
+      <Field Name="PEN_DARK_RED" Hidden="true" />
+      <Method Name="PlayersLeaderBoard" Hidden="true" />
+      <Field Name="X" Hidden="true" />
+      <Field Name="Y_START" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>GAAAAAAABAAAAAAAQAIAAAAAAAAAAAAAKAgAAAAEQCA=</HashCode>
+      <FileName>model\ui\PlayersLeaderBoard.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ASU2019_NetworkedGameWorkshop.model.ui.StageTimer">
+    <Position X="20.25" Y="4.75" Width="1.75" />
+    <Members>
+      <Field Name="currentTime" Hidden="true" />
+      <Method Name="draw" Hidden="true" />
+      <Method Name="drawDebug" Hidden="true" />
+      <Method Name="endTimer" Hidden="true" />
+      <Field Name="FONT" Hidden="true" />
+      <Field Name="isFirstTimeSound" Hidden="true" />
+      <Field Name="timerEnd" Hidden="true" />
+    </Members>
+    <NestedTypes>
+      <Enum Name="ASU2019_NetworkedGameWorkshop.model.ui.StageTimer.StageTime" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>model\ui\StageTimer.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+      <Delegate Name="ASU2019_NetworkedGameWorkshop.model.ui.StageTimer.SwitchStage" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>model\ui\StageTimer.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AEAAAAIgBAAAAIABAAIAAAAAAAAAAACAUAAAAAAEAAA=</HashCode>
+      <FileName>model\ui\StageTimer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ASU2019_NetworkedGameWorkshop.controller.networking.game.GameClient">
+    <Position X="35.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAAAAgAAAAAAAAAAAAAAgAAAAAAAAAAAA=</HashCode>
+      <FileName>controller\networking\game\GameClient.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ASU2019_NetworkedGameWorkshop.controller.networking.game.GameNetworkManager">
+    <Position X="32.5" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAQAAAAgAAAAAAEAABAIEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>controller\networking\game\GameNetworkManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ASU2019_NetworkedGameWorkshop.controller.networking.game.GameServer">
+    <Position X="35.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAgAAAAAAAAAAAAAAgAAAAAAAAAAAA=</HashCode>
+      <FileName>controller\networking\game\GameServer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ASU2019_NetworkedGameWorkshop.controller.networking.game.NetworkMsgPrefixExtensions">
+    <Position X="41.25" Y="4" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAA=</HashCode>
+      <FileName>controller\networking\game\MsgPrefix.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ASU2019_NetworkedGameWorkshop.controller.networking.game.PrefixAttribute">
+    <Position X="43.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>controller\networking\game\MsgPrefix.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ASU2019_NetworkedGameWorkshop.controller.networking.GameNetworkUtilities">
+    <Position X="37.25" Y="0.5" Width="2" />
+    <Members>
+      <Method Name="GameNetworkUtilities" Hidden="true" />
+    </Members>
+    <NestedTypes>
+      <Struct Name="ASU2019_NetworkedGameWorkshop.controller.networking.GameNetworkUtilities.CharStat" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>controller\networking\GameNetworkUtilities.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+      <Struct Name="ASU2019_NetworkedGameWorkshop.controller.networking.GameNetworkUtilities.ServerStats" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>controller\networking\GameNetworkUtilities.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AgggAgAAkAAAAAiAAABJBBMAQAAAAAAAAACBAAACIIA=</HashCode>
+      <FileName>controller\networking\GameNetworkUtilities.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ASU2019_NetworkedGameWorkshop.controller.networking.lobby.LobbyClient">
+    <Position X="43.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAkAAAAEAAAAAAEQAAAAIAAAAAgAAQAgAAAAAAA=</HashCode>
+      <FileName>controller\networking\lobby\LobbyClient.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ASU2019_NetworkedGameWorkshop.controller.networking.lobby.LobbyServer">
+    <Position X="39.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAgAAAAEAAAAAgEAIAAAAAAAAigAAQAAEAIAAAA=</HashCode>
+      <FileName>controller\networking\lobby\LobbyServer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ASU2019_NetworkedGameWorkshop.controller.PathFinding">
+    <Position X="2.5" Y="3.75" Width="2" />
+    <NestedTypes>
+      <Struct Name="ASU2019_NetworkedGameWorkshop.controller.PathFinding.Cube" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>controller\PathFinding.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+      <Class Name="ASU2019_NetworkedGameWorkshop.controller.PathFinding.PathNotFoundException" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>controller\PathFinding.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAQAAAAAAAAAAAgEAAAAAAAAAAAAGACAA=</HashCode>
+      <FileName>controller\PathFinding.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ASU2019_NetworkedGameWorkshop.controller.SoundManager">
+    <Position X="2.5" Y="1" Width="2" />
+    <Members>
+      <Field Name="FILE_EXT" Hidden="true" />
+      <Method Name="GetAvailabilPlayer" Hidden="true" />
+      <Method Name="SoundManager" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAEAAAAAAEAgAAAAgIAACAAAAAIAAAgAAAAAA=</HashCode>
+      <FileName>controller\SoundManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ASU2019_NetworkedGameWorkshop.controller.StageManager">
+    <Position X="4.75" Y="1" Width="2" />
+    <Members>
+      <Field Name="DMG_PER_CHARACTER_LEVEL" Hidden="true" />
+      <Field Name="gameManager" Hidden="true" />
+      <Field Name="gameNetworkManager" Hidden="true" />
+      <Field Name="grid" Hidden="true" />
+      <Field Name="player" Hidden="true" />
+      <Field Name="playersLeaderBoard" Hidden="true" />
+      <Method Name="StageManager" Hidden="true" />
+      <Method Name="switchStageBuy" Hidden="true" />
+      <Method Name="switchStageFight" Hidden="true" />
+    </Members>
+    <NestedTypes>
+      <Enum Name="ASU2019_NetworkedGameWorkshop.controller.StageManager.GameStage" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>controller\StageManager.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AEAEAAIAAAIAAEAAAIQAgAAAAEAgARABgAAAEAEABAA=</HashCode>
+      <FileName>controller\StageManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ASU2019_NetworkedGameWorkshop.controller.GameManager">
+    <Position X="7" Y="1" Width="1.5" />
+    <Members>
+      <Method Name="addRangeToForm" Hidden="true" />
+      <Property Name="CharShop" Hidden="true" />
+      <Method Name="CharStatToCharacter" Hidden="true" />
+      <Method Name="deselectSelectedTile" Hidden="true" />
+      <Property Name="ElapsedTime" Hidden="true" />
+      <Field Name="gameForm" Hidden="true" />
+      <Field Name="GAMELOOP_INTERVAL" Hidden="true" />
+      <Method Name="GameManager" Hidden="true" />
+      <Field Name="gameNetworkManager" Hidden="true" />
+      <Field Name="grid" Hidden="true" />
+      <Field Name="GRID_HEIGHT" Hidden="true" />
+      <Field Name="GRID_WIDTH" Hidden="true" />
+      <Method Name="mouseClick" Hidden="true" />
+      <Field Name="nextTickTime" Hidden="true" />
+      <Field Name="otherPlayers" Hidden="true" />
+      <Property Name="Player" Hidden="true" />
+      <Method Name="removeRangeFromForm" Hidden="true" />
+      <Method Name="resetTickTimeForRoundStart" Hidden="true" />
+      <Property Name="SelectedTile" Hidden="true" />
+      <Field Name="spellShop" Hidden="true" />
+      <Field Name="stageManager" Hidden="true" />
+      <Field Name="stageTimer" Hidden="true" />
+      <Method Name="stageUpdateBuy" Hidden="true" />
+      <Method Name="stageUpdateFight" Hidden="true" />
+      <Method Name="startGame" Hidden="true" />
+      <Field Name="stopwatch" Hidden="true" />
+      <Field Name="updateCanvas" Hidden="true" />
+      <Method Name="updatePaint" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>ABRBQAAABAYDAIBAAqQAIAEUMoAQNUAAgQAEAQRoAAA=</HashCode>
+      <FileName>controller\GameManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ASU2019_NetworkedGameWorkshop.model.collection.Heap&lt;T&gt;" Collapsed="true">
+    <Position X="30" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAQAAAACAAAAQAAAgAAAQAAAARCAAAAAAAAAAQAAA=</HashCode>
+      <FileName>model\collection\Heap.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ASU2019_NetworkedGameWorkshop.GameForm" Collapsed="true">
+    <Position X="30" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAQAAAACAAAAgAAACAAAACACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>view\GameForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ASU2019_NetworkedGameWorkshop.view.ConnectForm" Collapsed="true">
+    <Position X="30" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EERAAARAACYAIAAwCCeFCSA2ECYIABIAAR8iQcBkC4Q=</HashCode>
+      <FileName>view\ConnectForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="IHeapItem&lt;T&gt;" Collapsed="true">
+    <Position X="28.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>model\collection\Heap.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="ASU2019_NetworkedGameWorkshop.model.spell.types.CastTarget">
+    <Position X="12.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAAAAFAAAAAAAAAAAAAA=</HashCode>
+      <FileName>model\spell\types\CastTarget.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="ASU2019_NetworkedGameWorkshop.controller.networking.game.NetworkMsgPrefix">
+    <Position X="41.25" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>gMQAAAAAAgAAAAACgAAAACgAAAEAAABAAAAAgAAACAQ=</HashCode>
+      <FileName>controller\networking\game\MsgPrefix.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
