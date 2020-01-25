@@ -9,13 +9,16 @@
 
 Auto chess game made with pure C#. With a main goal of practicing networking. Made for Ain Shams University 2019 Computer Engineering Summer training: Networked Game Workshop.
 
-## Gameplay
+## Features
 
-INSERT GIFS HERE features ?
+INSERT GIFS HERE
+INSERT FEATURES HERE
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/BZIMd7p6Uuo" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+## Videos
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/xg4h0EkjJoE" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+[Game Trailer](http://www.youtube.com/watch?v=BZIMd7p6Uuo)
+
+[Gameplay](http://www.youtube.com/watch?v=xg4h0EkjJoE)
 
 ## Download
 
