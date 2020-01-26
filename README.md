@@ -9,16 +9,40 @@
 
 Auto chess game made with pure C#. With a main goal of practicing networking. Made for Ain Shams University 2019 Computer Engineering Summer training: Networked Game Workshop.
 
-## Features
-
-INSERT GIFS HERE
-INSERT FEATURES HERE
-
 ## Videos
 
 [Game Trailer](http://www.youtube.com/watch?v=BZIMd7p6Uuo)
 
 [Gameplay](http://www.youtube.com/watch?v=xg4h0EkjJoE)
+
+## Features
+
+### Before Game
+
+![HexArena_Host](docs/images/HexArena_Host.jpg)
+![HexArena_Lobby](docs/images/HexArena_Lobby.jpg)
+![HexArena_Connect](docs/images/HexArena_Connect.jpg)
+
+### Shop
+
+![Shop](docs/images/Shop.gif)
+
+### Leaderboard
+
+![Leaderboard](docs/images/Leaderboard.gif)
+
+### Character Upgrades
+
+![CharacterShop_Levelup](docs/images/CharacterShop_Levelup.gif)
+![CharacterShop_Spells](docs/images/CharacterShop_Spells.gif)
+
+### Map Positioning
+
+![Repositioning](docs/images/Repositioning.gif)
+
+### Path Finding
+
+![Pathfinding](docs/images/Pathfinding.gif)
 
 ## Download
 
